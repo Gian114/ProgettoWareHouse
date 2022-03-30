@@ -2,12 +2,12 @@
 
 Date: 30 march 2022
 
-Version: 0.0
+Version: 1.0
 
  
 | Version number | Change |
 | ----------------- |:-----------|
-| 1 | Stakeholders | 
+| 1 | Stakeholders, contex diagram, actors and interfaces | 
 
 
 # Contents
@@ -71,7 +71,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ## Context Diagram
 \<Define here Context diagram using UML use case diagram>
-![Context diagram](Resources/2022-03-30__2_.png "Context diagram")
+![Context diagram](Resources/Context diagram.png "Context diagram")
 \<actors are a subset of stakeholders>
 
 ## Interfaces
