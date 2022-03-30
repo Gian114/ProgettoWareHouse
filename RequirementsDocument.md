@@ -106,7 +106,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | ID        | Description  |
 | ------------- |:-------------:| 
 |  FR1     |  |
-|  FR2     |   |
+|  FR2     |  |
 | FRx..  | | 
 
 ## Non Functional Requirements
@@ -129,7 +129,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 
 \<next describe here each use case in the UCD>
-### Use case 1, UC1
+### Use case 1, Issue orders to suppliers
 | Actors Involved        |  |
 | ------------- |:-------------:| 
 |  Precondition     | \<Boolean expression, must evaluate to true before the UC can start> |
@@ -159,13 +159,20 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ##### Scenario 1.2
 
-##### Scenario 1.x
 
-### Use case 2, UC2
-..
+### Use case 2, Quality check report
 
-### Use case x, UCx
-..
+### Use case 3, Manage internal orders
+
+### Use case 3.1, Issue internal orders
+
+### Use case 3.2, Prepare internal orders
+
+### Use case 4, Manage storage of items
+
+### Use case 5, Refound
+
+
 
 
 
@@ -180,7 +187,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 \<must be consistent with Context diagram>
 
-# Deployment Diagram 
+# Deployment Diagram
 
 \<describe here deployment diagram >
 
