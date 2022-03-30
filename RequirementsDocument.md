@@ -49,18 +49,22 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 | Stakeholder name  | Description | 
 | ----------------- |:-----------:|
-|   Retailers     			|	Companies that resell products   | 
+|   Retailers/Medium companies 	|	Companies that resell products   | 
 |	Warehouse manager		| 	Person who manages the warehouse and issues orders	|
 |	Warehouse owner			|	Person who owns the warehouse	|
 |	Quality office			|	Internal office of the warehouse who applies specific tests to items to check their quality	|
 |	Marketing office		|	Internal office of the warehouse who is in charge to collect the orders from the OUs	|
 |	Organization units		|	Parts of the company that issue orders to the warehouse		|
 |	Suppliers				| 	Companies that firstly sell the products	|
-|	Warehouse workers		|	Persons that work inside the warehouse, they manage the placement of the products inside the warehouse|
-|	Competitors				|	Companies that offer the same services/products	|
-|	App store/Play store	|	Online store where you can download the EZWH app	|
-|	Payment circuits		|	Companies that allow to make online payments	|
 |	Delivery companies		|	Companies that manage the transport of the items from the suppliers to the warehouse and eventually from the warehouse to the OUs	|
+|	Warehouse workers		|	Persons that work inside the warehouse, they manage the placement of the products inside the warehouse|
+|   Payment system | Companies that provide payment services |
+|   Start up partner | Company that has subscribe a partnership with the application |
+|   Start up financer | Entities that finance the application |
+|   Competitors | Other applications focused on the same topic |
+|   Play store/App store | Online app stores where the application is sold |
+|   Cloud service | The company that provides cloud services |
+
 
 
 # Context Diagram and interfaces
@@ -77,7 +81,11 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 | Actor | Logical Interface | Physical Interface  |
 | ------------- |:-------------:| -----:|
-|   Actor x..     |  |  |
+|  Warehouse manager  | GUI | Screen, keyboard |
+|  Quality office	| GUI | Screen, keyboard |
+|  Suppliers	| GUI | Screen, keyboard |
+|  Payment system | API | Internet connection |
+|  Organizational units | GUI | Screen, keyboard |
 
 # Stories and personas
 \<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
