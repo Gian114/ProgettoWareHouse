@@ -1,14 +1,13 @@
-
  #Requirements Document 
 
-Date: 22 march 2022
+Date: 30 march 2022
 
 Version: 0.0
 
  
 | Version number | Change |
 | ----------------- |:-----------|
-| | | 
+| 1 | Stakeholders | 
 
 
 # Contents
@@ -50,7 +49,19 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 | Stakeholder name  | Description | 
 | ----------------- |:-----------:|
-|   Stakeholder x..     |             | 
+|   Retailers     			|	Companies that resell products   | 
+|	Warehouse manager		| 	Person who manages the warehouse and issues orders	|
+|	Warehouse owner			|	Person who owns the warehouse	|
+|	Quality office			|	Internal office of the warehouse who applies specific tests to items to check their quality	|
+|	Marketing office		|	Internal office of the warehouse who is in charge to collect the orders from the OUs	|
+|	Organization units		|	Parts of the company that issue orders to the warehouse		|
+|	Suppliers				| 	Companies that firstly sell the products	|
+|	Warehouse workers		|	Persons that work inside the warehouse, they manage the placement of the products inside the warehouse|
+|	Competitors				|	Companies that offer the same services/products	|
+|	App store/Play store	|	Online store where you can download the EZWH app	|
+|	Payment circuits		|	Companies that allow to make online payments	|
+|	Delivery companies		|	Companies that manage the transport of the items from the suppliers to the warehouse and eventually from the warehouse to the OUs	|
+
 
 # Context Diagram and interfaces
 
