@@ -50,7 +50,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | Stakeholder name  | Description | 
 | ----------------- |:-----------:|
 |   Retailers/Medium companies 	|	Companies that resell products   | 
-|	Warehouse manager		| 	Person who manages the warehouse and issues orders	|
+|	Warehouse manager/App administrator		| 	Person who manages the warehouse and issues orders, he/she's also the administrator of the app	|
 |	Warehouse owner			|	Person who owns the warehouse	|
 |	Quality office			|	Internal office of the warehouse who applies specific tests to items to check their quality	|
 |	Marketing office		|	Internal office of the warehouse who is in charge to collect the orders from the OUs	|
