@@ -170,15 +170,9 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
 |  Post condition     | Order is sent to the Warehouse's DB with status "on pending" |
-|  Nominal Scenario     | 1. OU Manager asks for item(s) in the WH |
-						| 2. Application checks if item(s) asked are in stock |
-						| 3. Application sends order to the WH	|
-|  Variants     | 1. OU Manager uses "last order" function to ask for item(s)|
-				| 2. same	|
-				| 3. same	|
-|  Exceptions     | all the items asked(quantity) are not in stock |
-				  | some of the items asked are not in stock, OU Manager continues order excluding those|
-				  | some of the items asked are not in stock, OU Manager cancels order |
+|  Nominal Scenario     | 1. OU Manager asks for item(s) in the WH<br>2. Application checks if item(s) asked are in stock<br>3. Application sends order to the WH	|
+|  Variants     | 1. OU Manager uses "last order" function to ask for item(s)<br>2. same<br>3. same	|
+|  Exceptions     | all the items asked(quantity) are not in stock<br>some of the items asked are not in stock, OU Manager continues order excluding those<br>some of the items asked are not in stock, OU Manager cancels order |
 
 | Scenario 1.1 | |
 | ------------- |:-------------:| 
@@ -194,8 +188,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | Scenario 1.2 | |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
-|  Post condition     | Order is sent to the Warehouse's DB with status "on pending" |
-					  | A notification regarding this order is sent to the Warehouse Manager |
+|  Post condition     | Order is sent to the Warehouse's DB with status "on pending"<br>A notification regarding this order is sent to the Warehouse Manager |
 | Step#  | Description  |
 |  1     | OU manager asks for items in the warehouse |  
 |  2     | Application asks the quantity of the items needed |
@@ -248,7 +241,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | Scenario 1.6 | |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
-|  Post condition   | A notification regarding this order is sent to the Warehouse Manager |
+|  Post condition   | A notification regarding this order is sent to the Warehouse Manager<br>Order is sent to the WH's DB with status "on pending" |
 | Step#  | Description  |
 |  1     | OU Manager asks to redo the last order and confirms |  
 |  2	 | Application checks if the quantity asked is in stock or not |
@@ -262,23 +255,16 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 | Actors Involved        | WareHouse Worker |
 | ------------- |:-------------:| 
-|  Precondition | An internal order is issued |     
-				| WH Worker is authenticated and authorized |					
-|  Post condition     | Order status has been changed |
-					  | OU Manager has been notified  |
-|  Nominal Scenario     | 1. WH Worker accepts and prepare order |
-						| 2. Application change order status to  "Preparing" |
-						| 3. WH Worker notifies completion of order	|
-						| 4. Application change order status to "Completed"  and sends to the OU Manager a notification|
+|  Precondition | An internal order is issued<br>WH Worker is authenticated and authorized |					
+|  Post condition     | Order status has been changed<br>OU Manager has been notified  |
+|  Nominal Scenario     | 1. WH Worker accepts and prepare order<br>2. Application change order status to  "Preparing"<br>3. WH Worker notifies completion of order<br>4. Application change order status to "Completed"  and sends to the OU Manager a notification|
 |  Variants     | 						|
 |  Exceptions     | order is rejected for whatever reason |
 			
 | Scenario 1.1 | |
 | ------------- |:-------------:| 
-|  Precondition     | An internal order is issued |
-					| WH Worker is authenticated and authorized |
-|  Post condition     | Order status is "Completed" |
-					  | The OU Manager is notified |
+|  Precondition     | An internal order is issued<br>WH Worker is authenticated and authorized |
+|  Post condition     | Order status is "Completed"<br>The OU Manager is notified |
 | Step#  | Description  |
 |  1     | WH Worker accepts the order and starts preparing the item(s) |  
 |  2     | Applications changes order status to "Preparing"  |
@@ -290,10 +276,8 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 \ can this happen? 
 | Scenario 1.2 | |
 | ------------- |:-------------:| 
-|  Precondition     | An internal order is issued |
-					| WH Worker is authenticated and authorized |
-|  Post condition     | Order status is "Cancelled" |
-					  | The OU Manager is notified |
+|  Precondition     | An internal order is issued<br>WH Worker is authenticated and authorized |
+|  Post condition     | Order status is "Cancelled"<br>The OU Manager is notified |
 | Step#  | Description  |
 |  1     | WH Worker rejects the order |  
 |  2     | Applications changes order status to "Cancelled"  |
