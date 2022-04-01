@@ -337,7 +337,101 @@ Exception scenario: the order is missing items items
 
 ### Use case 4, Manage storage of items
 
-### Use case 5, Refound
+### Use case 5, Manage negative quality report
+
+### Use case 5.1, Manage negative quality report - missing items
+| Actors Involved        | Warehouse manager  |
+| ------------- |:-------------:| 
+|  Precondition     | An order has recieved a negative quality report because of missing items |
+|  Post condition     | The supplier is informed of the report and of what will happen to the order |
+|  Scenario     | 1.The manager asks for the delivery of the missing items<br> 2.The manager asks for the refound of the missing items<br> 3.The manager sends back the incorrect order |
+
+
+| Scenario 5.1.1 | |
+| ------------- |:-------------:| 
+|  Precondition     | An order has recieved a negative quality report for missing items|
+|  Post condition     | The supplier is informed of the report and asked for the delivery of the missing items |
+| Step#        | Description  |
+|  1     | The manager recives the negative report on his dashboard |
+|  2     | Given the specific situation, he decides it is best to ask for the delivery of the missing items |
+|  3     | The manager clicks on the button to contact the supplier |
+|  4     | The manager select that he wants the missing items to be sent |
+|  5     | The quality report of the order and the request are sent to the supplier |
+|  6     | The new order is inserted in the database |
+
+| Scenario 5.1.2 | |
+| ------------- |:-------------:| 
+|  Precondition     | An order has recieved a negative quality report for missing items|
+|  Post condition     | The supplier is informed of the report and asked for the refound of the missing items |
+| Step#        | Description  |
+|  1     | The manager recives the negative report on his dashboard |
+|  2     | Given the specific situation, he decides it is best to ask for the refound of the  missing items |
+|  3     | The manager clicks on the button to contact the supplier |
+|  4     | The manager select that he wants the missing items to be refounded |
+|  5     | The quality report of the order and the request are sent to the supplier |
+
+| Scenario 5.1.3 | |
+| ------------- |:-------------:| 
+|  Precondition     | An order has recieved a negative quality report for missing items|
+|  Post condition     | The supplier is informed of the report and sent back order |
+| Step#        | Description  |
+|  1     | The manager recives the negative report on his dashboard |
+|  2     | Given the specific situation, he decides it is best to send the order back to the supplier |
+|  3     | The manager clicks on the button to contact the supplier |
+|  4     | The manager select that he wants the order to be sent back |
+|  5     | The quality report of the order and the request are sent to the supplier |
+|  6     | The order is put in the outbound orders database |
+
+### Use case 5.2, Manage negative quality report - damaged items
+| Actors Involved        | Warehouse manager  |
+| ------------- |:-------------:| 
+|  Precondition     | An order has recieved a negative quality report because of damaged items |
+|  Post condition     | The supplier is informed of the report and of what will happen to the order |
+|  Scenario     | 1.The manager asks for the delivery of the damaged items<br> 2.The manager asks for the refound of the damaged items<br> 3.The manager sends back the incorrect order <br> 4.The manager sends back the part of the incorrect order containing the damaged items|
+
+
+| Scenario 5.2.1 | |
+| ------------- |:-------------:| 
+|  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and asked for the delivery of the damaged items |
+| Step#        | Description  |
+|  1     | The manager recives the negative report on his dashboard |
+|  2     | Given the specific situation, he decides it is best to ask for the delivery of the damaged items |
+|  3     | The manager clicks on the button to contact the supplier |
+|  4     | The manager select that he wants the damaged items to be sent |
+|  5     | The quality report of the order and the request are sent to the supplier |
+|  6     | The new order is inserted in the database |
+
+| Scenario 5.2.2 | |
+| ------------- |:-------------:| 
+|  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and asked for the refound of the damaged items |
+| Step#        | Description  |
+|  1     | The manager recives the negative report on his dashboard |
+|  2     | Given the specific situation, he decides it is best to ask for the refound of the  damaged items |
+|  3     | The manager clicks on the button to contact the supplier |
+|  4     | The manager select that he wants the damaged items to be refounded |
+|  5     | The quality report of the order and the request are sent to the supplier |
+
+| Scenario 5.2.3 | |
+| ------------- |:-------------:| 
+|  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and sent back the whole order |
+| Step#        | Description  |
+|  1     | The manager recives the negative report on his dashboard |
+|  2     | Given the specific situation, he decides it is best to send the order back to the supplier |
+|  3     | The manager clicks on the button to contact the supplier |
+|  4     | The manager select that he wants the order to be sent back |
+|  5     | The quality report of the order and the request are sent to the supplier |
+|  6     | The order is put in the outbound orders database |
+
+| Scenario 5.2.4 | |
+| ------------- |:-------------:| 
+|  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and sent back the damaged part of the order |
+| Step#        | Description  |
+|  1     | The manager recives the negative report on his dashboard |
+|  2     | Given the specific situation, he decides it is best to send the order back to the supplier |
+|  3     | The manager clicks on the button to contact the supplier |
+|  4     | The manager select that he wants the damaged items to be sent back |
+|  5     | The quality report of the order and the request are sent to the supplier |
+|  6     | The order with the damaged items is put in the outbound orders database |
 
 
 
