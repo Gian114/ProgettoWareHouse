@@ -1,4 +1,4 @@
- #Requirements Document 
+# Requirements Document 
 
 Date: 30 march 2022
 
@@ -161,6 +161,58 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 
 ### Use case 2, Quality check report
+| Actors Involved        | Quality office  |
+| ------------- |:-------------:| 
+|  Precondition     | An order has arrived at the warehouse |
+|  Post condition     | Quality report is inserted in the on the application |
+|  Nominal Scenario     | The order is compliant with quality standards |
+|  Variants     |  |
+|  Exceptions     | 1.The order has damaged items<br> 2.The order is missing items<br> |
+
+#### Scenario 2.1 
+
+Nominal scenario: the order is compliant with the requests
+
+| Scenario 2.1 | |
+| ------------- |:-------------:| 
+|  Precondition     | An order has arrived at the warehouse |
+|  Post condition     | A positive quality report is inserted in the on the application |
+| Step#        | Description  |
+|  1     | The quality office employee logs in the application |
+|  2     | The quality office employee gets the information on the order they will be inspecting |
+|  3     | The quality office employee inspect the items in the order, checking thay they respond to the order on the application |  
+|  4     | All the items are as described in the order and in the right quantities |
+|  5     | The quality office employee logs in the application the positive quality check on the order page |
+
+#### Scenario 2.2 
+
+Exception scenario: the order has damaged items
+
+| Scenario 2.2 | |
+| ------------- |:-------------:| 
+|  Precondition     | An order has arrived at the warehouse |
+|  Post condition     | A negative quality report is inserted in the on the application |
+| Step#        | Description  |
+|  1     | The quality office employee logs in the application |
+|  2     | The quality office employee gets the information on the order they will be inspecting |
+|  3     | The quality office employee inspect the items in the order, checking thay they respond to the order on the application |  
+|  4     | Some items are damaged |
+|  5     | The quality office employee logs in the application the negative quality check on the order page, where the damaged items and their quantity is specified |
+
+#### Scenario 2.3 
+
+Exception scenario: the order is missing items items
+
+| Scenario 2.3 | |
+| ------------- |:-------------:| 
+|  Precondition     | An order has arrived at the warehouse |
+|  Post condition     | A negative quality report is inserted in the on the application |
+| Step#        | Description  |
+|  1     | The quality office employee logs in the application |
+|  2     | The quality office employee gets the information on the order they will be inspecting |
+|  3     | The quality office employee inspect the items in the order, checking thay they respond to the order on the application |  
+|  4     | Some items are missing compared to the order on the application |
+|  5     | The quality office employee logs in the application the negative quality check on the order page, where the missing items and their quantity is specified
 
 ### Use case 3, Manage internal orders
 
