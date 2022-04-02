@@ -273,102 +273,90 @@ Exception scenario: the order is missing items items
 
 ### Use case 3.1, Issue internal order
 
-| Actors Involved        | OU Manager |
+| Actors Involved        | OU Manager, WH Manager |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
 |  Post condition     | Order is sent to the Warehouse's DB with status "on pending" |
-|  Nominal Scenario     | 1. OU Manager asks for item(s) in the WH<br>2. Application checks if item(s) asked are in stock<br>3. Application sends order to the WH	|
-|  Variants     | 1. OU Manager uses "last order" function to ask for item(s)<br>2. same<br>3. same	|
-|  Exceptions     | all the items asked(quantity) are not in stock<br>some of the items asked are not in stock, OU Manager continues order excluding those<br>some of the items asked are not in stock, OU Manager cancels order |
+|  Nominal Scenario     | scenario 3.1.1 |
+|  Variants     | scenario 3.1.5	|
+|  Exceptions     | all the items asked(quantity) are not in stock<br>some of the items asked are not in stock, OU Manager continues order excluding those<br>some of the items asked are not in stock, OU Manager aborts order |
 
-| Scenario 1.1 | |
+| Scenario 3.1.1 | nominal scenario - Issue order |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
 |  Post condition     | Order is sent to the Warehouse's DB with status "on pending" |
 | Step#  | Description  |
-|  1     | OU manager asks for item(s) in the warehouse |  
+|  1     | OU Manager asks for item(s) in the warehouse |  
 |  2     | Application asks the quantity of the item(s) needed |
-|  3	 | User enter the quantity and confirms |
+|  3	 | OU Manager enter the quantity and confirms |
 |  4	 | Application checks if the quantity asked for each item is in stock or not |
 |  5 	 | Application sends the order to the WH |
 
-| Scenario 1.2 | |
+| Scenario 3.1.2 | some of the items asked are not in stock, OU Manager continues order excluding those |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
 |  Post condition     | Order is sent to the Warehouse's DB with status "on pending"<br>A notification regarding this order is sent to the Warehouse Manager |
 | Step#  | Description  |
-|  1     | OU manager asks for items in the warehouse |  
+|  1     | OU Manager asks for items in the warehouse |  
 |  2     | Application asks the quantity of the items needed |
-|  3	 | User enter the quantity and confirms |
+|  3	 | OU Manager enter the quantity and confirms |
 |  4	 | Application checks if the quantity asked for each item is in stock or not |
 |  5 	 | Application notifies that the quantity asked for some of the items is not in stock |
 |  6	 | Application asks if you want to continue your order excluding the missing item(s) from the request |
-|  7 	 | User confirms |
+|  7 	 | OU Manager confirms |
 |  8 	 | Application sends the order and the notification to the WH Manager |
 
-| Scenario 1.3 | |
+| Scenario 3.1.3 | some of the items asked are not in stock, OU Manager aborts order |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
 |  Post condition   | A notification regarding this order is sent to the Warehouse Manager |
 | Step#  | Description  |
-|  1     | OU manager asks for items in the warehouse |  
+|  1     | OU Manager asks for items in the warehouse |  
 |  2     | Application asks the quantity of the items needed |
-|  3	 | User enter the quantity and confirms |
+|  3	 | OU Manager enter the quantity and confirms |
 |  4	 | Application checks if the quantity asked for each item is in stock or not |
 |  5 	 | Application notifies that the quantity asked for some of the items is not in stock |
 |  6	 | Application asks if you want to continue your order excluding the missing item(s) from the request |
-|  7 	 | User rejects |
+|  7 	 | OU Manager rejects |
 |  8	 | Application sends the notification to the WH Manager |
 
 \<The notification tells the WH Manager the need to order the item(s) from a supplier to satisfy this request>
 
-| Scenario 1.4 | |
+| Scenario 3.1.4 | all the items asked(quantity) are not in stock |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
 |  Post condition     | A notification regarding this order is sent to the Warehouse Manager |
 | Step#  | Description  |
-|  1     | OU manager asks for item(s) in the warehouse |  
+|  1     | OU Manager asks for item(s) in the warehouse |  
 |  2     | Application asks the quantity of the item(s) needed |
-|  3	 | User enter the quantity and confirms |
+|  3	 | OU Manager enter the quantity and confirms |
 |  4	 | Application checks if the quantity asked for each item is in stock or not |
 |  5 	 | Application notifies that the quantity asked for each of the items is NOT in stock |
 |  6	 | Application sends the notification to the WH Manager |
 
 
-| Scenario 1.5 | |
+| Scenario 3.1.5 | Manager orders using last order function |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
 |  Post condition   | Order is sent to the Warehouse's DB with status "on pending" |
 | Step#  | Description  |
 |  1     | OU Manager asks to redo the last order and confirms |  
 |  2	 | Application checks if the quantity asked is in stock or not |
-|  3 	 | Application sends the order to the WH|
+|  3 	 | Application sends the order to the WH |
 
-\1.6, 1.7, 1.8 not sure if needed
-| Scenario 1.6 | |
-| ------------- |:-------------:| 
-|  Precondition     | OU Manager is authenticated and authorized |
-|  Post condition   | A notification regarding this order is sent to the Warehouse Manager<br>Order is sent to the WH's DB with status "on pending" |
-| Step#  | Description  |
-|  1     | OU Manager asks to redo the last order and confirms |  
-|  2	 | Application checks if the quantity asked is in stock or not |
-|  3 	 | Application notifies that the quantity asked for some of the items is not in stock |
-|  4	 | Application asks if you want to continue your order excluding the missing item(s) from the request |
-|  5 	 | User confirms |
-|  6 	 | Application sends the order and the notification to the WH Manager |
 
 
 ### Use case 3.2, Prepare internal order
 
-| Actors Involved        | WareHouse Worker |
+| Actors Involved        | WareHouse Worker, OU Manager |
 | ------------- |:-------------:| 
 |  Precondition | An internal order is issued<br>WH Worker is authenticated and authorized |					
 |  Post condition     | Order status has been changed<br>OU Manager has been notified  |
-|  Nominal Scenario     | 1. WH Worker accepts and prepare order<br>2. Application change order status to  "Preparing"<br>3. WH Worker notifies completion of order<br>4. Application change order status to "Completed"  and sends to the OU Manager a notification|
+|  Nominal Scenario     | scenario 3.2.1 |
 |  Variants     | 						|
-|  Exceptions     | order is rejected for whatever reason |
+|  Exceptions     | 		 |
 			
-| Scenario 1.1 | |
+| Scenario 3.2.1 | nominal scenario - Preparing and delivering order |
 | ------------- |:-------------:| 
 |  Precondition     | An internal order is issued<br>WH Worker is authenticated and authorized |
 |  Post condition     | Order status is "Completed"<br>The OU Manager is notified |
@@ -379,16 +367,8 @@ Exception scenario: the order is missing items items
 |  4	 | Application changes order status to "Completed" |
 |  5     | Application notifies the OU Manager |
 
+\<we consider that internal order cannot be refused, so no exceptions>
 
-\ can this happen? 
-| Scenario 1.2 | |
-| ------------- |:-------------:| 
-|  Precondition     | An internal order is issued<br>WH Worker is authenticated and authorized |
-|  Post condition     | Order status is "Cancelled"<br>The OU Manager is notified |
-| Step#  | Description  |
-|  1     | WH Worker rejects the order |  
-|  2     | Applications changes order status to "Cancelled"  |
-|  3     | Application notifies the OU Manager |
 
 ### Use case 4, Manage storage of items
 
@@ -428,9 +408,7 @@ Exception scenario: the order is missing items items
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of missing items |
 |  Post condition     | The supplier is informed of the report and of what will happen to the order |
-|  Scenario     | The manager asks for the delivery of the missing items |
-|  Variants     | 2.The manager asks for the refound of the missing items<br> 3.The manager sends back the incorrect order |
-|  Exceptions   |  |
+|  Scenario     | 1.The manager asks for the delivery of the missing items<br> 2.The manager asks for the refound of the missing items<br> 3.The manager sends back the incorrect order |
 
 
 | Scenario 5.1.1 | |
@@ -442,10 +420,10 @@ Exception scenario: the order is missing items items
 |  2     | Given the specific situation, he decides it is best to ask for the delivery of the missing items |
 |  3     | The manager clicks on the button to contact the supplier |
 |  4     | The manager select that he wants the missing items to be sent |
-|  5     | A new order is created - see use case 1 |
-|  6     | The quality report of the order is sent to the supplier |
+|  5     | The quality report of the order and the request are sent to the supplier |
+|  6     | The new order is inserted in the database |
 
-| Scenario 5.1.2 | Variant: Refound |
+| Scenario 5.1.2 | |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report for missing items|
 |  Post condition     | The supplier is informed of the report and asked for the refound of the missing items |
@@ -456,7 +434,7 @@ Exception scenario: the order is missing items items
 |  4     | The manager select that he wants the missing items to be refounded |
 |  5     | The quality report of the order and the request are sent to the supplier |
 
-| Scenario 5.1.3 | Variant: Send back order |
+| Scenario 5.1.3 | |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report for missing items|
 |  Post condition     | The supplier is informed of the report and sent back order |
@@ -466,16 +444,14 @@ Exception scenario: the order is missing items items
 |  3     | The manager clicks on the button to contact the supplier |
 |  4     | The manager select that he wants the order to be sent back |
 |  5     | The quality report of the order and the request are sent to the supplier |
-|  6     | The order is sent back |
+|  6     | The order is put in the outbound orders database |
 
 ### Use case 5.2, Manage negative quality report - damaged items
 | Actors Involved        | Warehouse manager  |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items |
 |  Post condition     | The supplier is informed of the report and of what will happen to the order |
-|  Scenario     | The manager asks for the delivery of the damaged items |
-|  Variants     | 2.The manager asks for the refound of the damaged items<br> 3.The manager sends back the incorrect order <br> 4.The manager sends back the part of the incorrect order containing the damaged items |
-|  Exceptions   |  |
+|  Scenario     | 1.The manager asks for the delivery of the damaged items<br> 2.The manager asks for the refound of the damaged items<br> 3.The manager sends back the incorrect order <br> 4.The manager sends back the part of the incorrect order containing the damaged items|
 
 
 | Scenario 5.2.1 | |
@@ -486,10 +462,10 @@ Exception scenario: the order is missing items items
 |  2     | Given the specific situation, he decides it is best to ask for the delivery of the damaged items |
 |  3     | The manager clicks on the button to contact the supplier |
 |  4     | The manager select that he wants the damaged items to be sent |
-|  5     | A new order is created - see use case 1 |
-|  6     | The quality report of the order is sent to the supplier |
+|  5     | The quality report of the order and the request are sent to the supplier |
+|  6     | The new order is inserted in the database |
 
-| Scenario 5.2.2 | Variant: Refound of damaged items |
+| Scenario 5.2.2 | |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and asked for the refound of the damaged items |
 | Step#        | Description  |
@@ -499,7 +475,7 @@ Exception scenario: the order is missing items items
 |  4     | The manager select that he wants the damaged items to be refounded |
 |  5     | The quality report of the order and the request are sent to the supplier |
 
-| Scenario 5.2.3 | Variant: send back order |
+| Scenario 5.2.3 | |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and sent back the whole order |
 | Step#        | Description  |
@@ -508,9 +484,9 @@ Exception scenario: the order is missing items items
 |  3     | The manager clicks on the button to contact the supplier |
 |  4     | The manager select that he wants the order to be sent back |
 |  5     | The quality report of the order and the request are sent to the supplier |
-|  6     | The order is sent back |
+|  6     | The order is put in the outbound orders database |
 
-| Scenario 5.2.4 | Variant: send back damaged items |
+| Scenario 5.2.4 | |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and sent back the damaged part of the order |
 | Step#        | Description  |
@@ -519,7 +495,7 @@ Exception scenario: the order is missing items items
 |  3     | The manager clicks on the button to contact the supplier |
 |  4     | The manager select that he wants the damaged items to be sent back |
 |  5     | The quality report of the order and the request are sent to the supplier |
-|  6     | The order with the damaged items is sent back |
+|  6     | The order with the damaged items is put in the outbound orders database |
 
 
 
