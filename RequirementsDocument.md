@@ -428,7 +428,9 @@ Exception scenario: the order is missing items items
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of missing items |
 |  Post condition     | The supplier is informed of the report and of what will happen to the order |
-|  Scenario     | 1.The manager asks for the delivery of the missing items<br> 2.The manager asks for the refound of the missing items<br> 3.The manager sends back the incorrect order |
+|  Scenario     | The manager asks for the delivery of the missing items |
+|  Variants     | 2.The manager asks for the refound of the missing items<br> 3.The manager sends back the incorrect order |
+|  Exceptions   |  |
 
 
 | Scenario 5.1.1 | |
@@ -440,10 +442,10 @@ Exception scenario: the order is missing items items
 |  2     | Given the specific situation, he decides it is best to ask for the delivery of the missing items |
 |  3     | The manager clicks on the button to contact the supplier |
 |  4     | The manager select that he wants the missing items to be sent |
-|  5     | The quality report of the order and the request are sent to the supplier |
-|  6     | The new order is inserted in the database |
+|  5     | A new order is created - see use case 1 |
+|  6     | The quality report of the order is sent to the supplier |
 
-| Scenario 5.1.2 | |
+| Scenario 5.1.2 | Variant: Refound |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report for missing items|
 |  Post condition     | The supplier is informed of the report and asked for the refound of the missing items |
@@ -454,7 +456,7 @@ Exception scenario: the order is missing items items
 |  4     | The manager select that he wants the missing items to be refounded |
 |  5     | The quality report of the order and the request are sent to the supplier |
 
-| Scenario 5.1.3 | |
+| Scenario 5.1.3 | Variant: Send back order |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report for missing items|
 |  Post condition     | The supplier is informed of the report and sent back order |
@@ -464,14 +466,16 @@ Exception scenario: the order is missing items items
 |  3     | The manager clicks on the button to contact the supplier |
 |  4     | The manager select that he wants the order to be sent back |
 |  5     | The quality report of the order and the request are sent to the supplier |
-|  6     | The order is put in the outbound orders database |
+|  6     | The order is sent back |
 
 ### Use case 5.2, Manage negative quality report - damaged items
 | Actors Involved        | Warehouse manager  |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items |
 |  Post condition     | The supplier is informed of the report and of what will happen to the order |
-|  Scenario     | 1.The manager asks for the delivery of the damaged items<br> 2.The manager asks for the refound of the damaged items<br> 3.The manager sends back the incorrect order <br> 4.The manager sends back the part of the incorrect order containing the damaged items|
+|  Scenario     | The manager asks for the delivery of the damaged items |
+|  Variants     | 2.The manager asks for the refound of the damaged items<br> 3.The manager sends back the incorrect order <br> 4.The manager sends back the part of the incorrect order containing the damaged items |
+|  Exceptions   |  |
 
 
 | Scenario 5.2.1 | |
@@ -482,10 +486,10 @@ Exception scenario: the order is missing items items
 |  2     | Given the specific situation, he decides it is best to ask for the delivery of the damaged items |
 |  3     | The manager clicks on the button to contact the supplier |
 |  4     | The manager select that he wants the damaged items to be sent |
-|  5     | The quality report of the order and the request are sent to the supplier |
-|  6     | The new order is inserted in the database |
+|  5     | A new order is created - see use case 1 |
+|  6     | The quality report of the order is sent to the supplier |
 
-| Scenario 5.2.2 | |
+| Scenario 5.2.2 | Variant: Refound of damaged items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and asked for the refound of the damaged items |
 | Step#        | Description  |
@@ -495,7 +499,7 @@ Exception scenario: the order is missing items items
 |  4     | The manager select that he wants the damaged items to be refounded |
 |  5     | The quality report of the order and the request are sent to the supplier |
 
-| Scenario 5.2.3 | |
+| Scenario 5.2.3 | Variant: send back order |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and sent back the whole order |
 | Step#        | Description  |
@@ -504,9 +508,9 @@ Exception scenario: the order is missing items items
 |  3     | The manager clicks on the button to contact the supplier |
 |  4     | The manager select that he wants the order to be sent back |
 |  5     | The quality report of the order and the request are sent to the supplier |
-|  6     | The order is put in the outbound orders database |
+|  6     | The order is sent back |
 
-| Scenario 5.2.4 | |
+| Scenario 5.2.4 | Variant: send back damaged items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and sent back the damaged part of the order |
 | Step#        | Description  |
@@ -515,7 +519,7 @@ Exception scenario: the order is missing items items
 |  3     | The manager clicks on the button to contact the supplier |
 |  4     | The manager select that he wants the damaged items to be sent back |
 |  5     | The quality report of the order and the request are sent to the supplier |
-|  6     | The order with the damaged items is put in the outbound orders database |
+|  6     | The order with the damaged items is sent back |
 
 
 
