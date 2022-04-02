@@ -75,17 +75,18 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 \<actors are a subset of stakeholders>
 
 ## Interfaces
-\<describe here each interface in the context diagram>
-
-\<GUIs will be described graphically in a separate document>
 
 | Actor | Logical Interface | Physical Interface  |
 | ------------- |:-------------:| -----:|
-|  Warehouse manager  | GUI | Screen, keyboard |
-|  Quality office	| GUI | Screen, keyboard |
-|  Suppliers	| GUI | Screen, keyboard |
+|  Warehouse manager (WM)  | GUI | Screen, keyboard |
+|  Quality office employee (QOE)	| GUI | Screen, keyboard |
+|  Warehouse worker (WW)  | GUI | Screen, keyboard |
+|  Supplier	| GUI | Screen, keyboard |
 |  Payment system | API | Internet connection |
-|  Organizational units | GUI | Screen, keyboard |
+|  Organizational unit manager (OUM) | GUI | Screen, keyboard |
+|  User  |  GUI | Screen, keyboard |
+
+\<A user can be the warehouse manager, a quality office employee, a warehouse worker, an OU manager or a supplier.>
 
 # Stories and personas
 \<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
@@ -130,89 +131,61 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 \<next describe here each use case in the UCD>
 
-### Use case 1, Issue orders to suppliers
-| Actors Involved        | Warehouse Manager (WM), suppliers |
+### Use case 1, Issue orders to supplier
+| Actors Involved        | warehouse manager (WM), supplier |
 | ------------- |:-------------:| 
-|  Precondition     | The Warehouse Manager is authenticated and authorized |
+|  Precondition     | The WM is authenticated and authorized |
 |  Post condition     | The order has arrived at the warehouse |
-|  Nominal Scenario     | The order arrives on time |
-|  Variants     | 1. The order arrives late<br> 2. The WM uses "last order" function to make the order |
-|  Exceptions     | 1. The quantity of items cannot be accepted<br> 2. The suppliers cannnot afford the requested quantity<br> 3. The order doensn't arrive |
+|  Nominal Scenario     | The order arrives |
+|  Variants     | The WM uses "last order" function to make the order |
+|  Exceptions     | 1. The quantity of items cannot be accepted<br> 2. The supplier cannot afford the requested quantity |
 
 
 ##### Scenario 1.1 (nominal)
 
 | Scenario 1.1 | The order arrives on time |
 | ------------- |:-------------:| 
-|  Precondition     | The Warehouse Manager is authenticated and authorized |
+|  Precondition     | The WM is authenticated and authorized |
 |  Post condition     | The order has arrived at the warehouse on time |
 | Step#        | Description  |
-|  1     | The WM selects the supplier (one or more supplier per order?) |  
+|  1     | The WM selects the supplier |  
 |  2     | The WM choses the items to order and the quantity of each item |
 |  3     | The app checks if the quantity of each item is lower of the available space for each item in the warehouse |
 |  4	 | The app saves the order and sends via email the order to the supplier |
-|  5     | The supplier accepts the order and communicates the delivery date through the app |
-|  6     | The order arrivers at the warehouse on time |
-|  7     | The WM makes the payment to the supplier (through the app?) |
+|  5     | The WM makes the payment to the supplier through the app |
+|  6     | The order arrives at the warehouse on time |
 
+##### Scenario 1.2 (variant)
 
-##### Scenario 1.2 (variant 1)
-
-| Scenario 1.2 | The order arrives late |
+| Scenario 1.2 | The WM uses "last order" function to make the order |
 | ------------- |:-------------:| 
-|  Precondition     | The Warehouse Manager is authenticated and authorized |
-|  Post condition     | The order has arrived at the warehouse late |
-| Step#        | Description  |
-|  1-5   | Same as scenario 1.1 |  
-|  6     | The supplier communicates through the app that the order is late |
-|  7     | The order arrivers at the warehouse late |
-|  8     | The WM makes the payment to the supplier |
-
-
-##### Scenario 1.3 (variant 2)
-
-| Scenario 1.3 | The WM uses "last order" function to make the order |
-| ------------- |:-------------:| 
-|  Precondition     | The Warehouse Manager is authenticated and authorized |
+|  Precondition     | The WM is authenticated and authorized |
 |  Post condition     | The order has arrived at the warehouse |
 | Step#        | Description  |
 |  1     | The WM uses the "last order" function to repeat a previous order |
 |  2     | The WM can modify the supplier, the items and their quantity |  
-|  3-7   | Same as scenario 1.1 |
+|  3-6   | Same as scenario 1.1 |
 
-
-##### Scenario 1.4 (exception 1)
+##### Scenario 1.3 (exception 1)
 
 | Scenario 1.4 | The quantity of items cannot be accepted |
 | ------------- |:-------------:| 
-|  Precondition     | The Warehouse Manager is authenticated and authorized |
+|  Precondition     | The WM is authenticated and authorized |
 |  Post condition     | The order is not accepted by the app |
 | Step#        | Description  |
 |  1-3   | Same as scenario 1.1 |  
-|  4     | The quantity of an item exceeds the availble space in the warehouse of that item |
+|  4     | The quantity of an item exceeds the available space in the warehouse of that item |
 |  5     | The app asks to the WM to modify or delete the order |
 
+##### Scenario 1.4 (exception 2)
 
-##### Scenario 1.5 (exception 2)
-
-| Scenario 1.5 | The supplier cannnot afford the requested quantity |
+| Scenario 1.5 | The supplier cannot afford the requested quantity |
 | ------------- |:-------------:| 
-|  Precondition     | The Warehouse Manager is authenticated and authorized |
+|  Precondition     | The WM is authenticated and authorized |
 |  Post condition     | The order is refused by the supplier |
 | Step#        | Description  |
 |  1-4   | Same as scenario 1.1 |  
 |  5     | The supplier refuses the order or eventually proposes a modification of the order |
-
-##### Scenario 1.6 (exception 3)
-
-| Scenario 1.6 | The order doensn't arrive |
-| ------------- |:-------------:| 
-|  Precondition     | The Warehouse Manager is authenticated and authorized |
-|  Post condition     | The order hasn't arrived |
-| Step#        | Description  |
-|  1-5   | Same as scenario 1.1 |  
-|  6     | The order is lost |
-
 
 
 ### Use case 2, Quality check report
@@ -222,13 +195,11 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Post condition     | Quality report is inserted in the on the application |
 |  Nominal Scenario     | The order is compliant with quality standards |
 |  Variants     |  |
-|  Exceptions     | 1.The order has damaged items<br> 2.The order is missing items<br> |
+|  Exceptions     | 1. The order has damaged items<br> 2. The order is missing items |
 
-#### Scenario 2.1 
+#### Scenario 2.1 (nominal)
 
-Nominal scenario: the order is compliant with the requests
-
-| Scenario 2.1 | |
+| Scenario 2.1 | The order is compliant with quality standards |
 | ------------- |:-------------:| 
 |  Precondition     | An order has arrived at the warehouse |
 |  Post condition     | A positive quality report is inserted in the on the application |
@@ -239,11 +210,9 @@ Nominal scenario: the order is compliant with the requests
 |  4     | All the items are as described in the order and in the right quantities |
 |  5     | The quality office employee logs in the application the positive quality check on the order page |
 
-#### Scenario 2.2 
+#### Scenario 2.2 (exception 1)
 
-Exception scenario: the order has damaged items
-
-| Scenario 2.2 | |
+| Scenario 2.2 | The order has damaged items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has arrived at the warehouse |
 |  Post condition     | A negative quality report is inserted in the on the application |
@@ -254,11 +223,9 @@ Exception scenario: the order has damaged items
 |  4     | Some items are damaged |
 |  5     | The quality office employee logs in the application the negative quality check on the order page, where the damaged items and their quantity is specified |
 
-#### Scenario 2.3 
+#### Scenario 2.3 (exception 2)
 
-Exception scenario: the order is missing items items
-
-| Scenario 2.3 | |
+| Scenario 2.3 | The order is missing items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has arrived at the warehouse |
 |  Post condition     | A negative quality report is inserted in the on the application |
@@ -269,6 +236,7 @@ Exception scenario: the order is missing items items
 |  4     | Some items are missing compared to the order on the application |
 |  5     | The quality office employee logs in the application the negative quality check on the order page, where the missing items and their quantity is specified
 
+
 ### Use case 3, Manage internal orders
 
 ### Use case 3.1, Issue internal order
@@ -277,11 +245,13 @@ Exception scenario: the order is missing items items
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
 |  Post condition     | Order is sent to the Warehouse's DB with status "on pending" |
-|  Nominal Scenario     | scenario 3.1.1 |
-|  Variants     | scenario 3.1.5	|
-|  Exceptions     | all the items asked(quantity) are not in stock<br>some of the items asked are not in stock, OU Manager continues order excluding those<br>some of the items asked are not in stock, OU Manager aborts order |
+|  Nominal Scenario     | Issue order |
+|  Variants     |  Manager orders using last order function	|
+|  Exceptions     | 1. All the items asked(quantity) are not in stock<br> 2. Some of the items asked are not in stock, OU Manager continues order excluding those<br> 3. Some of the items asked are not in stock, OU Manager aborts order |
 
-| Scenario 3.1.1 | nominal scenario - Issue order |
+#### Scenario 3.1.1 (nominal)
+
+| Scenario 3.1.1 | Issue order |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
 |  Post condition     | Order is sent to the Warehouse's DB with status "on pending" |
@@ -292,7 +262,20 @@ Exception scenario: the order is missing items items
 |  4	 | Application checks if the quantity asked for each item is in stock or not |
 |  5 	 | Application sends the order to the WH |
 
-| Scenario 3.1.2 | some of the items asked are not in stock, OU Manager continues order excluding those |
+#### Scenario 3.1.2 (variant)
+
+| Scenario 3.1.2 | Manager orders using last order function |
+| ------------- |:-------------:| 
+|  Precondition     | OU Manager is authenticated and authorized |
+|  Post condition   | Order is sent to the Warehouse's DB with status "on pending" |
+| Step#  | Description  |
+|  1     | OU Manager asks to redo the last order and confirms |  
+|  2	 | Application checks if the quantity asked is in stock or not |
+|  3 	 | Application sends the order to the WH |
+
+#### Scenario 3.1.3 (exception 1)
+
+| Scenario 3.1.3 | Some of the items asked are not in stock, OU Manager continues order excluding those |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
 |  Post condition     | Order is sent to the Warehouse's DB with status "on pending"<br>A notification regarding this order is sent to the Warehouse Manager |
@@ -306,7 +289,9 @@ Exception scenario: the order is missing items items
 |  7 	 | OU Manager confirms |
 |  8 	 | Application sends the order and the notification to the WH Manager |
 
-| Scenario 3.1.3 | some of the items asked are not in stock, OU Manager aborts order |
+#### Scenario 3.1.4 (exception 2)
+
+| Scenario 3.1.4 | Some of the items asked are not in stock, OU Manager aborts order |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
 |  Post condition   | A notification regarding this order is sent to the Warehouse Manager |
@@ -322,7 +307,9 @@ Exception scenario: the order is missing items items
 
 \<The notification tells the WH Manager the need to order the item(s) from a supplier to satisfy this request>
 
-| Scenario 3.1.4 | all the items asked(quantity) are not in stock |
+#### Scenario 3.1.5 (exception 3)
+
+| Scenario 3.1.5 | All the items asked(quantity) are not in stock |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
 |  Post condition     | A notification regarding this order is sent to the Warehouse Manager |
@@ -335,28 +322,19 @@ Exception scenario: the order is missing items items
 |  6	 | Application sends the notification to the WH Manager |
 
 
-| Scenario 3.1.5 | Manager orders using last order function |
-| ------------- |:-------------:| 
-|  Precondition     | OU Manager is authenticated and authorized |
-|  Post condition   | Order is sent to the Warehouse's DB with status "on pending" |
-| Step#  | Description  |
-|  1     | OU Manager asks to redo the last order and confirms |  
-|  2	 | Application checks if the quantity asked is in stock or not |
-|  3 	 | Application sends the order to the WH |
-
-
-
 ### Use case 3.2, Prepare internal order
 
 | Actors Involved        | WareHouse Worker, OU Manager |
 | ------------- |:-------------:| 
 |  Precondition | An internal order is issued<br>WH Worker is authenticated and authorized |					
 |  Post condition     | Order status has been changed<br>OU Manager has been notified  |
-|  Nominal Scenario     | scenario 3.2.1 |
+|  Nominal Scenario     | Preparing and delivering order |
 |  Variants     | 						|
 |  Exceptions     | 		 |
+
+#### Scenario 3.2.1 (nominal)
 			
-| Scenario 3.2.1 | nominal scenario - Preparing and delivering order |
+| Scenario 3.2.1 | Preparing and delivering order |
 | ------------- |:-------------:| 
 |  Precondition     | An internal order is issued<br>WH Worker is authenticated and authorized |
 |  Post condition     | Order status is "Completed"<br>The OU Manager is notified |
@@ -380,6 +358,7 @@ Exception scenario: the order is missing items items
 |  Variants     | 						|
 |  Exceptions     |  1. There is no space in the Warehouse for item |
 
+#### Scenario 4.1 (nominal)
  
 | Scenario 4.1 | |
 | ------------- |:-------------:| 
@@ -390,6 +369,8 @@ Exception scenario: the order is missing items items
 |  2     | The warehouse workers gets the information on the order they will be inspecting |
 |  3     | The warehouse workers stores the item in the warehouse saving their location |  
 |  4     | All the items are stored and tracked |
+
+#### Scenario 4.2
 
 | Scenario 4.2 | |
 | ------------- |:-------------:| 
@@ -408,12 +389,13 @@ Exception scenario: the order is missing items items
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of missing items |
 |  Post condition     | The supplier is informed of the report and of what will happen to the order |
-|  Scenario     | The manager asks for the delivery of the missing items |
-|  Variants     | 2.The manager asks for the refound of the missing items<br> 3.The manager sends back the incorrect order |
+|  Nominal Scenario     | The manager asks for the delivery of the missing items |
+|  Variants     | 1. The manager asks for the refound of the missing items<br> 2. The manager sends back the incorrect order |
 |  Exceptions   |  |
 
+#### Scenario 5.1.1 (nominal)
 
-| Scenario 5.1.1 | |
+| Scenario 5.1.1 | The manager asks for the delivery of the missing items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report for missing items|
 |  Post condition     | The supplier is informed of the report and asked for the delivery of the missing items |
@@ -425,7 +407,9 @@ Exception scenario: the order is missing items items
 |  5     | A new order is created - see use case 1 |
 |  6     | The quality report of the order is sent to the supplier |
 
-| Scenario 5.1.2 | Variant: Refound |
+#### Scenario 5.1.2 (variant 1)
+
+| Scenario 5.1.2 | The manager asks for the refound of the missing items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report for missing items|
 |  Post condition     | The supplier is informed of the report and asked for the refound of the missing items |
@@ -436,7 +420,9 @@ Exception scenario: the order is missing items items
 |  4     | The manager select that he wants the missing items to be refounded |
 |  5     | The quality report of the order and the request are sent to the supplier |
 
-| Scenario 5.1.3 | Variant: Send back order |
+#### Scenario 5.1.3 (variant 2)
+
+| Scenario 5.1.3 | The manager sends back the incorrect order |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report for missing items|
 |  Post condition     | The supplier is informed of the report and sent back order |
@@ -453,12 +439,13 @@ Exception scenario: the order is missing items items
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items |
 |  Post condition     | The supplier is informed of the report and of what will happen to the order |
-|  Scenario     | The manager asks for the delivery of the damaged items |
-|  Variants     | 2.The manager asks for the refound of the damaged items<br> 3.The manager sends back the incorrect order <br> 4.The manager sends back the part of the incorrect order containing the damaged items |
+|  Nominal Scenario     | The manager asks for the delivery of the damaged items |
+|  Variants     | 1. The manager asks for the refound of the damaged items<br> 2. The manager sends back the incorrect order <br> 3. The manager sends back the part of the incorrect order containing the damaged items |
 |  Exceptions   |  |
 
+#### Scenario 5.2.1 (nominal)
 
-| Scenario 5.2.1 | |
+| Scenario 5.2.1 | The manager asks for the delivery of the damaged items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and asked for the delivery of the damaged items |
 | Step#        | Description  |
@@ -469,7 +456,9 @@ Exception scenario: the order is missing items items
 |  5     | A new order is created - see use case 1 |
 |  6     | The quality report of the order is sent to the supplier |
 
-| Scenario 5.2.2 | Variant: Refound of damaged items |
+#### Scenario 5.2.2 (variant 1)
+
+| Scenario 5.2.2 | The manager asks for the refound of the damaged items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and asked for the refound of the damaged items |
 | Step#        | Description  |
@@ -479,7 +468,9 @@ Exception scenario: the order is missing items items
 |  4     | The manager select that he wants the damaged items to be refounded |
 |  5     | The quality report of the order and the request are sent to the supplier |
 
-| Scenario 5.2.3 | Variant: send back order |
+#### Scenario 5.2.3 (variant 2)
+
+| Scenario 5.2.3 | The manager sends back the incorrect order |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and sent back the whole order |
 | Step#        | Description  |
@@ -489,6 +480,8 @@ Exception scenario: the order is missing items items
 |  4     | The manager select that he wants the order to be sent back |
 |  5     | The quality report of the order and the request are sent to the supplier |
 |  6     | The order is sent back |
+
+#### Scenario 5.2.4 (variant 3)
 
 | Scenario 5.2.4 | Variant: send back damaged items |
 | ------------- |:-------------:| 
@@ -504,7 +497,6 @@ Exception scenario: the order is missing items items
 
 
 ### Use case 6, Authentication
-A user can be the Warehouse manager, the quality office manager or an OU manager
 
 ### Use case 6.1, Login
 | Actors Involved        | User |
@@ -512,7 +504,7 @@ A user can be the Warehouse manager, the quality office manager or an OU manager
 |  Precondition     | The user has an account |
 |  Post condition     | The user is authenticated |
 |  Nominal Scenario     | The user logs in successfully |
-|  Variants     | |
+|  Variants     |  |
 |  Exceptions     | 1. The username is wrong <br> 2. The password is wrong |
 
 ### Use case 6.2, Logout
@@ -523,7 +515,6 @@ A user can be the Warehouse manager, the quality office manager or an OU manager
 |  Nominal Scenario     | The user logs out successfully |
 |  Variants     | |
 |  Exceptions     | |
-
 
 
 ### Use case 7, Manage suppliers
@@ -538,12 +529,12 @@ A user can be the Warehouse manager, the quality office manager or an OU manager
 |  Exceptions     | |
 
 ### Use case 7.2, Modify supplier
-| Actors Involved        | WM |
+| Actors Involved        | Supplier |
 | ------------- |:-------------:| 
-|  Precondition     | The Warehouse Manager is authenticated and authorized  |
-|  Post condition     | The supplier is modified |
+|  Precondition     | The supplier is authenticated and authorized  |
+|  Post condition     | The supplier modifies his account |
 |  Nominal Scenario     | Modify price of an item |
-|  Variants     | 1. Add new items to the supplier<br> 2. Delete items of the supplier |
+|  Variants     | 1. Add new items sold<br> 2. Delete items no more sold |
 |  Exceptions     | |
 
 ### Use case 7.3, Delete supplier
@@ -574,7 +565,7 @@ A user can be the Warehouse manager, the quality office manager or an OU manager
 |  Post condition     | The account is modified |
 |  Nominal Scenario     | Change the password of the account |
 |  Variants     | 1. Modify the username of the account <br> 2. Modify the email of the account |
-|  Exceptions     | |
+|  Exceptions     |  |
 
 ### Use case 7.3, Delete account
 | Actors Involved        | User |
@@ -582,8 +573,9 @@ A user can be the Warehouse manager, the quality office manager or an OU manager
 |  Precondition     | The user has an account |
 |  Post condition     | The account is deleted |
 |  Nominal Scenario     | Delete an existing account |
-|  Variants     | |
+|  Variants     |  |
 |  Exceptions     |  |
+
 
 
 # Glossary
