@@ -129,35 +129,90 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 
 \<next describe here each use case in the UCD>
+
 ### Use case 1, Issue orders to suppliers
-| Actors Involved        |  |
+| Actors Involved        | Warehouse Manager (WM), suppliers |
 | ------------- |:-------------:| 
-|  Precondition     | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition     | \<Boolean expression, must evaluate to true after UC is finished> |
-|  Nominal Scenario     | \<Textual description of actions executed by the UC> |
-|  Variants     | \<other normal executions> |
-|  Exceptions     | \<exceptions, errors > |
+|  Precondition     | The Warehouse Manager is authenticated and authorized |
+|  Post condition     | The order has arrived at the warehouse |
+|  Nominal Scenario     | The order arrives on time |
+|  Variants     | 1. The order arrives late<br> 2. The WM uses "last order" function to make the order |
+|  Exceptions     | 1. The quantity of items cannot be accepted<br> 2. The suppliers cannnot afford the requested quantity<br> 3. The order doensn't arrive |
 
-##### Scenario 1.1 
 
-\<describe here scenarios instances of UC1>
+##### Scenario 1.1 (nominal)
 
-\<a scenario is a sequence of steps that corresponds to a particular execution of one use case>
-
-\<a scenario is a more formal description of a story>
-
-\<only relevant scenarios should be described>
-
-| Scenario 1.1 | |
+| Scenario 1.1 | The order arrives on time |
 | ------------- |:-------------:| 
-|  Precondition     | \<Boolean expression, must evaluate to true before the scenario can start> |
-|  Post condition     | \<Boolean expression, must evaluate to true after scenario is finished> |
+|  Precondition     | The Warehouse Manager is authenticated and authorized |
+|  Post condition     | The order has arrived at the warehouse on time |
 | Step#        | Description  |
-|  1     |  |  
-|  2     |  |
-|  ...     |  |
+|  1     | The WM selects the supplier (one or more supplier per order?) |  
+|  2     | The WM choses the items to order and the quantity of each item |
+|  3     | The app checks if the quantity of each item is lower of the available space for each item in the warehouse |
+|  4	 | The app saves the order and sends via email the order to the supplier |
+|  5     | The supplier accepts the order and communicates the delivery date through the app |
+|  6     | The order arrivers at the warehouse on time |
+|  7     | The WM makes the payment to the supplier (through the app?) |
 
-##### Scenario 1.2
+
+##### Scenario 1.2 (variant 1)
+
+| Scenario 1.2 | The order arrives late |
+| ------------- |:-------------:| 
+|  Precondition     | The Warehouse Manager is authenticated and authorized |
+|  Post condition     | The order has arrived at the warehouse late |
+| Step#        | Description  |
+|  1-5   | Same as scenario 1.1 |  
+|  6     | The supplier communicates through the app that the order is late |
+|  7     | The order arrivers at the warehouse late |
+|  8     | The WM makes the payment to the supplier |
+
+
+##### Scenario 1.3 (variant 2)
+
+| Scenario 1.3 | The WM uses "last order" function to make the order |
+| ------------- |:-------------:| 
+|  Precondition     | The Warehouse Manager is authenticated and authorized |
+|  Post condition     | The order has arrived at the warehouse |
+| Step#        | Description  |
+|  1     | The WM uses the "last order" function to repeat a previous order |
+|  2     | The WM can modify the supplier, the items and their quantity |  
+|  3-7   | Same as scenario 1.1 |
+
+
+##### Scenario 1.4 (exception 1)
+
+| Scenario 1.4 | The quantity of items cannot be accepted |
+| ------------- |:-------------:| 
+|  Precondition     | The Warehouse Manager is authenticated and authorized |
+|  Post condition     | The order is not accepted by the app |
+| Step#        | Description  |
+|  1-3   | Same as scenario 1.1 |  
+|  4     | The quantity of an item exceeds the availble space in the warehouse of that item |
+|  5     | The app asks to the WM to modify or delete the order |
+
+
+##### Scenario 1.5 (exception 2)
+
+| Scenario 1.5 | The supplier cannnot afford the requested quantity |
+| ------------- |:-------------:| 
+|  Precondition     | The Warehouse Manager is authenticated and authorized |
+|  Post condition     | The order is refused by the supplier |
+| Step#        | Description  |
+|  1-4   | Same as scenario 1.1 |  
+|  5     | The supplier refuses the order or eventually proposes a modification of the order |
+
+##### Scenario 1.6 (exception 3)
+
+| Scenario 1.6 | The order doensn't arrive |
+| ------------- |:-------------:| 
+|  Precondition     | The Warehouse Manager is authenticated and authorized |
+|  Post condition     | The order hasn't arrived |
+| Step#        | Description  |
+|  1-5   | Same as scenario 1.1 |  
+|  6     | The order is lost |
+
 
 
 ### Use case 2, Quality check report
@@ -464,6 +519,87 @@ Exception scenario: the order is missing items items
 
 
 
+### Use case 6, Authentication
+A user can be the Warehouse manager, the quality office manager or an OU manager
+
+### Use case 6.1, Login
+| Actors Involved        | User |
+| ------------- |:-------------:| 
+|  Precondition     | The user has an account |
+|  Post condition     | The user is authenticated |
+|  Nominal Scenario     | The user logs in successfully |
+|  Variants     | |
+|  Exceptions     | 1. The username is wrong <br> 2. The password is wrong |
+
+### Use case 6.2, Logout
+| Actors Involved        | User |
+| ------------- |:-------------:| 
+|  Precondition     | The user is logged in |
+|  Post condition     | The user is logged out |
+|  Nominal Scenario     | The user logs out successfully |
+|  Variants     | |
+|  Exceptions     | |
+
+
+
+### Use case 7, Manage suppliers
+
+### Use case 7.1, Create supplier
+| Actors Involved        | WM |
+| ------------- |:-------------:| 
+|  Precondition     | The Warehouse Manager is authenticated and authorized  |
+|  Post condition     | The supplier is added to the list |
+|  Nominal Scenario     | Add new supplier |
+|  Variants     | |
+|  Exceptions     | |
+
+### Use case 7.2, Modify supplier
+| Actors Involved        | WM |
+| ------------- |:-------------:| 
+|  Precondition     | The Warehouse Manager is authenticated and authorized  |
+|  Post condition     | The supplier is modified |
+|  Nominal Scenario     | Modify price of an item |
+|  Variants     | 1. Add new items to the supplier<br> 2. Delete items of the supplier |
+|  Exceptions     | |
+
+### Use case 7.3, Delete supplier
+| Actors Involved        | WM |
+| ------------- |:-------------:| 
+|  Precondition     | The Warehouse Manager is authenticated and authorized  |
+|  Post condition     | The supplier is delete |
+|  Nominal Scenario     | Delete an existing supplier |
+|  Variants     | |
+|  Exceptions     |  |
+
+
+### Use case 7, Manage accounts
+
+### Use case 7.1, Create account
+| Actors Involved        | User |
+| ------------- |:-------------:| 
+|  Precondition     | The user doesn't have an account |
+|  Post condition     | A new account is created |
+|  Nominal Scenario     | Create new account |
+|  Variants     | |
+|  Exceptions     | 1. Email not valid <br> 2. Password not valid |
+
+### Use case 7.2, Modify account
+| Actors Involved        | User |
+| ------------- |:-------------:| 
+|  Precondition     | The user has an account |
+|  Post condition     | The account is modified |
+|  Nominal Scenario     | Change the password of the account |
+|  Variants     | 1. Modify the username of the account <br> 2. Modify the email of the account |
+|  Exceptions     | |
+
+### Use case 7.3, Delete account
+| Actors Involved        | User |
+| ------------- |:-------------:| 
+|  Precondition     | The user has an account |
+|  Post condition     | The account is deleted |
+|  Nominal Scenario     | Delete an existing account |
+|  Variants     | |
+|  Exceptions     |  |
 
 
 # Glossary
