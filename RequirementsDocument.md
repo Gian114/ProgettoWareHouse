@@ -561,8 +561,20 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 # Glossary
 
 \<use UML class diagram to define important terms, or concepts in the domain of the system, and their relationships> 
+![Class Diagram](Resources/class_diagram.png "Class Diagram")
+
 
 \<concepts are used consistently all over the document, ex in use cases, requirements etc>
+
+Order: Any order (internal or from supplier), it has attributes describing the item, the quantity requested and the price,  each order deals only with one item requested, so for a request regarding multiple items multiple orders are issued.
+
+Quality Report: Report generated after the quality check of the item(s) received, it has a boolean attribute describing if the quality check is passed or not.
+
+Stock notification: Notification sent to the WH Manager and generated when an internal order has gone wrong because of missing stocks on an item(s) (for each item), it has attributes describing the item, the quantity and a description containing the OU Manager that tried to request it and the date.
+
+Internal Order Status Report: Report generated after an internal order is issued, it tracks the status of the internal order ("Pending", "Preparing", "Completed").
+
+Receipt: Receipt sent to the WH Manager after he issues an order to a supplier, it has the attributes: date describing the date of the order, amount describing the quantity(price) of the order and a brief description that contains the items ordered, the supplier and the payment circuit used.
 
 # System Design
 \<describe here system design>
