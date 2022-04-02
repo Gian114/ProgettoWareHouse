@@ -58,7 +58,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |	Suppliers				| 	Companies that firstly sell the products	|
 |	Delivery companies		|	Companies that manage the transport of the items from the suppliers to the warehouse and eventually from the warehouse to the OUs	|
 |	Warehouse workers		|	Persons that work inside the warehouse, they manage the placement of the products inside the warehouse|
-|   Payment system | Companies that provide payment services |
+|   Payment system | Companies that provide payment services (mastercard, paypal, etc..) |
 |   Start up partner | Company that has subscribe a partnership with the application |
 |   Start up financer | Entities that finance the application |
 |   Competitors | Other applications focused on the same topic |
@@ -136,7 +136,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Post condition     | The order has arrived at the warehouse |
 |  Nominal Scenario     | The order arrives |
 |  Variants     | The WM uses last order function to make the order |
-|  Exceptions     | 1. The quantity of items cannot be accepted<br> 2. The supplier cannot afford the requested quantity |
+|  Exceptions     | 1. The quantity of items cannot be accepted |
 
 
 ##### Scenario 1.1 (nominal)
@@ -151,7 +151,8 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  3     | The app checks if the quantity of each item is lower of the available space for each item in the warehouse |
 |  4	 | The app saves the order and sends via email the order to the supplier |
 |  5     | The WM makes the payment to the supplier through the app |
-|  6     | The order arrives at the warehouse on time |
+|  6 	 | The app sends the receipt of the payment to the WM |
+|  7	 | The order arrives at the warehouse on time |
 
 ##### Scenario 1.2 (variant)
 
@@ -162,11 +163,11 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | Step#        | Description  |
 |  1     | The WM uses the "last order" function to repeat a previous order |
 |  2     | The WM can modify the supplier, the items and their quantity |  
-|  3-6   | Same as scenario 1.1 |
+|  3-7   | Same as scenario 1.1 |
 
 ##### Scenario 1.3 (exception 1)
 
-| Scenario 1.4 | The quantity of items cannot be accepted |
+| Scenario 1.3 | The quantity of items cannot be accepted |
 | ------------- |:-------------:| 
 |  Precondition     | The WM is authenticated and authorized |
 |  Post condition     | The order is not accepted by the app |
@@ -175,15 +176,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  4     | The quantity of an item exceeds the available space in the warehouse of that item |
 |  5     | The app asks to the WM to modify or delete the order |
 
-##### Scenario 1.4 (exception 2)
 
-| Scenario 1.5 | The supplier cannot afford the requested quantity |
-| ------------- |:-------------:| 
-|  Precondition     | The WM is authenticated and authorized |
-|  Post condition     | The order is refused by the supplier |
-| Step#        | Description  |
-|  1-4   | Same as scenario 1.1 |  
-|  5     | The supplier refuses the order or eventually proposes a modification of the order |
 
 
 ### Use case 2, Quality check report
