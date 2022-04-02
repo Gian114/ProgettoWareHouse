@@ -337,6 +337,35 @@ Exception scenario: the order is missing items items
 
 ### Use case 4, Manage storage of items
 
+| Actors Involved        | WareHouse Worker |
+| ------------- |:-------------:| 
+|  Precondition | OUs order items from suppliers <br>WH Worker is authenticated and authorized |					
+|  Post condition     | Items has been stored and tracked in the warehouse  |
+|  Nominal Scenario     | 1. WH Worker stores the items in a specific position 2.3. WH Worker notifies operation <br>| Application change status to "Stored"
+|  Variants     | 						|
+|  Exceptions     |  1. There is no space in the Warehouse for item |
+
+ 
+| Scenario 4.1 | |
+| ------------- |:-------------:| 
+|  Precondition     | An order has arrived at the warehouse with positive quality report |
+|  Post condition     | The items are stored in a specific place |
+| Step#        | Description  |
+|  1     | The warehouse workers logs in the application |
+|  2     | The warehouse workers gets the information on the order they will be inspecting |
+|  3     | The warehouse workers stores the item in the warehouse saving their location |  
+|  4     | All the items are stored and tracked |
+
+| Scenario 4.2 | |
+| ------------- |:-------------:| 
+|  Precondition     | An order has arrived at the warehouse with positive quality report |
+|  Post condition     |  |
+| Step#        | Description  |
+|  1     | The warehouse workers logs in the application |
+|  2     | The warehouse workers observes that there is no space in the warehouse |
+|  3     | The warehouse workers notifies OUs  |  
+|  4     |  |
+
 ### Use case 5, Manage negative quality report
 
 ### Use case 5.1, Manage negative quality report - missing items
