@@ -2,12 +2,13 @@
 
 Date: 30 march 2022
 
-Version: 1.0
+Version: 2.0
 
  
 | Version number | Change |
 | ----------------- |:-----------|
-| 1 | Stakeholders, contex diagram, actors and interfaces | 
+| 1 | Stakeholders, contex diagram, actors and interfaces |
+| 2 | Use cases, use case diagram, glossary | 
 
 
 # Contents
@@ -559,12 +560,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 
 # Glossary
-
-\<use UML class diagram to define important terms, or concepts in the domain of the system, and their relationships> 
 ![Class Diagram](Resources/class_diagram.png "Class Diagram")
-
-
-\<concepts are used consistently all over the document, ex in use cases, requirements etc>
 
 Order: Any order (internal or from supplier), it has attributes describing the item, the quantity requested and the price,  each order deals only with one item requested, so for a request regarding multiple items multiple orders are issued.
 
@@ -582,8 +578,8 @@ Receipt: Receipt sent to the WH Manager after he issues an order to a supplier, 
 \<must be consistent with Context diagram>
 
 # Deployment Diagram
+![Deployment diagram](Resources/Deployment_diagram.png "Deployment diagram")
 
-\<describe here deployment diagram >
 
 
 
