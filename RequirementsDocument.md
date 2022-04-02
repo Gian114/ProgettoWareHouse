@@ -125,7 +125,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ## Use case diagram
 \<define here UML Use case diagram UCD summarizing all use cases, and their relationships>
-
+![Use Case diagram](Resources/Use_case_diagram.png "Use Case diagram")
 
 \<next describe here each use case in the UCD>
 
@@ -136,7 +136,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Post condition     | The order has arrived at the warehouse |
 |  Nominal Scenario     | The order arrives |
 |  Variants     | The WM uses last order function to make the order |
-|  Exceptions     | 1. The quantity of items cannot be accepted |
+|  Exceptions     | The quantity of items cannot be accepted |
 
 
 ##### Scenario 1.1 (nominal)
@@ -165,7 +165,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  2     | The WM can modify the supplier, the items and their quantity |  
 |  3-7   | Same as scenario 1.1 |
 
-##### Scenario 1.3 (exception 1)
+##### Scenario 1.3 (exception)
 
 | Scenario 1.3 | The quantity of items cannot be accepted |
 | ------------- |:-------------:| 
