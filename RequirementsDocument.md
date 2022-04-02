@@ -70,9 +70,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 # Context Diagram and interfaces
 
 ## Context Diagram
-\<Define here Context diagram using UML use case diagram>
 ![Context diagram](Resources/Context_diagram.png "Context diagram")
-\<actors are a subset of stakeholders>
 
 ## Interfaces
 
@@ -132,12 +130,12 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 \<next describe here each use case in the UCD>
 
 ### Use case 1, Issue orders to supplier
-| Actors Involved        | warehouse manager (WM), supplier |
+| Actors Involved        | Warehouse manager, Supplier |
 | ------------- |:-------------:| 
 |  Precondition     | The WM is authenticated and authorized |
 |  Post condition     | The order has arrived at the warehouse |
 |  Nominal Scenario     | The order arrives |
-|  Variants     | The WM uses "last order" function to make the order |
+|  Variants     | The WM uses last order function to make the order |
 |  Exceptions     | 1. The quantity of items cannot be accepted<br> 2. The supplier cannot afford the requested quantity |
 
 
@@ -189,7 +187,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 
 ### Use case 2, Quality check report
-| Actors Involved        | Quality office  |
+| Actors Involved        | Quality office employee |
 | ------------- |:-------------:| 
 |  Precondition     | An order has arrived at the warehouse |
 |  Post condition     | Quality report is inserted in the on the application |
@@ -241,7 +239,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Use case 3.1, Issue internal order
 
-| Actors Involved        | OU Manager, WH Manager |
+| Actors Involved        | Organizational unit manager, Warehouse manager |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
 |  Post condition     | Order is sent to the Warehouse's DB with status "on pending" |
@@ -324,7 +322,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Use case 3.2, Prepare internal order
 
-| Actors Involved        | WareHouse Worker, OU Manager |
+| Actors Involved        | Warehouse worker, Organizational unit manager |
 | ------------- |:-------------:| 
 |  Precondition | An internal order is issued<br>WH Worker is authenticated and authorized |					
 |  Post condition     | Order status has been changed<br>OU Manager has been notified  |
@@ -350,17 +348,17 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ### Use case 4, Manage storage of items
 
-| Actors Involved | WareHouse Worker, Quality Office |
+| Actors Involved | Warehouse worker, Quality office employee |
 | ------------- |:-------------:| 
 |  Precondition | WH Worker is authenticated and authorized<br>Items have passed the quality check |				
 |  Post condition    | Items has been stored and tracked in the warehouse | 
-|  Nominal Scenario     |  WH Worker stores the items in a specific position  | Application change status to "Stored"
+|  Nominal Scenario     |  WH Worker stores the items in a specific position  |
 |  Variants     | 						|
 |  Exceptions   |                       |
 
 #### Scenario 4.1 (nominal)
  
-| Scenario 4.1 | |
+| Scenario 4.1 | WH Worker stores the items in a specific position |
 | ------------- |:-------------:| 
 |  Precondition     | An order has arrived at the warehouse with positive quality report |
 |  Post condition     | The items are stored in a specific place |
