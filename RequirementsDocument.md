@@ -509,6 +509,17 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Variants     | |
 |  Exceptions     | |
 
+#### Scenerio 7.1.1 (nominal)
+
+| Scenario 7.1.1 | Add new supplier |
+| ------------- |:-------------:| 
+|  Precondition     | The Warehouse Manager is authenticated and authorized  |
+|  Post condition     | The supplier is added to the list |
+| Step#        | Description  |
+|  1     | The WM manager access a list of suppliers |
+|  2     | The manager clicks on the button to contact the supplier |
+|  3     | The supplier is added to the list |
+
 ### Use case 7.2, Modify supplier
 | Actors Involved        | Supplier |
 | ------------- |:-------------:| 
@@ -518,6 +529,42 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Variants     | 1. Add new items sold<br> 2. Delete items no more sold |
 |  Exceptions     | |
 
+#### Scenario 7.2.1 (nominal)
+
+| Scenario 7.2.1 | The supplier changes price of an item |
+| ------------- |:-------------:| 
+|  Precondition     | The supplier is authenticated and authorize |
+|  Post condition     | The supplier modifies his account |
+| Step#        | Description  |
+|  1     | The supplier access a list of items |
+|  2     | The supplier clicks on one item |
+|  3     | The supplier selects modify option |
+|  4     | The suppier changes the price |
+
+#### Scenario 7.2.2 (variant 1)
+
+| Scenario 7.2.2 | The supplier add new items sold  |
+| ------------- |:-------------:| 
+|  Precondition     | The supplier is authenticated and authorized   |
+|  Post condition     | The supplier modifies his account |
+| Step#        | Description  |
+|  1     | The supplier access a list of items |
+|  2     | The supplier clicks on one add new item button |
+|  3     | The supplier enters the necessary information |
+|  4     | new item added to the list  |
+
+#### Scenario 7.2.3 (variant 2)
+
+| Scenario 7.2.3 | The supplier Delete items no more sold  |
+| ------------- |:-------------:| 
+|  Precondition     | The supplier is authenticated and authorized   |
+|  Post condition     | The supplier modifies his account |
+| Step#        | Description  |
+|  1     | The supplier access a list of items |
+|  2     | The supplier clicks on one delete item button |
+|  3     | The supplier select the items no more sold |
+|  4     | The items are removed from the list  |
+
 ### Use case 7.3, Delete supplier
 | Actors Involved        | WM |
 | ------------- |:-------------:| 
@@ -526,6 +573,19 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Nominal Scenario     | Delete an existing supplier |
 |  Variants     | |
 |  Exceptions     |  |
+
+#### Scenerio 7.3.1 (nominal)
+
+| Scenario 7.3.1 |  |
+| ------------- |:-------------:| 
+|  Precondition     | The Warehouse Manager is authenticated and authorized  |
+|  Post condition     | The supplier is delete |
+| Step#        | Description  |
+|  1     | The WM manager access a list of suppliers |
+|  2     | The manager clicks on one of the supplier on the list |
+|  3     | The manager click on delete button |
+|  4     | The supplier is notified           |
+|  5     | The supplier is deleted from the list |
 
 
 ### Use case 7, Manage accounts
