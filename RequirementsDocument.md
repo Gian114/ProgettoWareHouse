@@ -1,14 +1,15 @@
 # Requirements Document 
 
-Date: 30 march 2022
+Date: 6 april 2022
 
-Version: 2.0
+Version: 3.0
 
  
 | Version number | Change |
 | ----------------- |:-----------|
 | 1 | Stakeholders, contex diagram, actors and interfaces |
 | 2 | Use cases, use case diagram, glossary | 
+| 3 | Deployment diagram, stories and personas, FRs, NFRs, system design |
 
 
 # Contents
