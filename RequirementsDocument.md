@@ -104,11 +104,41 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 \<they match to high level use cases>
 
-| ID        | Description  |
-| ------------- |:-------------:| 
-|  FR1     |  |
-|  FR2     |  |
-| FRx..  | | 
+| ID                        | Description  |
+| -------------             |:-------------:| 
+|  FR1                      | Manage order |
+|  &nbsp;&nbsp;FR1.1        | Create new order |
+|  &nbsp;&nbsp;FR1.2        | Add item to order |
+|  &nbsp;&nbsp;FR1.3        | Send order to supplier |
+|  &nbsp;&nbsp;FR1.4        | Create order from previous one |
+|  &nbsp;&nbsp;FR1.4        | Set order as recived |
+|  FR2                      | Manage quality reports |
+|  &nbsp;&nbsp;FR2.1        | Create quality report for an order |
+|  &nbsp;&nbsp;FR2.2        | Attach quality report to message sent to the supplier |
+|  FR3                      | Manage internal order | 
+|  &nbsp;&nbsp;FR3.1        | Create internal order |
+|  &nbsp;&nbsp;FR3.2        | Add items and quantity |
+|  &nbsp;&nbsp;FR3.3        | Check availability in the warehouse |
+|  &nbsp;&nbsp;FR3.4        | Notify warehous manager of the order |
+|  FR4                      | Manage storage of items |
+|  &nbsp;&nbsp;FR4.1        | Keep track of avaible space |
+|  &nbsp;&nbsp;FR4.2        | Keep track of the position of items inside the warehouse |
+|  &nbsp;&nbsp;FR4.3        | Put item in warehouse in a position |
+|  FR5                      | Manage negative quality report |
+|  &nbsp;&nbsp;FR5.1        | Select action to be required for the order |
+|  &nbsp;&nbsp;FR5.2        | Send message to the supplier with the decision |
+|  FR6                      | Authentication |
+|  &nbsp;&nbsp;FR6.1        | Login |
+|  &nbsp;&nbsp;FR6.2        | Logout |
+|  FR7                      | Manage suppliers |
+|  &nbsp;&nbsp;FR7.1        | List existing suppliers with their items and prices |
+|  &nbsp;&nbsp;FR7.2        | Add new supplier |
+|  &nbsp;&nbsp;FR7.3        | Modify existing supplier |
+|  &nbsp;&nbsp;FR7.4        | Delete existing supplier |
+|  FR8                      | Manage account |
+|  &nbsp;&nbsp;FR7.1        | Create account |
+|  &nbsp;&nbsp;FR7.2        | Delete account |
+|  &nbsp;&nbsp;FR7.3        | Modify account |
 
 ## Non Functional Requirements
 
