@@ -73,6 +73,8 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ## Context Diagram
 ![Context diagram](Resources/Context_diagram.png "Context diagram")
+\<The website or app shows the data depending on the type of user that logs in.>
+
 
 ## Interfaces
 
@@ -664,9 +666,7 @@ Internal Order Status Report: Report generated after an internal order is issued
 Receipt: Receipt sent to the WH Manager after he issues an order to a supplier, it has the attributes: date describing the date of the order, amount describing the quantity(price) of the order and a brief description that contains the items ordered, the supplier and the payment circuit used.
 
 # System Design
-\<describe here system design>
-
-\<must be consistent with Context diagram>
+![System design](Resources/System_design.png "System design")
 
 # Deployment Diagram
 ![Deployment diagram](Resources/Deployment_diagram.png "Deployment diagram")
