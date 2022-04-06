@@ -2,14 +2,15 @@
 
 Date: 6 april 2022
 
-Version: 3.0
+Version: 1.3
 
  
 | Version number | Change |
 | ----------------- |:-----------|
-| 1 | Stakeholders, contex diagram, actors and interfaces |
-| 2 | Use cases, use case diagram, glossary | 
-| 3 | Deployment diagram, stories and personas, FRs, NFRs, system design |
+| 1.0 | Stakeholders, contex diagram, actors and interfaces |
+| 1.1 | Use cases, use case diagram, glossary | 
+| 1.2 | Deployment diagram, stories and personas, FRs, NFRs, system design |
+| 1.3 | Completed first version of requirements document |
 
 
 # Contents
@@ -27,7 +28,6 @@ Version: 3.0
 - [Use case diagram and use cases](#use-case-diagram-and-use-cases)
 	+ [Use case diagram](#use-case-diagram)
 	+ [Use cases](#use-cases)
-    	+ [Relevant scenarios](#relevant-scenarios)
 - [Glossary](#glossary)
 - [System design](#system-design)
 - [Deployment diagram](#deployment-diagram)
@@ -139,8 +139,6 @@ A user can be the WH manager, a QO employee, a WH worker, an OU manager or a sup
 
 ## Non Functional Requirements
 
-\<Describe constraints on functional requirements>
-
 | ID        | Type           | Description  | Refers to FR |
 | ------------- |:-------------:| :-----:| -----:|
 | NFR1      | Efficiency | Response time for all functions should be < 0.5 sec | All |
@@ -155,11 +153,11 @@ A user can be the WH manager, a QO employee, a WH worker, an OU manager or a sup
 
 # Use case diagram and use cases
 
-
 ## Use case diagram
 
 ![Use Case diagram](Resources/Use_case_diagram.png "Use Case diagram")
 
+## Use cases
 
 ### Use case 1, Issue orders to supplier
 | Actors Involved        | Warehouse manager, Supplier |
