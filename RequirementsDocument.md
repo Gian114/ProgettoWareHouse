@@ -622,36 +622,135 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  5     | The supplier is deleted from the list |
 
 
-### Use case 7, Manage accounts
+### Use case 8, Manage accounts
 
-### Use case 7.1, Create account
+### Use case 8.1, Create account
 | Actors Involved        | User |
 | ------------- |:-------------:| 
 |  Precondition     | The user doesn't have an account |
 |  Post condition     | A new account is created |
 |  Nominal Scenario     | Create new account |
 |  Variants     | |
-|  Exceptions     | 1. Email not valid <br> 2. Password not valid |
+|  Exceptions     |  email not valid<br>password not valid |
 
-### Use case 7.2, Modify account
+
+| Scenario 8.1.1 | Create new account  |
+| ------------- |:-------------:| 
+|  Precondition     | The user doesn't have an account  |
+|  Post condition     | A new account is created |
+| Step#        | Description  |
+|  1     | The user clicks on "Sign up"  |
+|  2     | The applications shows a form  |
+|  3     | The user inserts his data |
+|  4     | The application check if the data is valid    |
+|  5     | The account is created |
+
+| Scenario 8.1.2 | email not valid |
+| ------------- |:-------------:| 
+|  Precondition     | The user doesn't have an account  |
+|  Post condition     | 	 |
+| Step#        | Description  |
+|  1     | The user clicks on "Sign up"  |
+|  2     | The applications shows a form  |
+|  3     | The user inserts his data |
+|  4     | The application check if the data is valid    |
+|  5     | The application notifies that the email inserted is not valid* |
+
+*/<The email can be not valid because it already exist an account associated with that email or just wrong format, a
+relative message is shown>
+
+| Scenario 8.1.3 | password not valid |
+| ------------- |:-------------:| 
+|  Precondition     | The user doesn't have an account  |
+|  Post condition     | 	|
+| Step#        | Description  |
+|  1     | The user clicks on "Sign up"  |
+|  2     | The applications shows a form  |
+|  3     | The user inserts his data |
+|  4     | The application check if the data is valid    |
+|  5     | The application notifies that the password inserted is invalid |
+
+
+### Use case 8.2, Modify account
 | Actors Involved        | User |
 | ------------- |:-------------:| 
-|  Precondition     | The user has an account |
+|  Precondition     | The user is authenticated and authorized  |
 |  Post condition     | The account is modified |
-|  Nominal Scenario     | Change the password of the account |
-|  Variants     | 1. Modify the username of the account <br> 2. Modify the email of the account |
-|  Exceptions     |  |
+|  Nominal Scenario     | Modify account attribute |
+|  Variants     |  |
+|  Exceptions     | user insert wrong password<br>user insert unvalid attribute |
 
-### Use case 7.3, Delete account
+
+| Scenario 8.2.1 | Modify account attribute |
+| ------------- |:-------------:| 
+|  Precondition     | The user is authenticated and authorized  |
+|  Post condition     | The account is modified |
+| Step#        | Description  |
+|  1     | The user clicks on "modify account" |
+|  2     | The application shows the modify account page |
+|  3     | The user modifies one or more attributes and clicks on update account |
+|  4     | The application asks the user to insert password and confirm it |
+|  5     | The user inserts the password  |
+|  6     | The account is updated |
+
+| Scenario 8.2.2 | user insert wrong password |
+| ------------- |:-------------:| 
+|  Precondition     | The user is authenticated and authorized  |
+|  Post condition     | 	 |
+| Step#        | Description  |
+|  1     | The user clicks on "modify account" |
+|  2     | The application shows the modify account page |
+|  3     | The user modifies one or more attributes and clicks on update account |
+|  4     | The application asks the user to insert password and confirm it |
+|  5     | The user inserts the password  |
+|  6     | The application notifies that the password is wrong, step 4 is repeated |
+
+| Scenario 8.2.3 | user insert unvalid attribute |
+| ------------- |:-------------:| 
+|  Precondition     | The user is authenticated and authorized  |
+|  Post condition     | 	 |
+| Step#        | Description  |
+|  1     | The user clicks on "modify account" |
+|  2     | The application shows the modify account page |
+|  3     | The user modifies one or more attributes and clicks on update account |
+|  4     | The application shows an error message |
+
+/The error message can be "Unvalid email" or "The email inserted already exist", "Unvalid password" 
+
+### Use case 8.3, Delete account
 | Actors Involved        | User |
 | ------------- |:-------------:| 
-|  Precondition     | The user has an account |
+|  Precondition     | The user is authenticated and authorized|
 |  Post condition     | The account is deleted |
 |  Nominal Scenario     | Delete an existing account |
 |  Variants     |  |
-|  Exceptions     |  |
+|  Exceptions     | User inserts wrong password |
 
 
+| Scenario 8.3.1 | Delete an existing account |
+| ------------- |:-------------:| 
+|  Precondition     | The user is authenticated and authorized  |
+|  Post condition     | The account is deleted |
+| Step#        | Description  |
+|  1     | The user clicks on "modify account"  |
+|  2     | The application shows the modify account page |
+|  3     | The user clicks on delete account |
+|  4     | The application asks the user to insert password and confirm it |
+|  5     | The user inserts the password  |
+|  6     | The account is deleted from DB |
+
+
+| Scenario 8.3.2 | User inserts wrong password |
+| ------------- |:-------------:| 
+|  Precondition     | The user is authenticated and authorized  |
+|  Post condition     | 	|
+| Step#        | Description  |
+|  1     | The user clicks on "modify account"  |
+|  2     | The application shows the modify account page |
+|  3     | The user clicks on delete account |
+|  4     | The application asks the user to insert password and confirm it |
+|  5     | The user inserts the password  |
+|  6     | The application notifies that the password is wrong |
 
 # Glossary
 ![Class Diagram](Resources/class_diagram.png "Class Diagram")
