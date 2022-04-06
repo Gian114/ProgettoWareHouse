@@ -177,7 +177,7 @@ A user can be the WH manager, a QO employee, a WH worker, an OU manager or a sup
 |  1     | The warehouse manager selects the supplier |  
 |  2     | The warehouse manager choses the items to order and the quantity of each item |
 |  3     | The app checks if the quantity of each item is lower of the available space for each item in the warehouse |
-|  4	 | The app saves the order and sends via email the order to the supplier |
+|  4	 | The app saves the order in the DB and sends via email the order to the supplier |
 |  5     | The warehouse manager makes the payment to the supplier through the app |
 |  6 	 | The app sends the receipt of the payment to the warehouse manager |
 |  7	 | The order arrives at the warehouse on time |
@@ -221,8 +221,7 @@ A user can be the WH manager, a QO employee, a WH worker, an OU manager or a sup
 |  1     | The quality office employee logs in the application |
 |  2     | The quality office employee gets the information on the order they will be inspecting |
 |  3     | The quality office employee inspects the items in the order, checking that they respond to the order on the application |  
-|  4     | If all the items are as described in the order and in the right quantities, the QO employee prints and sticks a barcode for each item   |
-|  5     | The QO employee scans each item with a bar code reader and so the application inserts the items in the DB |
+|  4     | All the items are as described in the order and in the right quantities |
 |  6     | The quality office employee uploads in the application the positive quality check report on the order page |
 
 #### Scenario 2.2 (exception 1)
@@ -236,7 +235,7 @@ A user can be the WH manager, a QO employee, a WH worker, an OU manager or a sup
 |  3     | The quality office employee inspect the items in the order, checking thay they respond to the order on the application |  
 |  4     | Some items are damaged |
 |  5     | The quality office employee uploads in the application the negative quality check report on the order page specifying the damaged items and their quantity|
-|  6     | The applications send a negativa quality report notification the the WH manager |
+|  6     | The applications send a negative quality report notification the the WH manager |
 
 #### Scenario 2.3 (exception 2)
 | Scenario 2.3 | The order has missing items |
@@ -249,7 +248,7 @@ A user can be the WH manager, a QO employee, a WH worker, an OU manager or a sup
 |  3     | The quality office employee inspect the items in the order, checking thay they respond to the order on the application |  
 |  4     | Some items are missing compared to the order on the application |
 |  5     | The quality office employee uploads in the application the negative quality check report on the order page specifying the missing items and their quantity |
-|  6     | The applications send a negativa quality report notification the the WH manager |
+|  6     | The applications send a negative quality report notification the the WH manager |
 
 ### Use case 3, Manage internal orders
 
@@ -272,7 +271,7 @@ A user can be the WH manager, a QO employee, a WH worker, an OU manager or a sup
 |  2     | Application asks the quantity of the item(s) needed |
 |  3	 | OU Manager enter the quantity and confirms |
 |  4	 | Application checks if the quantity asked for each item is in stock or not |
-|  5 	 | Application sends the order to the WH |
+|  5 	 | Application saves the order in the DB and sends it to the WH |
 
 #### Scenario 3.1.2 (variant)
 | Scenario 3.1.2 | Manager orders using last order function |
@@ -282,7 +281,7 @@ A user can be the WH manager, a QO employee, a WH worker, an OU manager or a sup
 | Step#  | Description  |
 |  1     | OU Manager asks to redo the last order and confirms |  
 |  2	 | Application checks if the quantity asked is in stock or not |
-|  3 	 | Application sends the order to the WH |
+|  3 	 | Application saves the order in the DB and sends it to the WH |
 
 #### Scenario 3.1.3 (exception 1)
 | Scenario 3.1.3 | Some of the items asked are not in stock, OU Manager continues order excluding those |
@@ -371,8 +370,9 @@ We consider that internal orders cannot be refused, so no exceptions.
 |  Post condition     | The items are stored in a specific place |
 | Step#        | Description  |
 |  1     | The warehouse workers logs in the application |
-|  2     | The warehouse workers gets the information on the order they will store |
-|  3     | The warehouse workers stores the item in the warehouse saving their location |  
+|  2     | The WH worker prints and sticks a barcode for each item   |
+|  3     | The WH worker scans each item with a bar code reader and so the application inserts the items in the DB |
+|  4     | The WH worker stores each item in his location according to the information given by the application |
 |  4     | All the items are stored and tracked |
 
 
@@ -390,7 +390,7 @@ We consider that internal orders cannot be refused, so no exceptions.
 #### Scenario 5.1.1 (nominal)
 | Scenario 5.1.1 | The WH manager asks for the delivery of the missing items |
 | ------------- |:-------------:| 
-|  Precondition     | An order has recieved a negative quality report for missing items|
+|  Precondition     | An order has recieved a negative quality report for missing items |
 |  Post condition     | The supplier is informed of the report and asked for the delivery of the missing items |
 | Step#        | Description  |
 |  1     | The manager recives the negative report on his dashboard |
@@ -403,25 +403,26 @@ We consider that internal orders cannot be refused, so no exceptions.
 #### Scenario 5.1.2 (variant 1)
 | Scenario 5.1.2 | The WH manager asks for the refound of the missing items |
 | ------------- |:-------------:| 
-|  Precondition     | An order has recieved a negative quality report for missing items|
+|  Precondition     | An order has recieved a negative quality report for missing items |
 |  Post condition     | The supplier is informed of the report and asked for the refound of the missing items |
 | Step#        | Description  |
 |  1     | The manager recives the negative report on his dashboard |
 |  2     | Given the specific situation, he decides it is best to ask for the refound of the  missing items |
 |  3     | The manager clicks on the button to contact the supplier |
-|  4     | The manager select that he wants the missing items to be refounded |
-|  5     | The quality report of the order and the request are sent to the supplier |
+|  4     | The manager selects that he wants the missing items to be refounded |
+|  5     | The rest of the order is stored in the warehouse - see use case 4 |
+|  6     | The quality report of the order and the request are sent to the supplier |
 
 #### Scenario 5.1.3 (variant 2)
 | Scenario 5.1.3 | The WH manager sends back the incorrect order |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report for missing items|
-|  Post condition     | The supplier is informed of the report and sent back order |
+|  Post condition     | The supplier is informed of the report and the order is sent back |
 | Step#        | Description  |
 |  1     | The manager recives the negative report on his dashboard |
 |  2     | Given the specific situation, he decides it is best to send the order back to the supplier |
 |  3     | The manager clicks on the button to contact the supplier |
-|  4     | The manager select that he wants the order to be sent back |
+|  4     | The manager selects that he wants the whole order to be sent back |
 |  5     | The quality report of the order and the request are sent to the supplier |
 |  6     | The order is sent back |
 
@@ -454,8 +455,9 @@ We consider that internal orders cannot be refused, so no exceptions.
 |  1     | The manager recives the negative report on his dashboard |
 |  2     | Given the specific situation, he decides it is best to ask for the refound of the  damaged items |
 |  3     | The manager clicks on the button to contact the supplier |
-|  4     | The manager select that he wants the damaged items to be refounded |
-|  5     | The quality report of the order and the request are sent to the supplier |
+|  4     | The manager selects that he wants the damaged items to be refounded |
+|  5     | The rest of the order is stored in the warehouse - see use case 4 |
+|  6     | The quality report of the order and the request are sent to the supplier |
 
 #### Scenario 5.2.3 (variant 2)
 | Scenario 5.2.3 | The WH manager sends back the incorrect order |
@@ -465,7 +467,7 @@ We consider that internal orders cannot be refused, so no exceptions.
 |  1     | The manager recives the negative report on his dashboard |
 |  2     | Given the specific situation, he decides it is best to send the order back to the supplier |
 |  3     | The manager clicks on the button to contact the supplier |
-|  4     | The manager select that he wants the order to be sent back |
+|  4     | The manager selects that he wants the whole order to be sent back |
 |  5     | The quality report of the order and the request are sent to the supplier |
 |  6     | The order is sent back |
 
@@ -477,9 +479,10 @@ We consider that internal orders cannot be refused, so no exceptions.
 |  1     | The manager recives the negative report on his dashboard |
 |  2     | Given the specific situation, he decides it is best to send the order back to the supplier |
 |  3     | The manager clicks on the button to contact the supplier |
-|  4     | The manager select that he wants the damaged items to be sent back |
-|  5     | The quality report of the order and the request are sent to the supplier |
-|  6     | The order with the damaged items is sent back |
+|  4     | The manager selects that he wants the damaged items to be sent back |
+|  5     | The rest of the order is stored in the warehouse - see use case 4 |
+|  6     | The quality report of the order and the request are sent to the supplier |
+|  7     | The order with the damaged items is sent back |
 
 
 
@@ -550,7 +553,7 @@ We consider that internal orders cannot be refused, so no exceptions.
 | Actors Involved        | Warehouse manager |
 | ------------- |:-------------:| 
 |  Precondition     | The warehouse Manager is authenticated and authorized  |
-|  Post condition     | The supplier is added to the list |
+|  Post condition     | The supplier is created |
 |  Nominal Scenario     | Add new supplier |
 |  Variants     | |
 |  Exceptions     | |
@@ -559,11 +562,12 @@ We consider that internal orders cannot be refused, so no exceptions.
 | Scenario 7.1.1 | Add new supplier |
 | ------------- |:-------------:| 
 |  Precondition     | The warehouse Manager is authenticated and authorized  |
-|  Post condition     | The supplier is added to the list |
+|  Post condition     | The supplier is created |
 | Step#        | Description  |
-|  1     | The warehouse manager access a list of suppliers |
-|  2     | The manager clicks on the button to contact the supplier |
-|  3     | The supplier is added to the list |
+|  1     | The warehouse manager clicks on "Add new supplier" |
+|  2     | The manager inserts the information of the supplier |
+|  3     | The application stores the supplier in the DB |
+|  4     | The application notifies the supplier |
 
 
 ### Use case 7.2, Modify supplier
@@ -581,7 +585,7 @@ We consider that internal orders cannot be refused, so no exceptions.
 |  Precondition     | The supplier is authenticated and authorize |
 |  Post condition     | The supplier modifies his account |
 | Step#        | Description  |
-|  1     | The supplier access a list of items |
+|  1     | The supplier accesses his list of items |
 |  2     | The supplier clicks on one item |
 |  3     | The supplier selects modify option |
 |  4     | The suppier changes the price |
@@ -592,7 +596,7 @@ We consider that internal orders cannot be refused, so no exceptions.
 |  Precondition     | The supplier is authenticated and authorized   |
 |  Post condition     | The supplier modifies his account |
 | Step#        | Description  |
-|  1     | The supplier access a list of items |
+|  1     | The supplier accesses his list of items |
 |  2     | The supplier clicks on one add new item button |
 |  3     | The supplier enters the necessary information |
 |  4     | new item added to the list  |
@@ -603,7 +607,7 @@ We consider that internal orders cannot be refused, so no exceptions.
 |  Precondition     | The supplier is authenticated and authorized   |
 |  Post condition     | The supplier modifies his account |
 | Step#        | Description  |
-|  1     | The supplier access a list of items |
+|  1     | The supplier accesses his list of items |
 |  2     | The supplier clicks on one delete item button |
 |  3     | The supplier select the items no more sold |
 |  4     | The items are removed from the list  |
@@ -624,11 +628,11 @@ We consider that internal orders cannot be refused, so no exceptions.
 |  Precondition     | The Warehouse Manager is authenticated and authorized  |
 |  Post condition     | The supplier is delete |
 | Step#        | Description  |
-|  1     | The WM manager access a list of suppliers |
+|  1     | The WM manager accesses the list of suppliers |
 |  2     | The manager clicks on one of the supplier on the list |
 |  3     | The manager click on delete button |
 |  4     | The supplier is notified           |
-|  5     | The supplier is deleted from the list |
+|  5     | The supplier is deleted from the DB |
 
 
 ### Use case 8, Manage accounts
@@ -652,7 +656,7 @@ We consider that internal orders cannot be refused, so no exceptions.
 |  2     | The applications shows a form  |
 |  3     | The user inserts his data |
 |  4     | The application check if the data is valid    |
-|  5     | The account is created |
+|  5     | The account is stored in the DB |
 
 #### Scenerio 8.1.2 (exception 1)
 | Scenario 8.1.2 | Email not valid |
@@ -750,7 +754,7 @@ The error message can be "Invalid email"/"The email inserted already exist" or "
 |  3     | The user clicks on delete account |
 |  4     | The application asks the user to insert password and confirm it |
 |  5     | The user inserts the password  |
-|  6     | The account is deleted from DB |
+|  6     | The account is deleted from the DB |
 
 #### Scenerio 8.3.2 (exception)
 | Scenario 8.3.2 | User inserts wrong password |
