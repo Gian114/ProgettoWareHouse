@@ -45,9 +45,7 @@ The warehouse is part of a company. Other organizational units (OU) of the compa
 EZWH (EaSy WareHouse) is a software application to support the management of a warehouse.
 
 
-
 # Stakeholders
-
 
 | Stakeholder name  | Description | 
 | ----------------- |:-----------:|
@@ -68,13 +66,12 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |   Cloud service | The company that provides cloud services |
 
 
-
 # Context Diagram and interfaces
 
 ## Context Diagram
 ![Context diagram](Resources/Context_diagram.png "Context diagram")
 
-\<The website or app shows the data depending on the type of user that logs in.>
+The software shows different data depending on the type of user that logs in.
 
 
 ## Interfaces
@@ -89,7 +86,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Organizational unit manager (OUM) | GUI | Screen, keyboard |
 |  User  |  GUI | Screen, keyboard |
 
-\<A user can be the warehouse manager, a quality office employee, a warehouse worker, an OU manager or a supplier.>
+A user can be the warehouse manager, a quality office employee, a warehouse worker, an OU manager or a supplier.
 
 # Stories and personas
 \<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
@@ -102,10 +99,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 # Functional and non functional requirements
 
 ## Functional Requirements
-
-\<In the form DO SOMETHING, or VERB NOUN, describe high level capabilities of the system>
-
-\<they match to high level use cases>
 
 | ID                  | Description  |
 | ------------------- |:-------------:| 
@@ -160,10 +153,9 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 
 ## Use case diagram
-\<define here UML Use case diagram UCD summarizing all use cases, and their relationships>
+
 ![Use Case diagram](Resources/Use_case_diagram.png "Use Case diagram")
 
-\<next describe here each use case in the UCD>
 
 ### Use case 1, Issue orders to supplier
 | Actors Involved        | Warehouse manager, Supplier |
@@ -174,9 +166,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Variants     | The WM uses last order function to make the order |
 |  Exceptions     | The quantity of items cannot be accepted |
 
-
 ##### Scenario 1.1 (nominal)
-
 | Scenario 1.1 | The order arrives on time |
 | ------------- |:-------------:| 
 |  Precondition     | The WM is authenticated and authorized |
@@ -191,7 +181,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  7	 | The order arrives at the warehouse on time |
 
 ##### Scenario 1.2 (variant)
-
 | Scenario 1.2 | The WM uses "last order" function to make the order |
 | ------------- |:-------------:| 
 |  Precondition     | The WM is authenticated and authorized |
@@ -202,7 +191,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  3-7   | Same as scenario 1.1 |
 
 ##### Scenario 1.3 (exception)
-
 | Scenario 1.3 | The quantity of items cannot be accepted |
 | ------------- |:-------------:| 
 |  Precondition     | The WM is authenticated and authorized |
@@ -211,8 +199,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  1-3   | Same as scenario 1.1 |  
 |  4     | The quantity of an item exceeds the available space in the warehouse of that item |
 |  5     | The app asks to the WM to modify or delete the order |
-
-
 
 
 ### Use case 2, Quality check report
@@ -225,7 +211,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     | 1. The order has damaged items<br> 2. The order is missing items |
 
 #### Scenario 2.1 (nominal)
-
 | Scenario 2.1 | The order is compliant with quality standards |
 | ------------- |:-------------:| 
 |  Precondition     | An order has arrived at the warehouse |
@@ -238,7 +223,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  5     | The quality office employee logs in the application the positive quality check on the order page |
 
 #### Scenario 2.2 (exception 1)
-
 | Scenario 2.2 | The order has damaged items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has arrived at the warehouse |
@@ -251,7 +235,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  5     | The quality office employee logs in the application the negative quality check on the order page, where the damaged items and their quantity is specified |
 
 #### Scenario 2.3 (exception 2)
-
 | Scenario 2.3 | The order is missing items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has arrived at the warehouse |
@@ -267,7 +250,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 ### Use case 3, Manage internal orders
 
 ### Use case 3.1, Issue internal order
-
 | Actors Involved        | Organizational unit manager, Warehouse manager |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
@@ -277,7 +259,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     | 1. All the items asked(quantity) are not in stock<br> 2. Some of the items asked are not in stock, OU Manager continues order excluding those<br> 3. Some of the items asked are not in stock, OU Manager aborts order |
 
 #### Scenario 3.1.1 (nominal)
-
 | Scenario 3.1.1 | Issue order |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
@@ -290,7 +271,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  5 	 | Application sends the order to the WH |
 
 #### Scenario 3.1.2 (variant)
-
 | Scenario 3.1.2 | Manager orders using last order function |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
@@ -301,7 +281,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  3 	 | Application sends the order to the WH |
 
 #### Scenario 3.1.3 (exception 1)
-
 | Scenario 3.1.3 | Some of the items asked are not in stock, OU Manager continues order excluding those |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
@@ -317,7 +296,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  8 	 | Application sends the order and the notification to the WH Manager |
 
 #### Scenario 3.1.4 (exception 2)
-
 | Scenario 3.1.4 | Some of the items asked are not in stock, OU Manager aborts order |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
@@ -332,10 +310,9 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  7 	 | OU Manager rejects |
 |  8	 | Application sends the notification to the WH Manager |
 
-\<The notification tells the WH Manager the need to order the item(s) from a supplier to satisfy this request>
+The notification tells the WH Manager which item(s) order from a supplier to satisfy this request.
 
 #### Scenario 3.1.5 (exception 3)
-
 | Scenario 3.1.5 | All the items asked(quantity) are not in stock |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
@@ -350,7 +327,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 
 ### Use case 3.2, Prepare internal order
-
 | Actors Involved        | Warehouse worker, Organizational unit manager |
 | ------------- |:-------------:| 
 |  Precondition | An internal order is issued<br>WH Worker is authenticated and authorized |					
@@ -359,8 +335,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Variants     | 						|
 |  Exceptions     | 		 |
 
-#### Scenario 3.2.1 (nominal)
-			
+#### Scenario 3.2.1 (nominal)		
 | Scenario 3.2.1 | Preparing and delivering order |
 | ------------- |:-------------:| 
 |  Precondition     | An internal order is issued<br>WH Worker is authenticated and authorized |
@@ -376,7 +351,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 
 ### Use case 4, Manage storage of items
-
 | Actors Involved | Warehouse worker, Quality office employee |
 | ------------- |:-------------:| 
 |  Precondition | WH Worker is authenticated and authorized<br>Items have passed the quality check |				
@@ -386,7 +360,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions   |                       |
 
 #### Scenario 4.1 (nominal)
- 
 | Scenario 4.1 | WH Worker stores the items in a specific position |
 | ------------- |:-------------:| 
 |  Precondition     | An order has arrived at the warehouse with positive quality report |
@@ -410,7 +383,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions   |  |
 
 #### Scenario 5.1.1 (nominal)
-
 | Scenario 5.1.1 | The manager asks for the delivery of the missing items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report for missing items|
@@ -424,7 +396,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  6     | The quality report of the order is sent to the supplier |
 
 #### Scenario 5.1.2 (variant 1)
-
 | Scenario 5.1.2 | The manager asks for the refound of the missing items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report for missing items|
@@ -437,7 +408,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  5     | The quality report of the order and the request are sent to the supplier |
 
 #### Scenario 5.1.3 (variant 2)
-
 | Scenario 5.1.3 | The manager sends back the incorrect order |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report for missing items|
@@ -460,7 +430,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions   |  |
 
 #### Scenario 5.2.1 (nominal)
-
 | Scenario 5.2.1 | The manager asks for the delivery of the damaged items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and asked for the delivery of the damaged items |
@@ -473,7 +442,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  6     | The quality report of the order is sent to the supplier |
 
 #### Scenario 5.2.2 (variant 1)
-
 | Scenario 5.2.2 | The manager asks for the refound of the damaged items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and asked for the refound of the damaged items |
@@ -485,7 +453,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  5     | The quality report of the order and the request are sent to the supplier |
 
 #### Scenario 5.2.3 (variant 2)
-
 | Scenario 5.2.3 | The manager sends back the incorrect order |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and sent back the whole order |
@@ -498,7 +465,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  6     | The order is sent back |
 
 #### Scenario 5.2.4 (variant 3)
-
 | Scenario 5.2.4 | Variant: send back damaged items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and sent back the damaged part of the order |
@@ -545,7 +511,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     | |
 
 #### Scenerio 7.1.1 (nominal)
-
 | Scenario 7.1.1 | Add new supplier |
 | ------------- |:-------------:| 
 |  Precondition     | The Warehouse Manager is authenticated and authorized  |
@@ -554,6 +519,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  1     | The WM manager access a list of suppliers |
 |  2     | The manager clicks on the button to contact the supplier |
 |  3     | The supplier is added to the list |
+
 
 ### Use case 7.2, Modify supplier
 | Actors Involved        | Supplier |
@@ -565,7 +531,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     | |
 
 #### Scenario 7.2.1 (nominal)
-
 | Scenario 7.2.1 | The supplier changes price of an item |
 | ------------- |:-------------:| 
 |  Precondition     | The supplier is authenticated and authorize |
@@ -577,7 +542,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  4     | The suppier changes the price |
 
 #### Scenario 7.2.2 (variant 1)
-
 | Scenario 7.2.2 | The supplier add new items sold  |
 | ------------- |:-------------:| 
 |  Precondition     | The supplier is authenticated and authorized   |
@@ -589,7 +553,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  4     | new item added to the list  |
 
 #### Scenario 7.2.3 (variant 2)
-
 | Scenario 7.2.3 | The supplier Delete items no more sold  |
 | ------------- |:-------------:| 
 |  Precondition     | The supplier is authenticated and authorized   |
@@ -599,6 +562,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  2     | The supplier clicks on one delete item button |
 |  3     | The supplier select the items no more sold |
 |  4     | The items are removed from the list  |
+
 
 ### Use case 7.3, Delete supplier
 | Actors Involved        | WM |
@@ -610,7 +574,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Exceptions     |  |
 
 #### Scenerio 7.3.1 (nominal)
-
 | Scenario 7.3.1 |  |
 | ------------- |:-------------:| 
 |  Precondition     | The Warehouse Manager is authenticated and authorized  |
@@ -632,9 +595,9 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Post condition     | A new account is created |
 |  Nominal Scenario     | Create new account |
 |  Variants     | |
-|  Exceptions     |  email not valid<br>password not valid |
+|  Exceptions     | 1. Email not valid<br> 2. Password not valid |
 
-
+#### Scenerio 8.1.1 (nominal)
 | Scenario 8.1.1 | Create new account  |
 | ------------- |:-------------:| 
 |  Precondition     | The user doesn't have an account  |
@@ -646,6 +609,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  4     | The application check if the data is valid    |
 |  5     | The account is created |
 
+#### Scenerio 8.1.2 (exception 1)
 | Scenario 8.1.2 | email not valid |
 | ------------- |:-------------:| 
 |  Precondition     | The user doesn't have an account  |
@@ -657,9 +621,9 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  4     | The application check if the data is valid    |
 |  5     | The application notifies that the email inserted is not valid* |
 
-*/<The email can be not valid because it already exist an account associated with that email or just wrong format, a
-relative message is shown>
+The email can be not valid because already exists an account associated with that email or just wrong format, a relative message is shown.
 
+#### Scenerio 8.1.3 (exception 2)
 | Scenario 8.1.3 | password not valid |
 | ------------- |:-------------:| 
 |  Precondition     | The user doesn't have an account  |
@@ -679,9 +643,9 @@ relative message is shown>
 |  Post condition     | The account is modified |
 |  Nominal Scenario     | Modify account attribute |
 |  Variants     |  |
-|  Exceptions     | user insert wrong password<br>user insert unvalid attribute |
+|  Exceptions     | 1. User insert wrong password<br> 2. User insert unvalid attribute |
 
-
+#### Scenerio 8.2.1 (nominal)
 | Scenario 8.2.1 | Modify account attribute |
 | ------------- |:-------------:| 
 |  Precondition     | The user is authenticated and authorized  |
@@ -694,6 +658,7 @@ relative message is shown>
 |  5     | The user inserts the password  |
 |  6     | The account is updated |
 
+#### Scenerio 8.2.2 (exception 1)
 | Scenario 8.2.2 | user insert wrong password |
 | ------------- |:-------------:| 
 |  Precondition     | The user is authenticated and authorized  |
@@ -706,6 +671,7 @@ relative message is shown>
 |  5     | The user inserts the password  |
 |  6     | The application notifies that the password is wrong, step 4 is repeated |
 
+#### Scenerio 8.2.3 (exception 2)
 | Scenario 8.2.3 | user insert unvalid attribute |
 | ------------- |:-------------:| 
 |  Precondition     | The user is authenticated and authorized  |
@@ -718,6 +684,7 @@ relative message is shown>
 
 /The error message can be "Unvalid email" or "The email inserted already exist", "Unvalid password" 
 
+
 ### Use case 8.3, Delete account
 | Actors Involved        | User |
 | ------------- |:-------------:| 
@@ -727,7 +694,7 @@ relative message is shown>
 |  Variants     |  |
 |  Exceptions     | User inserts wrong password |
 
-
+#### Scenerio 8.3.1 (nominal)
 | Scenario 8.3.1 | Delete an existing account |
 | ------------- |:-------------:| 
 |  Precondition     | The user is authenticated and authorized  |
@@ -740,7 +707,7 @@ relative message is shown>
 |  5     | The user inserts the password  |
 |  6     | The account is deleted from DB |
 
-
+#### Scenerio 8.3.2 (exception)
 | Scenario 8.3.2 | User inserts wrong password |
 | ------------- |:-------------:| 
 |  Precondition     | The user is authenticated and authorized  |
@@ -752,6 +719,7 @@ relative message is shown>
 |  4     | The application asks the user to insert password and confirm it |
 |  5     | The user inserts the password  |
 |  6     | The application notifies that the password is wrong |
+
 
 # Glossary
 ![Class Diagram](Resources/class_diagram.png "Class Diagram")
@@ -766,10 +734,14 @@ Internal Order Status Report: Report generated after an internal order is issued
 
 Receipt: Receipt sent to the WH Manager after he issues an order to a supplier, it has the attributes: date describing the date of the order, amount describing the quantity(price) of the order and a brief description that contains the items ordered, the supplier and the payment circuit used.
 
+
 # System Design
-![System design](Resources/System_design.png "System design")
+
+We only develop the website (for whom we have done the GUI prototype) and eventually the desktop application and the mobile application, moreover we don't use external hardware devices so the system design doesn't give more information
+
 
 # Deployment Diagram
+
 ![Deployment diagram](Resources/Deployment_diagram.png "Deployment diagram")
 
 
