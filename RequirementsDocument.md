@@ -73,6 +73,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ## Context Diagram
 ![Context diagram](Resources/Context_diagram.png "Context diagram")
+
 \<The website or app shows the data depending on the type of user that logs in.>
 
 
