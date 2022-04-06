@@ -78,15 +78,15 @@ The software shows different data depending on the type of user that logs in.
 
 | Actor | Logical Interface | Physical Interface  |
 | ------------- |:-------------:| -----:|
-|  Warehouse manager (WM)  | GUI | Screen, keyboard |
-|  Quality office employee (QOE)	| GUI | Screen, keyboard |
-|  Warehouse worker (WW)  | GUI | Screen, keyboard |
+|  Warehouse (WH) manager  | GUI | Screen, keyboard |
+|  Quality office (QO) employee 	| GUI | Screen, keyboard |
+|  Warehouse worker   | GUI | Screen, keyboard |
 |  Supplier	| GUI | Screen, keyboard |
 |  Payment system | API | Internet connection |
-|  Organizational unit manager (OUM) | GUI | Screen, keyboard |
+|  Organizational unit (OU) manager  | GUI | Screen, keyboard |
 |  User  |  GUI | Screen, keyboard |
 
-A user can be the warehouse manager, a quality office employee, a warehouse worker, an OU manager or a supplier.
+A user can be the WH manager, a QO employee, a WH worker, an OU manager or a supplier.
 
 # Stories and personas
 \<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
@@ -107,10 +107,10 @@ A user can be the warehouse manager, a quality office employee, a warehouse work
 |  &ensp;FR1.2        | Add item to order |
 |  &ensp;FR1.3        | Send order to supplier |
 |  &ensp;FR1.4        | Create order from previous one |
-|  &ensp;FR1.4        | Set order as recived |
-|  &ensp;FR1.5        | List available items |
+|  &ensp;FR1.4        | Set order as received |
+|  &ensp;FR1.5        | List available items to order |
 |  FR2                | Manage quality reports |
-|  &ensp;FR2.1        | Create quality report for an order |
+|  &ensp;FR2.1        | Upload quality report for an order |
 |  &ensp;FR2.2        | Attach quality report to message sent to the supplier |
 |  FR3                | Manage internal order | 
 |  &ensp;FR3.1        | Create internal order |
@@ -120,9 +120,9 @@ A user can be the warehouse manager, a quality office employee, a warehouse work
 |  FR4                | Manage storage of items |
 |  &ensp;FR4.1        | Keep track of avaible space |
 |  &ensp;FR4.2        | Keep track of the position of items inside the warehouse |
-|  &ensp;FR4.3        | Put item in warehouse in a position |
+|  &ensp;FR4.3        | Put an item in a specific position in the warehouse |
 |  FR5                | Manage negative quality report |
-|  &ensp;FR5.1        | Select action to be required for the order |
+|  &ensp;FR5.1        | Select action required to manage the order |
 |  &ensp;FR5.2        | Send message to the supplier with the decision |
 |  FR6                | Authentication |
 |  &ensp;FR6.1        | Login |
@@ -141,12 +141,16 @@ A user can be the warehouse manager, a quality office employee, a warehouse work
 
 \<Describe constraints on functional requirements>
 
-| ID        | Type (efficiency, reliability, ..)           | Description  | Refers to |
+| ID        | Type           | Description  | Refers to FR |
 | ------------- |:-------------:| :-----:| -----:|
-|  NFR1     |   |  | |
-|  NFR2     | |  | |
-|  NFR3     | | | |
-| NFRx .. | | | | 
+| NFR1      | Efficiency | Response time for all functions should be < 0.5 sec | All |
+| NFR2      | Reliability | MTBF < 1 defect per user per year | None | 
+| NFR3      | Security | Privacy of data | All |
+| NFR4      | Efficiency |  RAM < 0.5GB and disk < 10GB | None |
+| NFR5      | Usability | Time to learn to use the software < 1 hour | None |
+| NFR6      | Maintainability | One software update every year | None |
+| NFR7      | Avaliability | Countries where the software will be sold | None |
+| NFR8      | Safety | Make order with a valid quantity | FR1 |
 
 
 # Use case diagram and use cases
@@ -160,45 +164,45 @@ A user can be the warehouse manager, a quality office employee, a warehouse work
 ### Use case 1, Issue orders to supplier
 | Actors Involved        | Warehouse manager, Supplier |
 | ------------- |:-------------:| 
-|  Precondition     | The WM is authenticated and authorized |
+|  Precondition     | The warehouse manager is authenticated and authorized |
 |  Post condition     | The order has arrived at the warehouse |
 |  Nominal Scenario     | The order arrives |
-|  Variants     | The WM uses last order function to make the order |
+|  Variants     | The warehouse manager uses last order function to make the order |
 |  Exceptions     | The quantity of items cannot be accepted |
 
 ##### Scenario 1.1 (nominal)
 | Scenario 1.1 | The order arrives on time |
 | ------------- |:-------------:| 
-|  Precondition     | The WM is authenticated and authorized |
+|  Precondition     | The warehouse manager is authenticated and authorized |
 |  Post condition     | The order has arrived at the warehouse on time |
 | Step#        | Description  |
-|  1     | The WM selects the supplier |  
-|  2     | The WM choses the items to order and the quantity of each item |
+|  1     | The warehouse manager selects the supplier |  
+|  2     | The warehouse manager choses the items to order and the quantity of each item |
 |  3     | The app checks if the quantity of each item is lower of the available space for each item in the warehouse |
 |  4	 | The app saves the order and sends via email the order to the supplier |
-|  5     | The WM makes the payment to the supplier through the app |
-|  6 	 | The app sends the receipt of the payment to the WM |
+|  5     | The warehouse manager makes the payment to the supplier through the app |
+|  6 	 | The app sends the receipt of the payment to the warehouse manager |
 |  7	 | The order arrives at the warehouse on time |
 
 ##### Scenario 1.2 (variant)
 | Scenario 1.2 | The WM uses "last order" function to make the order |
 | ------------- |:-------------:| 
-|  Precondition     | The WM is authenticated and authorized |
+|  Precondition     | The warehouse manager is authenticated and authorized |
 |  Post condition     | The order has arrived at the warehouse |
 | Step#        | Description  |
-|  1     | The WM uses the "last order" function to repeat a previous order |
-|  2     | The WM can modify the supplier, the items and their quantity |  
+|  1     | The warehouse manager uses the "last order" function to repeat a previous order |
+|  2     | The warehouse manager can modify the supplier, the items and their quantity |  
 |  3-7   | Same as scenario 1.1 |
 
 ##### Scenario 1.3 (exception)
 | Scenario 1.3 | The quantity of items cannot be accepted |
 | ------------- |:-------------:| 
-|  Precondition     | The WM is authenticated and authorized |
+|  Precondition     | The warehouse manager is authenticated and authorized |
 |  Post condition     | The order is not accepted by the app |
 | Step#        | Description  |
 |  1-3   | Same as scenario 1.1 |  
 |  4     | The quantity of an item exceeds the available space in the warehouse of that item |
-|  5     | The app asks to the WM to modify or delete the order |
+|  5     | The app asks to the warehouse manager to modify or delete the order |
 
 
 ### Use case 2, Quality check report
@@ -316,7 +320,7 @@ The notification tells the WH Manager which item(s) order from a supplier to sat
 | Scenario 3.1.5 | All the items asked(quantity) are not in stock |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
-|  Post condition     | A notification regarding this order is sent to the Warehouse Manager |
+|  Post condition     | A notification regarding this order is sent to the Warehouse manager |
 | Step#  | Description  |
 |  1     | OU Manager asks for item(s) in the warehouse |  
 |  2     | Application asks the quantity of the item(s) needed |
@@ -347,20 +351,20 @@ The notification tells the WH Manager which item(s) order from a supplier to sat
 |  4	 | Application changes order status to "Completed" |
 |  5     | Application notifies the OU Manager |
 
-\<we consider that internal order cannot be refused, so no exceptions>
+We consider that internal orders cannot be refused, so no exceptions.
 
 
 ### Use case 4, Manage storage of items
 | Actors Involved | Warehouse worker, Quality office employee |
 | ------------- |:-------------:| 
-|  Precondition | WH Worker is authenticated and authorized<br>Items have passed the quality check |				
+|  Precondition | WH worker is authenticated and authorized<br>Items have passed the quality check |				
 |  Post condition    | Items has been stored and tracked in the warehouse | 
-|  Nominal Scenario     |  WH Worker stores the items in a specific position  |
+|  Nominal Scenario     |  WH worker stores the items in a specific position  |
 |  Variants     | 						|
 |  Exceptions   |                       |
 
 #### Scenario 4.1 (nominal)
-| Scenario 4.1 | WH Worker stores the items in a specific position |
+| Scenario 4.1 | WH worker stores the items in a specific position |
 | ------------- |:-------------:| 
 |  Precondition     | An order has arrived at the warehouse with positive quality report |
 |  Post condition     | The items are stored in a specific place |
@@ -383,7 +387,7 @@ The notification tells the WH Manager which item(s) order from a supplier to sat
 |  Exceptions   |  |
 
 #### Scenario 5.1.1 (nominal)
-| Scenario 5.1.1 | The manager asks for the delivery of the missing items |
+| Scenario 5.1.1 | The WH manager asks for the delivery of the missing items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report for missing items|
 |  Post condition     | The supplier is informed of the report and asked for the delivery of the missing items |
@@ -396,7 +400,7 @@ The notification tells the WH Manager which item(s) order from a supplier to sat
 |  6     | The quality report of the order is sent to the supplier |
 
 #### Scenario 5.1.2 (variant 1)
-| Scenario 5.1.2 | The manager asks for the refound of the missing items |
+| Scenario 5.1.2 | The WH manager asks for the refound of the missing items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report for missing items|
 |  Post condition     | The supplier is informed of the report and asked for the refound of the missing items |
@@ -408,7 +412,7 @@ The notification tells the WH Manager which item(s) order from a supplier to sat
 |  5     | The quality report of the order and the request are sent to the supplier |
 
 #### Scenario 5.1.3 (variant 2)
-| Scenario 5.1.3 | The manager sends back the incorrect order |
+| Scenario 5.1.3 | The WH manager sends back the incorrect order |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report for missing items|
 |  Post condition     | The supplier is informed of the report and sent back order |
@@ -430,7 +434,7 @@ The notification tells the WH Manager which item(s) order from a supplier to sat
 |  Exceptions   |  |
 
 #### Scenario 5.2.1 (nominal)
-| Scenario 5.2.1 | The manager asks for the delivery of the damaged items |
+| Scenario 5.2.1 | The WH manager asks for the delivery of the damaged items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and asked for the delivery of the damaged items |
 | Step#        | Description  |
@@ -442,7 +446,7 @@ The notification tells the WH Manager which item(s) order from a supplier to sat
 |  6     | The quality report of the order is sent to the supplier |
 
 #### Scenario 5.2.2 (variant 1)
-| Scenario 5.2.2 | The manager asks for the refound of the damaged items |
+| Scenario 5.2.2 | The WH manager asks for the refound of the damaged items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and asked for the refound of the damaged items |
 | Step#        | Description  |
@@ -453,7 +457,7 @@ The notification tells the WH Manager which item(s) order from a supplier to sat
 |  5     | The quality report of the order and the request are sent to the supplier |
 
 #### Scenario 5.2.3 (variant 2)
-| Scenario 5.2.3 | The manager sends back the incorrect order |
+| Scenario 5.2.3 | The WH manager sends back the incorrect order |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and sent back the whole order |
 | Step#        | Description  |
@@ -465,7 +469,7 @@ The notification tells the WH Manager which item(s) order from a supplier to sat
 |  6     | The order is sent back |
 
 #### Scenario 5.2.4 (variant 3)
-| Scenario 5.2.4 | Variant: send back damaged items |
+| Scenario 5.2.4 | Send back damaged items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and sent back the damaged part of the order |
 | Step#        | Description  |
@@ -487,7 +491,38 @@ The notification tells the WH Manager which item(s) order from a supplier to sat
 |  Post condition     | The user is authenticated |
 |  Nominal Scenario     | The user logs in successfully |
 |  Variants     |  |
-|  Exceptions     | 1. The username is wrong <br> 2. The password is wrong |
+|  Exceptions     | 1. The password is wrong <br> 2. The user doesn't have an account |
+
+#### Scenerio 6.1.1 (nominal)
+| Scenario 6.1.1 | The user logs in successfully |
+| ------------- |:-------------:| 
+|  Precondition     | The user has an account |
+|  Post condition     | The user is authenticated |
+| Step#        | Description  |
+|  1     | The user clicks on "Login"  |
+|  2     | The applications shows a form with email and password |
+|  3     | The user inserts his data |
+|  4     | The application check if the data are valid |
+|  5     | The user logs in successfully |
+
+#### Scenerio 6.1.2 (exception 1)
+| Scenario 6.1.2 | The password is wrong |
+| ------------- |:-------------:| 
+|  Precondition     | The user has an account  |
+|  Post condition     | The user is not authenticated	 |
+| Step#        | Description  |
+|  1-4   | Same as scenario 6.1.1  |
+|  5     | The application notifies that the password inserted is wrong  |
+
+#### Scenerio 6.1.3 (exception 2)
+| Scenario 6.1.3 | The user doesn't have an account |
+| ------------- |:-------------:| 
+|  Precondition     | The user doesn't have an account  |
+|  Post condition     | The user is not authenticated	|
+| Step#        | Description  |
+|  1-4   | Same as scenario 6.1.1  |
+|  5     | The application notifies that the there's no account associated with that email  |
+
 
 ### Use case 6.2, Logout
 | Actors Involved        | User |
@@ -498,13 +533,22 @@ The notification tells the WH Manager which item(s) order from a supplier to sat
 |  Variants     | |
 |  Exceptions     | |
 
+#### Scenerio 6.2.1 (nominal)
+| Scenario 6.1.1 | The user logs out successfully |
+| ------------- |:-------------:| 
+|  Precondition     | The user is logged in |
+|  Post condition     | The user is logged out |
+| Step#        | Description  |
+|  1     | The user clicks on "Logout"  |
+|  2     | The user logs out successfully |
+
 
 ### Use case 7, Manage suppliers
 
 ### Use case 7.1, Create supplier
-| Actors Involved        | WM |
+| Actors Involved        | Warehouse manager |
 | ------------- |:-------------:| 
-|  Precondition     | The Warehouse Manager is authenticated and authorized  |
+|  Precondition     | The warehouse Manager is authenticated and authorized  |
 |  Post condition     | The supplier is added to the list |
 |  Nominal Scenario     | Add new supplier |
 |  Variants     | |
@@ -513,10 +557,10 @@ The notification tells the WH Manager which item(s) order from a supplier to sat
 #### Scenerio 7.1.1 (nominal)
 | Scenario 7.1.1 | Add new supplier |
 | ------------- |:-------------:| 
-|  Precondition     | The Warehouse Manager is authenticated and authorized  |
+|  Precondition     | The warehouse Manager is authenticated and authorized  |
 |  Post condition     | The supplier is added to the list |
 | Step#        | Description  |
-|  1     | The WM manager access a list of suppliers |
+|  1     | The warehouse manager access a list of suppliers |
 |  2     | The manager clicks on the button to contact the supplier |
 |  3     | The supplier is added to the list |
 
@@ -565,7 +609,7 @@ The notification tells the WH Manager which item(s) order from a supplier to sat
 
 
 ### Use case 7.3, Delete supplier
-| Actors Involved        | WM |
+| Actors Involved        | Warehouse manager |
 | ------------- |:-------------:| 
 |  Precondition     | The Warehouse Manager is authenticated and authorized  |
 |  Post condition     | The supplier is delete |
@@ -610,24 +654,24 @@ The notification tells the WH Manager which item(s) order from a supplier to sat
 |  5     | The account is created |
 
 #### Scenerio 8.1.2 (exception 1)
-| Scenario 8.1.2 | email not valid |
+| Scenario 8.1.2 | Email not valid |
 | ------------- |:-------------:| 
 |  Precondition     | The user doesn't have an account  |
-|  Post condition     | 	 |
+|  Post condition     | A new account is not created	 |
 | Step#        | Description  |
 |  1     | The user clicks on "Sign up"  |
 |  2     | The applications shows a form  |
 |  3     | The user inserts his data |
 |  4     | The application check if the data is valid    |
-|  5     | The application notifies that the email inserted is not valid* |
+|  5     | The application notifies that the email inserted is invalid |
 
 The email can be not valid because already exists an account associated with that email or just wrong format, a relative message is shown.
 
 #### Scenerio 8.1.3 (exception 2)
-| Scenario 8.1.3 | password not valid |
+| Scenario 8.1.3 | Password not valid |
 | ------------- |:-------------:| 
 |  Precondition     | The user doesn't have an account  |
-|  Post condition     | 	|
+|  Post condition     | A new account is not created	|
 | Step#        | Description  |
 |  1     | The user clicks on "Sign up"  |
 |  2     | The applications shows a form  |
@@ -643,7 +687,7 @@ The email can be not valid because already exists an account associated with tha
 |  Post condition     | The account is modified |
 |  Nominal Scenario     | Modify account attribute |
 |  Variants     |  |
-|  Exceptions     | 1. User insert wrong password<br> 2. User insert unvalid attribute |
+|  Exceptions     | 1. User inserts wrong password<br> 2. User inserts invalid attribute |
 
 #### Scenerio 8.2.1 (nominal)
 | Scenario 8.2.1 | Modify account attribute |
@@ -659,10 +703,10 @@ The email can be not valid because already exists an account associated with tha
 |  6     | The account is updated |
 
 #### Scenerio 8.2.2 (exception 1)
-| Scenario 8.2.2 | user insert wrong password |
+| Scenario 8.2.2 | User inserts wrong password |
 | ------------- |:-------------:| 
 |  Precondition     | The user is authenticated and authorized  |
-|  Post condition     | 	 |
+|  Post condition     | The account is  not modified	 |
 | Step#        | Description  |
 |  1     | The user clicks on "modify account" |
 |  2     | The application shows the modify account page |
@@ -672,17 +716,17 @@ The email can be not valid because already exists an account associated with tha
 |  6     | The application notifies that the password is wrong, step 4 is repeated |
 
 #### Scenerio 8.2.3 (exception 2)
-| Scenario 8.2.3 | user insert unvalid attribute |
+| Scenario 8.2.3 | User inserts invalid attribute |
 | ------------- |:-------------:| 
 |  Precondition     | The user is authenticated and authorized  |
-|  Post condition     | 	 |
+|  Post condition     | The account is not modified	 |
 | Step#        | Description  |
 |  1     | The user clicks on "modify account" |
 |  2     | The application shows the modify account page |
 |  3     | The user modifies one or more attributes and clicks on update account |
 |  4     | The application shows an error message |
 
-/The error message can be "Unvalid email" or "The email inserted already exist", "Unvalid password" 
+The error message can be "Invalid email"/"The email inserted already exist" or "Invalid password".
 
 
 ### Use case 8.3, Delete account
@@ -711,7 +755,7 @@ The email can be not valid because already exists an account associated with tha
 | Scenario 8.3.2 | User inserts wrong password |
 | ------------- |:-------------:| 
 |  Precondition     | The user is authenticated and authorized  |
-|  Post condition     | 	|
+|  Post condition     | The account is not deleted	|
 | Step#        | Description  |
 |  1     | The user clicks on "modify account"  |
 |  2     | The application shows the modify account page |
