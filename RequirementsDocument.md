@@ -210,44 +210,46 @@ A user can be the WH manager, a QO employee, a WH worker, an OU manager or a sup
 |  Post condition     | Quality report is inserted in the on the application |
 |  Nominal Scenario     | The order is compliant with quality standards |
 |  Variants     |  |
-|  Exceptions     | 1. The order has damaged items<br> 2. The order is missing items |
+|  Exceptions     | 1. The order has damaged items<br> 2. The order has missing items |
 
 #### Scenario 2.1 (nominal)
 | Scenario 2.1 | The order is compliant with quality standards |
 | ------------- |:-------------:| 
 |  Precondition     | An order has arrived at the warehouse |
-|  Post condition     | A positive quality report is inserted in the on the application |
+|  Post condition     | A positive quality report is uploaded in the application |
 | Step#        | Description  |
 |  1     | The quality office employee logs in the application |
 |  2     | The quality office employee gets the information on the order they will be inspecting |
-|  3     | The quality office employee inspect the items in the order, checking thay they respond to the order on the application |  
-|  4     | All the items are as described in the order and in the right quantities |
-|  5     | The quality office employee logs in the application the positive quality check on the order page |
+|  3     | The quality office employee inspects the items in the order, checking that they respond to the order on the application |  
+|  4     | If all the items are as described in the order and in the right quantities, the QO employee prints and sticks a barcode for each item   |
+|  5     | The QO employee scans each item with a bar code reader and so the application inserts the items in the DB |
+|  6     | The quality office employee uploads in the application the positive quality check report on the order page |
 
 #### Scenario 2.2 (exception 1)
 | Scenario 2.2 | The order has damaged items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has arrived at the warehouse |
-|  Post condition     | A negative quality report is inserted in the on the application |
+|  Post condition     | A negative quality report is uploaded in the application |
 | Step#        | Description  |
 |  1     | The quality office employee logs in the application |
 |  2     | The quality office employee gets the information on the order they will be inspecting |
 |  3     | The quality office employee inspect the items in the order, checking thay they respond to the order on the application |  
 |  4     | Some items are damaged |
-|  5     | The quality office employee logs in the application the negative quality check on the order page, where the damaged items and their quantity is specified |
+|  5     | The quality office employee uploads in the application the negative quality check report on the order page specifying the damaged items and their quantity|
+|  6     | The applications send a negativa quality report notification the the WH manager |
 
 #### Scenario 2.3 (exception 2)
-| Scenario 2.3 | The order is missing items |
+| Scenario 2.3 | The order has missing items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has arrived at the warehouse |
-|  Post condition     | A negative quality report is inserted in the on the application |
+|  Post condition     | A negative quality report is uploaded in the application |
 | Step#        | Description  |
 |  1     | The quality office employee logs in the application |
 |  2     | The quality office employee gets the information on the order they will be inspecting |
 |  3     | The quality office employee inspect the items in the order, checking thay they respond to the order on the application |  
 |  4     | Some items are missing compared to the order on the application |
-|  5     | The quality office employee logs in the application the negative quality check on the order page, where the missing items and their quantity is specified
-
+|  5     | The quality office employee uploads in the application the negative quality check report on the order page specifying the missing items and their quantity |
+|  6     | The applications send a negativa quality report notification the the WH manager |
 
 ### Use case 3, Manage internal orders
 
@@ -343,11 +345,12 @@ The notification tells the WH Manager which item(s) order from a supplier to sat
 |  Precondition     | An internal order is issued<br>WH Worker is authenticated and authorized |
 |  Post condition     | Order status is "Completed"<br>The OU Manager is notified |
 | Step#  | Description  |
-|  1     | WH Worker accepts the order and starts preparing the item(s) |  
-|  2     | Applications changes order status to "Preparing"  |
-|  3	 | When item(s) are in the pick-up area, WH Worker notifies the application |
-|  4	 | Application changes order status to "Completed" |
-|  5     | Application notifies the OU Manager |
+|  1     | WH Worker accepts the order and starts preparing the item(s) |
+|  2     | WH worker scans the items with a bar code reader and puts them in the pick-up area, the application deletes the items from the DB |
+|  3     | Applications changes order status to "Preparing"  |
+|  4	 | When item(s) are in the pick-up area, WH Worker notifies the application |
+|  5	 | Application changes order status to "Completed" |
+|  6     | Application notifies the OU Manager |
 
 We consider that internal orders cannot be refused, so no exceptions.
 
@@ -779,7 +782,7 @@ Receipt: Receipt sent to the WH Manager after he issues an order to a supplier, 
 
 # System Design
 
-We only develop the website (for whom we have done the GUI prototype) and eventually the desktop application and the mobile application, moreover we don't use external hardware devices so the system design doesn't give more information
+We only develop the website (for whom we have done the GUI prototype) and eventually the desktop application and the mobile application, moreover we don't sell external hardware devices so the system design it's not needed.
 
 
 # Deployment Diagram
