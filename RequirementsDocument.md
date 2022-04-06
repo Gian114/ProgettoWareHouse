@@ -107,38 +107,39 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 \<they match to high level use cases>
 
-| ID                        | Description  |
-| -------------             |:-------------:| 
-|  FR1                      | Manage order |
+| ID                  | Description  |
+| ------------------- |:-------------:| 
+|  FR1                | Manage order |
 |  &ensp;FR1.1        | Create new order |
 |  &ensp;FR1.2        | Add item to order |
 |  &ensp;FR1.3        | Send order to supplier |
 |  &ensp;FR1.4        | Create order from previous one |
 |  &ensp;FR1.4        | Set order as recived |
-|  FR2                      | Manage quality reports |
+|  &ensp;FR1.5        | List available items |
+|  FR2                | Manage quality reports |
 |  &ensp;FR2.1        | Create quality report for an order |
 |  &ensp;FR2.2        | Attach quality report to message sent to the supplier |
-|  FR3                      | Manage internal order | 
+|  FR3                | Manage internal order | 
 |  &ensp;FR3.1        | Create internal order |
 |  &ensp;FR3.2        | Add items and quantity |
 |  &ensp;FR3.3        | Check availability in the warehouse |
 |  &ensp;FR3.4        | Notify warehous manager of the order |
-|  FR4                      | Manage storage of items |
+|  FR4                | Manage storage of items |
 |  &ensp;FR4.1        | Keep track of avaible space |
 |  &ensp;FR4.2        | Keep track of the position of items inside the warehouse |
 |  &ensp;FR4.3        | Put item in warehouse in a position |
-|  FR5                      | Manage negative quality report |
+|  FR5                | Manage negative quality report |
 |  &ensp;FR5.1        | Select action to be required for the order |
 |  &ensp;FR5.2        | Send message to the supplier with the decision |
-|  FR6                      | Authentication |
+|  FR6                | Authentication |
 |  &ensp;FR6.1        | Login |
 |  &ensp;FR6.2        | Logout |
-|  FR7                      | Manage suppliers |
+|  FR7                | Manage suppliers |
 |  &ensp;FR7.1        | List existing suppliers with their items and prices |
 |  &ensp;FR7.2        | Add new supplier |
 |  &ensp;FR7.3        | Modify existing supplier |
 |  &ensp;FR7.4        | Delete existing supplier |
-|  FR8                      | Manage account |
+|  FR8                | Manage account |
 |  &ensp;FR8.1        | Create account |
 |  &ensp;FR8.2        | Delete account |
 |  &ensp;FR8.3        | Modify account |
