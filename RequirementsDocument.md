@@ -91,20 +91,20 @@ A user can be the WH manager, a QO employee, a WH worker, an OU manager or a sup
 
 # Stories and personas
 
-Persona 1: Mark, 45 years old, warehouse manager
-	Story: he wants to make sure that an item is still available in the warehouse and in case it is low he wants to compare the quality and the price from different suppliers to find the best solution.
+- Persona 1: Mark, 45 years old, warehouse manager 
+	+ Story: he wants to make sure that an item is still available in the warehouse and in case it is low he wants to compare the quality and the price from different suppliers to find the best solution.
 
-Person 2: Jack, 30 years old, warehouse worker
-	Story: he needs to receive internal orders from the organizational units as soon as possible, know where the items in the order are located in the warehouse and put them in the pick-up area.
+- Person 2: Jack, 30 years old, warehouse worker 
+	+ Story: he needs to receive internal orders from the organizational units as soon as possible, know where the items in the order are located in the warehouse and put them in the pick-up area.
+	
+- Person 3: Julia, 37 years ols, quality office employee 
+	+ Story: when the warehouse receives an external order she is in charge to make differente tests on the items depending on the type and decide if they are acceptable, then she has to upload the quality check report notifying the manager.
 
-Person 3: Julia, 37 years ols, quality office employee
-	Story: when the warehouse receives an external order she is in charge to make differente tests on the items depending on the type and decide if they are acceptable, then she has to upload the quality check report notifying the manager.
+- Person 4: Madison, 52 years old, organizational unit manager
+	+ Story: when the employees of his organization unit need some items she has to issue an internal order to the warehouse specifying which items and their quantity, moreover before the order she needs to know which items are available in the warehouse and in which quantity.
 
-Person 4: Madison, 52 years old, organizational unit manager
-	Story: when the employees of his organization unit need some items she has to issue an internal order to the warehouse specifying which items and their quantity, moreover before the order she needs to know which items are available in the warehouse and in which quantity.
-
-Person 5: Bob, 55 years old, supplier
-	Story: he is interested to communicate to the warehouses which items his company sold and their price, when a warehouse makes an external order he wants to know it as soon as possible to communicate it to his company that can prepare and deliver the order within the scheduled date.
+- Person 5: Bob, 55 years old, supplier 
+	+ Story: he is interested to communicate to the warehouses which items his company sold and their price, when a warehouse makes an external order he wants to know it as soon as possible to communicate it to his company that can prepare and deliver the order within the scheduled date.
 
 # Functional and non functional requirements
 
