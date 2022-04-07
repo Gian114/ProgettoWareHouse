@@ -90,12 +90,21 @@ The software shows different data depending on the type of user that logs in.
 A user can be the WH manager, a QO employee, a WH worker, an OU manager or a supplier.
 
 # Stories and personas
-\<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
 
-\<Persona is-an-instance-of actor>
+Persona 1: Mark, 45 years old, warehouse manager
+	Story: he wants to make sure that an item is still available in the warehouse and in case it is low he wants to compare the quality and the price from different suppliers to find the best solution.
 
-\<stories will be formalized later as scenarios in use cases>
+Person 2: Jack, 30 years old, warehouse worker
+	Story: he needs to receive internal orders from the organizational units as soon as possible, know where the items in the order are located in the warehouse and put them in the pick-up area.
 
+Person 3: Julia, 37 years ols, quality office employee
+	Story: when the warehouse receives an external order she is in charge to make differente tests on the items depending on the type and decide if they are acceptable, then she has to upload the quality check report notifying the manager.
+
+Person 4: Madison, 52 years old, organizational unit manager
+	Story: when the employees of his organization unit need some items she has to issue an internal order to the warehouse specifying which items and their quantity, moreover before the order she needs to know which items are available in the warehouse and in which quantity.
+
+Person 5: Bob, 55 years old, supplier
+	Story: he is interested to communicate to the warehouses which items his company sold and their price, when a warehouse makes an external order he wants to know it as soon as possible to communicate it to his company that can prepare and deliver the order within the scheduled date.
 
 # Functional and non functional requirements
 
@@ -346,9 +355,10 @@ The notification tells the WH Manager which item(s) order from a supplier to sat
 |  Post condition     | Order status is "Completed"<br>The OU Manager is notified |
 | Step#  | Description  |
 |  1     | WH Worker accepts the order and starts preparing the item(s) |
-|  2     | WH worker scans the items with a bar code reader and puts them in the pick-up area, the application deletes the items from the DB |
-|  3     | Applications changes order status to "Preparing"  |
-|  4	 | When item(s) are in the pick-up area, WH Worker notifies the application |
+|  2     | The application changes order status to "Preparing"  |
+|  3     | WH worker takes each item from its location and puts it in the pick-up area |
+|  3     | WH worker scans the items with a bar code reader or deletes them manually from the application, the application deletes the items from the DB |
+|  4	 | When item(s) are all in the pick-up area, WH Worker notifies the application |
 |  5	 | Application changes order status to "Completed" |
 |  6     | Application notifies the OU Manager |
 
@@ -372,7 +382,7 @@ We consider that internal orders cannot be refused, so no exceptions.
 | Step#        | Description  |
 |  1     | The warehouse workers logs in the application |
 |  2     | The WH worker prints and sticks a barcode for each item   |
-|  3     | The WH worker scans each item with a bar code reader and so the application inserts the items in the DB |
+|  3     | The WH worker scans each item with a bar code reader or inserts them in the application manually, the application inserts the items in the DB |
 |  4     | The WH worker stores each item in his location according to the information given by the application |
 |  4     | All the items are stored and tracked |
 
