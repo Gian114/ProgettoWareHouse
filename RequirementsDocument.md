@@ -275,7 +275,7 @@ A user can be the WH manager, a QO employee, a WH worker, an OU manager or a sup
 | Scenario 3.1.1 | Issue order |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
-|  Post condition     | Order is sent to the Warehouse's DB with status "on pending" |
+|  Post condition     | Order is sent to the Warehouse's DB with status "Pending" |
 | Step#  | Description  |
 |  1     | OU Manager asks for item(s) in the warehouse |  
 |  2     | Application asks the quantity of the item(s) needed |
@@ -287,7 +287,7 @@ A user can be the WH manager, a QO employee, a WH worker, an OU manager or a sup
 | Scenario 3.1.2 | Manager orders using last order function |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
-|  Post condition   | Order is sent to the Warehouse's DB with status "on pending" |
+|  Post condition   | Order is sent to the Warehouse's DB with status "Pending" |
 | Step#  | Description  |
 |  1     | OU Manager asks to redo the last order and confirms |  
 |  2	 | Application checks if the quantity asked is in stock or not |
@@ -297,7 +297,7 @@ A user can be the WH manager, a QO employee, a WH worker, an OU manager or a sup
 | Scenario 3.1.3 | Some of the items asked are not in stock, OU Manager continues order excluding those |
 | ------------- |:-------------:| 
 |  Precondition     | OU Manager is authenticated and authorized |
-|  Post condition     | Order is sent to the Warehouse's DB with status "on pending"<br>A notification regarding this order is sent to the Warehouse Manager |
+|  Post condition     | Order is sent to the Warehouse's DB with status "Pending"<br>A notification regarding this order is sent to the Warehouse Manager |
 | Step#  | Description  |
 |  1     | OU Manager asks for items in the warehouse |  
 |  2     | Application asks the quantity of the items needed |
@@ -383,7 +383,6 @@ We consider that internal orders cannot be refused, so no exceptions.
 |  1     | The warehouse workers logs in the application |
 |  2     | The WH worker prints and sticks a barcode for each item   |
 |  3     | The WH worker scans each item with a bar code reader or inserts them in the application manually, the application inserts the items in the DB |
-|  4     | The WH worker stores each item in his location according to the information given by the application |
 |  4     | All the items are stored and tracked |
 
 
@@ -406,36 +405,21 @@ We consider that internal orders cannot be refused, so no exceptions.
 | Step#        | Description  |
 |  1     | The manager recives the negative report on his dashboard |
 |  2     | Given the specific situation, he decides it is best to ask for the delivery of the missing items |
-|  3     | The manager clicks on the button to contact the supplier |
-|  4     | The manager select that he wants the missing items to be sent |
+|  4     | The manager select clicks on the button "request missing/incorrect items" |
 |  5     | A new order is created - see use case 1 |
 |  6     | The quality report of the order is sent to the supplier |
 
 #### Scenario 5.1.2 (variant 1)
-| Scenario 5.1.2 | The WH manager asks for the refound of the missing items |
+| Scenario 5.1.2 | The WH manager asks for the refound of the missing/incorrect items |
 | ------------- |:-------------:| 
 |  Precondition     | An order has recieved a negative quality report for missing items |
 |  Post condition     | The supplier is informed of the report and asked for the refound of the missing items |
 | Step#        | Description  |
 |  1     | The manager recives the negative report on his dashboard |
 |  2     | Given the specific situation, he decides it is best to ask for the refound of the  missing items |
-|  3     | The manager clicks on the button to contact the supplier |
-|  4     | The manager selects that he wants the missing items to be refounded |
-|  5     | The rest of the order is stored in the warehouse - see use case 4 |
-|  6     | The quality report of the order and the request are sent to the supplier |
+|  3     | The manager clicks on the refound button |
+|  4    | The quality report of the order and the request are sent to the supplier |
 
-#### Scenario 5.1.3 (variant 2)
-| Scenario 5.1.3 | The WH manager sends back the incorrect order |
-| ------------- |:-------------:| 
-|  Precondition     | An order has recieved a negative quality report for missing items|
-|  Post condition     | The supplier is informed of the report and the order is sent back |
-| Step#        | Description  |
-|  1     | The manager recives the negative report on his dashboard |
-|  2     | Given the specific situation, he decides it is best to send the order back to the supplier |
-|  3     | The manager clicks on the button to contact the supplier |
-|  4     | The manager selects that he wants the whole order to be sent back |
-|  5     | The quality report of the order and the request are sent to the supplier |
-|  6     | The order is sent back |
 
 ### Use case 5.2, Manage negative quality report - damaged items
 | Actors Involved        | Warehouse manager  |
@@ -443,7 +427,7 @@ We consider that internal orders cannot be refused, so no exceptions.
 |  Precondition     | An order has recieved a negative quality report because of damaged items |
 |  Post condition     | The supplier is informed of the report and of what will happen to the order |
 |  Nominal Scenario     | The manager asks for the delivery of the damaged items |
-|  Variants     | 1. The manager asks for the refound of the damaged items<br> 2. The manager sends back the incorrect order <br> 3. The manager sends back the part of the incorrect order containing the damaged items |
+|  Variants     | 1. The WH manager asks for the refound of the damaged items  |
 |  Exceptions   |  |
 
 #### Scenario 5.2.1 (nominal)
@@ -453,10 +437,9 @@ We consider that internal orders cannot be refused, so no exceptions.
 | Step#        | Description  |
 |  1     | The manager recives the negative report on his dashboard |
 |  2     | Given the specific situation, he decides it is best to ask for the delivery of the damaged items |
-|  3     | The manager clicks on the button to contact the supplier |
-|  4     | The manager select that he wants the damaged items to be sent |
-|  5     | A new order is created - see use case 1 |
-|  6     | The quality report of the order is sent to the supplier |
+|  3     | The manager clicks on the button request missing/incorrect items |
+|  4     | A new order is created - see use case 1 |
+|  5     | The quality report of the order is sent to the supplier |
 
 #### Scenario 5.2.2 (variant 1)
 | Scenario 5.2.2 | The WH manager asks for the refound of the damaged items |
@@ -465,35 +448,10 @@ We consider that internal orders cannot be refused, so no exceptions.
 | Step#        | Description  |
 |  1     | The manager recives the negative report on his dashboard |
 |  2     | Given the specific situation, he decides it is best to ask for the refound of the  damaged items |
-|  3     | The manager clicks on the button to contact the supplier |
-|  4     | The manager selects that he wants the damaged items to be refounded |
-|  5     | The rest of the order is stored in the warehouse - see use case 4 |
-|  6     | The quality report of the order and the request are sent to the supplier |
-
-#### Scenario 5.2.3 (variant 2)
-| Scenario 5.2.3 | The WH manager sends back the incorrect order |
-| ------------- |:-------------:| 
-|  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and sent back the whole order |
-| Step#        | Description  |
-|  1     | The manager recives the negative report on his dashboard |
-|  2     | Given the specific situation, he decides it is best to send the order back to the supplier |
-|  3     | The manager clicks on the button to contact the supplier |
-|  4     | The manager selects that he wants the whole order to be sent back |
+|  3     | The manager clicks on the button "refound" |
+|  4     | The rest of the order is stored in the warehouse - see use case 4 |
 |  5     | The quality report of the order and the request are sent to the supplier |
-|  6     | The order is sent back |
 
-#### Scenario 5.2.4 (variant 3)
-| Scenario 5.2.4 | Send back damaged items |
-| ------------- |:-------------:| 
-|  Precondition     | An order has recieved a negative quality report because of damaged items ||  Post condition     | The supplier is informed of the report and sent back the damaged part of the order |
-| Step#        | Description  |
-|  1     | The manager recives the negative report on his dashboard |
-|  2     | Given the specific situation, he decides it is best to send the order back to the supplier |
-|  3     | The manager clicks on the button to contact the supplier |
-|  4     | The manager selects that he wants the damaged items to be sent back |
-|  5     | The rest of the order is stored in the warehouse - see use case 4 |
-|  6     | The quality report of the order and the request are sent to the supplier |
-|  7     | The order with the damaged items is sent back |
 
 
 
@@ -637,7 +595,7 @@ We consider that internal orders cannot be refused, so no exceptions.
 | Scenario 7.3.1 |  |
 | ------------- |:-------------:| 
 |  Precondition     | The Warehouse Manager is authenticated and authorized  |
-|  Post condition     | The supplier is delete |
+|  Post condition     | The supplier is deleted |
 | Step#        | Description  |
 |  1     | The WM manager accesses the list of suppliers |
 |  2     | The manager clicks on one of the supplier on the list |
