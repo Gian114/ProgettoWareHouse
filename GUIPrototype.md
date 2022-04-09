@@ -1,10 +1,10 @@
 # Graphical User Interface Prototype  
 
-Authors:
+Authors: Pietro Gancitano, Davide Porello, Gianmarco De Paolis, Alberto Perugini
 
-Date:
+Date: 09/04/2022
 
-Version:
+Version: 1.0
 
 \<Report here the GUI that you propose. You are free to organize it as you prefer. A suggested presentation matches the Use cases and scenarios defined in the Requirement document. The GUI can be shown as a sequence of graphical files (jpg, png)  >
 <br>
@@ -13,7 +13,7 @@ Version:
 
 ![mp](GUI Prototypes/mp.png "Main Page")
 <br>
-Main page of the application, here an user can login or register a new account by clicking on the icons on the navbar
+1 - Main page of the application, here an user can login or register a new account by clicking on the icons on the navbar
 <br><br><br>
 
 
@@ -50,7 +50,7 @@ button
 <br>
 
 
-\<Manager's pages:>
+<br>
 ![Manager's Page](GUI Prototypes/Manager.png "Manager")
 <br>
 This is the Manager's main page after he is authorized and authenticated, there is a navbar with icons that
@@ -83,6 +83,12 @@ last order made and then by clicking Request.
 <br>
 <br>
 
+![Cart](GUI Prototypes/cart.png "Cart")
+<br>
+Cart GUI to show the items that have been selected
+<br>
+<br>
+<br>
 
 ![New Supplier](GUI Prototypes/manage_supplier_manager.png "New Supplier")
 <br>
@@ -105,5 +111,88 @@ the button with the same name or request missing/broken items to the supplier, a
 <br>
 
 
+
+<br>
+![QO](GUI Prototypes/quality_home.png "QO")
+<br>
+Main page of the QO Employee after he is authenticated and authorized, here he can click on the buttons to exploit his functions
+<br>
+<br>
+<br>
+
+
+![QO Report](GUI Prototypes/quality_report.png "QO Report")
+<br>
+Page used by the QO Employee to upload the quality report regarding a batch of an item here he can even
+insert a Comment/Description and send the report to the OU Manager
+<br>
+<br>
+<br>
+
+
+![OU Manager page](GUI Prototypes/OU-manager-dash.png "OU")
+<br>
+Main page of the OU Manager after he is authenticated and authorized, the order page he is redirected to is the
+same as the one above (n. 7)
+<br>
+<br>
+<br>
+
+
+![Previous Order page](GUI Prototypes/previous-order.png "Previous Order")
+<br>
+Page that has informations about the previous orders, this page can be accessed by the WH Manager (to track old
+orders from Suppliers) and by the OU Manager (to track old internal order from the WH)
+<br>
+<br>
+<br>
+
+
+![Supplier main](GUI Prototypes/Supplier1.png "Supplier Main")
+<br>
+Supplier's main page, here he can access to the functionality of Managing products, his notifications and managing
+his account using the navbar
+<br>
+<br>
+<br>
+
+![Supplier Modify](GUI Prototypes/Supplier2.png "Supplier Modify")
+<br>
+The Supplier is redirected in this page by clicking on Manage Products, here he can modify price, quantity and description
+<br>
+<br>
+<br>
+
+![Supplier Notifications](GUI Prototypes/Supplier3.png "Supplier Notifications")
+<br>
+Supplier's page of notifications, reached by clicking on the Notifications icon in the Main Page
+<br>
+<br>
+<br>
+
+
+![WH Worker MP](GUI Prototypes/worker.png "WH Worker MP")
+<br>
+Worker's Main Page
+<br>
+<br>
+<br>
+
+![WH Worker order](GUI Prototypes/worker_insert.png "WH Worker order")
+<br>
+The Worker is redirected here by clicking Insert Order icon, in this page the worker can insert the items that
+arrived in the WH one by one, defining the position and optionally commenting.
+<br>
+<br>
+<br>
+
+![WH Worker interal order](GUI Prototypes/worker_internal.png "WH Worker internal order")
+<br>
+When the worker has to modify the status of an order he uses the Manage internal order functionality, he is 
+redirected in this page where a list of internal orders is shown with a description and for each the worker
+can change the status (even completed ones, as errors/miscomunications can occur)
+<br>
+<br>
+<br>
 
 
