@@ -44,6 +44,7 @@ Consider the EZWH  project as described in YOUR requirement document, assume tha
 | Maintenance | unknow |
 ###
 ![Gantt chart](Resources/Gantt_chart.png "Gantt chart")
+The install/deploy and maintenance phases are not inserted in the estimated effort for the project because they start at the end of the development of the project and last until the project dismissal (as you can see in the Gantt chart), so we cannot estimate their effort.
 
 # Summary
 
