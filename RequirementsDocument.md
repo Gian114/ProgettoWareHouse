@@ -755,7 +755,7 @@ Receipt: Receipt sent to the WH Manager after he issues an order to a supplier, 
 
 # System Design
 
-We only develop the website (for whom we have done the GUI prototype) and eventually the desktop application and the mobile application, moreover we don't sell external hardware devices so the system design it's not needed.
+![System design](Resources/System_design.png "System design")
 
 
 # Deployment Diagram
