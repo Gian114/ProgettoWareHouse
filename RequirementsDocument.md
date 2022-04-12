@@ -758,10 +758,10 @@ The error message can be "Invalid email"/"The email inserted already exist" or "
 
 | Scenario 9.2 | OU Manager checks order list |
 | ------------- |:-------------:| 
-|  Precondition     | The WH Manager is authenticated and authorized  |
+|  Precondition     | The OU Manager is authenticated and authorized  |
 |  Post condition     | 	|
 | Step#        | Description  |
-|  1     | The WH Manager clicks on "Redo Previous Orders"  |
+|  1     | The OU Manager clicks on "Redo Previous Orders"  |
 |  2     | The application shows the previous orders page |
 
 
