@@ -13,6 +13,7 @@ Version: 1.3
 | 1.3 | Completed first version of requirements document |
 
 
+
 # Contents
 
 - [Informal description](#informal-description)
@@ -737,6 +738,32 @@ The error message can be "Invalid email"/"The email inserted already exist" or "
 |  4     | The application asks the user to insert password and confirm it |
 |  5     | The user inserts the password  |
 |  6     | The application notifies that the password is wrong |
+
+### Use case 9, Check last order list
+| Actors Involved        | WH Manager, OU Manager |
+| ------------- |:-------------:| 
+|  Precondition     | The WH Manager/OU Manager is authenticated and authorized|
+|  Post condition     |  |
+|  Nominal Scenario     | WH Manager checks order list |
+|  Variants     | OU Manager checks order list |
+|  Exceptions     |  |
+
+| Scenario 9.1 | WH Manager checks order list |
+| ------------- |:-------------:| 
+|  Precondition     | The WH Manager is authenticated and authorized  |
+|  Post condition     | 	|
+| Step#        | Description  |
+|  1     | The WH Manager clicks on "Previous Orders"  |
+|  2     | The application shows the previous orders page |
+
+| Scenario 9.2 | OU Manager checks order list |
+| ------------- |:-------------:| 
+|  Precondition     | The WH Manager is authenticated and authorized  |
+|  Post condition     | 	|
+| Step#        | Description  |
+|  1     | The WH Manager clicks on "Redo Previous Orders"  |
+|  2     | The application shows the previous orders page |
+
 
 
 # Glossary
