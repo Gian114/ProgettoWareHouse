@@ -45,7 +45,6 @@ Consider the EZWH  project as described in YOUR requirement document, assume tha
 ###
 ![Gantt chart](Resources/Gantt_chart.png "Gantt chart")
 The install/deploy and maintenance phases are not inserted in the estimated effort for the project because they start at the end of the development of the project and last until the project dismissal (as you can see in the Gantt chart), so we cannot estimate their effort.
-In the Gantt chart we have increased the estimated effort because we have considered more activities in addition to the first 2 estimations.
 
 # Summary
 
@@ -56,7 +55,7 @@ Report here the results of the three estimation approaches. The  estimates may d
 | estimate by size | 750 | 5 calendar weeks |
 | estimate by product decomposition | 800 | 5 calendar weeks |
 | estimate by activity decomposition | 900 | 6 calendar weeks |
-
+With the Gantt chart we have increased the estimated effort because we have considered more activities in addition to the first 2 estimations.
 
 
 
