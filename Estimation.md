@@ -58,6 +58,7 @@ Report here the results of the three estimation approaches. The  estimates may d
 | estimate by size | 750 person hours | 5 calendar weeks |
 | estimate by product decomposition | 800 person hours | 5 calendar weeks |
 | estimate by activity decomposition | 900 person hours | 6 calendar weeks |
+
 With the Gantt chart we have increased the estimated effort because we have considered more activities in addition to the first 2 estimations.
 
 
