@@ -2,13 +2,9 @@
 
 Authors: Pietro Gancitano, Davide Porello, Gianmarco De Paolis, Alberto Perugini
 
-Date: 09/04/2022
+Date: 13/04/2022
 
 Version: 1.0
-
-\<Report here the GUI that you propose. You are free to organize it as you prefer. A suggested presentation matches the Use cases and scenarios defined in the Requirement document. The GUI can be shown as a sequence of graphical files (jpg, png)  >
-<br>
-<br>
 
 
 ![mp](GUI Prototypes/mp.png "Main Page")
