@@ -44,16 +44,15 @@ The design must satisfy the Official Requirements document, notably functional a
 # Verification traceability matrix
 
 \<for each functional requirement from the requirement document, list which classes concur to implement it>
-
-
-
-
-
-
-
-
-
-
+| ID  | Class1 | Class2 | Class3 |
+| --- | ------ | ------ | ------ |
+| FR1 | | | |
+| FR2 | | | |
+| FR3 | | | |
+| FR4 | | | |
+| FR5 | | | |
+| FR6 | | | |
+| FR7 | | | |
 
 # Verification sequence diagrams 
 \<select key scenarios from the requirement document. For each of them define a sequence diagram showing that the scenario can be implemented by the classes and methods in the design>
