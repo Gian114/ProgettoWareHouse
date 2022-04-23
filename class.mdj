@@ -370,23 +370,6 @@
 										},
 										{
 											"_type": "UMLAttributeView",
-											"_id": "AAAAAAGAUlwh4XhfkDs=",
-											"_parent": {
-												"$ref": "AAAAAAGAUXmxASafhrk="
-											},
-											"model": {
-												"$ref": "AAAAAAGAUlwhzXhcFUg="
-											},
-											"font": "Arial;13;0",
-											"left": 1853,
-											"top": 723,
-											"width": 441.7333984375,
-											"height": 13,
-											"text": "-quantity: integer",
-											"horizontalAlignment": 0
-										},
-										{
-											"_type": "UMLAttributeView",
 											"_id": "AAAAAAGAVZuocSWSZqc=",
 											"_parent": {
 												"$ref": "AAAAAAGAUXmxASafhrk="
@@ -396,10 +379,10 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1853,
-											"top": 738,
+											"top": 723,
 											"width": 441.7333984375,
 											"height": 13,
-											"text": "-products: List<SKU>",
+											"text": "-products: Map<SKU. qty>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -413,10 +396,27 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1853,
-											"top": 753,
+											"top": 738,
 											"width": 441.7333984375,
 											"height": 13,
 											"text": "-customerID: integer",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLAttributeView",
+											"_id": "AAAAAAGAVrG3rbt5ayA=",
+											"_parent": {
+												"$ref": "AAAAAAGAUXmxASafhrk="
+											},
+											"model": {
+												"$ref": "AAAAAAGAVrG3jrt28nA="
+											},
+											"font": "Arial;13;0",
+											"left": 1853,
+											"top": 753,
+											"width": 441.7333984375,
+											"height": 13,
+											"text": "-id: integer",
 											"horizontalAlignment": 0
 										}
 									],
@@ -2769,7 +2769,7 @@
 											"top": 968,
 											"width": 991.11669921875,
 											"height": 13,
-											"text": "+createIssuedInternalOrder(date: Date, products: List<SKU>, customerID: integer): void",
+											"text": "+createIssuedInternalOrder(date: Date, products: Map<SKU.qty>, customerID: integer): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2786,7 +2786,7 @@
 											"top": 983,
 											"width": 991.11669921875,
 											"height": 13,
-											"text": "+modifyInternalOrder(id: integer, products: List<integer>): void",
+											"text": "+modifyInternalOrder(id: integer, products: Map<SKU.qty>): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -12391,23 +12391,13 @@
 						},
 						{
 							"_type": "UMLAttribute",
-							"_id": "AAAAAAGAUlwhzXhcFUg=",
-							"_parent": {
-								"$ref": "AAAAAAGAUXmxACaXtx8="
-							},
-							"name": "quantity",
-							"visibility": "private",
-							"type": "integer"
-						},
-						{
-							"_type": "UMLAttribute",
 							"_id": "AAAAAAGAVZuoYiWP43I=",
 							"_parent": {
 								"$ref": "AAAAAAGAUXmxACaXtx8="
 							},
 							"name": "products",
 							"visibility": "private",
-							"type": "List<SKU>"
+							"type": "Map<SKU. qty>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -12416,6 +12406,16 @@
 								"$ref": "AAAAAAGAUXmxACaXtx8="
 							},
 							"name": "customerID",
+							"visibility": "private",
+							"type": "integer"
+						},
+						{
+							"_type": "UMLAttribute",
+							"_id": "AAAAAAGAVrG3jrt28nA=",
+							"_parent": {
+								"$ref": "AAAAAAGAUXmxACaXtx8="
+							},
+							"name": "id",
 							"visibility": "private",
 							"type": "integer"
 						}
@@ -15015,7 +15015,7 @@
 										"$ref": "AAAAAAGAVZlJJuLqIi0="
 									},
 									"name": "products",
-									"type": "List<SKU>"
+									"type": "Map<SKU.qty>"
 								},
 								{
 									"_type": "UMLParameter",
@@ -15061,7 +15061,7 @@
 										"$ref": "AAAAAAGAVZ3vk17DYpI="
 									},
 									"name": "products",
-									"type": "List<integer>"
+									"type": "Map<SKU.qty>"
 								},
 								{
 									"_type": "UMLParameter",
