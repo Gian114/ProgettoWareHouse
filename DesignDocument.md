@@ -31,7 +31,7 @@ The design must satisfy the Official Requirements document, notably functional a
 
 # Low level design
 
-<for each package in high level design, report class diagram. Each class should detail attributes and operations>
+![Low level design](Resources/LowLevelDesign.jpg "Low level design")
 
 
 
