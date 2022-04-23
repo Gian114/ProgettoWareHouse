@@ -1,11 +1,11 @@
 # Design Document 
 
 
-Authors: 
+Authors: Pietro Gancitano, Davide Porello, Gianmarco De Paolis, Alberto Perugini
 
-Date:
+Date: 23/04/2022
 
-Version:
+Version: 1.0
 
 
 # Contents
