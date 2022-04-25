@@ -27,7 +27,7 @@ This architecture implements 2 high-level architectural patterns:
 - client/server: a single server (backend) that contains the application logic and the database, a set of clients/users (frontend) that 
 collect and display data from the server using the APIs through the GUI.
 
-#package-diagram
+## Package diagram
 ![High level design](Resources/HighLevelDesign.jpg "High level design")
 
 
@@ -35,7 +35,7 @@ collect and display data from the server using the APIs through the GUI.
 
 One single class diagram is used to implement the database and the application logic. The structural facade pattern is used to mke the user's experience simple and not affected from eventual future changes in the lower level. The user interacts only with the system through the GUI that interacts with the WarehouseImplementation class, this class provides several methods that are internal implementations of the APIs and manages the interaction between the other classes.
 
-#class-diagram
+## Class diagram
 ![Low level design](Resources/LowLevelDesign.jpg "Low level design")
 
 
