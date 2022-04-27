@@ -56,15 +56,17 @@ One single class diagram is used to implement the database and the application l
 
 # Verification sequence diagrams 
 
-## Sequence diagram of Use Case 1
+## Sequence diagram of Use Case 1 - Scenario 1
 ![Manage SKUs](Resources/ManageSKUs.png "Manage SKUs")
-## Sequence diagram of Use Case 2
+## Sequence diagram of Use Case 2 - Scenario 1
 ![Create Position](Resources/CreatePosition.png "Create Position")
-## Sequence diagram of Use Case 4
+## Sequence diagram of Use Case 3 - Scenario 2
+![Restock Order By Supplier](Resources/RestockOrder.png "Restock Order By Supplier")
+## Sequence diagram of Use Case 4 - Scenario 1
 ![Create User](Resources/sequence_use_case_4.png "Create User")
-## Sequence diagram of Use Case 5
+## Sequence diagram of Use Case 5 - Scenario 1
 ![Restock Order Arrival](Resources/sequence_use_case_5.png "Restock Order Arrival")
-## Sequence diagram of Use Case 11
+## Sequence diagram of Use Case 11 - Scenario 2
 ![Modify Item](Resources/modifyItem.png "Modify Item")
-## Sequence diagram of Use Case 12
+## Sequence diagram of Use Case 12 - Scenario 1
 ![Create Test Descriptor](Resources/createTestDescriptor.png "Create Test Descriptor")
