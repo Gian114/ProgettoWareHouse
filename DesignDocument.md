@@ -33,7 +33,7 @@ collect and display data from the server using the APIs through the GUI.
 
 # Low level design
 
-One single class diagram is used to implement the database and the application logic. The structural facade pattern is used to mke the user's experience simple and not affected from eventual future changes in the lower level. The user interacts only with the system through the GUI that interacts with the WarehouseImplementation class, this class provides several methods that are internal implementations of the APIs and manages the interaction between the other classes.
+One single class diagram is used to implement the database and the application logic. The structural facade pattern is used to make the user's experience simple and not affected from eventual future changes in the lower level. The user interacts only with the system through the GUI that interacts with the WarehouseImplementation class, this class provides several methods that are internal implementations of the APIs and manages the interaction between the other classes.
 
 ## Class diagram
 ![Low level design](Resources/LowLevelDesign.jpg "Low level design")
