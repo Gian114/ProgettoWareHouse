@@ -57,7 +57,7 @@ One single class diagram is used to implement the database and the application l
 # Verification sequence diagrams 
 
 ## Sequence diagram of Use Case 1
-![Manage SKUs](Resources/ManageSKUs "Manage SKUs")
+![Manage SKUs](Resources/ManageSKUs.png "Manage SKUs")
 ## Sequence diagram of Use Case 2
 ![Create Position](Resources/CreatePosition.png "Create Position")
 ## Sequence diagram of Use Case 4
