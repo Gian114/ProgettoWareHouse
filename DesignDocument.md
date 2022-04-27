@@ -3,9 +3,9 @@
 
 Authors: Pietro Gancitano, Davide Porello, Gianmarco De Paolis, Alberto Perugini
 
-Date: 23/04/2022
+Date: 27/04/2022
 
-Version: 1.0
+Version: 1.1
 
 
 # Contents
@@ -42,15 +42,19 @@ One single class diagram is used to implement the database and the application l
 # Verification traceability matrix
 
 \<for each functional requirement from the requirement document, list which classes concur to implement it>
-| ID  | Class1 | Class2 | Class3 |
-| --- | ------ | ------ | ------ |
-| FR1 | | | |
-| FR2 | | | |
-| FR3 | | | |
-| FR4 | | | |
-| FR5 | | | |
-| FR6 | | | |
-| FR7 | | | |
+
+| ID  | Clerk | QualityEmployee | Manager | DeliveryEmployee | InternalCustomer |  Supplier | InternalOrder | RestockOrder | Item | ReturnOrder | SKU | Position | SKUItem | TestResult | TestDescriptor |
+| --- | :------: | :------: | :------: | :------: | :------: | :------: | :------: | :------: | :------: |  :------: | :------: | :------: | :------: | :------: | :------: |
+| Manage users |X|X|X|X|X|X|X| | | | | | | | |
+| Manage SKUs |   |   | X |   |   |   |   |   |   |   | X |   | X |   | X |
+| Manage Warehouse |   |   | X |   |   |   |   |   |   |   |   | X |   | X |   |
+| Manage internal customers |   |   | X |   | X |   |   |   |   |   |   |   |   |   |   |  
+| Manage a restock order | X | X | X |   |   | X |   | X | X | X | X | X |   |
+| Manage internal order |   |   | X | X | X | X | X |   |   |   | X | X | X |   |   |
+| Manage items |   |   |   |   |   | X |   |   | X |   |   |   |   |   |   |
+
+
+
 
 # Verification sequence diagrams 
 \<select key scenarios from the requirement document. For each of them define a sequence diagram showing that the scenario can be implemented by the classes and methods in the design>
