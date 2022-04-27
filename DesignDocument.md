@@ -56,10 +56,15 @@ One single class diagram is used to implement the database and the application l
 
 # Verification sequence diagrams 
 
-![Create Position](Resources/CreatePosition.png "Create Position")
-![Create Position](Resources/createTestDescriptor.png "Create Position")
+## Sequence diagram of Use Case 1
 ![Manage SKUs](Resources/ManageSKUs "Manage SKUs")
-![Modify Item](Resources/modifyItem.png "Modify Item")
+## Sequence diagram of Use Case 2
+![Create Position](Resources/CreatePosition.png "Create Position")
+## Sequence diagram of Use Case 4
 ![Create User](Resources/sequence_use_case_4.png "Create User")
+## Sequence diagram of Use Case 5
 ![Restock Order Arrival](Resources/sequence_use_case_5.png "Restock Order Arrival")
-
+## Sequence diagram of Use Case 11
+![Modify Item](Resources/modifyItem.png "Modify Item")
+## Sequence diagram of Use Case 12
+![Create Test Descriptor](Resources/createTestDescriptor.png "Create Test Descriptor")
