@@ -41,15 +41,13 @@ One single class diagram is used to implement the database and the application l
 
 # Verification traceability matrix
 
-\<for each functional requirement from the requirement document, list which classes concur to implement it>
-
 | ID  | Clerk | QualityEmployee | Manager | DeliveryEmployee | InternalCustomer |  Supplier | InternalOrder | RestockOrder | Item | ReturnOrder | SKU | Position | SKUItem | TestResult | TestDescriptor |
 | --- | :------: | :------: | :------: | :------: | :------: | :------: | :------: | :------: | :------: |  :------: | :------: | :------: | :------: | :------: | :------: |
 | Manage users |X|X|X|X|X|X|X| | | | | | | | |
 | Manage SKUs |   |   | X |   |   |   |   |   |   |   | X |   | X |   | X |
 | Manage Warehouse |   |   | X |   |   |   |   |   |   |   |   | X |   | X |   |
 | Manage internal customers |   |   | X |   | X |   |   |   |   |   |   |   |   |   |   |  
-| Manage a restock order | X | X | X |   |   | X |   | X | X | X | X | X |   |
+| Manage restock order | X | X | X |   |   | X |   | X | X | X | X | X |   |
 | Manage internal order |   |   | X | X | X | X | X |   |   |   | X | X | X |   |   |
 | Manage items |   |   |   |   |   | X |   |   | X |   |   |   |   |   |   |
 
@@ -57,5 +55,11 @@ One single class diagram is used to implement the database and the application l
 
 
 # Verification sequence diagrams 
-\<select key scenarios from the requirement document. For each of them define a sequence diagram showing that the scenario can be implemented by the classes and methods in the design>
+
+![Create Position](Resources/CreatePosition.png "Create Position")
+![Create Position](Resources/createTestDescriptor.png "Create Position")
+![Manage SKUs](Resources/ManageSKUs "Manage SKUs")
+![Modify Item](Resources/modifyItem.png "Modify Item")
+![Create User](Resources/sequence_use_case_4.png "Create User")
+![Restock Order Arrival](Resources/sequence_use_case_5.png "Restock Order Arrival")
 
