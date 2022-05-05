@@ -2,16 +2,13 @@
 
 
 class SKU{
-    sqlite = require('sqlite3');
+    //sqlite = require('sqlite3');
 
-    constructor(dbname) {
-        this.db = new this.sqlite.Database(dbname, (err) => {
-            if(err) throw err;
-        });
-        
+    constructor(db) {
+        this.db = db;
     }
 
-    dropTable() {
+    /*dropTable() {
         return new Promise((resolve, reject)  => {
             const sql = 'DROP TABLE IF EXISTS SKU';
             this.db.run(sql, (err) => {
@@ -22,20 +19,8 @@ class SKU{
                 resolve(this.lastID);
             });
         });
-    }
+    }*/
 
-    newTableSKU() {
-        return new Promise((resolve, reject)  => {
-            const sql = 'CREATE TABLE IF NOT EXISTS SKU(ID INTEGER PRIMARY KEY AUTOINCREMENT, DESCRIPTION VARCHAR, WEIGHT DOUBLE, VOLUME DOUBLE, NOTES TEXT, POSITION INTEGER, AVAILABLE_QUANTITY INTEGER, PRICE DOUBLE)';
-            this.db.run(sql, (err) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                resolve(this.lastID);
-            });
-        });
-    }
 
     createSKU(data) {
         return new Promise((resolve, reject) => {
@@ -61,7 +46,7 @@ class SKU{
                 }
                 
                 const names = rows.map((r) => (
-                    //a
+                
                     {  
                         id:r.ID,
                         description : r.DESCRIPTION,
@@ -71,14 +56,14 @@ class SKU{
                         position: r.POSITION,
                         quantity: r.AVAILABLE_QUANTITY, 
                         price: r.PRICE,
-                        descriptors: r.TESTDESCRIPTORS
+                        //descriptors: r.TESTDESCRIPTORS
                     }
                 ));
                 resolve(names);
             });
         });
     }
- // fix testdescriptor thing
+
 
     getSKUByID(id) {
         
@@ -112,7 +97,7 @@ class SKU{
         return new Promise((resolve, reject)=>{
             //gestire old values e position
         const sql = 'UPDATE SKU SET DESCRIPTION = ?, WEIGHT = ?, VOLUME = ?, NOTES = ?, AVAILABLE_QUANTITY = ?, PRICE = ? WHERE ID = ?'
-        this.db.run(sql, [data.description, data.weight, data.volume, data.notes, data.position, data.quantity, data.price, data.testdescriptors, data.id], (err, r)=>{
+        this.db.run(sql, [data.description, data.weight, data.volume, data.notes, data.position, data.quantity, data.price, data.id], (err, r)=>{
             if (err) {
                 reject(err);
                 return;
