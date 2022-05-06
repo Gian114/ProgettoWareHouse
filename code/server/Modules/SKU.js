@@ -36,7 +36,7 @@ class SKU{
     }
 
 
-    getSKUItems() {
+    getListofSKU() {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM SKU';
             this.db.all(sql, [], (err, rows) => {
@@ -45,7 +45,7 @@ class SKU{
                     return;
                 }
                 
-                const names = rows.map((r) => (
+                const sku = rows.map((r) => (
                 
                     {  
                         id:r.ID,
@@ -59,7 +59,7 @@ class SKU{
                         //descriptors: r.TESTDESCRIPTORS
                     }
                 ));
-                resolve(names);
+                resolve(sku);
             });
         });
     }
@@ -75,8 +75,8 @@ class SKU{
                     reject(err);
                     return;
                 }
-        
-                const sku =  
+                if(r!==undefined){
+                    const sku =  
                     {  
                         id: r.ID,
                         description : r.DESCRIPTION,
@@ -87,8 +87,12 @@ class SKU{
                         quantity: r.AVAILABLE_QUANTITY, 
                         price: r.PRICE,
                     }
+                    resolve(sku)
+                } else {
+                        const sku = ''
+                        resolve(sku)
+                    }
                     
-                resolve(sku);
             });
         });
     }

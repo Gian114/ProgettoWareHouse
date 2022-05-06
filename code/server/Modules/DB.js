@@ -24,6 +24,19 @@ class DB{
         });
     }
 
+    newTableSKUItem() {
+        return new Promise((resolve, reject)  => {
+            const sql = 'CREATE TABLE IF NOT EXISTS SKU_ITEM (rfid TEXT PRIMARY KEY, available INTEGER, sku_id INTEGER, date_of_stock DATE)';
+            this.db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(this.lastID);
+            });
+        });
+    }
+
 }
 
 module.exports = DB;
