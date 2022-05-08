@@ -51,13 +51,13 @@ CREATE TABLE IF NOT EXISTS SKU_ITEM (
 
 CREATE TABLE IF NOT EXISTS TEST_RESULT (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    date DATE,
+    date TEXT,
     result INTEGER, /* boolean */
     sku_item_rfid TEXT,
     test_descriptor_id INTEGER,
     CONSTRAINT fk_sku_item
         FOREIGN KEY (sku_item_rfid)
-        REFERENCES SKU_ITEM(rfid)
+        REFERENCES SKU_ITEM(rfid),
     CONSTRAINT fk_test_descriptor
         FOREIGN KEY (test_descriptor_id)
         REFERENCES TEST_DESCRIPTOR(id)
