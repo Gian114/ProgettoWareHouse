@@ -11,14 +11,14 @@ app.use(express.json());
 
 const db = new DB("EZWH");
 const sku = new SKU(db.db);
-const skuitem = new SKUItem(db.db);
+const skuItem = new SKUItem(db.db);
 const testDescriptor = new TestDescriptor(db.db);
 
 //GET /api/test
 app.get('/api/hello', (req,res)=>{
   let message = {
     message: 'Hello World!'
-  }
+  };
   return res.status(200).json(message);
 });
 
@@ -29,137 +29,139 @@ app.listen(port, () => {
 
 app.get('/api/startDB', async (req,res) => {
 
-  await db.newTableSKU()
-  await db.newTableSKUItem()
+  await db.newTableSKU();
+  await db.newTableSKUItem();
   await db.newTableTestDescriptor();
-  return res.status(201).json("ok")
+  return res.status(200).json();
 
-})
+});
 
 //sku
-app.post('/api/createSKU', async (req,res)=>{
+app.post('/api/sku', async (req,res)=>{
 
-  const item = req.body.sku
-  await sku.createSKU(item)
-  return res.status(201).json("ok")
+  const item = req.body;
+  await sku.createSKU(item);
+  return res.status(201).json();
 
-})
+});
 
-app.get('/api/getListofSKU', async (req,res) =>{
+app.get('/api/skus', async (req,res) =>{
 
-  let x = await sku.getListofSKU()
-  return res.status(201).json(x)
+  let x = await sku.getListofSKU();
+  return res.status(200).json(x);
 
-})
+});
 
-app.get('/api/getSKUByID', async (req,res) =>{
+app.get('/api/skus/:id', async (req,res) =>{
 
-  const id = req.headers.id
-  let x = await sku.getSKUByID(id)
-  return res.status(201).json(x)
+  const id = req.params.id;
+  let x = await sku.getSKUByID(id);
+  return res.status(200).json(x);
 
-})
+});
 
-app.get('/api/deleteSKU', async (req,res) =>{
+app.delete('/api/skus/:id', async (req,res) =>{
 
-  const id = req.headers.id
-  await sku.deleteSKU(id)
-  return res.status(201).json("ok")
+  const id = req.params.id;
+  await sku.deleteSKU(id);
+  return res.status(204).json();
 
-})
+});
 
-app.post('/api/modifySKU', async (req,res)=>{
+app.put('/api/sku/:id', async (req,res)=>{
 
-  const newvalues = req.body.values
-  await sku.modifySKU(newvalues)
-  return res.status(201).json("ok")
+  const id = req.params.id;
+  const newvalues = req.body;
+  await sku.modifySKU(id, newvalues);
+  return res.status(200).json();
 
-})
+});
 
 
 
 //skuItems
-app.get('/api/getAllSKUItems', async (req,res) =>{
+app.get('/api/skuitems', async (req,res) =>{
 
-  let x = await skuitem.getAllSKUItems()
-  return res.status(201).json(x)
+  let x = await skuItem.getAllSKUItems();
+  return res.status(200).json(x);
 
-})
+});
 
-app.get('/api/getSKUItemByRFID', async (req,res) =>{
+app.get('/api/skuitems/:rfid', async (req,res) =>{
 
-  const id = req.headers.rfid
-  let x = await skuitem.getSKUItemByRFID(id)
-  return res.status(201).json(x)
+  const id = req.params.rfid;
+  let x = await skuItem.getSKUItemByRFID(id);
+  return res.status(200).json(x);
 
-})
+});
 
-app.post('/api/createNewSKUItem', async (req,res)=>{
+app.post('/api/skuitem', async (req,res)=>{
 
-  const item = req.body.skuitem
-  await skuitem.createNewSKUItem(item)
-  return res.status(201).json("ok")
+  const item = req.body;
+  await skuItem.createNewSKUItem(item);
+  return res.status(201).json();
 
-})
+});
 
-app.get('/api/deleteSKUItem', async (req,res) =>{
+app.delete('/api/skuitems/:rfid', async (req,res) =>{
 
-  const id = req.headers.rfid
-  await skuitem.deleteSKUItem(id)
-  return res.status(201).json("ok")
+  const id = req.params.rfid;
+  await skuItem.deleteSKUItem(id);
+  return res.status(204).json();
 
-})
+});
 
-app.post('/api/modifySKUItem', async (req,res)=>{
+app.put('/api/skuitems/:rfid', async (req,res)=>{
 
-  const newvalues = req.body.values
-  await skuitem.modifySKU(newvalues)
-  return res.status(201).json("ok")
+  const id = req.params.rfid;
+  const newvalues = req.body;
+  await skuItem.modifySKU(id, newvalues);
+  return res.status(200).json();
 
-})
+});
 
 
 
 //testDescriptor
 app.get('/api/testDescriptors', async (req,res) =>{
 
-  let x = await testDescriptor.getAllTestDescriptors()
-  return res.status(200).json(x)
+  let x = await testDescriptor.getAllTestDescriptors();
+  return res.status(200).json(x);
 
-})
+});
 
 app.get('/api/testDescriptors/:id', async (req,res) =>{
 
-  const id = req.headers.id
-  let x = await testDescriptor.getTestDescriptorByID(id)
-  return res.status(200).json(x)
+  const id = req.params.id;
+  let x = await testDescriptor.getTestDescriptorByID(id);
+  return res.status(200).json(x);
 
-})
+});
 
 app.post('/api/testDescriptor', async (req,res)=>{
 
   const td = req.body;
   await testDescriptor.createNewTestDescriptor(td);
-  return res.status(201).json("Created")
+  return res.status(201).json();
 
-})
+});
 
 app.put('/api/testDescriptor/:id', async (req,res)=>{
 
-  const newvalues = req.body.values
-  const id = req.headers.id
-  await testDescriptor.modifyTestDescriptor(id, newvalues)
-  return res.status(200).json("ok")
+  const newvalues = req.body;
+  const id = req.params.id;
+  await testDescriptor.modifyTestDescriptor(id, newvalues);
+  return res.status(200).json();
 
-})
+});
 
 app.delete('/api/testDescriptor/:id', async (req,res)=>{
 
-  const id = req.headers.id
-  await testDescriptor.deleteTestDescriptor(id, newvalues)
-  return res.status(204).json("No Content")
+  const id = req.params.id;
+  await testDescriptor.deleteTestDescriptor(id, newvalues);
+  return res.status(204).json();
 
-})
+});
 
 
 module.exports = app;

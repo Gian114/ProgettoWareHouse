@@ -1,6 +1,6 @@
 'use strict';
 
-class SKU{
+class TestDescriptor{
 
     constructor(db) {
         this.db = db;
@@ -14,7 +14,7 @@ class SKU{
                   reject(err);
                   return;
                 }
-                
+
                 resolve(this.lastID);
             });
         });
