@@ -11,7 +11,7 @@ class SKUItem{
     createNewSKUItem(item){
         return new Promise((resolve, reject) => {
             const sql = 'INSERT INTO SKU_ITEM(rfid, available, sku_id, date_of_stock) VALUES(?, 0, ?, ?)';
-            this.db.run(sql, [item.rfid, item.sku, item.date], (err) => {
+            this.db.run(sql, [item.rfid, item.sku_id, item.DateOfStock], (err) => {
                 if (err) {
                   reject(err);
                   return;
@@ -74,14 +74,16 @@ class SKUItem{
         });
     }
 
-    getSKUItemsBySKUID(sku) {
+    getSKUItemsBySKUID(id) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM SKU_ITEM WHERE sku_id = ? AND available = 1';
-            this.db.all(sql, [sku], (err, rows) => {
+            this.db.all(sql, [id], (err, rows) => {
                 if (err) {
                     reject(err);
                     return;
                 }
+                if(rows !== undefined){
+
                 
                 const skuitem = rows.map((r) => (
                 
@@ -93,15 +95,19 @@ class SKUItem{
                     }
                 ));
                 resolve(skuitem);
+            } else {
+                const skuitem = []
+                resolve(skuitem);
+            }
             });
         });
     }
 
-    modifySKUItem(data){
+    modifySKUItem(rfid, data){
         return new Promise((resolve, reject)=>{
-            //gestire old values e position
+            
         const sql = 'UPDATE SKU_ITEM SET rfid = ?, available = ?, date_of_stock = ?'
-        this.db.run(sql, [data.rfid, data.available, data.date], (err, r)=>{
+        this.db.run(sql, [rfid, data.newAvailable, data.newDateOfStock], (err, r)=>{
             if (err) {
                 reject(err);
                 return;

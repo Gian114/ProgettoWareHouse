@@ -1,50 +1,132 @@
-
-//skuItems
 const express = require('express');
-
-const skuItemRouter = express.Router()
 const SKUItem = require('../Modules/SKUItems');
 const db = require('../Modules/DB');
 
+const skuItemRouter = express.Router()
 const skuItem = new SKUItem(db.db);
 
+//get
 
-app.get('/api/skuitems', async (req,res) =>{
+skuItemRouter.get('/api/skuitems', async (req,res) =>{
 
-    let x = await skuItem.getAllSKUItems();
+  let x
+
+  try{
+    x = await skuItem.getAllSKUItems();
+  }catch(err){
+    return res.status(500).json({error: "generic error"})
+  }
+    
     return res.status(200).json(x);
   
   });
+
+  skuItemRouter.get('/api/skuitems/sku/:id', async (req,res) =>{
+
+    if(Object.keys(req.params).length === 0){
+      return res.status(422).json({})}
+
+    const id = req.params.id;
+    let x
+
+    try{
+      x = await skuItem.getSKUItemsBySKUID(id);
+    }catch(err){
+      return res.status(500).json({err: "generic error"})
+    }
+    
+    if(x !== []){
+      return res.status(200).json(x);
+    } else {
+      return res.status(404).json({error: "no sku associated to id"});
+    }
+
+    
   
-  app.get('/api/skuitems/:rfid', async (req,res) =>{
+  });
   
+  skuItemRouter.get('/api/skuitems/:rfid', async (req,res) =>{
+  
+    if(Object.keys(req.params).length === 0){
+      return res.status(422).json({})}
+    
+    let x;
     const id = req.params.rfid;
-    let x = await skuItem.getSKUItemByRFID(id);
+    try{
+      x = await skuItem.getSKUItemByRFID(id);
+    }catch(err){
+      return res.status(500).json({err:"generic error"})
+    }
+   
     return res.status(200).json(x);
   
   });
+
+  //post
   
-  app.post('/api/skuitem', async (req,res)=>{
+  skuItemRouter.post('/api/skuitem', async (req,res)=>{
+
+    if(Object.keys(req.body).length === 0){
+      return res.status(422).json({})}
   
+
+    if(req.body.rfid === undefined || req.body.sku_id === undefined ||
+      req.body.DateOfStock === undefined){
+        return res.status(422).json({})}  
+    
     const item = req.body;
-    await skuItem.createNewSKUItem(item);
+    console.log(item)
+    
+    try{
+      await skuItem.createNewSKUItem(item);
+    }catch(err){
+      return res.status(503).json({err:"generic error"})
+    }
+    
     return res.status(201).json();
   
   });
   
-  app.delete('/api/skuitems/:rfid', async (req,res) =>{
+  //put
+  skuItemRouter.put('/api/skuitems/:rfid', async (req,res)=>{
+
+    if(Object.keys(req.body).length === 0 || 
+    Object.keys(req.params).length === 0){
+      return res.status(422).json({})}
   
+
+    if(req.body.newAvailable === undefined || req.body.newDateOfStock === undefined){
+        return res.status(422).json({})}  
+  
+    const rfid = req.params.rfid;
+    const newvalues = req.body;
+
+    try{
+      await skuItem.modifySKUItem(rfid, newvalues);
+    }catch(err){
+      return res.status(503).json({err:"generic error"})
+    }
+    
+    return res.status(200).json();
+  
+  });
+
+  //delete
+  
+  skuItemRouter.delete('/api/skuitems/:rfid', async (req,res) =>{
+    
+    if (Object.keys(req.params).length === 0){
+      return res.status(422).json({})}
+
     const id = req.params.rfid;
-    await skuItem.deleteSKUItem(id);
+    try{
+      await skuItem.deleteSKUItem(id);
+    }catch(err){
+      return res.status(503).json({err: "generic error"})
+    }
+    
     return res.status(204).json();
   
   });
   
-  app.put('/api/skuitems/:rfid', async (req,res)=>{
-  
-    const id = req.params.rfid;
-    const newvalues = req.body;
-    await skuItem.modifySKU(id, newvalues);
-    return res.status(200).json();
-  
-  });
+  module.exports = skuItemRouter;
