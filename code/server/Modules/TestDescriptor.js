@@ -8,7 +8,7 @@ class TestDescriptor{
 
     createNewTestDescriptor(data) {
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO TEST_DESCRIPTOR(name, procedureDescription, sku_id) VALUES(?, ?, ?)';
+            const sql = 'INSERT INTO TEST_DESCRIPTOR(name, procedure_description, sku_id) VALUES(?, ?, ?)';
             this.db.run(sql, [data.name, data.procedureDescription, data.idSKU], (err) => {
                 if (err) {
                   reject(err);
@@ -71,7 +71,7 @@ class TestDescriptor{
 
     modifyTestDescriptor(id, data) {
         return new Promise((resolve, reject)=>{
-            const sql = 'UPDATE TEST_DESCRIPTOR SET name = ?, procedureDescription = ?, sku_id = ? WHERE ID = ?';
+            const sql = 'UPDATE TEST_DESCRIPTOR SET name = ?, procedure_description = ?, sku_id = ? WHERE ID = ?';
             this.db.run(sql, [data.newName, data.newProcedureDescription, data.newIdSKU, id], (err)=>{
                 if (err) {
                     reject(err);

@@ -66,9 +66,19 @@ CREATE TABLE IF NOT EXISTS TEST_RESULT (
 CREATE TABLE IF NOT EXISTS TEST_DESCRIPTOR (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     name TEXT,
-    procedureDescription TEXT,
+    procedure_description TEXT,
     sku_id INTEGER NOT NULL,
     CONSTRAINT fk_sku
         FOREIGN KEY (sku_id)
         REFERENCES SKU(id)
+);
+
+CREATE TABLE IF NOT EXISTS RETURN_ORDER (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    returnDate TEXT,
+    proceduts ????,
+    restock_order_id INTEGER NOT NULL,
+    CONSTRAINT fk_restock_order
+        FOREIGN KEY (restock_order_id)
+        REFERENCES RESTOCK_ORDER(id)
 );

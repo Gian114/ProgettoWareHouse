@@ -3,8 +3,8 @@ const testDescriptorRouter = express.Router();
 
 const db = require('../Modules/DB');
 const TestDescriptor = require('../Modules/TestDescriptor');
-const SKU = require('../Modules/SKU');
 const testDescriptor = new TestDescriptor(db.db);
+const SKU = require('../Modules/SKU');
 const sku = new SKU(db.db);
 
 //get
@@ -21,7 +21,6 @@ testDescriptorRouter.get('/api/testDescriptors', async (req,res) =>{
 });
   
 testDescriptorRouter.get('/api/testDescriptors/:id', async (req,res) =>{
-
 
   if(req.params.id === undefined){
     return res.status(422).json({error: 'validation of id failed'});
@@ -51,7 +50,7 @@ testDescriptorRouter.post('/api/testDescriptor', async (req,res)=>{
     }
 
   const td = req.body;
-  let y = await sku.getSKUByID(newvalues.newIdSKU);
+  let y = await sku.getSKUByID(td.idSKU);
   if(y === '') {
     return res.status(404).json({error: "no sku associated idSKU"});
   }
@@ -94,7 +93,6 @@ testDescriptorRouter.put('/api/testDescriptor/:id', async (req,res)=>{
 //delete
 
 testDescriptorRouter.delete('/api/testDescriptor/:id', async (req,res)=>{
-
 
   if(req.params.id === undefined){
     return res.status(422).json({error: 'validation of id failed'});
