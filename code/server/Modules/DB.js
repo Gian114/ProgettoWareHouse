@@ -52,4 +52,7 @@ class DB{
 
 }
 
-module.exports = DB;
+
+const db = new DB('EZWH');
+
+module.exports = db;
