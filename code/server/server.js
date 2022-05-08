@@ -1,15 +1,16 @@
 'use strict';
 const express = require('express');
-
+const db = require('./Modules/DB');
 
 const SKURouter = require('./Routes/SKURoutes');
+const SKUItemsRoutes = require('./Routes/SKUItemsRoutes');
+const testDescriptorRouter = require('./Routes/TestDescriptorRoutes');
 
 // init express
 const app = new express();
 const port = 3001;
 
 app.use(express.json());
-
 
 
 //GET /api/test
@@ -25,16 +26,17 @@ app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
 
-app.use('', SKURouter);
-
-/*app.get('/api/startDB', async (req,res) => {
-
+app.get('/api/startDB', async (req,res) => {
+  await db.dropTables();
   await db.newTableSKU();
   await db.newTableSKUItem();
   await db.newTableTestDescriptor();
   return res.status(200).json();
+});
 
-});*/
+app.use('', SKURouter);
+app.use('', SKUItemsRoutes);
+app.use('', testDescriptorRouter);
 
 
 module.exports = app;

@@ -8,7 +8,7 @@ class TestDescriptor{
 
     createNewTestDescriptor(data) {
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO TEST_DESCRIPTOR(name, procedure_description, sku_id) VALUES(?, ?, ?)';
+            const sql = 'INSERT INTO TEST_DESCRIPTOR(name, procedureDescription, sku_id) VALUES(?, ?, ?)';
             this.db.run(sql, [data.name, data.procedureDescription, data.idSKU], (err) => {
                 if (err) {
                   reject(err);
@@ -23,7 +23,7 @@ class TestDescriptor{
     getAllTestDescriptors() {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM TEST_DESCRIPTOR';
-            this.db.all(sql, [data.name, data.procedureDescription, data.idSKU], (err) => {
+            this.db.all(sql, [], (err, rows) => {
                 if (err) {
                   reject(err);
                   return;
@@ -46,7 +46,7 @@ class TestDescriptor{
     getTestDescriptorByID(id) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM TEST_DESCRIPTOR WHERE id = ?';
-            this.db.get(sql, id, (err, r) => {
+            this.db.get(sql, [id], (err, r) => {
                 if (err) {
                     reject(err);
                     return;
@@ -71,8 +71,8 @@ class TestDescriptor{
 
     modifyTestDescriptor(id, data) {
         return new Promise((resolve, reject)=>{
-            const sql = 'UPDATE TEST_DESCRIPTOR SET name = ?, procedureDescription = ? WHERE ID = ?';
-            this.db.run(sql, [data.newName, data.newProcedureDescription, data.newIdSKU, id], (err, r)=>{
+            const sql = 'UPDATE TEST_DESCRIPTOR SET name = ?, procedureDescription = ?, sku_id = ? WHERE ID = ?';
+            this.db.run(sql, [data.newName, data.newProcedureDescription, data.newIdSKU, id], (err)=>{
                 if (err) {
                     reject(err);
                     return;
@@ -83,10 +83,10 @@ class TestDescriptor{
         });
     }
 
-    deleteTestDescriptor(id, newvalues) {
+    deleteTestDescriptor(id) {
         return new Promise((resolve, reject) => {
             const sql = 'DELETE FROM TEST_DESCRIPTOR WHERE id = ?';
-            this.db.run(sql, [id], (err, r) => {
+            this.db.run(sql, [id], (err) => {
                 if (err) {
                     reject(err);
                     return;
@@ -98,3 +98,5 @@ class TestDescriptor{
     }
 
 }
+
+module.exports = TestDescriptor;

@@ -1,6 +1,6 @@
 'use strict';
 
-class DB{
+class DB {
 
     sqlite = require('sqlite3');
 
@@ -11,9 +11,22 @@ class DB{
         
     }
 
+    dropTables() {
+        return new Promise((resolve, reject)  => {
+            const sql = 'DROP TABLE IF EXISTS TEST_DESCRIPTOR';
+            this.db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(this.lastID);
+            });
+        });
+    }
+
     newTableSKU() {
         return new Promise((resolve, reject)  => {
-            const sql = 'CREATE TABLE IF NOT EXISTS SKU(id INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR, weight DOUBLE, volume DOUBLE, notes TEXT, position_id INTEGER, available_quantity INTEGER, price DOUBLE)';
+            const sql = 'CREATE TABLE IF NOT EXISTS SKU (id INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR, weight DOUBLE, volume DOUBLE, notes TEXT, position_id INTEGER, available_quantity INTEGER, price DOUBLE)';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -39,7 +52,7 @@ class DB{
 
     newTableTestDescriptor() {
         return new Promise((resolve, reject)  => {
-            const sql = 'CREATE TABLE IF NOT EXISTS TEST_DESCRIPTOR (id INTEGER PRIMARY KEY, name TEXT, procedureDescription TEXT, sku_id INTEGER,)';
+            const sql = 'CREATE TABLE IF NOT EXISTS TEST_DESCRIPTOR (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, procedureDescription TEXT, sku_id INTEGER)';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
