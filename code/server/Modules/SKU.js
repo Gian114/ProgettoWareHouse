@@ -2,24 +2,12 @@
 
 
 class SKU{
-    //sqlite = require('sqlite3');
 
     constructor(db) {
         this.db = db;
     }
 
-    /*dropTable() {
-        return new Promise((resolve, reject)  => {
-            const sql = 'DROP TABLE IF EXISTS SKU';
-            this.db.run(sql, (err) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                resolve(this.lastID);
-            });
-        });
-    }*/
+ 
 
 
     createSKU(data) {
@@ -97,11 +85,11 @@ class SKU{
         });
     }
 
-    modifySKU(data){
+    modifySKU(id, data){
         return new Promise((resolve, reject)=>{
             //gestire old values e position
         const sql = 'UPDATE SKU SET DESCRIPTION = ?, WEIGHT = ?, VOLUME = ?, NOTES = ?, AVAILABLE_QUANTITY = ?, PRICE = ? WHERE ID = ?'
-        this.db.run(sql, [data.description, data.weight, data.volume, data.notes, data.position, data.quantity, data.price, data.id], (err, r)=>{
+        this.db.run(sql, [data.description, data.weight, data.volume, data.notes, data.position, data.quantity, data.price, id], (err, r)=>{
             if (err) {
                 reject(err);
                 return;
@@ -125,5 +113,23 @@ class SKU{
             });
         });
     }
+
+    modifyPosition(id, position){
+
+        return new Promise((resolve, reject)=>{
+            
+        const sql = 'UPDATE SKU SET POSITION = ? WHERE ID = ?'
+        this.db.run(sql, [position, id], (err, r)=>{
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve(true)
+        })
+
+        })
+
+    }
 }
+
 module.exports = SKU;

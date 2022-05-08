@@ -3,6 +3,7 @@ const express = require('express');
 
 
 const SKURouter = require('./Routes/SKURoutes');
+const SKUItemsRoutes = require('./Routes/SKUItemsRoutes')
 
 // init express
 const app = new express();
@@ -26,6 +27,7 @@ app.listen(port, () => {
 });
 
 app.use('', SKURouter);
+app.use('', SKUItemsRoutes);
 
 /*app.get('/api/startDB', async (req,res) => {
 
