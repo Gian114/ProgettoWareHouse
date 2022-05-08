@@ -1,6 +1,6 @@
 'use strict';
 
-class SKUItem{
+class Position{
 
     constructor(db) {
         this.db = db;
@@ -98,7 +98,7 @@ class SKUItem{
 
 }
 
-module.exports = SKUItem;
+module.exports = Position;
 
 
 
