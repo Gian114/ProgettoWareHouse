@@ -13,7 +13,7 @@ class DB{
 
     newTableSKU() {
         return new Promise((resolve, reject)  => {
-            const sql = 'CREATE TABLE IF NOT EXISTS SKU(ID INTEGER PRIMARY KEY AUTOINCREMENT, DESCRIPTION VARCHAR, WEIGHT DOUBLE, VOLUME DOUBLE, NOTES TEXT, POSITION INTEGER, AVAILABLE_QUANTITY INTEGER, PRICE DOUBLE)';
+            const sql = 'CREATE TABLE IF NOT EXISTS SKU(id INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR, weight DOUBLE, volume DOUBLE, notes TEXT, position_id INTEGER, available_quantity INTEGER, price DOUBLE)';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -27,6 +27,19 @@ class DB{
     newTableSKUItem() {
         return new Promise((resolve, reject)  => {
             const sql = 'CREATE TABLE IF NOT EXISTS SKU_ITEM (rfid TEXT PRIMARY KEY, available INTEGER, sku_id INTEGER, date_of_stock DATE)';
+            this.db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(this.lastID);
+            });
+        });
+    }
+
+    newTableTestDescriptor() {
+        return new Promise((resolve, reject)  => {
+            const sql = 'CREATE TABLE IF NOT EXISTS TEST_DESCRIPTOR (id INTEGER PRIMARY KEY, name TEXT, procedureDescription TEXT, sku_id INTEGER,)';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
