@@ -13,7 +13,23 @@ class DB {
 
     dropTables() {
         return new Promise((resolve, reject)  => {
-            const sql = 'DROP TABLE IF EXISTS TEST_DESCRIPTOR';
+            let sql = 'DROP TABLE IF EXISTS SKU';
+            this.db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(this.lastID);
+            });
+            sql = 'DROP TABLE IF EXISTS SKU_ITEM';
+            this.db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(this.lastID);
+            });
+            sql = 'DROP TABLE IF EXISTS TEST_DESCRIPTOR';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);

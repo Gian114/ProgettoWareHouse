@@ -15,8 +15,8 @@ For DATE there is no specific container but we use DATE and let sqlite use the t
 */
 
 CREATE TABLE IF NOT EXISTS POSITION (
-    id INTEGER PRIMARY KEY,
-   	aisle INTEGER,
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+   	aisle INTEGER NOT NULL,
 	row INTEGER,
     col INTEGER,
     max_weight REAL,
@@ -26,14 +26,14 @@ CREATE TABLE IF NOT EXISTS POSITION (
 );
 
 CREATE TABLE IF NOT EXISTS SKU (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     description TEXT,
     weight REAL,
     volume REAL,
     price REAL,
     notes TEXT,
     available_quantity INTEGER,
-    position_id INTEGER,
+    position_id INTEGER NOT NULL,
     CONSTRAINT fk_position
         FOREIGN KEY (position_id)
         REFERENCES POSITION(id)
@@ -50,11 +50,11 @@ CREATE TABLE IF NOT EXISTS SKU_ITEM (
 );
 
 CREATE TABLE IF NOT EXISTS TEST_RESULT (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     date TEXT,
     result INTEGER, /* boolean */
-    sku_item_rfid TEXT,
-    test_descriptor_id INTEGER,
+    sku_item_rfid TEXT NOT NULL,
+    test_descriptor_id INTEGER NOT NULL,
     CONSTRAINT fk_sku_item
         FOREIGN KEY (sku_item_rfid)
         REFERENCES SKU_ITEM(rfid),
@@ -64,10 +64,10 @@ CREATE TABLE IF NOT EXISTS TEST_RESULT (
 );
 
 CREATE TABLE IF NOT EXISTS TEST_DESCRIPTOR (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     name TEXT,
     procedureDescription TEXT,
-    sku_id INTEGER,
+    sku_id INTEGER NOT NULL,
     CONSTRAINT fk_sku
         FOREIGN KEY (sku_id)
         REFERENCES SKU(id)
