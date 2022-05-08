@@ -4,11 +4,12 @@ const SKU = require('../Modules/SKU');
 
 const skuRouter = express.Router()
 
-const sku = new SKU(db.db);
+
 
 const db = require('../Modules/DB');
+const sku = new SKU(db.db);
 
-app.post('/api/sku', async (req,res)=>{
+skuRouter.post('/api/sku', async (req,res)=>{
 
     const item = req.body;
     
@@ -17,14 +18,14 @@ app.post('/api/sku', async (req,res)=>{
   
   });
   
-  app.get('/api/skus', async (req,res) =>{
+  skuRouter.get('/api/skus', async (req,res) =>{
   
     let x = await sku.getListofSKU();
     return res.status(200).json(x);
   
   });
   
-  app.get('/api/skus/:id', async (req,res) =>{
+  skuRouter.get('/api/skus/:id', async (req,res) =>{
   
     const id = req.params.id;
     let x = await sku.getSKUByID(id);
@@ -32,7 +33,7 @@ app.post('/api/sku', async (req,res)=>{
   
   });
   
-  app.delete('/api/skus/:id', async (req,res) =>{
+  skuRouter.delete('/api/skus/:id', async (req,res) =>{
   
     const id = req.params.id;
     await sku.deleteSKU(id);
@@ -40,7 +41,7 @@ app.post('/api/sku', async (req,res)=>{
   
   });
   
-  app.put('/api/sku/:id', async (req,res)=>{
+  skuRouter.put('/api/sku/:id', async (req,res)=>{
   
     const id = req.params.id;
     const newvalues = req.body;
@@ -50,4 +51,4 @@ app.post('/api/sku', async (req,res)=>{
   });
   
 
-  module.exports = sku;
+  module.exports = skuRouter;

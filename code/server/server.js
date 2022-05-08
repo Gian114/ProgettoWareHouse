@@ -1,8 +1,9 @@
 'use strict';
 const express = require('express');
-const DB = require('./Modules/DB');
-const SKU = require('./Modules/SKU');
-const SKUItem = require('./Modules/SKUItems')
+
+
+const SKURouter = require('./Routes/SKURoutes');
+
 // init express
 const app = new express();
 const port = 3001;
@@ -23,6 +24,8 @@ app.get('/api/hello', (req,res)=>{
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
+
+app.use('', SKURouter);
 
 /*app.get('/api/startDB', async (req,res) => {
 
