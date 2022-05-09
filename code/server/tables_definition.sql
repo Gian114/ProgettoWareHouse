@@ -76,9 +76,26 @@ CREATE TABLE IF NOT EXISTS TEST_DESCRIPTOR (
 CREATE TABLE IF NOT EXISTS RETURN_ORDER (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     returnDate TEXT,
-    proceduts ????,
+    product_id INTEGER,
     restock_order_id INTEGER NOT NULL,
     CONSTRAINT fk_restock_order
         FOREIGN KEY (restock_order_id)
-        REFERENCES RESTOCK_ORDER(id)
+        REFERENCES RESTOCK_ORDER(id),
+    CONSTRAINT fk_product_id
+        FOREIGN KEY (product_id)
+        REFERENCES PRODUCT(id)
+);
+
+CREATE TABLE IF NOT EXISTS PRODUCT (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    sku_id INTEGER NOT NULL,
+    description TEXT,
+    price REAL,
+    sku_item_rfid TEXT,
+    CONSTRAINT fk_sku
+        FOREIGN KEY (sku_id)
+        REFERENCES SKU(id),
+    CONSTRAINT fk_sku_item
+        FOREIGN KEY (sku_item_rfid)
+        REFERENCES SKU_ITEM(rfid)
 );
