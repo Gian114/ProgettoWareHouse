@@ -36,9 +36,9 @@ CREATE TABLE IF NOT EXISTS SKU_ITEM (
 
 CREATE TABLE IF NOT EXISTS POSITION (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-   	aisle INTEGER NOT NULL,
-	row INTEGER,
-    col INTEGER,
+   	aisle TEXT NOT NULL,
+	row TEXT,
+    col TEXT,
     max_weight REAL,
 	max_volume REAL,
 	occupied_weight REAL,
