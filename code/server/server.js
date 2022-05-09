@@ -4,6 +4,7 @@ const db = require('./Modules/DB');
 
 const SKURouter = require('./Routes/SKURoutes');
 const SKUItemsRoutes = require('./Routes/SKUItemsRoutes');
+const positionRoutes = require('./Routes/PositionRoutes')
 const testDescriptorRouter = require('./Routes/TestDescriptorRoutes');
 
 
@@ -31,12 +32,14 @@ app.get('/api/startDB', async (req,res) => {
   await db.dropTables();
   await db.newTableSKU();
   await db.newTableSKUItem();
+  await db.newTablePosition();
   await db.newTableTestDescriptor();
   return res.status(200).json();
 });
 
 app.use('', SKURouter);
 app.use('', SKUItemsRoutes);
+app.use('',positionRoutes);
 app.use('', testDescriptorRouter);
 
 
