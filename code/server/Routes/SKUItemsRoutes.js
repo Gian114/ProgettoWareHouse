@@ -1,3 +1,5 @@
+'use strict'
+
 const express = require('express');
 const SKUItem = require('../Modules/SKUItems');
 const db = require('../Modules/DB');

@@ -1,10 +1,13 @@
+'use strict'
+
 const express = require('express');
 const testDescriptorRouter = express.Router();
 
 const db = require('../Modules/DB');
 const TestDescriptor = require('../Modules/TestDescriptor');
 const testDescriptor = new TestDescriptor(db.db);
-const sku = require('SKURoutes');
+const SKURoutes = require('./SKURoutes');
+const sku = SKURoutes.sku;
 
 //get
 

@@ -3,7 +3,7 @@
 const express = require('express');
 const TestResult = require('../Modules/test_result/TestResult');
 
-const db = require('../Modules/db_singleton');
+const db = require('../Modules/DB');
 const tr_table = new TestResult(db.db);
 
 const test_result_router = express.Router()

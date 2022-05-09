@@ -1,10 +1,12 @@
 'use strict';
+
 const express = require('express');
 const db = require('./Modules/DB');
 
-const SKURouter = require('./Routes/SKURoutes');
-const SKUItemsRoutes = require('./Routes/SKUItemsRoutes');
+const SKURoutes = require('./Routes/SKURoutes');
+const SKUItemsRouter = require('./Routes/SKUItemsRoutes');
 const testDescriptorRouter = require('./Routes/TestDescriptorRoutes');
+const testResultRouter = require('./Routes/TestResultRoutes');
 
 
 // init express
@@ -29,15 +31,14 @@ app.listen(port, () => {
 
 app.get('/api/startDB', async (req,res) => {
   await db.dropTables();
-  await db.newTableSKU();
-  await db.newTableSKUItem();
-  await db.newTableTestDescriptor();
+  await db.createTables();
   return res.status(200).json();
 });
 
-app.use('', SKURouter);
-app.use('', SKUItemsRoutes);
+app.use('', SKURoutes.skuRouter);
+app.use('', SKUItemsRouter);
 app.use('', testDescriptorRouter);
+app.use('', testResultRouter);
 
 
 module.exports = app;

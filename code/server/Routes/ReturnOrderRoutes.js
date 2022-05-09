@@ -1,11 +1,12 @@
+'use strict'
+
 const express = require('express');
 const returnOrderRouter = express.Router();
 
 const db = require('../Modules/DB');
-const ReturnOrder = require('../Modules/TestDescriptor');
+/*const ReturnOrder = require('../Modules/ReturnOrder');
 const returnOrder = new ReturnOrder(db.db);
-const RestockOrder = require('../Modules/RestockOrder');
-const restockOrder = new RestockOrder(db.db);
+const restockOrder = require('./RestockOrderRoutes');
 
 //get
 
@@ -84,3 +85,4 @@ try {
 });
   
 module.exports = returnOrderRouter;
+*/

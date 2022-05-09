@@ -1,6 +1,8 @@
+'use strict'
+
 const TestResult = require('./TestResult');
 
-const db = require('../db_singleton');
+const db = require('../DB');
 const tr_table = new TestResult(db.db);
 
 class TestResultController {

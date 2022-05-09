@@ -1,7 +1,8 @@
+'use strict'
+
 const express = require('express');
 const SKU = require('../Modules/SKU');
 const db = require('../Modules/DB');
-
 
 const skuRouter = express.Router();
 const sku = new SKU(db.db);
@@ -149,6 +150,5 @@ skuRouter.post('/api/sku', async (req,res)=>{
     return res.status(204).json(); 
   });
   
-
-  module.exports = skuRouter;
-  module.exports = sku;
+  module.exports.skuRouter = skuRouter;
+  module.exports.sku = sku;
