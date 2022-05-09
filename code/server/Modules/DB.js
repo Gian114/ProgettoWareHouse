@@ -217,6 +217,6 @@ class DB {
 }
 
 
-const db = new DB('EZWH');
+const db = new DB('EZWH.sqlite');
 
 module.exports = db;
