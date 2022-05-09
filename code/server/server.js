@@ -7,6 +7,7 @@ const SKURoutes = require('./Routes/SKURoutes');
 const SKUItemsRouter = require('./Routes/SKUItemsRoutes');
 const testDescriptorRouter = require('./Routes/TestDescriptorRoutes');
 const testResultRouter = require('./Routes/TestResultRoutes');
+const positionRouter = require('./Routes/PositionRoutes');
 
 
 // init express
@@ -39,6 +40,7 @@ app.use('', SKURoutes.skuRouter);
 app.use('', SKUItemsRouter);
 app.use('', testDescriptorRouter);
 app.use('', testResultRouter);
+app.use('', positionRouter);
 
 
 module.exports = app;
