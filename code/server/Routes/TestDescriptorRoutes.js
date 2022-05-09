@@ -4,8 +4,7 @@ const testDescriptorRouter = express.Router();
 const db = require('../Modules/DB');
 const TestDescriptor = require('../Modules/TestDescriptor');
 const testDescriptor = new TestDescriptor(db.db);
-const SKU = require('../Modules/SKU');
-const sku = new SKU(db.db);
+const sku = require('SKURoutes');
 
 //get
 
