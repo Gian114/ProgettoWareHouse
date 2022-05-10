@@ -33,6 +33,7 @@ class SKU{
                     return;
                 }
                 
+                if(rows !== undefined){
                 const sku = rows.map((r) => (
                 
                     {  
@@ -48,6 +49,10 @@ class SKU{
                     }
                 ));
                 resolve(sku);
+            } else {
+                const sku = ""
+                resolve(sku)
+            }
             });
         });
     }

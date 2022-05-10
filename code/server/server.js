@@ -9,6 +9,7 @@ const testDescriptorRouter = require('./Routes/TestDescriptorRoutes');
 const testResultRouter = require('./Routes/TestResultRoutes');
 const positionRouter = require('./Routes/PositionRoutes');
 const returnOrderRouter = require('./Routes/ReturnOrderRoutes');
+const userRouter = require('./Routes/UserRouter');
 
 
 // init express
@@ -22,6 +23,7 @@ app.use('', positionRouter);
 app.use('', testDescriptorRouter);
 app.use('', testResultRouter);
 app.use('', returnOrderRouter);
+app.use('', userRouter);
 
 db.startDB();
 
