@@ -64,7 +64,7 @@ class DB {
 
     createTablePosition() {
         return new Promise((resolve, reject)  => {
-            const sql = 'CREATE TABLE IF NOT EXISTS POSITION (id INTEGER PRIMARY KEY AUTOINCREMENT, aisle INTEGER NOT NULL, row INTEGER, col INTEGER, max_weight REAL, max_volume REAL, occupied_weight REAL, occupied_volume REAL)';
+            const sql = 'CREATE TABLE IF NOT EXISTS POSITION (id INTEGER PRIMARY KEY AUTOINCREMENT, aisle_id TEXT NOT NULL, row TEXT, col TEXT, max_weight REAL, max_volume REAL, occupied_weight REAL, occupied_volume REAL)';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);

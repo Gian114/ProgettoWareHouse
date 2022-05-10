@@ -7,6 +7,7 @@ const position = new Position(db.db);
 
 //get
 
+//test ok
 positionRouter.get('/api/position', async (req,res) =>{
 
     let x
@@ -23,6 +24,7 @@ positionRouter.get('/api/position', async (req,res) =>{
 
 //post
 
+//test ok 
 positionRouter.post('/api/position', async (req,res)=>{
         
     if(req.body.aisle_id === undefined || req.body.row === undefined ||
@@ -30,9 +32,17 @@ positionRouter.post('/api/position', async (req,res)=>{
             return res.status(422).json({err:"invalid body"})
         }
 
+
+    if(req.body.aisle_id.length != 4 || req.body.row.length !=4  ||
+          req.body.col.length !=4) {
+              return res.status(422).json({err:"invalid body"})
+        }
+
     const item = req.body;
 
-    const positionID = req.body.aisle_id+req.body.row+req.body.col;
+    const positionID = '' + req.body.aisle_id + req.body.row + req.body.col;
+
+    console.log(item)
    
     try{
         await position.createNewPosition(item, positionID);
@@ -46,6 +56,7 @@ positionRouter.post('/api/position', async (req,res)=>{
 
   //put
 
+  //test ok, devi inserire gestione 404
   positionRouter.put('/api/position/:positionID', async (req,res)=>{
 
     if(Object.keys(req.body).length === 0 || 
@@ -53,12 +64,14 @@ positionRouter.post('/api/position', async (req,res)=>{
       return res.status(422).json({})}
   
 
-    if(req.body.positionID === undefined || req.body.newaisle_id === undefined){
+    if(req.params.positionID === undefined || req.body.aisle_id === undefined){
         return res.status(422).json({})}  
   
     const position_id = req.params.positionID;
+
     const newvalues = req.body;
-    const newPositionId = newvalues.aisle_id+newvalues.row+newvalues.col;
+
+    const newPositionId = ''+ newvalues.aisle_id + newvalues.row + newvalues.col;
 
     try{
       await position.modifyPosition(position_id, newvalues,newPositionId);
@@ -70,6 +83,7 @@ positionRouter.post('/api/position', async (req,res)=>{
   
   });
 
+  //test ok anche qui aggiungi il 404 più altri test
   positionRouter.put('/api/position/:positionID/changeID', async (req,res)=>{
 
     if(Object.keys(req.body).length === 0 || 
@@ -77,11 +91,14 @@ positionRouter.post('/api/position', async (req,res)=>{
       return res.status(422).json({})}
   
 
-    if(req.body.positionID === undefined || req.body.changeID === undefined){
+    if(req.params.positionID === undefined || req.body.newPositionID === undefined){
         return res.status(422).json({})}  
   
     const position_id = req.params.positionID;
-    const newPositionId = req.params.changeID;
+    const newPositionId = req.body.newPositionID;
+
+    console.log(position_id);
+    console.log(newPositionId);
 
     try{
       await position.modifyPositionID(position_id,newPositionId);
@@ -95,6 +112,7 @@ positionRouter.post('/api/position', async (req,res)=>{
 
   //delete
 
+  //test ok anche qui aggiungi altri if
   positionRouter.delete('/api/position/:positionID', async (req,res) =>{
 
     if(Object.keys(req.params).length === 0){

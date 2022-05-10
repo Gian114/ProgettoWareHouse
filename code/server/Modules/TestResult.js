@@ -87,6 +87,48 @@ class TestResult {
             });
         });
     }
+
+    modifyTestResult(rfid, id, new_date, new_result, new_id_td) {
+        return new Promise((resolve, reject) => {
+
+            const sql = `
+                UPDATE TEST_RESULT
+                SET
+                    date = ?, 
+                    result = ?,
+                    test_descriptor_id = ?
+                WHERE id = ? AND sku_item_rfid = ?`;
+
+            this.db.run(sql, [new_date, new_result ? 1 : 0, new_id_td, id, rfid], (err) => {
+
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                resolve('');
+            });
+        });
+    }
+
+    removeTestResult(rfid, id) {
+        return new Promise((resolve, reject) => {
+
+            const sql = `
+                DELETE FROM TEST_RESULT
+                WHERE id = ? AND sku_item_rfid = ?`;
+
+            this.db.run(sql, [id, rfid], (err) => {
+
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                resolve('');
+            });
+        });
+    }
 }
 
 module.exports = TestResult;
