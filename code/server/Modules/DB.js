@@ -11,10 +11,15 @@ class DB {
         
     }
 
+    async startDB() {
+        await this.dropTables();
+        await this.createTables();
+    }
+
     async createTables() {
+        await this.createTablePosition(); //referenced by SKU so it's the first I have to create
         await this.createTableSKU();
         await this.createTableSKUItem();
-        await this.createTablePosition();
         await this.createTableTestDescriptor();
         await this.createTableTestResult();
         await this.createTableReturnOrder();

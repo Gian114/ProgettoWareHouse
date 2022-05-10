@@ -1,6 +1,6 @@
 'use strict';
 
-class TestDescriptor{
+class TestDescriptor {
 
     constructor(db) {
         this.db = db;

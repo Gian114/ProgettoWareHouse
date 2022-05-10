@@ -8,6 +8,7 @@ const SKUItemsRouter = require('./Routes/SKUItemsRoutes');
 const testDescriptorRouter = require('./Routes/TestDescriptorRoutes');
 const testResultRouter = require('./Routes/TestResultRoutes');
 const positionRouter = require('./Routes/PositionRoutes');
+const returnOrderRouter = require('./Routes/ReturnOrderRoutes');
 
 
 // init express
@@ -15,7 +16,7 @@ const app = new express();
 const port = 3001;
 
 app.use(express.json());
-
+db.startDB();
 
 //GET /api/test
 app.get('/api/hello', (req,res)=>{
@@ -30,17 +31,12 @@ app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
 
-app.get('/api/startDB', async (req,res) => {
-  await db.dropTables();
-  await db.createTables();
-  return res.status(200).json();
-});
-
 app.use('', SKURoutes.skuRouter);
 app.use('', SKUItemsRouter);
+app.use('', positionRouter);
 app.use('', testDescriptorRouter);
 app.use('', testResultRouter);
-app.use('', positionRouter);
+app.use('', returnOrderRouter);
 
 
 module.exports = app;

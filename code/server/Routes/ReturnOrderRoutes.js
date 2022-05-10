@@ -4,9 +4,9 @@ const express = require('express');
 const returnOrderRouter = express.Router();
 
 const db = require('../Modules/DB');
-/*const ReturnOrder = require('../Modules/ReturnOrder');
+const ReturnOrder = require('../Modules/ReturnOrder');
 const returnOrder = new ReturnOrder(db.db);
-const restockOrder = require('./RestockOrderRoutes');
+//const restockOrder = require('./RestockOrderRoutes');
 
 //get
 
@@ -45,19 +45,19 @@ if(x === ''){
 //post
 
 returnOrderRouter.post('/api/returnOrder', async (req,res)=>{
-    
+console.log('ciao');
 if(req.body.returnDate === undefined || req.body.products === undefined || req.body.restockOrderId === undefined){
         return res.status(422).json({err:"validation of request body failed"});
     }
 
 const ro = req.body;
-let y = await restockOrder.getRestockOrderyID(ro.restockOrderId);
+/*let y = await restockOrder.getRestockOrderyID(ro.restockOrderId);
 if(y === '') {
     return res.status(404).json({error: "no restock order associated to restockOrderId"});
-}
+}*/
     
 try{
-    await returnOrder.createNewReturnOrder(td);
+    await returnOrder.createNewReturnOrder(ro);
     return res.status(201).json();
 } catch(err) {
     return res.status(503).json({error: "generic error"});
@@ -85,4 +85,3 @@ try {
 });
   
 module.exports = returnOrderRouter;
-*/
