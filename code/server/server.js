@@ -16,6 +16,13 @@ const app = new express();
 const port = 3001;
 
 app.use(express.json());
+app.use('', SKURoutes.skuRouter);
+app.use('', SKUItemsRouter);
+app.use('', positionRouter);
+app.use('', testDescriptorRouter);
+app.use('', testResultRouter);
+app.use('', returnOrderRouter);
+
 db.startDB();
 
 //GET /api/test
@@ -30,13 +37,5 @@ app.get('/api/hello', (req,res)=>{
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
-
-app.use('', SKURoutes.skuRouter);
-app.use('', SKUItemsRouter);
-app.use('', positionRouter);
-app.use('', testDescriptorRouter);
-app.use('', testResultRouter);
-app.use('', returnOrderRouter);
-
 
 module.exports = app;
