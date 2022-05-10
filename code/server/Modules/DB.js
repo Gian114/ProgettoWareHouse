@@ -22,6 +22,7 @@ class DB {
         await this.createTableSKUItem();
         await this.createTableTestDescriptor();
         await this.createTableTestResult();
+        await this.createTableRestockOrder();
         await this.createTableReturnOrder();
         await this.createTableProduct();
     }
@@ -32,6 +33,7 @@ class DB {
         await this.dropTablePosition();
         await this.dropTableTestDescriptor();
         await this.dropTableTestResult();
+        await this.dropTableRestockOrder();
         await this.dropTableReturnOrder();
         await this.dropTableProduct();
     }
@@ -91,6 +93,19 @@ class DB {
     createTableTestResult() {
         return new Promise((resolve, reject)  => {
             const sql = 'CREATE TABLE IF NOT EXISTS TEST_RESULT (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, result INTEGER,  sku_item_rfid TEXT NOT NULL, test_descriptor_id INTEGER NOT NULL, FOREIGN KEY(test_descriptor_id) REFERENCES TEST_DESCRIPTOR(id), FOREIGN KEY (sku_item_rfid) REFERENCES SKU_ITEM(rfid))';
+            this.db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(this.lastID);
+            });
+        });
+    }
+
+    createTableRestockOrder() {
+        return new Promise((resolve, reject)  => {
+            const sql = 'CREATE TABLE IF NOT EXISTS RESTOCK_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, issue_date TEXT, state TEXT NOT NULL, product_id INTEGER NOT NULL, supplier_id INTEGER NOT NULL, delivery_date TEXT, sku_item_rfid TEXT NOT NULL, FOREIGN KEY(product_id) REFERENCES RESTOCK_ORDER(id), FOREIGN KEY(sku_item_rfid) REFERENCES SKU_ITEM(rfid))'; 
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -192,6 +207,20 @@ class DB {
                 resolve(this.lastID);
             });
         });
+    }
+
+    dropTableRestockOrder() {
+        return new Promise((resolve, reject)  => {
+            const sql = 'DROP TABLE IF EXISTS RESTOCK_ORDER';
+            this.db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(this.lastID);
+            });
+        });
+
     }
 
     dropTableTestResult() {

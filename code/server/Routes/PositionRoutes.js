@@ -1,3 +1,5 @@
+'use strict'
+
 const express = require('express');
 const Position = require('../Modules/Position');
 const db = require('../Modules/DB');
