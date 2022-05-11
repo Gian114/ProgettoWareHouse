@@ -16,79 +16,114 @@ For DATE there is no specific container but we use DATE and let sqlite use the t
 
 CREATE TABLE IF NOT EXISTS SKU (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    description TEXT,
-    weight REAL,
-    volume REAL,
-    price REAL,
-    notes TEXT,
-    available_quantity INTEGER,
+    description TEXT NOT NULL,
+    weight REAL NOT NULL,
+    volume REAL NOT NULL,
+    price REAL NOT NULL,
+    notes TEXT NOT NULL,
+    available_quantity INTEGER NOT NULL,
     position_id INTEGER NOT NULL,
     FOREIGN KEY(position_id) REFERENCES POSITION(id)
 );
 
 CREATE TABLE IF NOT EXISTS SKU_ITEM (
     rfid TEXT PRIMARY KEY,
-    available INTEGER, /* boolean */
+    available INTEGER NOT NULL, /* boolean */
     sku_id INTEGER NOT NULL,
-    date_of_stock DATE,
-    FOREIGN KEY(sku_id) REFERENCES SKU(id)
+    date_of_stock DATE NOT NULL,
+    return_order_id INTEGER,
+    restock_order_id INTEGER,
+    FOREIGN KEY(sku_id) REFERENCES SKU(id),
+    FOREIGN KEY(return_order_id) REFERENCES RETURN_ORDER(id),
+    FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id)
 );
 
 CREATE TABLE IF NOT EXISTS POSITION (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
    	aisle TEXT NOT NULL,
-	row TEXT,
-    col TEXT,
-    max_weight REAL,
-	max_volume REAL,
-	occupied_weight REAL,
-	occupied_volume REAL
+	row TEXT NOT NULL,
+    col TEXT NOT NULL,
+    max_weight REAL NOT NULL,
+	max_volume REAL NOT NULL,
+	occupied_weight REAL NOT NULL,
+	occupied_volume REAL NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS TEST_DESCRIPTOR (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
-    procedure_description TEXT,
+    name TEXT NOT NULL,
+    procedure_description TEXT NOT NULL,
     sku_id INTEGER NOT NULL,
     FOREIGN KEY(sku_id) REFERENCES SKU(id)
 );
 
 CREATE TABLE IF NOT EXISTS TEST_RESULT (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    date TEXT,
-    result INTEGER, /* boolean */
+    date TEXT NOT NULL,
+    result INTEGER NOT NULL, /* boolean */
     sku_item_rfid TEXT NOT NULL,
     test_descriptor_id INTEGER NOT NULL,
     FOREIGN KEY(sku_item_rfid) REFERENCES SKU_ITEM(rfid),
     FOREIGN KEY(test_descriptor_id) REFERENCES TEST_DESCRIPTOR(id)
 );
 
+CREATE TABLE IF NOT EXISTS USER (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    username TEXT NOT NULL, 
+    name TEXT NOT NULL, 
+    surname TEXT NOT NULL, 
+    type TEXT NOT NULL, 
+    password TEXT NOT NULL,
+    COSTRAINT EMAIL_TYPE UNIQUE(username, type)
+);
+
 CREATE TABLE IF NOT EXISTS RESTOCK_ORDER (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     issue_date TEXT NOT NULL,
-    state TEXT NOT NULL, 
-    product_id INTEGER NOT NULL,
+    state TEXT NOT NULL,
     supplier_id INTEGER NOT NULL,
-    delivery_date TEXT,
-    sku_item_rfid TEXT NOT NULL,
-    FOREIGN KEY(product_id) REFERENCES PRODUCT(id),
-    FOREIGN KEY(sku_item_rfid) REFERENCES SKU_ITEM(id)
-    
+    TNdelivery_date TEXT,
+    FOREIGN KEY(supplier_id) REFERENCES USER(id)
 );
 
 CREATE TABLE IF NOT EXISTS RETURN_ORDER (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    returnDate TEXT,
-    sku_item_rfid TEXT NOT NULL, 
+    returnDate TEXT NOT NULL, 
     restock_order_id INTEGER NOT NULL,
-    FOREIGN KEY(sku_item_rfid) REFERENCES SKU_ITEM(rfid),
     FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id)
+);
+
+CREATE TABLE IF NOT EXISTS INTERNAL_ORDER (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    issue_date TEXT NOT NULL,
+    state TEXT NOT NULL,
+    customer_id INTEGER NOT NULL,
+    FOREIGN KEY(customer_id) REFERENCES USER(id)
+);
+
+CREATE TABLE IF NOT EXISTS ITEM (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sku_id INTEGER NOT NULL,
+    description TEXT NOT NULL,
+    price REAL NOT NULL,
+    supplier_id INTEGER NOT NULL,
+    FOREIGN KEY(sku_id) REFERENCES SKU(id),
+    FOREIGN KEY(description) REFERENCES SKU(description),
+    FOREIGN KEY(price) REFERENCES SKU(price),
+    FOREIGN KEY(supplier_id) REFERENCES USER(id)
 );
 
 CREATE TABLE IF NOT EXISTS PRODUCT (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    sku_id INTEGER NOT NULL FOREIGN KEY REFERENCES SKU(id),
-    description TEXT,
-    price REAL,
-    quantity INTEGER
+    sku_id INTEGER NOT NULL,
+    description TEXT NOT NULL,
+    price REAL NOT NULL,
+    quantity INTEGER NOT NULL,
+    restock_order_id INTEGER,
+    internal_order_id INTEGER,
+    FOREIGN KEY(sku_id) REFERENCES SKU(id),
+    FOREIGN KEY(description) REFERENCES SKU(description),
+    FOREIGN KEY(price) REFERENCES SKU(price),
+    FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id),
+    FOREIGN KEY(internal_order_id) REFERENCES INTERNAL_ORDER(id)
 );
