@@ -7,7 +7,8 @@ const db = require('../Modules/DB');
 const restockOrderRouter = express.Router();
 const restockOrder = new RestockOrder(db.db);
 
-const skuItems = require('./SKUItems');
+const skuItemRoutes = require('./SKUItemsRoutes');
+const skuItem = skuItemRoutes.skuItem;
 
 //get
 
@@ -70,4 +71,5 @@ restockOrderRouter.get('/api/restockOrders/:id/returnItems', async (req, res) =>
 
 
 
-module.export = restockOrderRouter;
+module.exports.restockOrderRouter = restockOrderRouter;
+module.exports.restockOrder = restockOrder;

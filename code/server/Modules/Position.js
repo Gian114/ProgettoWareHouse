@@ -8,10 +8,10 @@ class Position{
 
 
     //ricontrolla OccupiedWeight e OccupiedVolume
-    createNewPosition(data,positionID){
+    createNewPosition(data){
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO POSITION(ID, AISLE_ID, ROW, COL, MAX_WEIGHT, MAX_VOLUME, OCCUPIED_WEIGHT, OCCUPIED_VOLUME) VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
-            this.db.run(sql, [positionID, data.aisle_id, data.row, data.col, data.max_weight, data.max_volume, data.occupied_weight, data.occupied_volume], (err) => {
+            const sql = 'INSERT INTO POSITION(ID, AISLE_ID, ROW, COL, MAX_WEIGHT, MAX_VOLUME, OCCUPIED_WEIGHT, OCCUPIED_VOLUME) VALUES(?, ?, ?, ?, ?, ?, 0, 0)';
+            this.db.run(sql, [data.positionID, data.aisle_id, data.row, data.col, data.max_weight, data.max_volume], (err) => {
                 if (err) {
                   reject(err);
                   return;

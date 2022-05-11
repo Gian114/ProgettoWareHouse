@@ -4,12 +4,14 @@ const express = require('express');
 const db = require('./Modules/DB');
 
 const SKURoutes = require('./Routes/SKURoutes');
-const SKUItemsRouter = require('./Routes/SKUItemsRoutes');
+const SKUItemsRoutes = require('./Routes/SKUItemsRoutes');
+const positionRouter = require('./Routes/PositionRoutes');
 const testDescriptorRouter = require('./Routes/TestDescriptorRoutes');
 const testResultRouter = require('./Routes/TestResultRoutes');
-const positionRouter = require('./Routes/PositionRoutes');
-const returnOrderRouter = require('./Routes/ReturnOrderRoutes');
 const userRouter = require('./Routes/UserRouter');
+const restockOrderRoutes = require('./Routes/RestockOrderRoutes');
+const returnOrderRouter = require('./Routes/ReturnOrderRoutes');
+
 
 
 // init express
@@ -18,12 +20,14 @@ const port = 3001;
 
 app.use(express.json());
 app.use('', SKURoutes.skuRouter);
-app.use('', SKUItemsRouter);
+app.use('', SKUItemsRoutes.skuItemRouter);
 app.use('', positionRouter);
 app.use('', testDescriptorRouter);
 app.use('', testResultRouter);
-app.use('', returnOrderRouter);
 app.use('', userRouter);
+app.use('', restockOrderRoutes.restockOrderRouter);
+app.use('', returnOrderRouter);
+
 
 db.startDB();
 

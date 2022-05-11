@@ -6,7 +6,18 @@ class SKUItem{
         this.db = db;
     }
 
-
+    setReturnOrderId(rfid, returnOrderId) {
+        return new Promise((resolve, reject)=>{
+            const sql = 'UPDATE SKU_ITEM SET return_order_id = ? WHERE rfid = ?'
+            this.db.run(sql, [returnOrderId, rfid], (err, r)=>{
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(true)
+            });
+        });
+    }
 
     createNewSKUItem(item){
         return new Promise((resolve, reject) => {
@@ -30,7 +41,7 @@ class SKUItem{
                     return;
                 }
                 
-                const skuitem = rows.map((r) => (
+                const skuitems = rows.map((r) => (
                 
                     {  
                         rfid: r.rfid,
@@ -39,13 +50,12 @@ class SKUItem{
                         date: r.date_of_stock
                     }
                 ));
-                resolve(skuitem);
+                resolve(skuitems);
             });
         });
     }
 
     getSKUItemByRFID(rfid) {
-        
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM SKU_ITEM WHERE rfid = ?';
             this.db.get(sql, rfid, (err, r) => {
@@ -61,13 +71,13 @@ class SKUItem{
                         available: r.available,
                         sku: r.sku_id,
                         date: r.date_of_stock
-                    }
+                    };
                     
                     resolve(skuitem);
 
                 } else {
-                    const none = ''
-                    resolve(none)
+                    const none = '';
+                    resolve(none);
                 }
                 
             });
@@ -104,18 +114,16 @@ class SKUItem{
     }
 
     modifySKUItem(rfid, data){
-        return new Promise((resolve, reject)=>{
-            
-        const sql = 'UPDATE SKU_ITEM SET rfid = ?, available = ?, date_of_stock = ?'
-        this.db.run(sql, [rfid, data.newAvailable, data.newDateOfStock], (err, r)=>{
-            if (err) {
-                reject(err);
-                return;
-            }
-            resolve(true)
-        })
-
-        })
+        return new Promise((resolve, reject)=>{   
+            const sql = 'UPDATE SKU_ITEM SET rfid = ?, available = ?, date_of_stock = ? WHERE rfid = ?'
+            this.db.run(sql, [data.newRFID, data.newAvailable, data.newDateOfStock, rfid], (err, r)=>{
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(true)
+            });
+        });
     }
 
     deleteSKUItem(rfid) {

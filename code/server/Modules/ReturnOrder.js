@@ -8,20 +8,31 @@ class ReturnOrder {
 
     createNewReturnOrder(data) {
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO RETURN_ORDER(returnDate, sku_item_rfid, restock_order_id) VALUES(?, ?, ?)';
-            for(let i=0; i<data.products.length; i++) {
-                console.log(data.products[i].RFID)
-                this.db.run(sql, [data.returnDate, data.products[i].RFID, data.restockOrderId], (err) => {
-                    if (err) {
-                        reject(err);
-                        return;
-                    }
-
-                    resolve(this.lastID);
-                });
-            }   
+            const sql = 'INSERT INTO RETURN_ORDER(return_date, restock_order_id) VALUES(?, ?)';
+            this.db.run(sql, [data.returnDate, data.restockOrderId], (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(this.lastID);
+            });
         });
     }
+
+    deleteReturnOrder(id) {
+        return new Promise((resolve, reject) => {
+            const sql = 'DELETE FROM RETURN_ORDER WHERE id = ?';
+            this.db.run(sql, [id], (err, r) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+               
+                resolve(true);
+            });
+        });
+    }
+
 }
 
 module.exports = ReturnOrder;

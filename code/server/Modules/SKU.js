@@ -59,7 +59,6 @@ class SKU{
 
 
     getSKUByID(id) {
-        
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM SKU WHERE ID = ?';
             this.db.get(sql, id, (err, r) => {

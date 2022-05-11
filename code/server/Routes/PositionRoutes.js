@@ -29,25 +29,23 @@ positionRouter.get('/api/position', async (req,res) =>{
 //test ok 
 positionRouter.post('/api/position', async (req,res)=>{
         
-    if(req.body.aisle_id === undefined || req.body.row === undefined ||
+    if(req.body.aisleID === undefined || req.body.row === undefined ||
         req.body.col === undefined){
             return res.status(422).json({err:"invalid body"})
         }
 
 
-    if(req.body.aisle_id.length != 4 || req.body.row.length !=4  ||
+    /*if(req.body.aisle_id.length != 4 || req.body.row.length !=4  ||
           req.body.col.length !=4) {
               return res.status(422).json({err:"invalid body"})
-        }
+        }*/
 
     const item = req.body;
-
-    const positionID = '' + req.body.aisle_id + req.body.row + req.body.col;
 
     console.log(item)
    
     try{
-        await position.createNewPosition(item, positionID);
+        await position.createNewPosition(item);
     }catch(err){
         return res.status(503).json({error: "generic error"})
     }

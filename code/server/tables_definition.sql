@@ -31,15 +31,15 @@ CREATE TABLE IF NOT EXISTS SKU_ITEM (
     available INTEGER NOT NULL, /* boolean */
     sku_id INTEGER NOT NULL,
     date_of_stock DATE NOT NULL,
-    return_order_id INTEGER,
-    restock_order_id INTEGER,
+    return_order_id INTEGER DEFAULT NULL,
+    restock_order_id INTEGER DEFAULT NULL,
     FOREIGN KEY(sku_id) REFERENCES SKU(id),
     FOREIGN KEY(return_order_id) REFERENCES RETURN_ORDER(id),
     FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id)
 );
 
 CREATE TABLE IF NOT EXISTS POSITION (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY,
    	aisle TEXT NOT NULL,
 	row TEXT NOT NULL,
     col TEXT NOT NULL,
@@ -73,8 +73,7 @@ CREATE TABLE IF NOT EXISTS USER (
     name TEXT NOT NULL, 
     surname TEXT NOT NULL, 
     type TEXT NOT NULL, 
-    password TEXT NOT NULL,
-    COSTRAINT EMAIL_TYPE UNIQUE(username, type)
+    password TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS RESTOCK_ORDER (
@@ -82,13 +81,13 @@ CREATE TABLE IF NOT EXISTS RESTOCK_ORDER (
     issue_date TEXT NOT NULL,
     state TEXT NOT NULL,
     supplier_id INTEGER NOT NULL,
-    TNdelivery_date TEXT,
+    TNdelivery_date TEXT DEFAULT NULL,
     FOREIGN KEY(supplier_id) REFERENCES USER(id)
 );
 
 CREATE TABLE IF NOT EXISTS RETURN_ORDER (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    returnDate TEXT NOT NULL, 
+    return_date TEXT NOT NULL, 
     restock_order_id INTEGER NOT NULL,
     FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id)
 );
@@ -108,8 +107,6 @@ CREATE TABLE IF NOT EXISTS ITEM (
     price REAL NOT NULL,
     supplier_id INTEGER NOT NULL,
     FOREIGN KEY(sku_id) REFERENCES SKU(id),
-    FOREIGN KEY(description) REFERENCES SKU(description),
-    FOREIGN KEY(price) REFERENCES SKU(price),
     FOREIGN KEY(supplier_id) REFERENCES USER(id)
 );
 
@@ -119,11 +116,9 @@ CREATE TABLE IF NOT EXISTS PRODUCT (
     description TEXT NOT NULL,
     price REAL NOT NULL,
     quantity INTEGER NOT NULL,
-    restock_order_id INTEGER,
-    internal_order_id INTEGER,
+    restock_order_id INTEGER DEFAULT NULL,
+    internal_order_id INTEGER DEFAULT NULL,
     FOREIGN KEY(sku_id) REFERENCES SKU(id),
-    FOREIGN KEY(description) REFERENCES SKU(description),
-    FOREIGN KEY(price) REFERENCES SKU(price),
     FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id),
     FOREIGN KEY(internal_order_id) REFERENCES INTERNAL_ORDER(id)
 );
