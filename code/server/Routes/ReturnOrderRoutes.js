@@ -33,14 +33,13 @@ returnOrderRouter.get('/api/returnOrders/:id', async (req,res) =>{
     const id = req.params.id;
     try {
         let x = await returnOrder.getReturnOrderByID(id);
+        if(x === ''){
+            return res.status(404).json({error: "no return order associated to id"});
+        } else {
+            return res.status(200).json(x);
+        }
     } catch(err) {
         return res.status(500).json({error: "generic error"});
-    }
-
-    if(x === ''){
-        return res.status(404).json({error: "no return order associated to id"});
-    } else {
-        return res.status(200).json(x);
     }
 
 });
@@ -58,6 +57,13 @@ returnOrderRouter.post('/api/returnOrder', async (req,res)=>{
     if(y === '') {
         return res.status(404).json({error: "no restock order associated to restockOrderId"});
     }*/
+    let x = '';
+    for(let i=0; i<ro.products.length; i++) {
+        x = await skuItem.getSKUItemByRFID(ro.products[i].RFID);
+        if(x === '') {
+            return res.status(404).json({error: `no sku item associated to RFID: ${ro.products[i].RFID}`});
+        }
+    }
         
     try{
         await returnOrder.createNewReturnOrder(ro);

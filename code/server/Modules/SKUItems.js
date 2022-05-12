@@ -22,7 +22,7 @@ class SKUItem{
     createNewSKUItem(item){
         return new Promise((resolve, reject) => {
             const sql = 'INSERT INTO SKU_ITEM(rfid, available, sku_id, date_of_stock) VALUES(?, 0, ?, ?)';
-            this.db.run(sql, [item.rfid, item.sku_id, item.DateOfStock], (err) => {
+            this.db.run(sql, [item.RFID, item.SKUId, item.DateOfStock], (err) => {
                 if (err) {
                   reject(err);
                   return;
@@ -42,7 +42,6 @@ class SKUItem{
                 }
                 
                 const skuitems = rows.map((r) => (
-                
                     {  
                         rfid: r.rfid,
                         available: r.available,

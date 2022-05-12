@@ -72,12 +72,12 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
       return res.status(422).json({})}
   
 
-    if(req.body.rfid === undefined || req.body.sku_id === undefined ||
+    if(req.body.RFID === undefined || req.body.SKUId === undefined ||
       req.body.DateOfStock === undefined){
         return res.status(422).json({})}  
     
     const item = req.body;
-    console.log(item)
+    console.log(item);
     
     try{
       await skuItem.createNewSKUItem(item);

@@ -30,9 +30,8 @@ class TestDescriptor {
                 }
 
                 const tds = rows.map((r) => (
-                
                     {  
-                        id:r.id,
+                        id: r.id,
                         name : r.name,
                         procedureDescription : r.procedureDescription,
                         idSKU : r.sku_id,
