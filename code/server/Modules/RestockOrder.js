@@ -21,10 +21,10 @@ class RestockOrder {
                         id: r.id,
                         issue_date : r.issue_date,
                         state : r.state,
-                        products : r.product_id, //dovresti prendere tutti i prodotti
+                           //products
                         supplier_id : r.supplier_id,
-                        delivery_date: r.delivery_date, //not 
-                        sku_items: r.sku_item_rfid, //dovresti prendere tutti gli skuitems
+                        transportNote: { deliveryDate: r.TNdelivery_date },
+                           //sku_items
                     }
                 ));
                 resolve(restock_order);
@@ -47,10 +47,10 @@ class RestockOrder {
                         id: r.id,
                         issue_date : r.issue_date,
                         state : r.state,
-                        products : r.product_id, //dovresti prendere tutti i prodotti
+                           //products
                         supplier_id : r.supplier_id,
-                        delivery_date: r.delivery_date, //not 
-                        sku_items: r.sku_item_rfid, //dovresti prendere tutti gli skuitems
+                        transportNote: { deliveryDate: r.TNdelivery_date },
+                           //sku_items
                     }
                 ));
                 resolve(restock_order);
@@ -88,12 +88,30 @@ class RestockOrder {
         });
 
     }
-/*
+
     getItemsByID(rid){
         
 
     }
-*/
+
+    ////////////////////////
+
+    //state = ISSUE and empty List of skuitems
+    createNewRestockOrder(data) {
+        return new Promise((resolve, reject) => {
+            const sql = 'INSERT INTO RESTOCK_ORDER(issue_date, state, supplier_id) VALUES(?, ISSUED, ?)';
+            this.db.run(sql, [data.issueDate, data.supplierId], (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(this.lastID);
+            });
+        });
+    }
+
+
+   
 }
 
 module.exports = RestockOrder;
