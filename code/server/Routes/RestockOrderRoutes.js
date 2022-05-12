@@ -8,7 +8,9 @@ const restockOrderRouter = express.Router();
 const restockOrder = new RestockOrder(db.db);
 
 const skuItemRoutes = require('./SKUItemsRoutes');
+const Products = require('../Modules/Products');
 const skuItem = skuItemRoutes.skuItem;
+const product = new Products(db.db);
 
 //get
 
@@ -68,6 +70,30 @@ restockOrderRouter.get('/api/restockOrders/:id/returnItems', async (req, res) =>
 });
 
 //post
+
+restockOrderRouter.post('/api/restockOrder', async (req,res)=>{
+
+    if(req.body.issueDate === undefined || req.body.products === undefined || req.body.supplierId === undefined){
+            return res.status(422).json({err:"validation of request body failed"});
+        }
+
+    const ro = req.body;
+
+ 
+    try{
+        await restockOrder.createNewRestockOrder(ro);  //non va 
+        //let id = await db.getAutoincrementID('RESTOCK_ORDER'); //PRENDO ULTIMO ID AUTOINCREMENTATO //NON VA
+        for(let i=0; i<ro.products.length; i++) {
+            product.insertProductByRestockId(ro.products[i], 1);
+        }
+        return res.status(201).json();
+    } catch(err) {
+        return res.status(503).json({error: "generic error"});
+    }
+
+});
+
+
 
 
 
