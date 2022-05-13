@@ -13,7 +13,7 @@ const skuItem = skuItemRoutes.skuItem;
 
 //get
 
-returnOrderRouter.get('/api/returnOrders', async (req,res) =>{
+returnOrderRouter.get('/api/returnOrders', async (req, res) =>{
 
     try {
         let x = await returnOrder.getAllReturnOrders();
@@ -24,13 +24,14 @@ returnOrderRouter.get('/api/returnOrders', async (req,res) =>{
 
 });
 
-returnOrderRouter.get('/api/returnOrders/:id', async (req,res) =>{
+returnOrderRouter.get('/api/returnOrders/:id', async (req, res) => {
 
-    if(req.params.id === undefined){
+    if(!Number.isInteger(parseFloat(req.params.id))) {
         return res.status(422).json({error: 'validation of id failed'});
     }
-
+   
     const id = req.params.id;
+    
     try {
         let x = await returnOrder.getReturnOrderByID(id);
         if(x === ''){
@@ -46,9 +47,9 @@ returnOrderRouter.get('/api/returnOrders/:id', async (req,res) =>{
 
 //post
 
-returnOrderRouter.post('/api/returnOrder', async (req,res)=>{
+returnOrderRouter.post('/api/returnOrder', async (req, res)=> {
 
-    if(req.body.returnDate === undefined || req.body.products === undefined || req.body.restockOrderId === undefined){
+    if(req.body.returnDate === undefined || req.body.products === undefined || req.body.restockOrderId === undefined) {
             return res.status(422).json({err:"validation of request body failed"});
         }
 
@@ -80,9 +81,9 @@ returnOrderRouter.post('/api/returnOrder', async (req,res)=>{
 
 //delete
 
-returnOrderRouter.delete('/api/returnOrder/:id', async (req,res)=>{
+returnOrderRouter.delete('/api/returnOrder/:id', async (req, res)=> {
 
-    if(req.params.id === undefined){
+    if(!Number.isInteger(parseFloat(req.params.id))) {
         return res.status(422).json({error: 'validation of id failed'});
     }
 
