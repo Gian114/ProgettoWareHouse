@@ -71,7 +71,7 @@ class TestDescriptor {
     modifyTestDescriptor(id, data) {
         return new Promise((resolve, reject)=>{
             const sql = 'UPDATE TEST_DESCRIPTOR SET name = ?, procedure_description = ?, sku_id = ? WHERE ID = ?';
-            this.db.run(sql, [data.newName, data.newProcedureDescription, data.newIdSKU, id], (err)=>{
+            this.db.run(sql, [data.newName, data.newProcedureDescription, data.newIdSKU, id], (err) => {
                 if (err) {
                     reject(err);
                     return;

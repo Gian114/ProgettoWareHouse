@@ -12,6 +12,7 @@ const userRouter = require('./Routes/UserRouter');
 const restockOrderRoutes = require('./Routes/RestockOrderRoutes');
 const returnOrderRouter = require('./Routes/ReturnOrderRoutes');
 const internalOrderRouter = require('./Routes/InternalOrderRoutes')
+const itemRouter = require('./Routes/ItemRoutes')
 
 
 // init express
@@ -27,8 +28,8 @@ app.use('', testResultRouter);
 app.use('', userRouter);
 app.use('', restockOrderRoutes.restockOrderRouter);
 app.use('', returnOrderRouter);
-app.use('', internalOrderRouter)
-
+app.use('', internalOrderRouter);
+app.use('', itemRouter);
 
 db.startDB();
 

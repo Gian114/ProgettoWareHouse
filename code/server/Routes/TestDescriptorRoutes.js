@@ -29,7 +29,6 @@ testDescriptorRouter.get('/api/testDescriptors/:id', async (req, res) => {
   }
 
   const id = req.params.id;
-
   try {
     let x = await testDescriptor.getTestDescriptorByID(id);
   } catch(err) {
@@ -48,7 +47,7 @@ testDescriptorRouter.get('/api/testDescriptors/:id', async (req, res) => {
   
 testDescriptorRouter.post('/api/testDescriptor', async (req, res) => {
     
-  if(req.body.name === undefined || req.body.procedureDescription === undefined || req.body.idSKU === undefined) {
+  if(req.body.name === undefined || req.body.procedureDescription === undefined || !Number.isInteger(parseFloat(req.body.idSKU))) {
         return res.status(422).json({err:"validation of request body failed"});
     }
 
@@ -71,13 +70,12 @@ testDescriptorRouter.post('/api/testDescriptor', async (req, res) => {
 
 testDescriptorRouter.put('/api/testDescriptor/:id', async (req, res) => {
     
-  if(req.body.newName === undefined || req.body.newProcedureDescription === undefined || req.body.newIdSKU === undefined || !Number.isInteger(parseFloat(req.params.id))) {
+  if(req.body.newName === undefined || req.body.newProcedureDescription === undefined || !Number.isInteger(parseFloat(req.body.newIdSKU)) || !Number.isInteger(parseFloat(req.params.id))) {
         return res.status(422).json({err:"validation of request body or of id failed"});
     }
 
   const newvalues = req.body;
   const id = req.params.id;
-
   let x = await testDescriptor.getTestDescriptorByID(id);
   let y = await sku.getSKUByID(newvalues.newIdSKU);
   if(x === '' || y === '') {
@@ -102,7 +100,6 @@ testDescriptorRouter.delete('/api/testDescriptor/:id', async (req, res) => {
   }
 
   const id = req.params.id;
-
   try {
     await testDescriptor.deleteTestDescriptor(id);
     return res.status(204).json();

@@ -176,7 +176,7 @@ class DB {
 
     createTableItem() {
         return new Promise((resolve, reject)  => {  
-            const sql = 'CREATE TABLE IF NOT EXISTS ITEM (id INTEGER PRIMARY KEY AUTOINCREMENT, sku_id INTEGER NOT NULL, description TEXT NOT NULL, price REAL NOT NULL, supplier_id INTEGER NOT NULL, FOREIGN KEY(sku_id) REFERENCES SKU(id), FOREIGN KEY(supplier_id) REFERENCES USER(id))';  
+            const sql = 'CREATE TABLE IF NOT EXISTS ITEM (id INTEGER PRIMARY KEY, sku_id INTEGER NOT NULL, description TEXT NOT NULL, price REAL NOT NULL, supplier_id INTEGER NOT NULL, FOREIGN KEY(sku_id) REFERENCES SKU(id), FOREIGN KEY(supplier_id) REFERENCES USER(id))';  
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
