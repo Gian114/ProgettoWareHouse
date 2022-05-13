@@ -11,7 +11,7 @@ const testResultRouter = require('./Routes/TestResultRoutes');
 const userRouter = require('./Routes/UserRouter');
 const restockOrderRoutes = require('./Routes/RestockOrderRoutes');
 const returnOrderRouter = require('./Routes/ReturnOrderRoutes');
-
+const internalOrderRouter = require('./Routes/InternalOrderRoutes')
 
 
 // init express
@@ -27,6 +27,7 @@ app.use('', testResultRouter);
 app.use('', userRouter);
 app.use('', restockOrderRoutes.restockOrderRouter);
 app.use('', returnOrderRouter);
+app.use('', internalOrderRouter)
 
 
 db.startDB();
