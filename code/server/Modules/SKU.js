@@ -12,8 +12,8 @@ class SKU{
 
     createSKU(data) {
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO SKU(DESCRIPTION, WEIGHT, VOLUME, NOTES, POSITION, AVAILABLE_QUANTITY, PRICE) VALUES(?, ?, ?, ?, ?, ?, ?)';
-            this.db.run(sql, [data.description, data.weight, data.volume, data.notes, data.position, data.quantity, data.price], (err) => {
+            const sql = 'INSERT INTO SKU(DESCRIPTION, WEIGHT, VOLUME, NOTES, AVAILABLE_QUANTITY, PRICE) VALUES(?, ?, ?, ?, ?, ?)';
+            this.db.run(sql, [data.description, data.weight, data.volume, data.notes, data.availableQuantity, data.price], (err) => {
                 if (err) {
                   reject(err);
                   return;
@@ -37,14 +37,14 @@ class SKU{
                 const sku = rows.map((r) => (
                 
                     {  
-                        id:r.ID,
-                        description : r.DESCRIPTION,
-                        weight : r.WEIGHT,
-                        volume : r.VOLUME,
-                        notes : r.NOTES,
-                        position: r.POSITION,
-                        quantity: r.AVAILABLE_QUANTITY, 
-                        price: r.PRICE,
+                        id:r.id,
+                        description : r.description,
+                        weight : r.weight,
+                        volume : r.volume,
+                        notes : r.notes,
+                        position: r.position,
+                        quantity: r.availableQuantity, 
+                        price: r.price,
                         //descriptors: r.TESTDESCRIPTORS
                     }
                 ));
@@ -70,14 +70,14 @@ class SKU{
                 if(r!==undefined){
                     const sku =  
                     {  
-                        id: r.ID,
-                        description : r.DESCRIPTION,
-                        weight : r.WEIGHT,
-                        volume : r.VOLUME,
-                        notes : r.NOTES,
-                        position: r.POSITION,
-                        quantity: r.AVAILABLE_QUANTITY, 
-                        price: r.PRICE,
+                        id: r.id,
+                        description : r.description,
+                        weight : r.weight,
+                        volume : r.volume,
+                        notes : r.notes,
+                        position: r.position,
+                        quantity: r.available_quantity, 
+                        price: r.price,
                     }
                     resolve(sku)
                 } else {
@@ -93,7 +93,7 @@ class SKU{
         return new Promise((resolve, reject)=>{
             //gestire old values e position
         const sql = 'UPDATE SKU SET DESCRIPTION = ?, WEIGHT = ?, VOLUME = ?, NOTES = ?, AVAILABLE_QUANTITY = ?, PRICE = ? WHERE ID = ?'
-        this.db.run(sql, [data.description, data.weight, data.volume, data.notes, data.position, data.quantity, data.price, id], (err, r)=>{
+        this.db.run(sql, [data.newDescription, data.newWeight, data.newVolume, data.newNotes,data.newAvailableQuantity, data.newPrice, id], (err, r)=>{
             if (err) {
                 reject(err);
                 return;

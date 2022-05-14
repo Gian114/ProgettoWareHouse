@@ -97,7 +97,7 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
       return res.status(422).json({})}
   
 
-    if(req.body.newAvailable === undefined || req.body.newDateOfStock === undefined){
+    if(req.body.newRFID === undefined || req.body.newAvailable === undefined || req.body.newDateOfStock === undefined){
         return res.status(422).json({})}  
   
     const rfid = req.params.rfid;
@@ -121,12 +121,17 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
       return res.status(422).json({})}
 
     const id = req.params.rfid;
+    let x
+
     try{
-      await skuItem.deleteSKUItem(id);
+      x = await skuItem.deleteSKUItem(id);
     }catch(err){
       return res.status(503).json({err: "generic error"})
     }
     
+    if(x === false){
+      res.status(204).json({message:"did not find the skuitem"})
+    }
     return res.status(204).json();
   
   });

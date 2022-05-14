@@ -1,4 +1,4 @@
-const e = require("express");
+
 
 
 class User{
@@ -124,7 +124,12 @@ class User{
                     reject(err);
                     return;
                 }
-                resolve(true);
+                if(r!==undefined){
+                    resolve(true);
+                } else {
+                    resolve(false)
+                }
+                
             });
         });
     }

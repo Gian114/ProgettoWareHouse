@@ -3,9 +3,11 @@
 const express = require('express');
 const SKU = require('../Modules/SKU');
 const db = require('../Modules/DB');
+const Position = require('../Modules/Position');
 
 const skuRouter = express.Router();
 const sku = new SKU(db.db);
+const pos = new Position(db.db)
 
 //get
 
@@ -29,7 +31,6 @@ skuRouter.get('/api/skus/:id', async (req,res) =>{
     
     let x = ''
     const id = req.params.id;
-   
     
     try{
         x = await sku.getSKUByID(id);
@@ -67,6 +68,7 @@ skuRouter.post('/api/sku', async (req,res)=>{
     const item = req.body;
    
     try{
+        
         await sku.createSKU(item);
     }catch(err){
         return res.status(503).json({error: "generic error"})
@@ -116,15 +118,53 @@ skuRouter.post('/api/sku', async (req,res)=>{
     }
 
     const id = req.params.id
-    const position = req.body.position
+    const positionID = req.body.position
+
+    let sku;
+    let position;
+    let status;
+    let data;
 
     try{
-        await sku.modifyPosition(id, position);
+        sku = await sku.getSKUByID(id);
     }catch(err){
-        return res.status(503).json({error: "generic error"})
+        return res.status(503).json({err:"generic error"})
     }
 
-    return res.status(200).json();
+    if(sku == ''){
+        return res.status(404).json({err: "sku does not exist"})
+    } else {
+        
+        try {
+            position = await pos.getPosition(positionID)
+        } catch(err){
+            return res.status(503).json({err:"generic error"})
+        }
+
+        if(position == ''){
+            return res.status(404).json({err: "position does not exist"})
+        } else {
+
+            if(position.max_weight > sku.weight*sku.quantity && position.max_volume > sku.volume*sku.quantity){
+                data = {
+                    weight : sku.weight,
+                    volume : sku.volume
+                }
+
+                try{
+                    status = await pos.occupyPosition(positionID, data)
+                }catch(err){
+                    return res.status(503).json({err:"generic error"})
+                }
+
+               return res.status(200).json()
+
+            } else {
+                return res.status(422).json({err:"that position is not capable of satisfying volume and/or weight constraint"})
+            }
+        }
+    }
+   
   })
 
 

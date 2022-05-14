@@ -46,7 +46,7 @@ class SKUItem{
                         rfid: r.rfid,
                         available: r.available,
                         sku: r.sku_id,
-                        date: r.date_of_stock
+                        dateOfStock: r.date_of_stock
                     }
                 ));
                 resolve(skuitems);
@@ -134,7 +134,11 @@ class SKUItem{
                     return;
                 }
                
+                if(r!==undefined){
                 resolve(true);
+                } else {
+                    resolve(false)
+                }
             });
         });
     }
@@ -146,6 +150,11 @@ class SKUItem{
 }
 
 module.exports = SKUItem;
+
+
+
+
+
 
 
 

@@ -93,15 +93,54 @@ class Position{
     }
 
 
+    occupyPosition(positionID, data){
+        return new Promise((resolve, reject)=>{
+            const sql = 'UPDATE POSITION SET occupied_weight = ? AND occupied_volume = ? WHERE ID = ?'
+            this.db.run(sql, [data.weight, data.volume, positionID], (err, r)=>{
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(true)
+            })
+    
+            })
+    }
 
-
-
+    getPosition(positionID){
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM POSITION WHERE id = ?';
+            this.db.all(sql, [positionID], (err, r) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                
+                if(r !== undefined){
+                const position =     
+                    {  
+                        id: r.id,
+                        aisle_id : r.aisle_id,
+                        row : r.row,
+                        col : r.col,
+                        max_weight : r.max_weight,
+                        max_volume: r.max_volume,
+                        occupied_weight: r.occupied_weight, 
+                        occupied_volume: r.occupied_volume,
+                    }
+                
+                resolve(position);
+                }
+                else {
+                    const position = ''
+                    resolve(position)
+                }
+            });
+        });
+    }
 }
 
 module.exports = Position;
-
-
-
 
 
 

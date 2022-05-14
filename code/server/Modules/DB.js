@@ -59,7 +59,7 @@ class DB {
 
     createTableSKU() {
         return new Promise((resolve, reject)  => {
-            const sql = 'CREATE TABLE IF NOT EXISTS SKU (id INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT NOT NULL, weight REAL NOT NULL, volume REAL NOT NULL, price REAL NOT NULL, notes TEXT NOT NULL, available_quantity INTEGER NOT NULL, position_id INTEGER NOT NULL, FOREIGN KEY(position_id) REFERENCES POSITION(id))';
+            const sql = 'CREATE TABLE IF NOT EXISTS SKU (id INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT NOT NULL, weight REAL NOT NULL, volume REAL NOT NULL, price REAL NOT NULL, notes TEXT NOT NULL, available_quantity INTEGER NOT NULL, position_id INTEGER, FOREIGN KEY(position_id) REFERENCES POSITION(id))';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);

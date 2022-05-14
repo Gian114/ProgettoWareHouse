@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS SKU (
     price REAL NOT NULL,
     notes TEXT NOT NULL,
     available_quantity INTEGER NOT NULL,
-    position_id INTEGER NOT NULL,
+    position_id INTEGER,
     FOREIGN KEY(position_id) REFERENCES POSITION(id)
 );
 

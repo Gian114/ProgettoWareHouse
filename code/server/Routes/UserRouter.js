@@ -230,14 +230,15 @@ userRouter.put('/api/users/:username', async (req,res) =>{
     }
 
     if(req.body.oldType === undefined || req.body.newType === undefined 
-        || req.params === undefined){
+        || req.params.username === undefined){
         return res.status(422).json({err:"invalid body and/or username"})}
     
     if(req.body.newType === "manager" || req.body.newType === "administrator"){
         return res.status(422).json({err:"attempt to modify rights to admin or manager"})}
-
+    
+   
     try{
-        await modifyUserType(req.body, req.params);
+        await modifyUserType(req.body, req.params.username);
     }catch(err){
         return res.status(503).json({error: "generic error"})
     }
