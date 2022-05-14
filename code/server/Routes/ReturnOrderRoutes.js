@@ -26,7 +26,7 @@ returnOrderRouter.get('/api/returnOrders', async (req, res) => {
 
 returnOrderRouter.get('/api/returnOrders/:id', async (req, res) => {
 
-    if(!Number.isInteger(parseFloat(req.params.id))) {
+    if(!Number.isInteger(parseFloat(req.params.id)) || req.params.is<0) {
         return res.status(422).json({error: 'validation of id failed'});
     }
    
@@ -48,7 +48,7 @@ returnOrderRouter.get('/api/returnOrders/:id', async (req, res) => {
 
 returnOrderRouter.post('/api/returnOrder', async (req, res) => {
 
-    if(req.body.returnDate === undefined || req.body.products === undefined || !Number.isInteger(parseFloat(req.body.restockOrderId))) {
+    if(req.body.returnDate === undefined || req.body.products === undefined || !Number.isInteger(parseFloat(req.body.restockOrderId)) || req.body.restockOrderId<0) {
             return res.status(422).json({err:"validation of request body failed"});
         }
 
@@ -82,7 +82,7 @@ returnOrderRouter.post('/api/returnOrder', async (req, res) => {
 
 returnOrderRouter.delete('/api/returnOrder/:id', async (req, res) => {
 
-    if(!Number.isInteger(parseFloat(req.params.id))) {
+    if(!Number.isInteger(parseFloat(req.params.id)) || req.params.is<0) {
         return res.status(422).json({error: 'validation of id failed'});
     }
 

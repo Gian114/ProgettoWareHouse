@@ -24,7 +24,7 @@ itemRouter.get('/api/items', async (req, res) => {
     
 itemRouter.get('/api/items/:id', async (req, res) => {
   
-    if(!Number.isInteger(parseFloat(req.params.id))) {
+    if(!Number.isInteger(parseFloat(req.params.id)) || req.params.id<0) {
       return res.status(422).json({error: 'validation of id failed'});
     }
   
@@ -47,7 +47,8 @@ itemRouter.get('/api/items/:id', async (req, res) => {
     
   itemRouter.post('/api/item', async (req, res) => {
       
-    if(!Number.isInteger(parseFloat(req.body.id)) || req.body.description === undefined || !Number.isFinite(parseFloat(req.body.price)) || !Number.isInteger(parseFloat(req.body.SKUId)) || !Number.isInteger(parseFloat(req.body.supplierId))) {
+    if(!Number.isInteger(parseFloat(req.body.id)) || req.body.description === undefined || !Number.isFinite(parseFloat(req.body.price)) || !Number.isInteger(parseFloat(req.body.SKUId)) || !Number.isInteger(parseFloat(req.body.supplierId))
+    || req.params.id<0 || req.body.price<0 || req.body.SKUId<0 || req.body.supplierId<0) {
         return res.status(422).json({error: 'validation of body failed'});
     }
 
@@ -78,7 +79,7 @@ itemRouter.get('/api/items/:id', async (req, res) => {
   
   itemRouter.put('/api/item/:id', async (req, res) => {
       
-    if(req.body.Description === undefined || !Number.isFinite(parseFloat(req.body.price))) {
+    if(req.body.Description === undefined || !Number.isFinite(parseFloat(req.body.price)) || req.body.price<0) {
           return res.status(422).json({err:"validation of request body failed"});
       }
   
@@ -102,7 +103,7 @@ itemRouter.get('/api/items/:id', async (req, res) => {
   
   itemRouter.delete('/api/items/:id', async (req, res) => {
   
-    if(!Number.isInteger(parseFloat(req.params.id))){
+    if(!Number.isInteger(parseFloat(req.params.id)) || req.params.id<0){
       return res.status(422).json({error: 'validation of id failed'});
     }
   
