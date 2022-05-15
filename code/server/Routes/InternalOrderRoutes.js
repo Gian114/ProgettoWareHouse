@@ -2,9 +2,11 @@
 
 const express = require('express');
 const InternalOrder = require('../Modules/InternalOrder');
+const Product = require('../Modules/Products');
 
 const db = require('../Modules/DB');
 const io_table = new InternalOrder(db.db);
+const prod_table = new Product(db.db);
 
 const internalOrderRouter = express.Router()
 
@@ -21,6 +23,7 @@ internalOrderRouter.get('/api/internalOrders', async (req, res) => {
     return res.status(200).json(internal_orders)
 })
 
+// need to deal with completed orders
 internalOrderRouter.get('/api/internalOrdersIssued', async (req, res) => {
 
     const state = 'ISSUED';
@@ -66,20 +69,32 @@ internalOrderRouter.get('/api/internalOrders/:id', async (req, res) => {
     return res.status(200).json(internal_orders)
 })
 
-// NOT FINISHED
 internalOrderRouter.post('/api/internalOrders', async (req, res) => {
-    
-    const id = req.params.id;
+    const internal_order = {
+        issueDate: req.body.issueDate,
+        customerId: req.body.customerId,
+        state: 'ISSUED'
+    }
 
-    let internal_orders;
+    const products = req.body.products
+
+    let internal_order_id;
     try {
-        internal_orders = await io_table.getInternalOrderById(id);
+        internal_order_id = await io_table.createInternalOrder(internal_order.issueDate, internal_order.state, internal_order.customerId);
     } catch(err) {
         console.log(err);
         return res.status(500).json({error: "generic error"});
     }
+    for (const prod of products) {
+        try {
+            await prod_table.insertProductInternalOrder(prod.SKUId, prod.description, prod.price, prod.qty, internal_order_id)
+        } catch(err) {
+            console.log(err);
+            return res.status(500).json({error: "generic error"});
+        }
+    }
 
-    return res.status(200).json(internal_orders)
+    return res.status(201).json()
 })
 
 

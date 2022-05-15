@@ -19,6 +19,24 @@ class Products{
         });
     }
 
+    insertProduct(sku_id, description, price, quantity, restock_order_id, internal_order_id) {
+        return new Promise((resolve, reject) => {
+            const query = `
+                INSERT INTO PRODUCT(sku_id, description, price, quantity, restock_order_id, internal_order_id) 
+                VALUES(?, ?, ?, ?, ?, ?)`;
+            this.db.run(query, [sku_id, description, price, quantity, restock_order_id, internal_order_id], (err) => {
+                if (err) {
+                  reject(err);
+                  return;
+                }
+                resolve(this.lastID);
+            });
+        });
+    }
+
+    async insertProductInternalOrder(sku_id, description, price, quantity, internal_order_id) {
+        this.insertProduct(sku_id, description, price, quantity, 'NULL', internal_order_id);
+    }
 
 
 }

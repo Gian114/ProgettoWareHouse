@@ -175,22 +175,45 @@ class InternalOrder {
         });
     }
 
-    // NOT FINISHED
-    createTestResult(rfid, id_test_descriptor, date, result) {
+    async createInternalOrder(issue_date, state, customer_id) {
+        await this.insertInternalOrder(issue_date, state, customer_id);
+        return this.getLastInsertId();
+    }
+
+    // helpers (private functions)
+    insertInternalOrder(issue_date, state, customer_id) {
         return new Promise((resolve, reject) => {
 
             const sql = `
-                INSERT INTO INTERNAL_ORDER (id, issue_date, state, customer_id)
-                VALUES ();`;
+                INSERT INTO INTERNAL_ORDER (issue_date, state, customer_id)
+            VALUES (?, ?, ?);`;
 
-            this.db.run(sql, [date, result ? 1 : 0, rfid, id_test_descriptor], (err) => {
+            this.db.run(sql, [issue_date, state, customer_id], (err) => {
 
                 if (err) {
                     reject(err);
                     return;
                 }
 
-                resolve('');
+                resolve();
+            });
+        });
+    }
+
+    getLastInsertId() {
+        return new Promise((resolve, reject) => {
+
+            const sql = `
+                SELECT last_insert_rowid()`;
+
+            this.db.get(sql, [], (err, row) => {
+
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                resolve(row['last_insert_rowid()']);
             });
         });
     }
