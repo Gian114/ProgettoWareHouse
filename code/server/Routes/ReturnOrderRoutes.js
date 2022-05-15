@@ -8,7 +8,7 @@ const ReturnOrder = require('../Modules/ReturnOrder');
 const returnOrder = new ReturnOrder(db.db);
 const restockOrderRoutes = require('./RestockOrderRoutes');
 const restockOrder = restockOrderRoutes.restockOrder;
-const skuItemRoutes = require('./SKUItemsRoutes');
+const skuItemRoutes = require('./SKUItemRoutes');
 const skuItem = skuItemRoutes.skuItem;
 const product = require('../Modules/Product');
 
@@ -75,6 +75,7 @@ returnOrderRouter.post('/api/returnOrder', async (req, res) => {
         }
         return res.status(201).json();
     } catch(err) {
+        console.log(err);
         return res.status(503).json({error: "generic error"});
     }
 
@@ -91,6 +92,14 @@ returnOrderRouter.delete('/api/returnOrder/:id', async (req, res) => {
     const id = req.params.id;
     try {
         await returnOrder.deleteReturnOrder(id);
+        let products = await product.getProductsByReturnOrder(id);
+        for(let i=0; i<products.length; i++) {
+            await product.deleteProduct(products[i]);
+        }
+        let skuItems = await skuItem.getSKUItemsByReturnOrderId(id);
+        for(i=0; i<skuItems.length; i++) {
+            await skuItem.setReturnOrderId(skuItems[i], 'NULL');
+        }
         return res.status(204).json();
     } catch(err) {
         return res.status(503).json({error: "generic error"});

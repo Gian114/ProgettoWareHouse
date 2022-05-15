@@ -4,7 +4,7 @@ const express = require('express');
 const db = require('./Modules/DB');
 
 const SKURoutes = require('./Routes/SKURoutes');
-const SKUItemsRoutes = require('./Routes/SKUItemsRoutes');
+const SKUItemRoutes = require('./Routes/SKUItemRoutes');
 const positionRouter = require('./Routes/PositionRoutes');
 const testDescriptorRouter = require('./Routes/TestDescriptorRoutes');
 const testResultRouter = require('./Routes/TestResultRoutes');
@@ -21,7 +21,7 @@ const port = 3001;
 
 app.use(express.json());
 app.use('', SKURoutes.skuRouter);
-app.use('', SKUItemsRoutes.skuItemRouter);
+app.use('', SKUItemRoutes.skuItemRouter);
 app.use('', positionRouter);
 app.use('', testDescriptorRouter);
 app.use('', testResultRouter);

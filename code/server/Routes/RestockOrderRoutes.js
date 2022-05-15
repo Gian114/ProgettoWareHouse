@@ -7,10 +7,9 @@ const db = require('../Modules/DB');
 const restockOrderRouter = express.Router();
 const restockOrder = new RestockOrder(db.db);
 
-const skuItemRoutes = require('./SKUItemsRoutes');
-const Products = require('../Modules/Product');
+const skuItemRoutes = require('./SKUItemRoutes');
 const skuItem = skuItemRoutes.skuItem;
-const product = new Products(db.db);
+const product = require('../Modules/Product');
 
 //get
 

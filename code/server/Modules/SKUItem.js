@@ -45,6 +45,8 @@ class SKUItem{
         });
     }
 
+
+
     createNewSKUItem(item){
         return new Promise((resolve, reject) => {
             const sql = 'INSERT INTO SKU_ITEM(rfid, available, sku_id, date_of_stock) VALUES(?, 0, ?, ?)';
@@ -137,6 +139,68 @@ class SKUItem{
             });
         });
     }
+
+    getSKUItemsByReturnOrderId(id) {
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM SKU_ITEM WHERE return_order_id = ?';
+            this.db.all(sql, [id], (err, rows) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                if(rows !== undefined){
+                    const skuitems = rows.map((r) => (r.rfid));
+                    resolve(skuitems);
+                } else {
+                    const skuitems = []
+                    resolve(skuitems);
+                }
+            });
+        });
+    }
+
+    getSKUItemsByRestockOrderId(id) {
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM SKU_ITEM WHERE restock_order_id = ?';
+            this.db.all(sql, [id], (err, rows) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                if(rows !== undefined){
+                    const skuitems = rows.map((r) => (r.rfid));
+                    resolve(skuitems);
+                } else {
+                    const skuitems = []
+                    resolve(skuitems);
+                }
+            });
+        });
+    }
+
+    getSKUItemsByInternalOrderId(id) {
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM SKU_ITEM WHERE internal_order_id = ?';
+            this.db.all(sql, [id], (err, rows) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                if(rows !== undefined){
+                    const skuitems = rows.map((r) => (r.rfid));
+                    resolve(skuitems);
+                } else {
+                    const skuitems = []
+                    resolve(skuitems);
+                }
+            });
+        });
+    }
+
+    
 
     modifySKUItem(rfid, data){
         return new Promise((resolve, reject)=>{   
