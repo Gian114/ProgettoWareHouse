@@ -96,7 +96,7 @@ class RestockOrder {
 
     ////////////////////////
 
-    //state = ISSUE and empty List of skuitems
+    //state = ISSUE and empty List of skuitems, non va
     createNewRestockOrder(data) {
         return new Promise((resolve, reject) => {
             const sql = 'INSERT INTO RESTOCK_ORDER(issue_date, state, supplier_id) VALUES(?, ISSUED, ?)';
@@ -106,6 +106,52 @@ class RestockOrder {
                     return;
                 }
                 resolve(this.lastID);
+            });
+        });
+    }
+
+
+    modifyState(id,newState){
+        return new Promise((resolve, reject)=>{
+            const sql = 'UPDATE RESTOCK_ORDER SET state = ? WHERE id = ?'
+            this.db.run(sql, [newState, id], (err, r)=>{
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(true)
+            })
+    
+            })
+
+    }
+
+    addTNdate(id,TN){
+        return new Promise((resolve, reject)=>{
+            const sql = 'UPDATE RESTOCK_ORDER SET TNdelivery_date = ? WHERE id = ?'
+            this.db.run(sql, [TN, id], (err, r)=>{
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(true)
+            })
+    
+            })
+
+    }
+
+
+    deleteReturnOrder(id){
+        return new Promise((resolve, reject) => {
+            const sql = 'DELETE FROM RESTOCK_ORDER WHERE id = ?';
+            this.db.run(sql, [id], (err, r) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+               
+                resolve(true);
             });
         });
     }

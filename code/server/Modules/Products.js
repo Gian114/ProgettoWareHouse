@@ -6,7 +6,6 @@ class Products{
         this.db = db;
     }
 
-    //come prendo l'internal order id?
     insertProductByRestockId(product, roid) {
         return new Promise((resolve, reject) => {
             const query = 'INSERT INTO PRODUCT(sku_id, description, price, quantity, restock_order_id, internal_order_id) VALUES(?, ?, ?, ?, ?, ?)';
