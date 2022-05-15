@@ -7,10 +7,11 @@ const db = require('../Modules/DB');
 const restockOrderRouter = express.Router();
 const restockOrder = new RestockOrder(db.db);
 
+const product = require('../Modules/Product');
+
 const skuItemRoutes = require('./SKUItemsRoutes');
-const Products = require('../Modules/Product');
 const skuItem = skuItemRoutes.skuItem;
-const product = new Products(db.db);
+
 
 //get
 
@@ -81,11 +82,10 @@ restockOrderRouter.post('/api/restockOrder', async (req,res)=>{
 
  
     try{
-        await restockOrder.createNewRestockOrder(ro);  //non va 
-        let id = await db.getAutoincrementID('RESTOCK_ORDER'); //NON VA
-        console.log(id);
+        await restockOrder.createNewRestockOrder(ro);   
+        let id = await db.getAutoincrementID('RESTOCK_ORDER'); 
         for(let i=0; i<ro.products.length; i++) {
-          await product.insertProductByRestockId(ro.products[i], id);
+          await product.insertProductRestockOrder(ro.products[i].SKUId, ro.products[i].description, ro.products[i].price, ro.products[i].qty, id);
         }
         return res.status(201).json();
     } catch(err) {

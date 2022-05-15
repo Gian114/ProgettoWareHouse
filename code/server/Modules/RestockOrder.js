@@ -96,7 +96,7 @@ class RestockOrder {
 
     ////////////////////////
 
-    //state = ISSUE and empty List of skuitems, non va
+    //empty List of skuitem, nothing to do? 
     createNewRestockOrder(data) {
         return new Promise((resolve, reject) => {
             const sql = 'INSERT INTO RESTOCK_ORDER(issue_date, state, supplier_id) VALUES(?, "ISSUED", ?)';
