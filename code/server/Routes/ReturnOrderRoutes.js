@@ -10,6 +10,7 @@ const restockOrderRoutes = require('./RestockOrderRoutes');
 const restockOrder = restockOrderRoutes.restockOrder;
 const skuItemRoutes = require('./SKUItemsRoutes');
 const skuItem = skuItemRoutes.skuItem;
+const product = require('../Modules/Product');
 
 //get
 
@@ -69,6 +70,7 @@ returnOrderRouter.post('/api/returnOrder', async (req, res) => {
         await returnOrder.createNewReturnOrder(ro);
         let id = await db.getAutoincrementID('RETURN_ORDER');
         for(let i=0; i<ro.products.length; i++) {
+            await product.insertProductReturnOrder(ro.products[i].SKUId, ro.products[i].description, ro.products[i].price, id);
             await skuItem.setReturnOrderId(ro.products[i].RFID, id);
         }
         return res.status(201).json();

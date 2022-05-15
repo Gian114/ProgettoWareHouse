@@ -2,7 +2,7 @@
 
 const express = require('express');
 const InternalOrder = require('../Modules/InternalOrder');
-const Product = require('../Modules/Products');
+const Product = require('../Modules/Product');
 
 const db = require('../Modules/DB');
 const io_table = new InternalOrder(db.db);

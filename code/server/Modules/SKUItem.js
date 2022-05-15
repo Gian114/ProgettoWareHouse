@@ -19,6 +19,32 @@ class SKUItem{
         });
     }
 
+    setRestockOrderId(rfid, returnOrderId) {
+        return new Promise((resolve, reject)=>{
+            const sql = 'UPDATE SKU_ITEM SET restock_order_id = ? WHERE rfid = ?'
+            this.db.run(sql, [returnOrderId, rfid], (err, r)=>{
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(true)
+            });
+        });
+    }
+
+    setInternalOrderId(rfid, returnOrderId) {
+        return new Promise((resolve, reject)=>{
+            const sql = 'UPDATE SKU_ITEM SET internal_order_id = ? WHERE rfid = ?'
+            this.db.run(sql, [returnOrderId, rfid], (err, r)=>{
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(true)
+            });
+        });
+    }
+
     createNewSKUItem(item){
         return new Promise((resolve, reject) => {
             const sql = 'INSERT INTO SKU_ITEM(rfid, available, sku_id, date_of_stock) VALUES(?, 0, ?, ?)';
@@ -142,10 +168,6 @@ class SKUItem{
             });
         });
     }
-
-
-
-
 
 }
 
