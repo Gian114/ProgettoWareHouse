@@ -22,7 +22,7 @@ class ReturnOrder {
     getAllReturnOrders() {
         return new Promise((resolve, reject) => {
             let sql = 'SELECT * FROM RETURN_ORDER';
-            this.db.get(sql, [], (err, rs) => {
+            this.db.all(sql, [], (err, rs) => {
                 if (err) {
                     reject(err);
                     return;
@@ -30,7 +30,7 @@ class ReturnOrder {
                 
                 const products = '';
                 for(let i=0; i<rs.length; i++){
-                    sql = 'SELECT rfid, sku_id, description, price FROM SKU_ITEM INNER JOIN SKU ON SKU.id = SKU_ITEM.sku_id WHERE return_order_id = ?';
+                    sql = 'SELECT rfid, sku_id, description, price FROM SKU_ITEM INNER JOIN PRODUCT ON PRODUCT.sku_id = SKU_ITEM.sku_id WHERE return_order_id = ?';
                     this.db.all(sql, [rs[i].id], (err, rows) => {
                         if (err) {
                             reject(err);
@@ -70,7 +70,7 @@ class ReturnOrder {
                 }
 
                 if(row !== undefined){
-                    sql = 'SELECT rfid, sku_id, description, price FROM SKU_ITEM INNER JOIN SKU ON SKU.id = SKU_ITEM.sku_id WHERE return_order_id = ?';
+                    sql = 'SELECT rfid, sku_id, description, price FROM SKU_ITEM INNER JOIN PRODUCT ON PRODUCT.sku_id = SKU_ITEM.sku_id WHERE return_order_id = ?';
                     this.db.all(sql, [row.id], (err, rows) => {
                         if (err) {
                             reject(err);
