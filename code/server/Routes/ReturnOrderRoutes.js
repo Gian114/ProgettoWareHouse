@@ -56,14 +56,14 @@ returnOrderRouter.post('/api/returnOrder', async (req, res) => {
     /*let y = await restockOrder.getRestockOrderByID(ro.restockOrderId);
     if(y === '') {
         return res.status(404).json({error: "no restock order associated to restockOrderId"});
-    }*/
+    }
     let x = '';
     for(let i=0; i<ro.products.length; i++) {
         x = await skuItem.getSKUItemByRFID(ro.products[i].RFID);
         if(x === '') {
             return res.status(404).json({error: `no sku item associated to RFID: ${ro.products[i].RFID}`});
         }
-    }
+    }*/
         
     try{
         await returnOrder.createNewReturnOrder(ro);

@@ -99,7 +99,7 @@ class RestockOrder {
     //state = ISSUE and empty List of skuitems, non va
     createNewRestockOrder(data) {
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO RESTOCK_ORDER(issue_date, state, supplier_id) VALUES(?, ISSUED, ?)';
+            const sql = 'INSERT INTO RESTOCK_ORDER(issue_date, state, supplier_id) VALUES(?, "ISSUED", ?)';
             this.db.run(sql, [data.issueDate, data.supplierId], (err) => {
                 if (err) {
                     reject(err);
@@ -119,10 +119,10 @@ class RestockOrder {
                     reject(err);
                     return;
                 }
-                resolve(true)
-            })
+                resolve(true);
+            });
     
-            })
+        });
 
     }
 
@@ -134,10 +134,10 @@ class RestockOrder {
                     reject(err);
                     return;
                 }
-                resolve(true)
-            })
+                resolve(true);
+            });
     
-            })
+        });
 
     }
 

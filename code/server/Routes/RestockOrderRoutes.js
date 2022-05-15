@@ -83,8 +83,9 @@ restockOrderRouter.post('/api/restockOrder', async (req,res)=>{
     try{
         await restockOrder.createNewRestockOrder(ro);  //non va 
         let id = await db.getAutoincrementID('RESTOCK_ORDER'); //NON VA
+        console.log(id);
         for(let i=0; i<ro.products.length; i++) {
-            product.insertProductByRestockId(ro.products[i], id);
+          await product.insertProductByRestockId(ro.products[i], id);
         }
         return res.status(201).json();
     } catch(err) {
@@ -94,7 +95,7 @@ restockOrderRouter.post('/api/restockOrder', async (req,res)=>{
 });
 
 //put
-restockOrder.put('/api/restockOrder/:id', async (req,res)=>{
+restockOrderRouter.put('/api/restockOrder/:id', async (req,res)=>{
 
     if( Object.keys(req.params).length === 0 || req.params.id<0
     || Object.keys(req.body)===0){
@@ -119,7 +120,7 @@ restockOrder.put('/api/restockOrder/:id', async (req,res)=>{
   });
 
   //uncomplete
-  restockOrder.put('/api/restockOrder/:id/skuItems', async (req,res)=>{
+  restockOrderRouter.put('/api/restockOrder/:id/skuItems', async (req,res)=>{
 
     if( Object.keys(req.params).length === 0 || req.params.id<0
     || Object.keys(req.body)===0){
@@ -143,7 +144,7 @@ restockOrder.put('/api/restockOrder/:id', async (req,res)=>{
   
   });
 
-  restockOrder.put('/api/restockOrder/:id/transportNote', async (req,res)=>{
+  restockOrderRouter.put('/api/restockOrder/:id/transportNote', async (req,res)=>{
 
     if( Object.keys(req.params).length === 0 || req.params.id<0
     || Object.keys(req.body)===0){
