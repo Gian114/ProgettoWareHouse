@@ -71,9 +71,9 @@ testDescriptorRouter.post('/api/testDescriptor', async (req, res) => {
 testDescriptorRouter.put('/api/testDescriptor/:id', async (req, res) => {
     
   if(req.body.newName === undefined || req.body.newProcedureDescription === undefined || !Number.isInteger(parseFloat(req.body.newIdSKU)) || !Number.isInteger(parseFloat(req.params.id))
-   || req.params.id<0 || req.body.newIdSKU<0) {
+  || req.params.id<0 || req.body.newIdSKU<0) {
         return res.status(422).json({err:"validation of request body or of id failed"});
-    }
+  }
 
   const newvalues = req.body;
   const id = req.params.id;

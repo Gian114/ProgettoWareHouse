@@ -59,7 +59,7 @@ class DB {
 
     createTableSKU() {
         return new Promise((resolve, reject)  => {
-            const sql = 'CREATE TABLE IF NOT EXISTS SKU (id INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT NOT NULL, weight REAL NOT NULL, volume REAL NOT NULL, price REAL NOT NULL, notes TEXT NOT NULL, available_quantity INTEGER NOT NULL, position_id INTEGER, FOREIGN KEY(position_id) REFERENCES POSITION(id))';
+            const sql = 'CREATE TABLE IF NOT EXISTS SKU (id INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT NOT NULL, weight REAL NOT NULL, volume REAL NOT NULL, price REAL NOT NULL, notes TEXT NOT NULL, available_quantity INTEGER NOT NULL, position_id TEXT DEFAULT NULL, FOREIGN KEY(position_id) REFERENCES POSITION(id))';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -72,7 +72,7 @@ class DB {
 
     createTableSKUItem() {
         return new Promise((resolve, reject)  => {  
-            const sql = 'CREATE TABLE IF NOT EXISTS SKU_ITEM (rfid TEXT PRIMARY KEY, available INTEGER NOT NULL, sku_id INTEGER NOT NULL, date_of_stock DATE NOT NULL, return_order_id INTEGER DEFAULT NULL, restock_order_id INTEGER DEFAULT NULL, FOREIGN KEY(sku_id) REFERENCES SKU(id), FOREIGN KEY(return_order_id) REFERENCES RETURN_ORDER(id), FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id))'; 
+            const sql = 'CREATE TABLE IF NOT EXISTS SKU_ITEM (rfid TEXT PRIMARY KEY, available INTEGER NOT NULL, sku_id INTEGER NOT NULL, date_of_stock DATE NOT NULL, return_order_id INTEGER DEFAULT NULL, restock_order_id INTEGER DEFAULT NULL, internal_order_id INTEGER DEFAULT NULL, FOREIGN KEY(sku_id) REFERENCES SKU(id), FOREIGN KEY(return_order_id) REFERENCES RETURN_ORDER(id), FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id), FOREIGN KEY(internal_order_id) REFERENCES INTERNAL_ORDER(id))'; 
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -85,7 +85,7 @@ class DB {
 
     createTablePosition() {
         return new Promise((resolve, reject)  => {
-            const sql = 'CREATE TABLE IF NOT EXISTS POSITION (id INTEGER PRIMARY KEY, aisle TEXT NOT NULL, row TEXT NOT NULL, col TEXT NOT NULL, max_weight REAL NOT NULL, max_volume REAL NOT NULL, occupied_weight REAL NOT NULL, occupied_volume REAL NOT NULL)';   
+            const sql = 'CREATE TABLE IF NOT EXISTS POSITION (id TEXT PRIMARY KEY, aisle TEXT NOT NULL, row TEXT NOT NULL, col TEXT NOT NULL, max_weight REAL NOT NULL, max_volume REAL NOT NULL, occupied_weight REAL NOT NULL, occupied_volume REAL NOT NULL)';   
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -189,7 +189,7 @@ class DB {
 
     createTableProduct() {
         return new Promise((resolve, reject)  => {  
-            const sql = 'CREATE TABLE IF NOT EXISTS PRODUCT (id INTEGER PRIMARY KEY AUTOINCREMENT, sku_id INTEGER NOT NULL, description TEXT NOT NULL, price REAL NOT NULL, quantity INTEGER NOT NULL, restock_order_id INTEGER DEFAULT NULL, internal_order_id INTEGER DEFAULT NULL, FOREIGN KEY(sku_id) REFERENCES SKU(id), FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id), FOREIGN KEY(internal_order_id) REFERENCES INTERNAL_ORDER(id))'; 
+            const sql = 'CREATE TABLE IF NOT EXISTS PRODUCT (id INTEGER PRIMARY KEY AUTOINCREMENT, sku_id INTEGER NOT NULL, description TEXT NOT NULL, price REAL NOT NULL, quantity INTEGER NOT NULL, restock_order_id INTEGER DEFAULT NULL, internal_order_id INTEGER DEFAULT NULL, return_order_id INTEGER DEFAULT NULL, FOREIGN KEY(sku_id) REFERENCES SKU(id), FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id), FOREIGN KEY(internal_order_id) REFERENCES INTERNAL_ORDER(id), FOREIGN KEY(return_order_id) REFERENCES RETURN_ORDER(id))'; 
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);

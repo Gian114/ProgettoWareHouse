@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS SKU (
     price REAL NOT NULL,
     notes TEXT NOT NULL,
     available_quantity INTEGER NOT NULL,
-    position_id INTEGER,
+    position_id TEXT DEFAULT NULL,
     FOREIGN KEY(position_id) REFERENCES POSITION(id)
 );
 
@@ -33,13 +33,15 @@ CREATE TABLE IF NOT EXISTS SKU_ITEM (
     date_of_stock DATE NOT NULL,
     return_order_id INTEGER DEFAULT NULL,
     restock_order_id INTEGER DEFAULT NULL,
+    internal_order_id INTEGER DEFAULT NULL,
     FOREIGN KEY(sku_id) REFERENCES SKU(id),
     FOREIGN KEY(return_order_id) REFERENCES RETURN_ORDER(id),
-    FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id)
+    FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id),
+    FOREIGN KEY(internal_order_id) REFERENCES INTERNAL_ORDER(id)
 );
 
 CREATE TABLE IF NOT EXISTS POSITION (
-    id INTEGER PRIMARY KEY,
+    id TEXT PRIMARY KEY,
    	aisle TEXT NOT NULL,
 	row TEXT NOT NULL,
     col TEXT NOT NULL,
@@ -118,7 +120,9 @@ CREATE TABLE IF NOT EXISTS PRODUCT (
     quantity INTEGER NOT NULL,
     restock_order_id INTEGER DEFAULT NULL,
     internal_order_id INTEGER DEFAULT NULL,
+    return_order_id INTEGER DEFAULT NULL,
     FOREIGN KEY(sku_id) REFERENCES SKU(id),
     FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id),
-    FOREIGN KEY(internal_order_id) REFERENCES INTERNAL_ORDER(id)
+    FOREIGN KEY(internal_order_id) REFERENCES INTERNAL_ORDER(id),
+    FOREIGN KEY(return_order_id) REFERENCES RETURN_ORDER(id)
 );
