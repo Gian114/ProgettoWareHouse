@@ -8,30 +8,58 @@ class RestockOrder {
 
     getAllRestockOrder() {
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT * FROM RESTOCK_ORDER';
+
+            const sql = `
+                SELECT 
+                    RO.id AS io_id,
+                    RO.issue_date AS issue_date,
+                    RO.state AS state,
+                    RO.supplier_id AS supplier_id
+                    RO.delivery_date AS delivery_date,
+                    P.id AS p_id,
+                    P.sku_id AS sku_id,
+                    P.price AS price,
+                    P.description AS description,
+                    P.quantity AS quantity
+                    SI.rfid AS rfid
+                    SI.sku_id AS sku_id
+                FROM INTERNAL_ORDER IO, PRODUCT P, SKU_ITEM SI
+                WHERE IO.id = P.restock_order_id AND IO.id = SI.restock_order_id
+                `;
+
             this.db.all(sql, [], (err, rows) => {
+
                 if (err) {
                     reject(err);
                     return;
                 }
-                
-                const restock_order = rows.map((r) => (
-                
-                    {  
-                        id: r.id,
-                        issue_date : r.issue_date,
-                        state : r.state,
-                           //products
-                        supplier_id : r.supplier_id,
+
+                const restock_orders = rows.map(row => ({
+                        id: row.io_id,
+                        issueDate: row.issue_date, 
+                        state: row.state,
+                        product: {
+                            SKUid: row.sku_id,
+                            description: row.description,
+                            price: row.price,
+                            quantity: row.quantity
+                        },
+                        supplier_id: row.supplier_id,
                         transportNote: { deliveryDate: r.TNdelivery_date },
-                           //sku_items
-                    }
-                ));
-                resolve(restock_order);
+                        skuItems: {
+                            SKUid: row.sku_id,
+                            rfid: row.rfid
+                        }
+                    }))
+                ;
+
+                resolve(Object.values(restock_orders));
             });
         });
     }
 
+   
+   //se sono issued non prendi SKUITEM, quindi come sopra ma con SKUITEM vuoto. Basterebbe solo una funzione. 
     getAllRestockOrderIssued() {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM RESTOCK_ORDER WHERE STATE = ISSUED';
@@ -59,6 +87,7 @@ class RestockOrder {
 
     }
 
+    //forse anche qui join 
     getRestockOrderByID(id) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM RESTOCK_ORDER WHERE ID = ?';
@@ -142,6 +171,8 @@ class RestockOrder {
     }
 
 
+
+    //ricorda di fare la delete di tutto 
     deleteReturnOrder(id){
         return new Promise((resolve, reject) => {
             const sql = 'DELETE FROM RESTOCK_ORDER WHERE id = ?';
