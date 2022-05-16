@@ -27,7 +27,7 @@ returnOrderRouter.get('/api/returnOrders', async (req, res) => {
 
 returnOrderRouter.get('/api/returnOrders/:id', async (req, res) => {
 
-    if(!Number.isInteger(parseFloat(req.params.id)) || req.params.is<0) {
+    if(!Number.isInteger(parseFloat(req.params.id)) || req.params.id<0) {
         return res.status(422).json({error: 'validation of id failed'});
     }
    
@@ -67,6 +67,9 @@ returnOrderRouter.post('/api/returnOrder', async (req, res) => {
     }*/
         
     try{
+        //for every products in ro get rfid in skuitem -> se anche solo uno non esiste errore
+        //si potrebbe anche spostare il ciclo for che c'è sotto prima del create newReturnOrder, tanto quella è l'ultiam cosa che deve fare
+        //prima controlla lo skuitem e inserisce i products
         await returnOrder.createNewReturnOrder(ro);
         let id = await db.getAutoincrementID('RETURN_ORDER');
         for(let i=0; i<ro.products.length; i++) {
@@ -85,7 +88,7 @@ returnOrderRouter.post('/api/returnOrder', async (req, res) => {
 
 returnOrderRouter.delete('/api/returnOrder/:id', async (req, res) => {
 
-    if(!Number.isInteger(parseFloat(req.params.id)) || req.params.is<0) {
+    if(!Number.isInteger(parseFloat(req.params.id)) || req.params.id<0) {
         return res.status(422).json({error: 'validation of id failed'});
     }
 

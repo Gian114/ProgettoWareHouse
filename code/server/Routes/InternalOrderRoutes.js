@@ -6,7 +6,7 @@ const Product = require('../Modules/Product');
 
 const db = require('../Modules/DB');
 const io_table = new InternalOrder(db.db);
-const prod_table = new Product(db.db);
+//const prod_table = new Product(db.db);
 
 const internalOrderRouter = express.Router()
 

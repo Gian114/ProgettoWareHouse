@@ -51,12 +51,27 @@ userRouter.post('/api/newUser', async (req,res) =>{
     }
 
     let x;
+
     try{
-       x = await user.createUser(req.body);
-   } catch(err){
-       //manage different errors from sqlite, constraint with mail/type or simple generic error?
+        
+        x = await user.getUser(req.body)
+
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({error: "generic error"})
+    }
+
+    if (x === ''){
+
+        try{
+            x = await user.createUser(req.body);
+         } catch(err){   
+            return res.status(500).json({error: "generic error"})
+        }
+
+    } else {
         return res.status(409).json({err:"user with same mail and type already exist"});
-   }
+    }
 
    return res.status(201).json();
   
@@ -238,7 +253,7 @@ userRouter.put('/api/users/:username', async (req,res) =>{
     
    
     try{
-        await modifyUserType(req.body, req.params.username);
+        await user.modifyUserType(req.body, req.params.username);
     }catch(err){
         return res.status(503).json({error: "generic error"})
     }
@@ -261,8 +276,10 @@ userRouter.delete('/api/users/:username/:type', async (req,res) =>{
         return res.status(422).json({err:"attempt to delete a manager/administrator"})}
 
     try{
-        await deleteUser(req.params);
+        console.log(req.params)
+        await user.deleteUser(req.params);
     }catch(err){
+        console.log(err)
         return res.status(503).json({error: "generic error"})
     }
 
