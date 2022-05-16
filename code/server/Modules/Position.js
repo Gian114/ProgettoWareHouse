@@ -29,12 +29,12 @@ class Position{
                     reject(err);
                     return;
                 }
-                
+                if(rows !== undefined){
                 const position = rows.map((r) => (
                 
                     {  
                         id: r.id,
-                        aisle_id : r.aisle_id,
+                        aisle_id : r.aisle,
                         row : r.row,
                         col : r.col,
                         max_weight : r.max_weight,
@@ -44,6 +44,10 @@ class Position{
                     }
                 ));
                 resolve(position);
+                } else {
+                    const position = ''
+                    resolve(position)
+                }
             });
         });
     }
@@ -73,6 +77,9 @@ class Position{
                     reject(err);
                     return;
                 }
+                if(r === undefined){
+                    resolve(false)
+                }
                 resolve(true)
             })
     
@@ -89,7 +96,9 @@ class Position{
                     reject(err);
                     return;
                 }
-               
+                if(r===undefined){
+                    resolve(false)
+                }
                 resolve(true);
             });
         });

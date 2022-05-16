@@ -19,7 +19,7 @@ positionRouter.get('/api/position', async (req,res) =>{
     }catch(err){
       return res.status(500).json({error: "generic error"})
     }
-      
+    
       return res.status(200).json(x);
     
     });
@@ -56,7 +56,7 @@ positionRouter.post('/api/position', async (req,res)=>{
 
   //put
 
-  //test ok, devi inserire gestione 404
+  
   positionRouter.put('/api/position/:positionID', async (req,res)=>{
 
     if(Object.keys(req.body).length === 0 || 
@@ -81,14 +81,14 @@ positionRouter.post('/api/position', async (req,res)=>{
     }
 
     if(x===false){
-      return res.status(404).json();
+      return res.status(404).json({err:"position not found"});
     } 
     
     return res.status(200).json();
   
   });
 
-  //test ok anche qui aggiungi il 404 più altri test
+
   positionRouter.put('/api/position/:positionID/changeID', async (req,res)=>{
 
     if(Object.keys(req.body).length === 0 || 
@@ -102,13 +102,15 @@ positionRouter.post('/api/position', async (req,res)=>{
     const position_id = req.params.positionID;
     const newPositionId = req.body.newPositionID;
 
-    console.log(position_id);
-    console.log(newPositionId);
-
+    let x;
     try{
-      await position.modifyPositionID(position_id,newPositionId);
+      x = await position.modifyPositionID(position_id,newPositionId);
     }catch(err){
       return res.status(503).json({err:"generic error"})
+    }
+
+    if(x===false){
+      return res.status(404).json({err:"position not found"});
     }
     
     return res.status(200).json();
@@ -124,13 +126,16 @@ positionRouter.post('/api/position', async (req,res)=>{
         return res.status(422).json({})}
 
     const id = req.params.positionID;
-    
+    let x
     try{
-        await position.deletePosition(id);
+        x = await position.deletePosition(id);
     }catch(err){
         return res.status(503).json({error: "generic error"})
     }
 
+    if(x===false){
+      return res.status(404).json({err:"position not found"});
+    }
     return res.status(204).json(); 
   });
 
