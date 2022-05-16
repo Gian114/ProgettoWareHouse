@@ -28,6 +28,10 @@ skuRouter.get('/api/skus/:id', async (req,res) =>{
     if(Object.keys(req.params).length === 0){
         return res.status(422).json({error: 'validation of id failed'})
         }
+
+    if(!Number.isInteger(parseFloat(req.params.id)) || req.params.id<0) {
+        return res.status(422).json({error: 'validation of id failed'});
+    }
     
     let x = ''
     const id = req.params.id;
@@ -87,6 +91,10 @@ skuRouter.post('/api/sku', async (req,res)=>{
         return res.status(422).json({})
         }
 
+    if(!Number.isInteger(parseFloat(req.params.id)) || req.params.id<0) {
+        return res.status(422).json({error: 'validation of id failed'});
+    }
+
     const id = req.params.id;
 
     if(req.body.newDescription === undefined || req.body.newWeight === undefined ||
@@ -112,6 +120,10 @@ skuRouter.post('/api/sku', async (req,res)=>{
     if(Object.keys(req.body).length === 0 || Object.keys(req.params).length === 0){
         return res.status(422).json({})
         }
+    
+    if(!Number.isInteger(parseFloat(req.params.id)) || req.params.id<0) {
+        return res.status(422).json({error: 'validation of id failed'});
+    }
     
     if(req.body.position === undefined){
         return res.status(422).json({error:"invalid body"})
@@ -174,6 +186,10 @@ skuRouter.post('/api/sku', async (req,res)=>{
 
     if(Object.keys(req.params).length === 0){
         return res.status(422).json({})}
+
+    if(!Number.isInteger(parseFloat(req.params.id)) || req.params.id<0) {
+        return res.status(422).json({error: 'validation of id failed'});
+    }
 
     const id = req.params.id;
     console.log(id)

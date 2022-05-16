@@ -21,19 +21,16 @@ class User{
         });
     }
 
-    getUsers(){
+    getUser(data){
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT * FROM USER';
-            this.db.all(sql, [], (err, rows) => {
+            const sql = 'SELECT * FROM USER WHERE username = ? AND type = ?';
+            this.db.get(sql, [data.username, data.type], (err, r) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-                if(rows !== undefined){
-
-                
-                const user = rows.map((r) => (
-                
+                if(r !== undefined){
+                const user = 
                     {  
                         id: r.id,
                         username: r.username,
@@ -41,7 +38,7 @@ class User{
                         surname: r.surname,
                         type: r.type
                     }
-                ));
+                
                 resolve(user);
                 } else {
                     const user = ''
@@ -50,6 +47,7 @@ class User{
             });
         });
     }
+
 
     getSuppliers(){
         return new Promise((resolve, reject) => {

@@ -28,6 +28,10 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
     if(Object.keys(req.params).length === 0){
       return res.status(422).json({})}
 
+    if(!Number.isInteger(parseFloat(req.params.id)) || req.params.id<0) {
+        return res.status(422).json({error: 'validation of id failed'});
+    }
+
     const id = req.params.id;
     let x
 
@@ -51,6 +55,11 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
   
     if(Object.keys(req.params).length === 0){
       return res.status(422).json({})}
+
+
+    if(!Number.isInteger(parseFloat(req.params.rfid)) || req.params.rfid<0) {
+        return res.status(422).json({error: 'validation of id failed'});
+    }
     
     let x;
     const id = req.params.rfid;
@@ -95,6 +104,10 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
     if(Object.keys(req.body).length === 0 || 
     Object.keys(req.params).length === 0){
       return res.status(422).json({})}
+
+    if(!Number.isInteger(parseFloat(req.params.rfid)) || req.params.rfid<0) {
+      return res.status(422).json({error: 'validation of id failed'});
+    }
   
 
     if(req.body.newRFID === undefined || req.body.newAvailable === undefined || req.body.newDateOfStock === undefined){
@@ -119,6 +132,10 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
     
     if (Object.keys(req.params).length === 0){
       return res.status(422).json({})}
+
+    if(!Number.isInteger(parseFloat(req.params.rfid)) || req.params.rfid<0) {
+        return res.status(422).json({error: 'validation of id failed'});
+    }
 
     const id = req.params.rfid;
     let x

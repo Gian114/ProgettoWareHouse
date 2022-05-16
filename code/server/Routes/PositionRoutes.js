@@ -29,24 +29,24 @@ positionRouter.get('/api/position', async (req,res) =>{
 //test ok 
 positionRouter.post('/api/position', async (req,res)=>{
         
-    if(req.body.aisleID === undefined || req.body.row === undefined ||
-        req.body.col === undefined){
+    if(req.body.positionID === undefined || req.body.aisleID === undefined || req.body.row === undefined ||
+        req.body.col === undefined || req.body.maxWeight === undefined
+        || req.body.maxVolume === undefined ){
             return res.status(422).json({err:"invalid body"})
         }
 
 
-    /*if(req.body.aisle_id.length != 4 || req.body.row.length !=4  ||
+    if(req.body.aisleID.length != 4 || req.body.row.length !=4  ||
           req.body.col.length !=4) {
-              return res.status(422).json({err:"invalid body"})
-        }*/
+              return res.status(422).json({err:"invalid lenght of aisle and/or row and/or col"})
+        }
 
     const item = req.body;
-
-    console.log(item)
    
     try{
         await position.createNewPosition(item);
     }catch(err){
+      console.log(err)
         return res.status(503).json({error: "generic error"})
     }
     
@@ -64,20 +64,25 @@ positionRouter.post('/api/position', async (req,res)=>{
       return res.status(422).json({})}
   
 
-    if(req.params.positionID === undefined || req.body.aisle_id === undefined){
+    if(req.body.newAisleID === undefined || req.body.newRow === undefined ||
+      req.body.newCol === undefined || req.body.newMaxWeight === undefined||
+      req.body.newOccupiedWeight === undefined || req.body.newOccupiedVolume === undefined){
         return res.status(422).json({})}  
   
     const position_id = req.params.positionID;
-
-    const newvalues = req.body;
-
-    const newPositionId = ''+ newvalues.aisle_id + newvalues.row + newvalues.col;
+    
+    const newPositionId = ''+  + req.body.newAisleID + req.body.newRow + req.body.newCol;
+    let x;
 
     try{
-      await position.modifyPosition(position_id, newvalues,newPositionId);
+      x = await position.modifyPosition(position_id, req.body,newPositionId);
     }catch(err){
       return res.status(503).json({err:"generic error"})
     }
+
+    if(x===false){
+      return res.status(404).json();
+    } 
     
     return res.status(200).json();
   

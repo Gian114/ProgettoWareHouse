@@ -9,7 +9,7 @@ const restockOrder = new RestockOrder(db.db);
 
 const product = require('../Modules/Product');
 
-const skuItemRoutes = require('./SKUItemsRoutes');
+const skuItemRoutes = require('./SKUItemRoutes');
 const skuItem = skuItemRoutes.skuItem;
 
 

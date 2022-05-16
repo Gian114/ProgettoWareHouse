@@ -10,8 +10,8 @@ class Position{
     //ricontrolla OccupiedWeight e OccupiedVolume
     createNewPosition(data){
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO POSITION(ID, AISLE_ID, ROW, COL, MAX_WEIGHT, MAX_VOLUME, OCCUPIED_WEIGHT, OCCUPIED_VOLUME) VALUES(?, ?, ?, ?, ?, ?, 0, 0)';
-            this.db.run(sql, [data.positionID, data.aisle_id, data.row, data.col, data.max_weight, data.max_volume], (err) => {
+            const sql = 'INSERT INTO POSITION(ID, aisle, ROW, COL, MAX_WEIGHT, MAX_VOLUME, OCCUPIED_WEIGHT, OCCUPIED_VOLUME) VALUES(?, ?, ?, ?, ?, ?, 0, 0)';
+            this.db.run(sql, [data.positionID, data.aisleID, data.row, data.col, data.maxWeight, data.maxVolume], (err) => {
                 if (err) {
                   reject(err);
                   return;
@@ -50,11 +50,14 @@ class Position{
 
     modifyPosition(id, data, newid){
         return new Promise((resolve, reject)=>{
-        const sql = 'UPDATE POSITION SET ID = ?, AISLE_ID = ?, ROW = ?, COL = ?, MAX_WEIGHT = ?, MAX_VOLUME = ?, OCCUPIED_WEIGHT = ?, OCCUPIED_VOLUME = ? WHERE ID = ?'
-        this.db.run(sql, [newid, data.aisle_id, data.row, data.col, data.max_weight, data.max_volume, data.occupied_weight, data.occupied_volume,id], (err, r)=>{
+        const sql = 'UPDATE POSITION SET ID = ?, aisle = ?, ROW = ?, COL = ?, MAX_WEIGHT = ?, MAX_VOLUME = ?, OCCUPIED_WEIGHT = ?, OCCUPIED_VOLUME = ? WHERE ID = ?'
+        this.db.run(sql, [newid, data.newAisleID, data.newRow, data.newCol, data.newMaxWeight, data.newMaxVolume, data.newOccupiedWeight, data.newOccupiedVolume, id], (err, r)=>{
             if (err) {
                 reject(err);
                 return;
+            }
+            if(r === undefined){
+                resolve(false)
             }
             resolve(true)
         })
