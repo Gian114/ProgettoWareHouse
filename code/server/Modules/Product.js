@@ -101,6 +101,25 @@ class Product{
         });
     }
 
+    deleteProductByInternalOrderId(internal_order_id) {
+        return new Promise((resolve, reject) => {
+
+            const sql = `
+                DELETE FROM PRODUCT 
+                WHERE internal_order_id = ?;
+                `;
+
+            this.db.run(sql, [internal_order_id], (err) => {
+
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve('');
+            });
+        });
+    }
+
 
 }
 
