@@ -75,7 +75,16 @@ class Product{
     }
 
     async insertProductRestockOrder(sku_id, description, price, quantity, restock_order_id) {
-        await this.insertProduct(sku_id, description, price, quantity, restock_order_id, 'NULL', 'NULL');
+        return new Promise((resolve, reject) => {
+            const sql = 'INSERT INTO PRODUCT(sku_id, description, price, quantity, restock_order_id, internal_order_id, return_order_id) VALUES(?, ?, ?, ?, ?, ?, ?)';
+            this.db.run(sql, [sku_id, description, price, quantity, restock_order_id, "NULL", "NULL"], (err) => {
+                if (err) {
+                  reject(err);
+                  return;
+                }
+                resolve(this.lastID);
+            });
+        });
     }
 
     deleteProduct(id) {
@@ -95,6 +104,6 @@ class Product{
 
 }
 
-const product = new Product(db);
+const product = new Product(db.db);
 
 module.exports = product;

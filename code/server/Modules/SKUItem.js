@@ -19,11 +19,12 @@ class SKUItem{
         });
     }
 
-    setRestockOrderId(rfid, returnOrderId) {
+    setRestockOrderId(item, restockid) {
         return new Promise((resolve, reject)=>{
-            const sql = 'UPDATE SKU_ITEM SET restock_order_id = ? WHERE rfid = ?'
-            this.db.run(sql, [returnOrderId, rfid], (err, r)=>{
+            const sql = 'INSERT INTO SKU_ITEM(rfid, available, sku_id, date_of_stock, restock_order_id) VALUES(?, 0, ?," ", ?)'
+            this.db.run(sql, [item.rfid, item.SKUId, restockid], (err, r)=>{
                 if (err) {
+                    console.log(err);
                     reject(err);
                     return;
                 }
@@ -31,6 +32,7 @@ class SKUItem{
             });
         });
     }
+    
 
     setInternalOrderId(rfid, returnOrderId) {
         return new Promise((resolve, reject)=>{

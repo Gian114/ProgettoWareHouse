@@ -9,14 +9,14 @@ const restockOrder = new RestockOrder(db.db);
 
 const product = require('../Modules/Product');
 
-const skuItemRoutes = require('./SKUItemsRoutes');
+const skuItemRoutes = require('./SKUItemRoutes');
 const skuItem = skuItemRoutes.skuItem;
 
 
 //get
 
 restockOrderRouter.get('/api/restockOrders', async (req, res) => {
-
+  
     try {
         let x = await restockOrder.getAllRestockOrder();
         return res.status(200).json(x);
@@ -37,6 +37,7 @@ restockOrderRouter.get('/api/restockOrdersIssued', async (req, res) => {
 
 });
 
+//aggiungi controlli 
 restockOrderRouter.get('/api/restockOrders/:id', async (req, res) => {
 
     if(req.params.id === undefined){
@@ -46,16 +47,12 @@ restockOrderRouter.get('/api/restockOrders/:id', async (req, res) => {
     const id = req.params.id;
 
     try {
-        let x = await restockOrder.getAllRestockOrderByID(id);
+        let x = await restockOrder.getRestockOrderByID(id);
+        return res.status(200).json(x);
     } catch(err) {
         return res.status(500).json({error: "generic error"});
     }
     
-    if(x === ''){
-        return res.status(404).json({error: "no restock order associated to id"});
-    } else {
-        return res.status(200).json(x);
-    }
 
 });
 
@@ -71,7 +68,7 @@ restockOrderRouter.get('/api/restockOrders/:id/returnItems', async (req, res) =>
 });
 
 //post
-
+//test ok manca 404
 restockOrderRouter.post('/api/restockOrder', async (req,res)=>{
 
     if(req.body.issueDate === undefined || req.body.products === undefined || req.body.supplierId === undefined){
@@ -95,22 +92,28 @@ restockOrderRouter.post('/api/restockOrder', async (req,res)=>{
 });
 
 //put
+//test ok manca 404
 restockOrderRouter.put('/api/restockOrder/:id', async (req,res)=>{
 
     if( Object.keys(req.params).length === 0 || req.params.id<0
     || Object.keys(req.body)===0){
       return res.status(422).json({})}
   
-      id = req.params.id;
-      state = req.body;
+      const roi = req.params.id;
+      const state = req.body;
 
+      console.log(roi);
+      console.log(state.newState); 
+
+       /*
       let y = await restockOrder.getRestockOrderByID(id);
       if(y === '') {
         return res.status(404).json({error: "no order associated to id"});
       }
+      */
 
     try{
-      await restockOrder.modifyState(id,state);
+      await restockOrder.modifyState(roi,state.newState);
     }catch(err){
       return res.status(503).json({err:"generic error"})
     }
@@ -119,23 +122,31 @@ restockOrderRouter.put('/api/restockOrder/:id', async (req,res)=>{
   
   });
 
-  //uncomplete
+  //manca 404
   restockOrderRouter.put('/api/restockOrder/:id/skuItems', async (req,res)=>{
 
     if( Object.keys(req.params).length === 0 || req.params.id<0
     || Object.keys(req.body)===0){
       return res.status(422).json({})}
   
-      id = req.params.id;
-      items = req.body;
+      const id = req.params.id;
+      const items = req.body.skuItems;
 
+          /*
       let y = await restockOrder.getRestockOrderByID(id);
       if(y === '') {
         return res.status(404).json({error: "no order associated to id"});
-      }
 
+      if(y.state != "DELIVERED"){
+        return res.status(422).json({error: "order state != DELIVERED"});
+      }
+      }
+      */
+            
     try{
-      //await skuItem.addSkuItemByRestockId(id,items); should be implemented
+      for(let i=0; i<items.length; i++) {
+        await skuItem.setRestockOrderId(items[i], id);
+      } 
     }catch(err){
       return res.status(503).json({err:"generic error"})
     }
@@ -144,22 +155,27 @@ restockOrderRouter.put('/api/restockOrder/:id', async (req,res)=>{
   
   });
 
+  //test ok
   restockOrderRouter.put('/api/restockOrder/:id/transportNote', async (req,res)=>{
 
     if( Object.keys(req.params).length === 0 || req.params.id<0
     || Object.keys(req.body)===0){
       return res.status(422).json({})}
   
-      id = req.params.id;
-      TNdate = req.body; //dovresti prendere solo la data
+      const id = req.params.id;
+      const TNdate = req.body.transportNote.deliveryDate; 
+      
+      console.log(TNdate);
 
+      /*
       let y = await restockOrder.getRestockOrderByID(id);
       if(y === '') {
         return res.status(404).json({error: "no order associated to id"});
       }
+      */
 
     try{
-      await skuItem.addTNdate(id,TNdate); 
+      await restockOrder.addTNdate(id,TNdate); 
     }catch(err){
       return res.status(503).json({err:"generic error"})
     }
@@ -169,8 +185,7 @@ restockOrderRouter.put('/api/restockOrder/:id', async (req,res)=>{
   });
 
 
-//delete 
-
+//delete. qui va fatto il delete anche degli skuitem e dei product 
 restockOrderRouter.delete('/api/restockOrder/:id', async(req, res)=>{
     if(!Number.isInteger.parseInt(req.params.id) || req.params.id<0) {
         return res.status(422).json({error: 'validation of id failed'});
