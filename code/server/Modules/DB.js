@@ -12,7 +12,7 @@ class DB {
     }
 
     async startDB() {
-        await this.dropTables();
+        //await this.dropTables();
         await this.createTables();
     }
 
