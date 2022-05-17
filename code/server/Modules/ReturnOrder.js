@@ -70,13 +70,14 @@ class ReturnOrder {
                 }
 
                 if(row !== undefined){
-                    sql = 'SELECT rfid, sku_id, description, price FROM SKU_ITEM INNER JOIN PRODUCT ON PRODUCT.sku_id = SKU_ITEM.sku_id WHERE return_order_id = ?';
+                    sql = 'SELECT rfid, PRODUCT.sku_id, description, price FROM SKU_ITEM INNER JOIN PRODUCT ON PRODUCT.sku_id = SKU_ITEM.sku_id WHERE SKU_ITEM.return_order_id = ?';
                     this.db.all(sql, [row.id], (err, rows) => {
                         if (err) {
                             reject(err);
                             return;
                         }
                         
+                        console.log(rows[0]);
                         const products = rows.map((r) => (
                             {  
                                 SKUId: r.sku_id,

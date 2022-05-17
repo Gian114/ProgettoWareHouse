@@ -89,7 +89,7 @@ class Product{
 
     deleteProduct(id) {
         return new Promise((resolve, reject) => {
-            const sql = 'DELETE FROM PRODCUT WHERE id = ?';
+            const sql = 'DELETE FROM PRODUCT WHERE id = ?';
             this.db.run(sql, [id], (err, r) => {
                 if (err) {
                     reject(err);
@@ -104,10 +104,7 @@ class Product{
     deleteProductByInternalOrderId(internal_order_id) {
         return new Promise((resolve, reject) => {
 
-            const sql = `
-                DELETE FROM PRODUCT 
-                WHERE internal_order_id = ?;
-                `;
+            const sql = 'DELETE FROM PRODUCT WHERE internal_order_id = ?';
 
             this.db.run(sql, [internal_order_id], (err) => {
 
@@ -115,7 +112,39 @@ class Product{
                     reject(err);
                     return;
                 }
-                resolve('');
+                resolve(true);
+            });
+        });
+    }
+
+    deleteProductByRestockOrderId(restock_order_id) {
+        return new Promise((resolve, reject) => {
+
+            const sql = 'DELETE FROM PRODUCT WHERE restock_order_id = ?';
+
+            this.db.run(sql, [restock_order_id], (err) => {
+
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(true);
+            });
+        });
+    }
+
+    deleteProductByReturnOrderId(return_order_id) {
+        return new Promise((resolve, reject) => {
+
+            const sql = 'DELETE FROM PRODUCT WHERE return_order_id = ?';
+
+            this.db.run(sql, [return_order_id], (err) => {
+
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(true);
             });
         });
     }
