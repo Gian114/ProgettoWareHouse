@@ -34,7 +34,7 @@ returnOrderRouter.get('/api/returnOrders/:id', async (req, res) => {
    
     const id = req.params.id;
     try {
-        let x = await returnOrder.getReturnOrderByID(id);
+        let x = await returnOrder.getReturnOrderById(id);
         if(x === ''){
             return res.status(404).json({error: "no return order associated to id"});
         } else {
@@ -62,7 +62,7 @@ returnOrderRouter.post('/api/returnOrder', async (req, res) => {
     }*/
     let x = '';
     for(let i=0; i<ro.products.length; i++) {
-        x = await skuItem.getSKUItemByRFIDandSKUId(ro.products[i].RFID);
+        x = await skuItem.getSKUItemByRFIDAndSKUId(ro.products[i].RFID, ro.products[i].SKUId);
         if(x === '') {
             return res.status(404).json({error: `no sku item associated to RFID or wrong correspondence between RFID and SKUId`});
         }
@@ -77,7 +77,6 @@ returnOrderRouter.post('/api/returnOrder', async (req, res) => {
         }
         return res.status(201).json();
     } catch(err) {
-        console.log(err);
         return res.status(503).json({error: "generic error"});
     }
 

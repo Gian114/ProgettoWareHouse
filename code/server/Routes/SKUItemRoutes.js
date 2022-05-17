@@ -36,7 +36,7 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
     let x
 
     try{
-      x = await skuItem.getSKUItemsBySKUID(id);
+      x = await skuItem.getSKUItemsBySKUId(id);
     }catch(err){
       return res.status(500).json({err: "generic error"})
     }

@@ -12,7 +12,7 @@ class DB {
     }
 
     async startDB() {
-        //await this.dropTables();
+        await this.dropTables();
         await this.createTables();
     }
 
@@ -72,7 +72,7 @@ class DB {
 
     createTableSKUItem() {
         return new Promise((resolve, reject)  => {  
-            const sql = 'CREATE TABLE IF NOT EXISTS SKU_ITEM (rfid TEXT PRIMARY KEY, available INTEGER NOT NULL, sku_id INTEGER NOT NULL, date_of_stock DATE NOT NULL, return_order_id INTEGER DEFAULT NULL, restock_order_id INTEGER DEFAULT NULL, internal_order_id INTEGER DEFAULT NULL, FOREIGN KEY(sku_id) REFERENCES SKU(id), FOREIGN KEY(return_order_id) REFERENCES RETURN_ORDER(id) ON DELETE SET NULL, FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id) ON DELETE SET NULL, FOREIGN KEY(internal_order_id) REFERENCES INTERNAL_ORDER(id) ON DELETE SET NULL)'; 
+            const sql = 'CREATE TABLE IF NOT EXISTS SKU_ITEM (rfid TEXT PRIMARY KEY, available INTEGER NOT NULL, sku_id INTEGER NOT NULL, date_of_stock DATE NOT NULL, return_order_id INTEGER DEFAULT NULL, restock_order_id INTEGER DEFAULT NULL, internal_order_id INTEGER DEFAULT NULL, FOREIGN KEY(sku_id) REFERENCES SKU(id), FOREIGN KEY(return_order_id) REFERENCES RETURN_ORDER(id), FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id), FOREIGN KEY(internal_order_id) REFERENCES INTERNAL_ORDER(id))'; 
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
