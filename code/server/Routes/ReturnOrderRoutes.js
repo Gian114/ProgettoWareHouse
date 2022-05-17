@@ -18,6 +18,9 @@ returnOrderRouter.get('/api/returnOrders', async (req, res) => {
 
     try {
         let x = await returnOrder.getAllReturnOrders();
+        for(let i=0; i<x.length; i++) {
+            x[i].products = await product.getProductsByReturnOrder(x[i].id);
+        }
         return res.status(200).json(x);
     } catch(err) {
         console.log(err);
@@ -38,6 +41,7 @@ returnOrderRouter.get('/api/returnOrders/:id', async (req, res) => {
         if(x === ''){
             return res.status(404).json({error: "no return order associated to id"});
         } else {
+            x.products = await product.getProductsByReturnOrder(id);
             return res.status(200).json(x);
         }
     } catch(err) {
@@ -77,6 +81,7 @@ returnOrderRouter.post('/api/returnOrder', async (req, res) => {
         }
         return res.status(201).json();
     } catch(err) {
+        console.log(err);
         return res.status(503).json({error: "generic error"});
     }
 
@@ -92,13 +97,19 @@ returnOrderRouter.delete('/api/returnOrder/:id', async (req, res) => {
 
     const id = req.params.id;
     try {
-        await returnOrder.deleteReturnOrder(id);
-        await product.deleteProductByReturnOrderId(id);
-        /*let skuItems = await skuItem.getSKUItemsByReturnOrderId(id);
-        for(i=0; i<skuItems.length; i++) {
-            await skuItem.setReturnOrderId(skuItems[i], 'NULL');
-        }*/
-        return res.status(204).json();
+        let x = await returnOrder.getReturnOrderById(id);
+        if(x === '') {
+            return res.status(404).json({error: 'no return order associated to id'});
+        }
+        else {
+            x = await product.getProductsByReturnOrder(id);
+            for(let i=0; i<x.length; i++) {
+                await skuItem.setReturnOrderId(x[i].RFID, 'NULL');
+            }
+            await product.deleteProductByReturnOrderId(id);
+            await returnOrder.deleteReturnOrder(id);
+            return res.status(204).json();
+        }
     } catch(err) {
         console.log(err);
         return res.status(503).json({error: "generic error"});
