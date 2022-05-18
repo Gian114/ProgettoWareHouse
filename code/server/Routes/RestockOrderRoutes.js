@@ -218,15 +218,17 @@ restockOrderRouter.put('/api/restockOrder/:id/transportNote', async (req, res) =
 });
 
 
-//delete. qui va fatto il delete anche degli skuitem e dei product 
+//not tested 
 restockOrderRouter.delete('/api/restockOrder/:id', async (req, res) => {
-  if (req.params.id < 0) {
+  if (!Number.isInteger(parseFloat(req.params.id)) || req.params.id < 0) {
     return res.status(422).json({ error: 'validation of id failed' });
   }
 
   const id = req.params.id;
   try {
-    await restockOrder.deleteReturnOrder(id);
+    await restockOrder.deleteRestockOrder(id);
+    await product.deleteProductByRestockOrderId(id);
+    await skuItem.deleteSKUItemByRestockOrderId(id);
     return res.status(204).json();
   } catch (err) {
     return res.status(503).json({ error: "generic error" });

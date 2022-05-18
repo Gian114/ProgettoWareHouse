@@ -227,6 +227,22 @@ class SKUItem{
         });
     }
 
+    deleteSKUItemByRestockOrderId(restock_order_id) {
+        return new Promise((resolve, reject) => {
+
+            const sql = 'DELETE FROM SKU_ITEM WHERE restock_order_id = ?';
+
+            this.db.run(sql, [restock_order_id], (err) => {
+
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(true);
+            });
+        });
+    }
+
 }
 
 module.exports = SKUItem;

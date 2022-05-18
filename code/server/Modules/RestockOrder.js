@@ -283,7 +283,7 @@ class RestockOrder {
 
 
     //ricorda di fare la delete di tutto 
-    deleteReturnOrder(id){
+    deleteRestockOrder(id){
         return new Promise((resolve, reject) => {
             const sql = 'DELETE FROM RESTOCK_ORDER WHERE id = ?';
             this.db.run(sql, [id], (err, r) => {
