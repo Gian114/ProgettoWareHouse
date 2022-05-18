@@ -86,7 +86,7 @@ class SKUItem{
     getSKUItemByRFID(rfid) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM SKU_ITEM WHERE rfid = ?';
-            this.db.get(sql, rfid, (err, r) => {
+            this.db.get(sql, [rfid], (err, r) => {
                 
                 if (err) {
                     reject(err);
@@ -112,7 +112,36 @@ class SKUItem{
         });
     }
 
-    getSKUItemsBySKUID(id) {
+    getSKUItemByRFIDAndSKUId(rfid, sku_id) {
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM SKU_ITEM WHERE rfid = ? and sku_id = ?';
+            this.db.get(sql, [rfid, sku_id], (err, r) => {
+                
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                if(r !== undefined){
+                    const skuitem =  
+                    {  
+                        rfid: r.rfid,
+                        available: r.available,
+                        sku: r.sku_id,
+                        date: r.date_of_stock
+                    };
+                    
+                    resolve(skuitem);
+
+                } else {
+                    const none = '';
+                    resolve(none);
+                }
+                
+            });
+        });
+    }
+
+    getSKUItemsBySKUId(id) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM SKU_ITEM WHERE sku_id = ? AND available = 1';
             this.db.all(sql, [id], (err, rows) => {
@@ -123,7 +152,7 @@ class SKUItem{
                 if(rows !== undefined){
 
                 
-                const skuitem = rows.map((r) => (
+                const skuitems = rows.map((r) => (
                 
                     {  
                         rfid: r.rfid,
@@ -132,9 +161,9 @@ class SKUItem{
                         date: r.date_of_stock
                     }
                 ));
-                resolve(skuitem);
+                resolve(skuitems);
             } else {
-                const skuitem = []
+                const skuitem = [];
                 resolve(skuitem);
             }
             });

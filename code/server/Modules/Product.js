@@ -17,8 +17,16 @@ class Product{
                   return;
                 }
 
-                const pid = rows.map((r) => (r.id));
-                resolve(pid);
+                const products = rows.map((r) => (
+                    {  
+                        SKUId: r.sku_id,
+                        description : r.description,
+                        price : r.price,
+                        qty : r.quantity,
+                    }
+                ));
+
+                resolve(products);
             });
         });
     }
@@ -32,23 +40,39 @@ class Product{
                   return;
                 }
 
-                const pid = rows.map((r) => (r.id));
-                resolve(pid);
+                const products = rows.map((r) => (
+                    {  
+                        SKUId: r.sku_id,
+                        description : r.description,
+                        price : r.price,
+                        qty : r.quantity,
+                    }
+                ));
+
+                resolve(products);
             });
         });
     }
 
     getProductsByReturnOrder(id) {
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT * FROM PRODUCT WHERE return_order_id = ?';
+            const sql = 'SELECT DISTINCT rfid, PRODUCT.sku_id, description, price FROM SKU_ITEM INNER JOIN PRODUCT ON PRODUCT.return_order_id = SKU_ITEM.return_order_id AND PRODUCT.sku_id = SKU_ITEM.sku_id WHERE SKU_ITEM.return_order_id = ?';
             this.db.all(sql, [id], (err, rows) => {
                 if (err) {
                   reject(err);
                   return;
                 }
 
-                const pid = rows.map((r) => (r.id));
-                resolve(pid);
+                const products = rows.map((r) => (
+                    {  
+                        SKUId: r.sku_id,
+                        description : r.description,
+                        price : r.price,
+                        RFID : r.rfid,
+                    }
+                ));
+
+                resolve(products);
             });
         });
     }
@@ -89,13 +113,61 @@ class Product{
 
     deleteProduct(id) {
         return new Promise((resolve, reject) => {
-            const sql = 'DELETE FROM PRODCUT WHERE id = ?';
+            const sql = 'DELETE FROM PRODUCT WHERE id = ?';
             this.db.run(sql, [id], (err, r) => {
                 if (err) {
                     reject(err);
                     return;
                 }
                
+                resolve(true);
+            });
+        });
+    }
+
+    deleteProductByInternalOrderId(internal_order_id) {
+        return new Promise((resolve, reject) => {
+
+            const sql = 'DELETE FROM PRODUCT WHERE internal_order_id = ?';
+
+            this.db.run(sql, [internal_order_id], (err) => {
+
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(true);
+            });
+        });
+    }
+
+    deleteProductByRestockOrderId(restock_order_id) {
+        return new Promise((resolve, reject) => {
+
+            const sql = 'DELETE FROM PRODUCT WHERE restock_order_id = ?';
+
+            this.db.run(sql, [restock_order_id], (err) => {
+
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(true);
+            });
+        });
+    }
+
+    deleteProductByReturnOrderId(return_order_id) {
+        return new Promise((resolve, reject) => {
+
+            const sql = 'DELETE FROM PRODUCT WHERE return_order_id = ?';
+
+            this.db.run(sql, [return_order_id], (err) => {
+
+                if (err) {
+                    reject(err);
+                    return;
+                }
                 resolve(true);
             });
         });

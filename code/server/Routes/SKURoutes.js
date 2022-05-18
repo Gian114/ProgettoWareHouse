@@ -132,45 +132,61 @@ skuRouter.post('/api/sku', async (req,res)=>{
     const id = req.params.id
     const positionID = req.body.position
 
-    let sku;
-    let position;
+    let s;
+    let p;
     let status;
     let data;
 
     try{
-        sku = await sku.getSKUByID(id);
+        s = await sku.getSKUByID(id);
     }catch(err){
+        console.log("a")
+        console.log(err)
         return res.status(503).json({err:"generic error"})
     }
 
-    if(sku == ''){
+    if(s == ''){
         return res.status(404).json({err: "sku does not exist"})
     } else {
         
         try {
-            position = await pos.getPosition(positionID)
+            p = await pos.getPosition(positionID)
         } catch(err){
+            console.log("ba")
+            console.log(err)
             return res.status(503).json({err:"generic error"})
         }
 
-        if(position == ''){
+        if(p == ''){
             return res.status(404).json({err: "position does not exist"})
         } else {
 
-            if(position.max_weight > sku.weight*sku.quantity && position.max_volume > sku.volume*sku.quantity){
+            if((p.max_weight - p.occupied_weight) >= s.weight*s.quantity && (p.max_volume - p.occupied_volume) >= s.volume*s.quantity){
+                
                 data = {
-                    weight : sku.weight,
-                    volume : sku.volume
+                    weight : s.weight*s.quantity,
+                    volume : s.volume*s.quantity
                 }
 
                 try{
                     status = await pos.occupyPosition(positionID, data)
                 }catch(err){
+                    console.log("aasd")
+                    console.log(err)
                     return res.status(503).json({err:"generic error"})
                 }
 
+               try{
+                await sku.modifyPosition(id, positionID)
+               }catch(err){
+                console.log(err)
+                console.log("aaaaa")
+                return res.status(503).json({err:"generic error"})
+               }
                return res.status(200).json()
 
+            } else if(p.max_weight >= s.weight*s.quantity &&  p.max_volume >= s.volume*s.quantity) {
+                return res.status(422).json({err:"that position is capable of satisfying volume and/or weight constraint BUT some of it is occupied"})
             } else {
                 return res.status(422).json({err:"that position is not capable of satisfying volume and/or weight constraint"})
             }

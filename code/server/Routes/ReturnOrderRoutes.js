@@ -18,8 +18,12 @@ returnOrderRouter.get('/api/returnOrders', async (req, res) => {
 
     try {
         let x = await returnOrder.getAllReturnOrders();
+        for(let i=0; i<x.length; i++) {
+            x[i].products = await product.getProductsByReturnOrder(x[i].id);
+        }
         return res.status(200).json(x);
     } catch(err) {
+        console.log(err);
         return res.status(500).json({error: "generic error"});
     }
 
@@ -33,13 +37,15 @@ returnOrderRouter.get('/api/returnOrders/:id', async (req, res) => {
    
     const id = req.params.id;
     try {
-        let x = await returnOrder.getReturnOrderByID(id);
+        let x = await returnOrder.getReturnOrderById(id);
         if(x === ''){
             return res.status(404).json({error: "no return order associated to id"});
         } else {
+            x.products = await product.getProductsByReturnOrder(id);
             return res.status(200).json(x);
         }
     } catch(err) {
+        console.log(err);
         return res.status(500).json({error: "generic error"});
     }
 
@@ -57,19 +63,16 @@ returnOrderRouter.post('/api/returnOrder', async (req, res) => {
     /*let y = await restockOrder.getRestockOrderByID(ro.restockOrderId);
     if(y === '') {
         return res.status(404).json({error: "no restock order associated to restockOrderId"});
-    }
+    }*/
     let x = '';
     for(let i=0; i<ro.products.length; i++) {
-        x = await skuItem.getSKUItemByRFID(ro.products[i].RFID);
+        x = await skuItem.getSKUItemByRFIDAndSKUId(ro.products[i].RFID, ro.products[i].SKUId);
         if(x === '') {
-            return res.status(404).json({error: `no sku item associated to RFID: ${ro.products[i].RFID}`});
+            return res.status(404).json({error: `no sku item associated to RFID or wrong correspondence between RFID and SKUId`});
         }
-    }*/
+    }
         
     try{
-        //for every products in ro get rfid in skuitem -> se anche solo uno non esiste errore
-        //si potrebbe anche spostare il ciclo for che c'è sotto prima del create newReturnOrder, tanto quella è l'ultiam cosa che deve fare
-        //prima controlla lo skuitem e inserisce i products
         await returnOrder.createNewReturnOrder(ro);
         let id = await db.getAutoincrementID('RETURN_ORDER');
         for(let i=0; i<ro.products.length; i++) {
@@ -94,17 +97,21 @@ returnOrderRouter.delete('/api/returnOrder/:id', async (req, res) => {
 
     const id = req.params.id;
     try {
-        await returnOrder.deleteReturnOrder(id);
-        let products = await product.getProductsByReturnOrder(id);
-        for(let i=0; i<products.length; i++) {
-            await product.deleteProduct(products[i]);
+        let x = await returnOrder.getReturnOrderById(id);
+        if(x === '') {
+            return res.status(404).json({error: 'no return order associated to id'});
         }
-        let skuItems = await skuItem.getSKUItemsByReturnOrderId(id);
-        for(i=0; i<skuItems.length; i++) {
-            await skuItem.setReturnOrderId(skuItems[i], 'NULL');
+        else {
+            x = await product.getProductsByReturnOrder(id);
+            for(let i=0; i<x.length; i++) {
+                await skuItem.setReturnOrderId(x[i].RFID, 'NULL');
+            }
+            await product.deleteProductByReturnOrderId(id);
+            await returnOrder.deleteReturnOrder(id);
+            return res.status(204).json();
         }
-        return res.status(204).json();
     } catch(err) {
+        console.log(err);
         return res.status(503).json({error: "generic error"});
     }
 

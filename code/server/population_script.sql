@@ -19,14 +19,14 @@ VALUES (2, 'pencil', 0.1, 1.4, 1.29, 'notes', 250, 800011111111);
 
 
 INSERT INTO SKU_ITEM (rfid, available, sku_id, date_of_stock)
-VALUES ('1111', 1, 1, DATE('19/04/2022'));
+VALUES ('1111', 1, 1,'19/04/2022');
 
 
 INSERT INTO SKU_ITEM (rfid, available, sku_id, date_of_stock)
-VALUES ('1112', 0, 1, DATE('20/04/2022'));
+VALUES ('1112', 0, 1, '20/04/2022');
 
 INSERT INTO SKU_ITEM (rfid, available, sku_id, date_of_stock)
-VALUES ('1113', 1, 2, DATE('22/04/2022'));
+VALUES ('1113', 1, 2, '22/04/2022');
 
 
 INSERT INTO TEST_DESCRIPTOR (id, name, procedure_description, sku_id)
@@ -52,4 +52,4 @@ INSERT INTO ITEM(id, sku_id, description, price, supplier_id)
 VALUES(1, 1, "pen", 1.39, 2);
 
 INSERT INTO ITEM(id, sku_id, description, price, supplier_id)
-VALUES(1, 2, "pencil", 1.29, 3);
+VALUES(2, 2, "pencil", 1.29, 2);

@@ -75,7 +75,7 @@ class SKU{
                         weight : r.weight,
                         volume : r.volume,
                         notes : r.notes,
-                        position: r.position,
+                        position: r.position_id,
                         quantity: r.available_quantity, 
                         price: r.price,
                     }
@@ -106,7 +106,7 @@ class SKU{
 
     deleteSKU(id) {
         return new Promise((resolve, reject) => {
-            const sql = 'DELETE FROM SKU WHERE SKU.ID = ?';
+            const sql = 'DELETE FROM SKU WHERE ID = ?';
             this.db.run(sql, [id], (err, r) => {
                 if (err) {
                     reject(err);
@@ -122,7 +122,7 @@ class SKU{
 
         return new Promise((resolve, reject)=>{
             
-        const sql = 'UPDATE SKU SET POSITION = ? WHERE ID = ?'
+        const sql = 'UPDATE SKU SET position_id = ? WHERE ID = ?'
         this.db.run(sql, [position, id], (err, r)=>{
             if (err) {
                 reject(err);

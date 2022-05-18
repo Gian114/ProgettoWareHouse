@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS SKU_ITEM (
     available INTEGER NOT NULL, /* boolean */
     sku_id INTEGER NOT NULL,
     date_of_stock DATE NOT NULL,
-    return_order_id INTEGER DEFAULT NULL,
+    product_id INTEGER DEFAULT NULL,
     restock_order_id INTEGER DEFAULT NULL,
     internal_order_id INTEGER DEFAULT NULL,
     FOREIGN KEY(sku_id) REFERENCES SKU(id),
