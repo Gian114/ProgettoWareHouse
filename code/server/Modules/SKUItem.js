@@ -19,9 +19,10 @@ class SKUItem{
         });
     }
 
+    //available 1 or 0?
     setRestockOrderId(item, restockid) {
         return new Promise((resolve, reject)=>{
-            const sql = 'INSERT INTO SKU_ITEM(rfid, available, sku_id, date_of_stock, restock_order_id) VALUES(?, 0, ?," ", ?)'
+            const sql = 'INSERT INTO SKU_ITEM(rfid, available, sku_id, date_of_stock, restock_order_id) VALUES(?, 0 , ?," ", ?)'
             this.db.run(sql, [item.rfid, item.SKUId, restockid], (err, r)=>{
                 if (err) {
                     console.log(err);
@@ -138,6 +139,32 @@ class SKUItem{
             }
             });
         });
+    }
+
+    getSKUItemByRestockID(id){
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM SKU_ITEM WHERE restock_order_id = ?';
+            this.db.all(sql, [id], (err, rows) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                if(rows !== undefined){
+
+                
+                    const skuitem = rows.map((r) => (
+                    
+                        {  
+                            rfid: r.rfid,
+                            sku: r.sku_id,
+                            
+                        }
+                    ));
+        
+              resolve(skuitem);
+            }});
+        });
+
     }
 
     modifySKUItem(rfid, data){
