@@ -4,10 +4,11 @@ const express = require('express');
 const InternalOrder = require('../Modules/InternalOrder');
 // will need to change when return instance
 const SKUItem = require('../Modules/SKUItem');
+const Product = require('../Modules/Product');
 
 const db = require('../Modules/DB');
 const io_table = new InternalOrder(db.db);
-const prod_table = require('../Modules/Product');
+const prod_table = new Product(db.db);
 const item_table = new SKUItem(db.db);
 
 function idIsValid(id) {

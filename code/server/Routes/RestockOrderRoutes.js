@@ -7,10 +7,10 @@ const db = require('../Modules/DB');
 const restockOrderRouter = express.Router();
 const restockOrder = new RestockOrder(db.db);
 
-const product = require('../Modules/Product');
-
-const skuItemRoutes = require('./SKUItemRoutes');
-const skuItem = skuItemRoutes.skuItem;
+const Product = require('../Modules/Product');
+const product = new Product (db.db);
+const SkuItem = require('../Modules/SkuItem');
+const skuItem = new SkuItem(db.db);
 
 
 //get
@@ -240,5 +240,4 @@ restockOrderRouter.delete('/api/restockOrder/:id', async (req, res) => {
 
 
 
-module.exports.restockOrderRouter = restockOrderRouter;
-module.exports.restockOrder = restockOrder;
+module.exports = restockOrderRouter;

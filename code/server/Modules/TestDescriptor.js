@@ -42,7 +42,7 @@ class TestDescriptor {
         });
     }
 
-    getTestDescriptorByID(id) {
+    getTestDescriptorById(id) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM TEST_DESCRIPTOR WHERE id = ?';
             this.db.get(sql, [id], (err, r) => {

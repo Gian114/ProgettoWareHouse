@@ -2,7 +2,7 @@
 
 const db = require('./DB');
 
-class Product{
+class Product {
 
     constructor(db) {
         this.db = db;
@@ -167,6 +167,4 @@ class Product{
 
 }
 
-const product = new Product(db.db);
-
-module.exports = product;
+module.exports = Product;

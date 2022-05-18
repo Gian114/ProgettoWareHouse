@@ -153,5 +153,4 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
   
   });
   
-  module.exports.skuItemRouter = skuItemRouter;
-  module.exports.skuItem = skuItem;
+  module.exports = skuItemRouter;
