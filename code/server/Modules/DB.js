@@ -14,6 +14,7 @@ class DB {
     async startDB() {
         await this.dropTables();
         await this.createTables();
+        await this.activateForeignKeyControl();
     }
 
     async createTables() { //the order is important, before referenced tables and after referencing tables
@@ -42,6 +43,19 @@ class DB {
         await this.dropTableInternalOrder();
         await this.dropTableItem();
         await this.dropTableProduct();
+    }
+
+    activateForeignKeyControl() {
+        return new Promise((resolve, reject)  => {
+            const sql = 'PRAGMA foreign_keys = ON';
+            this.db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(this.lastID);
+            });
+        });
     }
 
     getAutoincrementID(table) {

@@ -8,7 +8,7 @@ class Product{
         this.db = db;
     }
 
-    getProductsByRestockOrder(id) {
+    /*getProductsByRestockOrder(id) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM PRODUCT WHERE restock_order_id = ?';
             this.db.all(sql, [id], (err, rows) => {
@@ -52,11 +52,11 @@ class Product{
                 resolve(products);
             });
         });
-    }
+    }*/
 
     getProductsByReturnOrder(id) {
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT DISTINCT rfid, PRODUCT.sku_id, description, price FROM SKU_ITEM INNER JOIN PRODUCT ON PRODUCT.return_order_id = SKU_ITEM.return_order_id AND PRODUCT.sku_id = SKU_ITEM.sku_id WHERE SKU_ITEM.return_order_id = ?';
+            const sql = 'SELECT DISTINCT rfid, PRODUCT.sku_id, description, price FROM SKU_ITEM, PRODUCT WHERE PRODUCT.return_order_id = SKU_ITEM.return_order_id AND PRODUCT.sku_id = SKU_ITEM.sku_id AND SKU_ITEM.return_order_id = ?';
             this.db.all(sql, [id], (err, rows) => {
                 if (err) {
                   reject(err);
@@ -91,27 +91,18 @@ class Product{
     }
 
     async insertProductInternalOrder(sku_id, description, price, quantity, internal_order_id) {
-        await this.insertProduct(sku_id, description, price, quantity, "NULL", internal_order_id, "NULL");
+        await this.insertProduct(sku_id, description, price, quantity, null, internal_order_id, null);
     }
 
     async insertProductReturnOrder(sku_id, description, price, return_order_id) {
-        await this.insertProduct(sku_id, description, price, 1, "NULL", "NULL", return_order_id);
+        await this.insertProduct(sku_id, description, price, 1, null, null, return_order_id);
     }
 
     async insertProductRestockOrder(sku_id, description, price, quantity, restock_order_id) {
-        return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO PRODUCT(sku_id, description, price, quantity, restock_order_id, internal_order_id, return_order_id) VALUES(?, ?, ?, ?, ?, ?, ?)';
-            this.db.run(sql, [sku_id, description, price, quantity, restock_order_id, "NULL", "NULL"], (err) => {
-                if (err) {
-                  reject(err);
-                  return;
-                }
-                resolve(this.lastID);
-            });
-        });
+        await this.insertProduct(sku_id, description, price, quantity, restock_order_id, null, null);
     }
 
-    deleteProduct(id) {
+    /*deleteProduct(id) {
         return new Promise((resolve, reject) => {
             const sql = 'DELETE FROM PRODUCT WHERE id = ?';
             this.db.run(sql, [id], (err, r) => {
@@ -123,7 +114,7 @@ class Product{
                 resolve(true);
             });
         });
-    }
+    }*/
 
     deleteProductByInternalOrderId(internal_order_id) {
         return new Promise((resolve, reject) => {

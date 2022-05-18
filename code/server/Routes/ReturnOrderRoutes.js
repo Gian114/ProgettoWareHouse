@@ -60,10 +60,10 @@ returnOrderRouter.post('/api/returnOrder', async (req, res) => {
         }
 
     const ro = req.body;
-    /*let y = await restockOrder.getRestockOrderByID(ro.restockOrderId);
+    let y = await restockOrder.getRestockOrderByID(ro.restockOrderId);
     if(y === '') {
         return res.status(404).json({error: "no restock order associated to restockOrderId"});
-    }*/
+    }
     let x = '';
     for(let i=0; i<ro.products.length; i++) {
         x = await skuItem.getSKUItemByRFIDAndSKUId(ro.products[i].RFID, ro.products[i].SKUId);
@@ -97,19 +97,9 @@ returnOrderRouter.delete('/api/returnOrder/:id', async (req, res) => {
 
     const id = req.params.id;
     try {
-        let x = await returnOrder.getReturnOrderById(id);
-        if(x === '') {
-            return res.status(404).json({error: 'no return order associated to id'});
-        }
-        else {
-            x = await product.getProductsByReturnOrder(id);
-            for(let i=0; i<x.length; i++) {
-                await skuItem.setReturnOrderId(x[i].RFID, 'NULL');
-            }
-            await product.deleteProductByReturnOrderId(id);
-            await returnOrder.deleteReturnOrder(id);
-            return res.status(204).json();
-        }
+        await product.deleteProductByReturnOrderId(id);
+        await returnOrder.deleteReturnOrder(id);
+        return res.status(204).json();
     } catch(err) {
         console.log(err);
         return res.status(503).json({error: "generic error"});
