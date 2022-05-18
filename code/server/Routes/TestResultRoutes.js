@@ -19,8 +19,7 @@ function rfidIsValid(rfid) {
 }
 
 function idIsValid(id) {
-    // TODO: implement in TestResult
-    return true
+    return (Number.isInteger(parseFloat(id)) && id > 0);
 }
 
 testResultRouter.get('/api/skuitems/:rfid/testResults', async (req, res) => {
@@ -124,10 +123,6 @@ testResultRouter.delete('/api/skuitems/:rfid/testResult/:id', async (req, res) =
     if (!rfidIsValid(rfid) || !idIsValid(id)) {
         return res.status(422).json('validation of id or rfid failed');
     }
-    if (!rfidExists(rfid)) {
-        return res.status(404).json('no SKUItem for the given rfid');
-    }
-    // TODO: id TestResult
 
     try {
         await tr_table.removeTestResult(rfid, id);
@@ -135,7 +130,7 @@ testResultRouter.delete('/api/skuitems/:rfid/testResult/:id', async (req, res) =
         return res.status(503).json('generic error');
     }
 
-    return res.status(200).json();
+    return res.status(204).json();
 })
 
 module.exports = testResultRouter

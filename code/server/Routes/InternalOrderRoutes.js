@@ -10,11 +10,15 @@ const io_table = new InternalOrder(db.db);
 const prod_table = require('../Modules/Product');
 const item_table = new SKUItem(db.db);
 
+function idIsValid(id) {
+    return (Number.isInteger(parseFloat(id)) && id > 0);
+}
+
 const internalOrderRouter = express.Router()
 
-// need to deal with completed orders
 internalOrderRouter.get('/api/internalOrders', async (req, res) => {
-    
+    // only validation needed is user authorization which is not yet to implement
+
     let internal_orders;
     try {
         internal_orders = await this.getInternalOrdersNotCompleted();
@@ -27,6 +31,7 @@ internalOrderRouter.get('/api/internalOrders', async (req, res) => {
     return res.status(200).json(internal_orders)
 })
 
+// only validation needed is user authorization which is not yet to implement
 internalOrderRouter.get('/api/internalOrdersIssued', async (req, res) => {
 
     const state = 'ISSUED';
@@ -42,8 +47,9 @@ internalOrderRouter.get('/api/internalOrdersIssued', async (req, res) => {
     return res.status(200).json(internal_orders)
 })
 
+// only validation needed is user authorization which is not yet to implement
 internalOrderRouter.get('/api/internalOrdersAccepted', async (req, res) => {
-    
+
     const state = 'ACCEPTED';
 
     let internal_orders;
@@ -57,9 +63,14 @@ internalOrderRouter.get('/api/internalOrdersAccepted', async (req, res) => {
     return res.status(200).json(internal_orders)
 })
 
+// all validations but authorizations done
 internalOrderRouter.get('/api/internalOrders/:id', async (req, res) => {
-    
     const id = req.params.id;
+
+    // request validation
+    if (!idIsValid(id)) {
+        return res.status(422).json({error: "validation of id failed"});
+    }
 
     let state;
     try {
@@ -69,7 +80,7 @@ internalOrderRouter.get('/api/internalOrders/:id', async (req, res) => {
         return res.status(500).json({error: "generic error"});
     }
 
-    // checks if id exists
+    // checks if id exists, request validation
     if (state === '') {
         return res.status(404).json({error: "no internal order associated to id"});
     }
@@ -90,7 +101,13 @@ internalOrderRouter.get('/api/internalOrders/:id', async (req, res) => {
     return res.status(200).json(internal_orders)
 })
 
+// all validations but authorizations done
 internalOrderRouter.post('/api/internalOrders', async (req, res) => {
+    // request validation
+    if (Object.keys(req.body).length !== 3){
+        return res.status(422).json('validation of request body failed')
+    }
+
     const internal_order = {
         issueDate: req.body.issueDate,
         customerId: req.body.customerId,
@@ -104,23 +121,32 @@ internalOrderRouter.post('/api/internalOrders', async (req, res) => {
         internal_order_id = await io_table.createInternalOrder(internal_order.issueDate, internal_order.state, internal_order.customerId);
     } catch(err) {
         console.log(err);
-        return res.status(500).json({error: "generic error"});
+        return res.status(503).json({error: "generic error"});
     }
     for (const prod of products) {
         try {
             await prod_table.insertProductInternalOrder(prod.SKUId, prod.description, prod.price, prod.qty, internal_order_id)
         } catch(err) {
             console.log(err);
-            return res.status(500).json({error: "generic error"});
+            return res.status(503).json({error: "generic error"});
         }
     }
 
     return res.status(201).json()
 })
 
+// need to implement 404
 internalOrderRouter.put('/api/internalOrders/:id', async (req, res) => {
     const id = req.params.id;
     const state = req.body.newState;
+
+    // request validation
+    if (!isIsValid(is)){
+        return res.status(422).json('validation of id failed');
+    }
+    if (state === undefined || (state === 'COMPLETED' && req.body.products === undefined) || Object.keys(req.body).length > 2) {
+        return res.status(422).json('validation of request body failed');
+    }
 
     try {
         // set new state in internal order table 
@@ -140,9 +166,14 @@ internalOrderRouter.put('/api/internalOrders/:id', async (req, res) => {
     return res.status(200).json()    
 })
 
-// need to define the behavior in SKU_ITEM table on delete
+// sku_item table should have on delete set null on internal_order_id
+// all validations but authorizations done
 internalOrderRouter.delete('/api/internalOrders/:id', async (req, res) => {
     const id = req.params.id;
+
+    if (!idIsValid(id)) {
+        return res.status(422).json('validation of id failed');
+    }
 
     try {
         await io_table.deleteInternalOrderById(id);
