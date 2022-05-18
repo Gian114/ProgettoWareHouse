@@ -26,7 +26,7 @@ class InternalOrder {
                     P.quantity AS quantity
                 FROM INTERNAL_ORDER IO, PRODUCT P
                 WHERE IO.id = P.internal_order_id
-                AND IO.state != COMPLETED;
+                AND IO.state != 'COMPLETED';
                 `;
 
             this.db.all(sql, [], (err, rows) => {
@@ -85,7 +85,7 @@ class InternalOrder {
                 WHERE IO.id = P.internal_order_id
                 AND S.internal_order_id = IO.id
                 AND S.sku_id = P.sku_id
-                AND IO.state = COMPLETED;
+                AND IO.state = 'COMPLETED';
                 `;
 
             this.db.all(sql, [], (err, rows) => {
