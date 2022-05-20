@@ -1,34 +1,29 @@
 const express = require('express');
-const User = require('../Modules/User');
-const db = require('../Modules/DB');
-
 const userRouter = express.Router();
-const user = new User(db.db);
+
+const UserServices = require('../Services/UserServices');
+const uservices = new UserServices();
+
 
 
 //get
 userRouter.get('/api/suppliers', async (req,res) =>{
-
-    let x = '';
-    try{
-         x = await user.getSuppliers();
-    } catch(err){
+    
+    const us = await uservices.getSuppliers()
+    if(us === false ){
         return res.status(500).json({error: "generic error"})
-    }
-    return res.status(200).json(x);
-  
+    } 
+    return res.status(200).json(us);
 
 });
 
 userRouter.get('/api/users', async (req,res) =>{
 
-    let x = '';
-    try{
-         x = await user.getUsers();
-    } catch(err){
+    const us = await uservices.getUsers()
+    if(us === false ){
         return res.status(500).json({error: "generic error"})
-    }
-    return res.status(200).json(x);
+    } 
+    return res.status(200).json(us);
 
 })
 
@@ -50,31 +45,14 @@ userRouter.post('/api/newUser', async (req,res) =>{
         return res.status(422).json({err:"invalid body"})
     }
 
-    let x;
-
-    try{
-        
-        x = await user.getUser(req.body)
-
-    }catch(err){
-        console.log(err)
-        return res.status(500).json({error: "generic error"})
+   let data = req.body
+   const us = await uservices.createUser(data)
+   if(us === false ){
+    return res.status(500).json({error: "generic error"})
+    } else if (us === 409){
+        return res.status(409).json({err:"user with same mail and type already exist"}); 
     }
-
-    if (x === ''){
-
-        try{
-            x = await user.createUser(req.body);
-         } catch(err){   
-            return res.status(500).json({error: "generic error"})
-        }
-
-    } else {
-        return res.status(409).json({err:"user with same mail and type already exist"});
-    }
-
-   return res.status(201).json();
-  
+    return res.status(201).json();
 })
 
 userRouter.post('/api/managerSessions', async (req,res) =>{
@@ -89,20 +67,16 @@ userRouter.post('/api/managerSessions', async (req,res) =>{
     if(req.body.username === undefined || req.body.password === undefined){
      return res.status(422).json({err:"invalid body"})}
 
-    let x;
-    try{
-        x = await user.login(req.body, 'manager')
-    }catch(err){
+    let data = req.body;
+    const us = await uservices.userLogin(data, 'manager');
+
+    if(us === false ){
         return res.status(500).json({error: "generic error"})
-    }
+        } else if (us === 401){
+            return res.status(401).json({err:"wrong username and/or password"}); 
+        }
+        return res.status(200).json(us);
 
-    if ( x === false ){
-        return res.status(401).json({err:"wrong username and/or password"})
-    } else {
-        return res.status(200).json(x);
-    }
-
-   
 })
 
 userRouter.post('/api/customerSessions', async (req,res) =>{
@@ -117,18 +91,14 @@ userRouter.post('/api/customerSessions', async (req,res) =>{
     if(req.body.username === undefined || req.body.password === undefined){
      return res.status(422).json({err:"invalid body"})}
 
-    let x;
-    try{
-        x = await user.login(req.body, 'customer')
-    }catch(err){
+    let data = req.body;
+    const us = await uservices.userLogin(res, data, 'customer');
+    if(us === false ){
         return res.status(500).json({error: "generic error"})
-    }
-
-    if ( x === false ){
-        return res.status(401).json({err:"wrong username and/or password"})
-    } else {
-        return res.status(200).json(x);
-    }
+        } else if (us === 401){
+            return res.status(401).json({err:"wrong username and/or password"}); 
+        }
+        return res.status(200).json(us);
 })
 
 userRouter.post('/api/supplierSessions', async (req,res) =>{
@@ -143,18 +113,14 @@ userRouter.post('/api/supplierSessions', async (req,res) =>{
     if(req.body.username === undefined || req.body.password === undefined){
      return res.status(422).json({err:"invalid body"})}
 
-    let x;
-    try{
-        x = await user.login(req.body, 'supplier')
-    }catch(err){
+    let data = req.body;
+    const us = await  uservices.userLogin(res, data, 'supplier');
+    if(us === false ){
         return res.status(500).json({error: "generic error"})
-    }
-
-    if ( x === false ){
-        return res.status(401).json({err:"wrong username and/or password"})
-    } else {
-        return res.status(200).json(x);
-    }
+        } else if (us === 401){
+            return res.status(401).json({err:"wrong username and/or password"}); 
+        }
+        return res.status(200).json(us);
 })
 
 userRouter.post('/api/clerkSessions', async (req,res) =>{
@@ -169,18 +135,14 @@ userRouter.post('/api/clerkSessions', async (req,res) =>{
     if(req.body.username === undefined || req.body.password === undefined){
      return res.status(422).json({err:"invalid body"})}
 
-    let x;
-    try{
-        x = await user.login(req.body, 'clerk')
-    }catch(err){
+     let data = req.body;
+     const us = await uservices.userLogin(res, data, 'clerk');
+     if(us === false ){
         return res.status(500).json({error: "generic error"})
-    }
-
-    if ( x === false ){
-        return res.status(401).json({err:"wrong username and/or password"})
-    } else {
-        return res.status(200).json(x);
-    }
+        } else if (us === 401){
+            return res.status(401).json({err:"wrong username and/or password"}); 
+        }
+        return res.status(200).json(us);
 })
 
 userRouter.post('/api/qualityEmployeeSessions', async (req,res) =>{
@@ -195,18 +157,14 @@ userRouter.post('/api/qualityEmployeeSessions', async (req,res) =>{
     if(req.body.username === undefined || req.body.password === undefined){
      return res.status(422).json({err:"invalid body"})}
 
-    let x;
-    try{
-        x = await user.login(req.body, 'qualityEmployee')
-    }catch(err){
+     let data = req.body;
+     const us = await uservices.userLogin(res, data, 'qualityEmployee');
+     if(us === false ){
         return res.status(500).json({error: "generic error"})
-    }
-
-    if ( x === false ){
-        return res.status(401).json({err:"wrong username and/or password"})
-    } else {
-        return res.status(200).json(x);
-    }
+        } else if (us === 401){
+            return res.status(401).json({err:"wrong username and/or password"}); 
+        }
+        return res.status(200).json(us);
 })
 
 userRouter.post('/api/deliveryEmployeeSessions', async (req,res) =>{
@@ -221,18 +179,14 @@ userRouter.post('/api/deliveryEmployeeSessions', async (req,res) =>{
     if(req.body.username === undefined || req.body.password === undefined){
      return res.status(422).json({err:"invalid body"})}
 
-    let x;
-    try{
-        x = await user.login(req.body, 'deliveryEmployee')
-    }catch(err){
+     let data = req.body;
+     const us = await uservices.userLogin(res, data, 'deliveryEmployee');
+     if(us === false ){
         return res.status(500).json({error: "generic error"})
-    }
-
-    if ( x === false ){
-        return res.status(401).json({err:"wrong username and/or password"})
-    } else {
-        return res.status(200).json(x);
-    }
+        } else if (us === 401){
+            return res.status(401).json({err:"wrong username and/or password"}); 
+        }
+        return res.status(200).json(us);
 })
 
 //logout
@@ -252,12 +206,14 @@ userRouter.put('/api/users/:username', async (req,res) =>{
         return res.status(422).json({err:"attempt to modify rights to admin or manager"})}
     
    
-    try{
-        await user.modifyUserType(req.body, req.params.username);
-    }catch(err){
-        return res.status(503).json({error: "generic error"})
-    }
+    let data = req.body
+    let username = req.params.username;
 
+    const us = await uservices.modifyType(data, username)
+
+    if(us === false ){
+        return res.status(500).json({error: "generic error"})
+    } 
     return res.status(200).json();
 
 })
@@ -275,14 +231,11 @@ userRouter.delete('/api/users/:username/:type', async (req,res) =>{
     if(req.params.type === "manager" || req.params.type === "administrator"){
         return res.status(422).json({err:"attempt to delete a manager/administrator"})}
 
-    try{
-        console.log(req.params)
-        await user.deleteUser(req.params);
-    }catch(err){
-        console.log(err)
-        return res.status(503).json({error: "generic error"})
-    }
-
+   let data = req.params
+   const us = uservices.deleteUser(data)
+   if(us === false ){
+    return res.status(500).json({error: "generic error"})
+    } 
     return res.status(204).json();
 
 })

@@ -1,26 +1,19 @@
 'use strict'
 
 const express = require('express');
-const SKUItem = require('../Modules/SKUItem');
-const db = require('../Modules/DB');
-
 const skuItemRouter = express.Router()
-const skuItem = new SKUItem(db.db);
-
+const SKUItemServices = require('../Services/SKUItemServices')
+const siservices = new SKUItemServices()
 //get
 
 skuItemRouter.get('/api/skuitems', async (req,res) =>{
-
-  let x
-
-  try{
-    x = await skuItem.getAllSKUItems();
-  }catch(err){
-    return res.status(500).json({error: "generic error"})
-  }
+   
+    const si = await siservices.getSKUItems();
+    if(si === false){
+      res.status(500).json({error: "generic error"})
+    }
+    return res.status(200).json(si);
     
-    return res.status(200).json(x);
-  
   });
 
   skuItemRouter.get('/api/skuitems/sku/:id', async (req,res) =>{
@@ -33,20 +26,15 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
     }
 
     const id = req.params.id;
-    let x
-
-    try{
-      x = await skuItem.getSKUItemsBySKUId(id);
-    }catch(err){
-      return res.status(500).json({err: "generic error"})
+    const si = await siservices.getSKUItemsBySKUID(id)
+    if(si === false){
+      return res.status(500).json({error: "generic error"})
     }
-    
-    if(x !== []){
-      return res.status(200).json(x);
-    } else {
+    if(si !== []){
+      return res.status(200).json(si);
+      } else {
       return res.status(404).json({error: "no sku associated to id"});
-    }
-
+      }
     
   
   });
@@ -61,15 +49,13 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
         return res.status(422).json({error: 'validation of id failed'});
     }
     
-    let x;
-    const id = req.params.rfid;
-    try{
-      x = await skuItem.getSKUItemByRFID(id);
-    }catch(err){
-      return res.status(500).json({err:"generic error"})
-    }
    
-    return res.status(200).json(x);
+    const rfid = req.params.rfid;
+    const si = await siservices.getSKUItemsByRFID(rfid)
+    if(si === false){
+      return res.status(500).json({error: "generic error"})
+    }
+    return res.status(200).json(si);
   
   });
 
@@ -86,14 +72,11 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
         return res.status(422).json({})}  
     
     const item = req.body;
-    console.log(item);
     
-    try{
-      await skuItem.createNewSKUItem(item);
-    }catch(err){
-      return res.status(503).json({err:"generic error"})
+    const si = await siservices.createSKUItem(res, item)
+    if(si === false){
+      return res.status(503).json({error: "generic error"})
     }
-    
     return res.status(201).json();
   
   });
@@ -116,13 +99,11 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
     const rfid = req.params.rfid;
     const newvalues = req.body;
 
-    try{
-      await skuItem.modifySKUItem(rfid, newvalues);
-    }catch(err){
-      return res.status(503).json({err:"generic error"})
-    }
-    
-    return res.status(200).json();
+   const si = await siservices.modifySKUItem(res, rfid, newvalues)
+   if(si === false){
+    return res.status(503).json({error: "generic error"})
+  }
+  return res.status(200).json();
   
   });
 
@@ -137,17 +118,10 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
         return res.status(422).json({error: 'validation of id failed'});
     }
 
-    const id = req.params.rfid;
-    let x
-
-    try{
-      x = await skuItem.deleteSKUItem(id);
-    }catch(err){
-      return res.status(503).json({err: "generic error"})
-    }
-    
-    if(x === false){
-      res.status(204).json({message:"did not find the skuitem"})
+    const rfid = req.params.rfid;
+    const si = await siservices.deleteSKUItem(res, rfid)
+    if(si === false){
+      return res.status(503).json({error: "generic error"})
     }
     return res.status(204).json();
   
