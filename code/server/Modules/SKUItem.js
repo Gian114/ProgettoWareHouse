@@ -189,6 +189,9 @@ class SKUItem{
                             
                         }
                     ));
+
+                    //console.log(skuitem);
+
         
               resolve(skuitem);
             }});

@@ -7,23 +7,27 @@ const db = require('../Modules/DB');
 const restockOrderRouter = express.Router();
 const restockOrder = new RestockOrder(db.db);
 
-const product = require('../Modules/Product');
+const Product = require('../Modules/Product');
+const product = new Product (db.db);
+const SkuItem = require('../Modules/SkuItem');
+const skuItem = new SkuItem(db.db);
 
-const skuItemRoutes = require('./SKUItemRoutes');
-const skuItem = skuItemRoutes.skuItem;
 
 
-//get
+//get all tested
 
-//test ok manca skuitems
+//test ok
 restockOrderRouter.get('/api/restockOrders', async (req, res) => {
 
+  let restock;
   try {
-    let x = await restockOrder.getAllRestockOrder();
-    return res.status(200).json(x);
+    restock = await restockOrder.getAllRestockOrderNotIssued();
+    restock = restock.concat(await restockOrder.getAllRestockOrderIssued());
+    restock = restock.concat(await restockOrder.getAllRestockOrderDelivery());
   } catch (err) {
     return res.status(500).json({ error: "generic error" });
   }
+  return res.status(200).json(restock);
 
 });
 
@@ -39,7 +43,7 @@ restockOrderRouter.get('/api/restockOrdersIssued', async (req, res) => {
 
 });
 
-//test non ok  
+//test ok  
 restockOrderRouter.get('/api/restockOrders/:id', async (req, res) => {
 
   if (req.params.id === undefined) {
@@ -48,23 +52,43 @@ restockOrderRouter.get('/api/restockOrders/:id', async (req, res) => {
 
   const id = req.params.id;
 
-  let y = await restockOrder.getRestockOrderByID(id);
-  if (y === '') {
-    return res.status(404).json({ error: "no order associated to id" });
-  }
-
-
+  let state;
   try {
-    let x = await restockOrder.getRestockOrderByID(id);
-    return res.status(200).json(x);
-  } catch (err) {
-    return res.status(500).json({ error: "generic error" });
+      state = await restockOrder.getRestockOrderStateById(id);
+  } catch(err) {
+      console.log(err);
+      return res.status(500).json({error: "generic error"});
   }
+
+  // checks if id exists, request validation
+  if (state === '') {
+      return res.status(404).json({error: "no restock order associated to id"});
+  }
+
+  console.log(id);
+
+  let restock_orders;
+  try {
+      if (state === 'ISSUED') {
+          restock_orders = await restockOrder.getRestockOrderIssuedById(id);
+      }
+      else if (state === 'DELIVERY') {
+          restock_orders = await restockOrder.getRestockOrderDeliveryById(id);
+      }
+      else{
+        restock_orders = await restockOrder.getRestockOrderByID(id);
+      }
+  } catch(err) {
+      console.log(err);
+      return res.status(500).json({error: "generic error"});
+  }
+
+  return res.status(200).json(restock_orders)
 
 
 });
 
-//test ok but fix getRestockOrdeerById
+//test ok 
 restockOrderRouter.get('/api/restockOrders/:id/returnItems', async (req, res) => {
 
   if (req.params.id === undefined) {
@@ -74,18 +98,16 @@ restockOrderRouter.get('/api/restockOrders/:id/returnItems', async (req, res) =>
   let id = req.params.id;
  
   
- let y = await restockOrder.getRestockOrderByID(id);
+ let y = await restockOrder.getRestockOrderStateById(id);
  if(y === '') {
    return res.status(404).json({error: "no order associated to id"});
  }
 
- console.log(y);
-
- /*
+ 
  if(y.state != "COMPLETEDRETURN") {
   return res.status(422).json({error: "order state != COMPLETEDRETURN"});
 }
-*/
+
 
  
 try {
@@ -102,7 +124,7 @@ try {
 restockOrderRouter.post('/api/restockOrder', async (req, res) => {
 
   if (req.body.issueDate === undefined || req.body.products === undefined || req.body.supplierId === undefined) {
-    return res.status(422).json({ err: "validation of request body failed" });
+    return res.status(422).json({ err: "unprocessable entity" });
   }
 
   const ro = req.body;
@@ -132,14 +154,14 @@ restockOrderRouter.put('/api/restockOrder/:id', async (req, res) => {
   const roi = req.params.id;
   const state = req.body;
 
-  console.log(roi);
-  console.log(state.newState);
+  //console.log(roi);
+  //console.log(state.newState);
 
   
- let y = await restockOrder.getRestockOrderByID(roi);
- if(y === '') {
-   return res.status(404).json({error: "no order associated to id"});
- }
+  let y = await restockOrder.getRestockOrderStateById(roi);
+  if(y === '') {
+    return res.status(404).json({error: "no order associated to id"});
+  }
  
 
   try {
@@ -152,7 +174,7 @@ restockOrderRouter.put('/api/restockOrder/:id', async (req, res) => {
 
 });
 
-//here you have to merge array
+//test ok 
 restockOrderRouter.put('/api/restockOrder/:id/skuItems', async (req, res) => {
 
   if (Object.keys(req.params).length === 0 || req.params.id < 0
@@ -161,22 +183,32 @@ restockOrderRouter.put('/api/restockOrder/:id/skuItems', async (req, res) => {
   }
 
   const id = req.params.id;
-  const items = req.body.skuItems;
+  let items = req.body.skuItems;
 
   
-  let y = await restockOrder.getRestockOrderByID(id);
-  if(y ==='') {return res.status(404).json({error: "no order associated to id"})};
+  let y = await restockOrder.getRestockOrderStateById(roi);
+  if(y === '') {
+    return res.status(404).json({error: "no order associated to id"});
+  }
 
-  //let date = y.issueDate
+  if(y !== 'DELIVERED'){
+    return res.status(422).json({error: "state is not DELIVERED"});
+  }
 
   let x = await skuItem.getSKUItemByRestockID(id);
-  //console.log(x);
+  
+  //elimante items present in database
+  items = items.filter(function(objFromItem) {
+    return !x.find(function(objFromx) {
+      return objFromItem.rfid === objFromx.rfid
+    })
+  })
+  
+  console.log(items);
       
-
- 
   try {
     for (let i = 0; i < items.length; i++) {
-      await skuItem.setRestockOrderId(items[i], id); //si impalla se trova nell'rfid uno già presente in skuitem
+      await skuItem.setRestockOrderId(items[i], id); 
     }
   } catch (err) {
     return res.status(503).json({ err: "generic error" })
@@ -198,15 +230,35 @@ restockOrderRouter.put('/api/restockOrder/:id/transportNote', async (req, res) =
   const id = req.params.id;
   const TNdate = req.body.transportNote.deliveryDate;
 
-  console.log(TNdate);
+  const state = await restockOrder.getRestockOrderStateById(id);
 
-  
-  let y = await restockOrder.getRestockOrderByID(id);
-  if(y === '') {
+  if(state === '') {
     return res.status(404).json({error: "no order associated to id"});
   }
+  console.log(state);
+
+  if(state !== 'DELIVERY'){
+    return res.status(422).json({error : "order state !== DELIVERY"});
+  }
+
+  
+  var d2 = await restockOrder.getRestockOrderIssueDateByID(id);
   
 
+  var d1 = Date.parse(TNdate); //d1 = delivery_date
+  d2 = Date.parse(d2); //d2 = issue_date
+
+  if(d1 < d2){
+    return res.status(422).json({error : "delivery_date < issue_date check date"});
+  }
+  
+  //console.log("stampo d2");
+  //console.log(d2); 
+
+
+  //console.log("stampo d1");
+  //console.log(d1); 
+  
   try {
     await restockOrder.addTNdate(id, TNdate);
   } catch (err) {
@@ -228,7 +280,7 @@ restockOrderRouter.delete('/api/restockOrder/:id', async (req, res) => {
   try {
     await restockOrder.deleteRestockOrder(id);
     await product.deleteProductByRestockOrderId(id);
-    await skuItem.deleteSKUItemByRestockOrderId(id);
+    //await skuItem.deleteSKUItemByRestockOrderId(id);
     return res.status(204).json();
   } catch (err) {
     return res.status(503).json({ error: "generic error" });
