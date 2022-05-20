@@ -3,13 +3,13 @@
 const express = require('express');
 const db = require('./Modules/DB');
 
-const SKURoutes = require('./Routes/SKURoutes');
-const SKUItemRoutes = require('./Routes/SKUItemRoutes');
+const skuRouter = require('./Routes/SKURoutes');
+const skuItemRouter = require('./Routes/SKUItemRoutes');
 const positionRouter = require('./Routes/PositionRoutes');
 const testDescriptorRouter = require('./Routes/TestDescriptorRoutes');
 const testResultRouter = require('./Routes/TestResultRoutes');
 const userRouter = require('./Routes/UserRouter');
-const restockOrderRoutes = require('./Routes/RestockOrderRoutes');
+const restockOrderRouter = require('./Routes/RestockOrderRoutes');
 const returnOrderRouter = require('./Routes/ReturnOrderRoutes');
 const internalOrderRouter = require('./Routes/InternalOrderRoutes')
 const itemRouter = require('./Routes/ItemRoutes')
@@ -20,13 +20,13 @@ const app = new express();
 const port = 3001;
 
 app.use(express.json());
-app.use('', SKURoutes.skuRouter);
-app.use('', SKUItemRoutes.skuItemRouter);
+app.use('', skuRouter);
+app.use('', skuItemRouter);
 app.use('', positionRouter);
 app.use('', testDescriptorRouter);
 app.use('', testResultRouter);
 app.use('', userRouter);
-app.use('', restockOrderRoutes.restockOrderRouter);
+app.use('', restockOrderRouter);
 app.use('', returnOrderRouter);
 app.use('', internalOrderRouter);
 app.use('', itemRouter);

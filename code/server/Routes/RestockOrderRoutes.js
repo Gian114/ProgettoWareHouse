@@ -292,5 +292,4 @@ restockOrderRouter.delete('/api/restockOrder/:id', async (req, res) => {
 
 
 
-module.exports.restockOrderRouter = restockOrderRouter;
-module.exports.restockOrder = restockOrder;
+module.exports = restockOrderRouter;

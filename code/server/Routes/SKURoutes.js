@@ -218,5 +218,4 @@ skuRouter.post('/api/sku', async (req,res)=>{
     return res.status(204).json(); 
   });
   
-  module.exports.skuRouter = skuRouter;
-  module.exports.sku = sku;
+  module.exports = skuRouter;

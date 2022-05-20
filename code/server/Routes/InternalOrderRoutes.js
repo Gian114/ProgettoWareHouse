@@ -4,10 +4,11 @@ const express = require('express');
 const InternalOrder = require('../Modules/InternalOrder');
 // will need to change when return instance
 const SKUItem = require('../Modules/SKUItem');
+const Product = require('../Modules/Product');
 
 const db = require('../Modules/DB');
 const io_table = new InternalOrder(db.db);
-const prod_table = require('../Modules/Product');
+const prod_table = new Product(db.db);
 const item_table = new SKUItem(db.db);
 
 function idIsValid(id) {
@@ -21,8 +22,8 @@ internalOrderRouter.get('/api/internalOrders', async (req, res) => {
 
     let internal_orders;
     try {
-        internal_orders = await this.getInternalOrdersNotCompleted();
-        internal_orders.concat(await this.getInternalOrdersCompleted());
+        internal_orders = await io_table.getInternalOrdersNotCompleted();
+        internal_orders.concat(await io_table.getInternalOrdersCompleted());
     } catch(err) {
         console.log(err);
         return res.status(500).json({error: "generic error"});
@@ -119,15 +120,18 @@ internalOrderRouter.post('/api/internalOrders', async (req, res) => {
     let internal_order_id;
     try {
         internal_order_id = await io_table.createInternalOrder(internal_order.issueDate, internal_order.state, internal_order.customerId);
+        console.log(typeof(internal_order_id));
     } catch(err) {
-        console.log(err);
+        console.log(err + ' 1');
         return res.status(503).json({error: "generic error"});
     }
     for (const prod of products) {
         try {
+            console.log(typeof(prod.SKUId));
+            // prod.SKUId
             await prod_table.insertProductInternalOrder(prod.SKUId, prod.description, prod.price, prod.qty, internal_order_id)
         } catch(err) {
-            console.log(err);
+            console.log(err + ' 2');
             return res.status(503).json({error: "generic error"});
         }
     }
@@ -141,7 +145,7 @@ internalOrderRouter.put('/api/internalOrders/:id', async (req, res) => {
     const state = req.body.newState;
 
     // request validation
-    if (!isIsValid(is)){
+    if (!idIsValid(id)){
         return res.status(422).json('validation of id failed');
     }
     if (state === undefined || (state === 'COMPLETED' && req.body.products === undefined) || Object.keys(req.body).length > 2) {
@@ -153,8 +157,8 @@ internalOrderRouter.put('/api/internalOrders/:id', async (req, res) => {
         await io_table.modifyInternalOrderState(id, state);
         if (state === 'COMPLETED') {
             // add internal order id to sku item
-            products = req.body.products;
-            for (prod of products) {
+            const products = req.body.products;
+            for (const prod of products) {
                 item_table.setInternalOrderId(prod.RFID, id);
             }
         }
@@ -176,8 +180,9 @@ internalOrderRouter.delete('/api/internalOrders/:id', async (req, res) => {
     }
 
     try {
-        await io_table.deleteInternalOrderById(id);
         await prod_table.deleteProductByInternalOrderId(id);
+        // await item_table.deleteInternalOrderId(id);
+        await io_table.deleteInternalOrderById(id);
     } catch(err) {
         console.log(err);
         return res.status(500).json({error: "generic error"});

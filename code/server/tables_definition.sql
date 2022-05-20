@@ -33,11 +33,21 @@ CREATE TABLE IF NOT EXISTS SKU_ITEM (
     date_of_stock DATE NOT NULL,
     product_id INTEGER DEFAULT NULL,
     restock_order_id INTEGER DEFAULT NULL,
+    return_order_id INTEGER DEFAULT NULL,
     internal_order_id INTEGER DEFAULT NULL,
     FOREIGN KEY(sku_id) REFERENCES SKU(id),
-    FOREIGN KEY(return_order_id) REFERENCES RETURN_ORDER(id),
-    FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id),
-    FOREIGN KEY(internal_order_id) REFERENCES INTERNAL_ORDER(id)
+    CONSTRAINT fk_restock
+        FOREIGN KEY(restock_order_id) 
+        REFERENCES RESTOCK_ORDER(id)
+        ON DELETE SET NULL,
+    CONSTRAINT fk_internal
+        FOREIGN KEY(internal_order_id) 
+        REFERENCES INTERNAL_ORDER(id)
+        ON DELETE SET NULL,
+    CONSTRAINT fk_return
+        FOREIGN KEY(return_order_id)
+        REFERENCES RETURN_ORDER(id)
+        ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS POSITION (
@@ -122,7 +132,16 @@ CREATE TABLE IF NOT EXISTS PRODUCT (
     internal_order_id INTEGER DEFAULT NULL,
     return_order_id INTEGER DEFAULT NULL,
     FOREIGN KEY(sku_id) REFERENCES SKU(id),
-    FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id),
-    FOREIGN KEY(internal_order_id) REFERENCES INTERNAL_ORDER(id),
-    FOREIGN KEY(return_order_id) REFERENCES RETURN_ORDER(id)
+    CONSTRAINT fk_restock
+        FOREIGN KEY(restock_order_id) 
+        REFERENCES RESTOCK_ORDER(id)
+        ON DELETE SET NULL,
+    CONSTRAINT fk_internal
+        FOREIGN KEY(internal_order_id) 
+        REFERENCES INTERNAL_ORDER(id)
+        ON DELETE SET NULL,
+    CONSTRAINT fk_return
+        FOREIGN KEY(return_order_id)
+        REFERENCES RETURN_ORDER(id)
+        ON DELETE SET NULL
 );
