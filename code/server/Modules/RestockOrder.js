@@ -472,6 +472,7 @@ class RestockOrder {
             const sql = 'INSERT INTO RESTOCK_ORDER(issue_date, state, supplier_id) VALUES(?, "ISSUED", ?)';
             this.db.run(sql, [data.issueDate, data.supplierId], (err) => {
                 if (err) {
+                    console.log(err);
                     reject(err);
                     return;
                 }
