@@ -1,15 +1,9 @@
 'use strict'
 
 const express = require('express');
-const InternalOrder = require('../Modules/InternalOrder');
-// will need to change when return instance
-const SKUItem = require('../Modules/SKUItem');
-const Product = require('../Modules/Product');
 
-const db = require('../Modules/DB');
-const io_table = new InternalOrder(db.db);
-const prod_table = new Product(db.db);
-const item_table = new SKUItem(db.db);
+const InternalOrderServices = require('../Services/InternalOrderServices');
+const io_serv = new InternalOrderServices();
 
 function idIsValid(id) {
     return (Number.isInteger(parseFloat(id)) && id > 0);
@@ -17,13 +11,14 @@ function idIsValid(id) {
 
 const internalOrderRouter = express.Router()
 
-internalOrderRouter.get('/api/internalOrders', async (req, res) => {
+internalOrderRouter.get('/api/internalOrders', async (_, res) => {
     // only validation needed is user authorization which is not yet to implement
 
     let internal_orders;
     try {
-        internal_orders = await io_table.getInternalOrdersNotCompleted();
-        internal_orders.concat(await io_table.getInternalOrdersCompleted());
+        // internal_orders = await io_table.getInternalOrdersNotCompleted();
+        // internal_orders.concat(await io_table.getInternalOrdersCompleted());
+        internal_orders = await io_serv.getInternalOrders();
     } catch(err) {
         console.log(err);
         return res.status(500).json({error: "generic error"});
@@ -33,13 +28,13 @@ internalOrderRouter.get('/api/internalOrders', async (req, res) => {
 })
 
 // only validation needed is user authorization which is not yet to implement
-internalOrderRouter.get('/api/internalOrdersIssued', async (req, res) => {
+internalOrderRouter.get('/api/internalOrdersIssued', async (_, res) => {
 
     const state = 'ISSUED';
     
     let internal_orders;
     try {
-        internal_orders = await io_table.getInternalOrdersByState(state);
+        internal_orders = await io_serv.getInternalOrdersByState(state);
     } catch(err) {
         console.log(err);
         return res.status(500).json({error: "generic error"});
@@ -49,13 +44,13 @@ internalOrderRouter.get('/api/internalOrdersIssued', async (req, res) => {
 })
 
 // only validation needed is user authorization which is not yet to implement
-internalOrderRouter.get('/api/internalOrdersAccepted', async (req, res) => {
+internalOrderRouter.get('/api/internalOrdersAccepted', async (_, res) => {
 
     const state = 'ACCEPTED';
 
     let internal_orders;
     try {
-        internal_orders = await io_table.getInternalOrdersByState(state);
+        internal_orders = await io_serv.getInternalOrdersByState(state);
     } catch(err) {
         console.log(err);
         return res.status(500).json({error: "generic error"});
@@ -73,33 +68,17 @@ internalOrderRouter.get('/api/internalOrders/:id', async (req, res) => {
         return res.status(422).json({error: "validation of id failed"});
     }
 
-    let state;
+    let internal_order;
     try {
-        state = await io_table.getInternalOrderStateById(id);
+        internal_order = await io_serv.getInternalOrderById(id);
     } catch(err) {
-        console.log(err);
         return res.status(500).json({error: "generic error"});
     }
-
-    // checks if id exists, request validation
-    if (state === '') {
+    if (internal_order === undefined) {
         return res.status(404).json({error: "no internal order associated to id"});
     }
 
-    let internal_orders;
-    try {
-        if (state === 'COMPLETED') {
-            internal_orders = await io_table.getInternalOrderCompletedById(id);
-        }
-        else {
-            internal_orders = await io_table.getInternalOrderNotCompletedById(id);
-        }
-    } catch(err) {
-        console.log(err);
-        return res.status(500).json({error: "generic error"});
-    }
-
-    return res.status(200).json(internal_orders)
+    return res.status(200).json(internal_order)
 })
 
 // all validations but authorizations done
@@ -119,21 +98,10 @@ internalOrderRouter.post('/api/internalOrders', async (req, res) => {
 
     let internal_order_id;
     try {
-        internal_order_id = await io_table.createInternalOrder(internal_order.issueDate, internal_order.state, internal_order.customerId);
-        console.log(typeof(internal_order_id));
+        internal_order_id = await io_serv.createInternalOrder(internal_order.issueDate, internal_order.state, internal_order.customerId, products);
     } catch(err) {
-        console.log(err + ' 1');
+        console.log(err);
         return res.status(503).json({error: "generic error"});
-    }
-    for (const prod of products) {
-        try {
-            console.log(typeof(prod.SKUId));
-            // prod.SKUId
-            await prod_table.insertProductInternalOrder(prod.SKUId, prod.description, prod.price, prod.qty, internal_order_id)
-        } catch(err) {
-            console.log(err + ' 2');
-            return res.status(503).json({error: "generic error"});
-        }
     }
 
     return res.status(201).json()
@@ -154,14 +122,7 @@ internalOrderRouter.put('/api/internalOrders/:id', async (req, res) => {
 
     try {
         // set new state in internal order table 
-        await io_table.modifyInternalOrderState(id, state);
-        if (state === 'COMPLETED') {
-            // add internal order id to sku item
-            const products = req.body.products;
-            for (const prod of products) {
-                item_table.setInternalOrderId(prod.RFID, id);
-            }
-        }
+        await io_serv.modifyInternalOrder(id, state, req.body.products);
     } catch(err) {
         console.log(err);
         return res.status(500).json({error: "generic error"});
@@ -180,9 +141,7 @@ internalOrderRouter.delete('/api/internalOrders/:id', async (req, res) => {
     }
 
     try {
-        await prod_table.deleteProductByInternalOrderId(id);
-        // await item_table.deleteInternalOrderId(id);
-        await io_table.deleteInternalOrderById(id);
+        await io_serv.deleteInternalOrder(id);
     } catch(err) {
         console.log(err);
         return res.status(500).json({error: "generic error"});

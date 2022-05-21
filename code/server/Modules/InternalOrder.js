@@ -36,7 +36,7 @@ class InternalOrder {
                     return;
                 }
 
-                const internal_orders_dict = rows.map(row => ({
+                const internal_orders = rows.map(row => ({
                         id: row.io_id,
                         issueDate: row.issue_date, // maybe convert to date?
                         state: row.state,
@@ -47,22 +47,10 @@ class InternalOrder {
                             price: row.price,
                             quantity: row.quantity
                         }
-                    })).reduce(function (ios, obj) {
-                        ios[obj.id] = 
-                            ios[obj.id] || 
-                            {
-                                id: obj.id,
-                                issueDate: obj.issueDate,
-                                state: obj.state,
-                                products: [],
-                                customerId:obj.customerId
-                            };
-                        ios[obj.id].products.push(obj.product);
-                        return ios
-                    }, {}
+                    })
                 );
 
-                resolve(Object.values(internal_orders_dict));
+                resolve(internal_orders);
             });
         });
     }
@@ -95,7 +83,7 @@ class InternalOrder {
                     return;
                 }
 
-                const internal_orders_dict = rows.map(row => ({
+                const internal_orders = rows.map(row => ({
                         id: row.io_id,
                         issueDate: row.issue_date, // maybe convert to date?
                         state: row.state,
@@ -106,22 +94,10 @@ class InternalOrder {
                             price: row.price,
                             rfid: row.rfid
                         }
-                    })).reduce(function (ios, obj) {
-                        ios[obj.id] = 
-                            ios[obj.id] || 
-                            {
-                                id: obj.id,
-                                issueDate: obj.issueDate,
-                                state: obj.state,
-                                products: [],
-                                customerId:obj.customerId
-                            };
-                        ios[obj.id].products.push(obj.product);
-                        return ios
-                    }, {}
+                    })
                 );
 
-                resolve(Object.values(internal_orders_dict));
+                resolve(internal_orders);
             });
         });
     }
@@ -153,7 +129,7 @@ class InternalOrder {
                     return;
                 }
 
-                const internal_orders_dict = rows.map(row => ({
+                const internal_orders = rows.map(row => ({
                         id: row.io_id,
                         issueDate: row.issue_date, // maybe convert to date?
                         state: row.state,
@@ -164,22 +140,10 @@ class InternalOrder {
                             price: row.price,
                             quantity: row.quantity
                         }
-                    })).reduce(function (ios, obj) {
-                        ios[obj.id] = 
-                            ios[obj.id] || 
-                            {
-                                id: obj.id,
-                                issueDate: obj.issueDate,
-                                state: obj.state,
-                                products: [],
-                                customerId:obj.customerId
-                            };
-                        ios[obj.id].products.push(obj.product);
-                        return ios
-                    }, {}
+                    })
                 );
 
-                resolve(Object.values(internal_orders_dict));
+                resolve(internal_orders);
             });
         });
     }
@@ -235,7 +199,7 @@ class InternalOrder {
                     reject(err);
                     return;
                 }
-
+                console.log(rows);
                 const internal_order = rows.map(row => ({
                         id: row.io_id,
                         issueDate: row.issue_date, // maybe convert to date?
@@ -247,20 +211,8 @@ class InternalOrder {
                             price: row.price,
                             quantity: row.quantity
                         }
-                    })).reduce(function (io, obj) {
-                        io = (Object.keys(io).length !== 0 ? io : 
-                            {
-                                id: obj.id,
-                                issueDate: obj.issueDate,
-                                state: obj.state,
-                                products: [],
-                                customerId:obj.customerId
-                            });
-                        io.products.push(obj.product);
-                        return io
-                    }, {}
-                )[0];
-
+                    })
+                );
                 resolve(internal_order);
             });
         });
@@ -305,19 +257,8 @@ class InternalOrder {
                             price: row.price,
                             rfid: row.rfid
                         }
-                    })).reduce(function (ios, obj) {
-                        io = (Object.keys(io).length !== 0 ? io : 
-                            {
-                                id: obj.id,
-                                issueDate: obj.issueDate,
-                                state: obj.state,
-                                products: [],
-                                customerId:obj.customerId
-                            });
-                        io.products.push(obj.product);
-                        return io
-                    }
-                )[0];
+                    })
+                );
 
                 resolve(internal_order);
             });
