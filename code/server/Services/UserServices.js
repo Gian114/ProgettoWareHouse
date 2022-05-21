@@ -1,15 +1,14 @@
-const User = require('../Modules/User');
-const db = require('../Modules/DB');
-const user = new User(db.db);
-
-
 class UserServices{
 
-    async getSuppliers(){
+    constructor(dao){
+        const user = dao
+    }
 
+    async getSuppliers(){
+        
         let x = '';
         try{
-            x = await user.getSuppliers();
+            x = await this.user.getSuppliers();
         } catch(err){
             return false
         }
@@ -20,7 +19,7 @@ class UserServices{
 
         let x = '';
         try{
-            x = await user.getUsers();
+            x = await this.user.getUsers();
         } catch(err){
             return false
         }
@@ -33,7 +32,7 @@ class UserServices{
 
         try{
             
-            x = await user.getUser(data)
+            x = await this.user.getUser(data)
     
         }catch(err){
             console.log(err)
@@ -43,7 +42,7 @@ class UserServices{
         if (x === ''){
     
             try{
-                x = await user.createUser(data);
+                x = await this.user.createUser(data);
              } catch(err){   
                 return false
             }
@@ -59,7 +58,7 @@ class UserServices{
 
         let x;
         try{
-            x = await user.login(data, type)
+            x = await this.user.login(data, type)
         }catch(err){
             return false
         }
@@ -75,7 +74,7 @@ class UserServices{
     async modifyType(data, username){
         let x
         try{
-            x = await user.modifyUserType(data, username);
+            x = await this.user.modifyUserType(data, username);
         }catch(err){
             return false
         }
@@ -88,7 +87,7 @@ class UserServices{
 
         let x
         try{
-            x = await user.deleteUser(data);
+            x = await this.user.deleteUser(data);
         }catch(err){
             console.log(err)
             return false

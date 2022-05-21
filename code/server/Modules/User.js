@@ -132,6 +132,38 @@ class User{
         });
     }
 
+  
+    getUsers(){
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM USER';
+            this.db.all(sql, [], (err, rows) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                if(rows !== undefined){
+
+                
+                const user = rows.map((r) => (
+                
+                    {  
+                        id : r.id,
+                        username: r.username,
+                        name: r.name,
+                        surname: r.surname,
+                        type: r.type
+                    }
+                ));
+                resolve(user);
+                } else {
+                    const user = ''
+                    resolve(user)
+                }
+            });
+        });
+    }
+    
+
 
 }
 

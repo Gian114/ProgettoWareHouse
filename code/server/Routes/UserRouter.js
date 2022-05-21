@@ -1,8 +1,10 @@
 const express = require('express');
 const userRouter = express.Router();
-
+const db = require('../Modules/DB')
+const User = require('../Modules/User')
+const dao = new User(db.db)
 const UserServices = require('../Services/UserServices');
-const uservices = new UserServices();
+const uservices = new UserServices(dao);
 
 
 
