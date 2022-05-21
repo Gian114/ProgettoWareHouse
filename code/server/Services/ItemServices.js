@@ -1,17 +1,16 @@
 'use strict'
 
-const db = require('../Modules/DB');
-const Item = require('../Modules/Item');
-const item = new Item(db.db);
-const SKU = require('../Modules/SKU');
-const sku = new SKU(db.db);
-
 class ItemServices {
+
+    constructor(it, sku) {
+        this.item = it;
+        this.sku = sku;
+    }
     
     async getAllItems() {
 
         try {
-            const x = await item.getAllItems();
+            const x = await this.item.getAllItems();
             return x;
         } catch(err) {
             return false;
@@ -21,7 +20,7 @@ class ItemServices {
     async getItemById(id) {
 
         try {
-            const x = await item.getItemById(id);
+            const x = await this.item.getItemById(id);
             return x;
         } catch(err) {
             return false;
@@ -30,21 +29,21 @@ class ItemServices {
 
     async createNewItem(it) {
 
-        let x = await sku.getSKUByID(it.SKUId);
+        let x = await this.sku.getSKUByID(it.SKUId);
         if(x === '') {
             return x;
         }
-        x = await item.getItemBySKUIdAndSupplierId(it.SKUId, it.supplierId);
+        x = await this.item.getItemBySKUIdAndSupplierId(it.SKUId, it.supplierId);
         if(x !== '') {
             return 1;
         }
-        x = await item.getItemByIdAndSupplierId(it.id, it.supplierId);
-        if(y !== '') {
+        x = await this.item.getItemByIdAndSupplierId(it.id, it.supplierId);
+        if(x !== '') {
             return 2;
         }
     
         try {
-            x = await item.createNewItem(it);
+            x = await this.item.createNewItem(it);
             return x;
         } catch(err) {
             return false;
@@ -53,13 +52,13 @@ class ItemServices {
 
     async modifyItem(newValues, id) {
 
-        let x = await item.getItemByID(id);
+        let x = await this.item.getItemById(id);
         if(x === '') {
             return x;
         }
 
         try {
-            x = await item.modifyItem(id, newValues);
+            x = await this.item.modifyItem(id, newValues);
             return x;
         } catch(err) {
             return false;
@@ -69,7 +68,7 @@ class ItemServices {
     async deleteItem(id) {
 
         try {
-            const x = item.deleteItem(id);
+            const x = this.item.deleteItem(id);
             return x;
         } catch(err) {
             return false;

@@ -3,8 +3,13 @@
 const express = require('express');
 const itemRouter = express.Router();
 
+const db = require('../Modules/DB');
+const Item = require('../Modules/Item');
+const item = new Item(db.db);
+const SKU = require('../Modules/SKU');
+const sku = new SKU(db.db);
 const ItemServices = require('../Services/ItemServices');
-const itemServices = new ItemServices();
+const itemServices = new ItemServices(item, sku);
 
 //get
 
@@ -25,7 +30,7 @@ itemRouter.get('/api/items/:id', async (req, res) => {
     }
   
     const id = req.params.id;
-    const x = itemServices.getItemById(id);
+    const x = await itemServices.getItemById(id);
 
     if (x === false) {
         return res.status(500).json({error: "generic error"});

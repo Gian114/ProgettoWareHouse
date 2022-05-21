@@ -1,17 +1,16 @@
 'use strict'
 
-const db = require('../Modules/DB');
-const TestDescriptor = require('../Modules/TestDescriptor');
-const testDescriptor = new TestDescriptor(db.db);
-const SKU = require('../Modules/SKU');
-const sku = new SKU(db.db);
-
 class TestDescriptorServices {
+
+    constructor(td, sku) {
+        this.testDescriptor = td;
+        this.sku = sku;
+    }
     
     async getAllTestDescriptors() {
 
         try {
-            const x = await testDescriptor.getAllTestDescriptors();
+            const x = await this.testDescriptor.getAllTestDescriptors();
             return x;
         } catch(err) {
             return false;
@@ -21,7 +20,7 @@ class TestDescriptorServices {
     async getTestDescriptorById(id) {
      
         try {
-            const x = await testDescriptor.getTestDescriptorById(id);
+            const x = await this.testDescriptor.getTestDescriptorById(id);
             return x;
         } catch(err) {
             return false;
@@ -30,13 +29,13 @@ class TestDescriptorServices {
 
     async createNewTestDescriptor(td) {
 
-        let x = await sku.getSKUByID(td.idSKU);
+        let x = await this.sku.getSKUByID(td.idSKU);
         if(x === '') {
             return x;
         }
     
         try {
-            x = await testDescriptor.createNewTestDescriptor(td);
+            x = await this.testDescriptor.createNewTestDescriptor(td);
             return x;
         } catch(err) {
             return false;
@@ -45,14 +44,14 @@ class TestDescriptorServices {
 
     async modifyTestDescriptor(newValues, id) {
 
-        let x = await testDescriptor.getTestDescriptorById(id);
-        let y = await sku.getSKUByID(newValues.newIdSKU);
+        let x = await this.testDescriptor.getTestDescriptorById(id);
+        let y = await this.sku.getSKUByID(newValues.newIdSKU);
         if(x === '' || y === '') {
             return '';
         }
 
         try {
-            x = await testDescriptor.modifyTestDescriptor(id, newValues);
+            x = await this.testDescriptor.modifyTestDescriptor(id, newValues);
             return x;
         } catch(err) {
             return false;
@@ -62,7 +61,7 @@ class TestDescriptorServices {
     async deleteTestDescriptor(id) {
 
         try {
-            const x = await testDescriptor.deleteTestDescriptor(id);
+            const x = await this.testDescriptor.deleteTestDescriptor(id);
             return x;
         } catch(err) {
             return false;

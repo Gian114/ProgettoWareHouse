@@ -3,8 +3,17 @@
 const express = require('express');
 const returnOrderRouter = express.Router();
 
+const db = require('../Modules/DB');
+const ReturnOrder = require('../Modules/ReturnOrder');
+const returnOrder = new ReturnOrder(db.db);
+const RestockOrder = require('../Modules/RestockOrder');
+const restockOrder = new RestockOrder(db.db);
+const SkuItem = require('../Modules/SKUItem');
+const skuItem = new SkuItem(db.db);
+const Product = require('../Modules/Product');
+const product = new Product(db.db);
 const ReturnOrderServices = require('../Services/ReturnOrderServices');
-const returnOrderServices = new ReturnOrderServices();
+const returnOrderServices = new ReturnOrderServices(returnOrder, restockOrder, skuItem, product);
 
 
 //get
@@ -26,7 +35,7 @@ returnOrderRouter.get('/api/returnOrders/:id', async (req, res) => {
     }
    
     const id = req.params.id;
-    const x = returnOrderServices.getReturnOrderById(id);
+    const x = await returnOrderServices.getReturnOrderById(id);
 
     if (x === false) {
         return res.status(500).json({error: "generic error"});

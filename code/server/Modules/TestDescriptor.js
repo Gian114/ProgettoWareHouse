@@ -56,14 +56,14 @@ class TestDescriptor {
                     {  
                         id: r.id,
                         name : r.name,
-                        procedureDescription : r.procedureDescription,
+                        procedureDescription : r.procedure_description,
                         idSKU : r.sku_id
                     };
                     resolve(td);
                 } else {
-                        const td = '';
-                        resolve(td);
-                    }
+                    const td = '';
+                    resolve(td);
+                }
             });
         });
     }

@@ -3,8 +3,13 @@
 const express = require('express');
 const testDescriptorRouter = express.Router();
 
+const db = require('../Modules/DB');
+const TestDescriptor = require('../Modules/TestDescriptor');
+const testDescriptor = new TestDescriptor(db.db);
+const SKU = require('../Modules/SKU');
+const sku = new SKU(db.db);
 const TestDescriptorServices = require('../Services/TestDescriptorServices');
-const testDescriptorServices = new TestDescriptorServices();
+const testDescriptorServices = new TestDescriptorServices(testDescriptor, sku);
 
 //get
 

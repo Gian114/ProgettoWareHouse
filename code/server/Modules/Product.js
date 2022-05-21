@@ -1,7 +1,5 @@
 'use strict'
 
-const db = require('./DB');
-
 class Product {
 
     constructor(db) {
