@@ -10,18 +10,30 @@ const itemServices = new ItemServices();
 
 itemRouter.get('/api/items', async (req, res) => {
 
-    return itemServices.getAllItems(res);
+    const x = await itemServices.getAllItems();
+    if(x === false){
+        return res.status(500).json({error: "generic error"})
+    }
+    return res.status(200).json(x);
   
 });
     
 itemRouter.get('/api/items/:id', async (req, res) => {
   
     if(!Number.isInteger(parseFloat(req.params.id)) || req.params.id<0) {
-      return res.status(422).json({error: 'validation of id failed'});
+        return res.status(422).json({error: 'validation of id failed'});
     }
   
     const id = req.params.id;
-    return itemServices.getItemById(res, id);
+    const x = itemServices.getItemById(id);
+
+    if (x === false) {
+        return res.status(500).json({error: "generic error"});
+    }
+    else if(x === '') {
+        return res.status(404).json({error: "no item associated to id"});
+    }
+    return res.status(200).json(x);
     
 });
   
@@ -34,7 +46,20 @@ itemRouter.post('/api/item', async (req, res) => {
     }
 
     const it = req.body;
-    return itemServices.createNewItem(res, it);
+    const x = await itemServices.createNewItem(it);
+    if(x === false ) {
+        return res.status(503).json({error: "generic error"});
+    }
+    else if(x === '') {
+        return res.status(404).json({error: "Sku not found"});
+    }
+    else if(x === 1) {
+      return res.status(422).json({error: "this supplier already sells an item with the same SKUId"});
+    }
+    else if(x === 2) {
+        return res.status(422).json({error: "this supplier already sells an item with the same ID"});
+    } 
+    return res.status(201).json();
   
 });
   
@@ -48,7 +73,15 @@ itemRouter.put('/api/item/:id', async (req, res) => {
   
     const newValues = req.body;
     const id = req.params.id;
-    return itemServices.modifyItem(res, newValues, id);
+    const x = await itemServices.modifyItem(newValues, id);
+
+    if(x === false){
+        return res.status(503).json({error: "generic error"})
+    } 
+    else if(x === '') {
+        return res.status(404).json({error: "Item not existing"});
+    }
+    return res.status(200).json();
     
 });
   
@@ -61,7 +94,12 @@ itemRouter.delete('/api/items/:id', async (req, res) => {
     }
   
     const id = req.params.id;
-    return itemServices.deleteItem(res, id);
+    const x = await itemServices.deleteItem(id);
+  
+    if(x === false){
+        return res.status(503).json({error: "generic error"})
+    } 
+    return res.status(204).json();
   
 });
   

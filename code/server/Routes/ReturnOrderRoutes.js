@@ -11,7 +11,11 @@ const returnOrderServices = new ReturnOrderServices();
 
 returnOrderRouter.get('/api/returnOrders', async (req, res) => {
 
-    return returnOrderServices.getAllReturnOrders(res);
+    const x = await returnOrderServices.getAllReturnOrders();
+    if(x === false){
+        return res.status(500).json({error: "generic error"})
+    }
+    return res.status(200).json(x);
 
 });
 
@@ -22,7 +26,15 @@ returnOrderRouter.get('/api/returnOrders/:id', async (req, res) => {
     }
    
     const id = req.params.id;
-    return returnOrderServices.getReturnOrderById(res, id);
+    const x = returnOrderServices.getReturnOrderById(id);
+
+    if (x === false) {
+        return res.status(500).json({error: "generic error"});
+    }
+    else if(x === '') {
+        return res.status(404).json({error: "no return order associated to id"});
+    }
+    return res.status(200).json(x);
 
 });
 
@@ -35,7 +47,17 @@ returnOrderRouter.post('/api/returnOrder', async (req, res) => {
         }
 
     const ro = req.body;
-    return returnOrderServices.createNewReturnOrder(res, ro);
+    const x = await returnOrderServices.createNewReturnOrder(ro);
+    if(x === false ){
+        return res.status(503).json({error: "generic error"});
+    }
+    else if(x === '') {
+        return res.status(404).json({error: "no restock order associated to restockOrderId"});
+    }
+    else if (x === 1) {
+        return res.status(404).json({error: `no sku item associated to RFID or wrong correspondence between RFID and SKUId`});
+    }
+    return res.status(201).json();
 
 });
 
@@ -48,7 +70,12 @@ returnOrderRouter.delete('/api/returnOrder/:id', async (req, res) => {
     }
 
     const id = req.params.id;
-    return returnOrderServices.deleteReturnOrder(res, id);
+    const x = await returnOrderServices.deleteReturnOrder(id);
+
+    if(x === false){
+        return res.status(503).json({error: "generic error"})
+    } 
+    return res.status(204).json();
 
 });
   

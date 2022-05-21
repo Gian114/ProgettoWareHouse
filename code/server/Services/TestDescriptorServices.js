@@ -8,70 +8,64 @@ const sku = new SKU(db.db);
 
 class TestDescriptorServices {
     
-    async getAllTestDescriptors(res) {
+    async getAllTestDescriptors() {
 
         try {
-            let x = await testDescriptor.getAllTestDescriptors();
-            return res.status(200).json(x);
+            const x = await testDescriptor.getAllTestDescriptors();
+            return x;
         } catch(err) {
-            return res.status(500).json({error: "generic error"});
+            return false;
         }
     }
 
-    async getTestDescriptorById(res, id) {
+    async getTestDescriptorById(id) {
      
-        let x = '';
         try {
-            x = await testDescriptor.getTestDescriptorById(id);
+            const x = await testDescriptor.getTestDescriptorById(id);
+            return x;
         } catch(err) {
-            return res.status(500).json({error: "generic error"});
-        }
-        
-        if(x === '') {
-            return res.status(404).json({error: "no test descriptor associated id"});
-        } else {
-            return res.status(200).json(x);
+            return false;
         }
     }
 
-    async createNewTestDescriptor(res, td) {
+    async createNewTestDescriptor(td) {
 
-        let y = await sku.getSKUByID(td.idSKU);
-        if(y === '') {
-            return res.status(404).json({error: "no sku associated idSKU"});
+        let x = await sku.getSKUByID(td.idSKU);
+        if(x === '') {
+            return x;
         }
     
         try {
-            await testDescriptor.createNewTestDescriptor(td);
-            return res.status(201).json();
+            x = await testDescriptor.createNewTestDescriptor(td);
+            return x;
         } catch(err) {
-            return res.status(503).json({error: "generic error"});
+            return false;
         }
     }
 
-    async modifyTestDescriptor(res, newValues, id) {
+    async modifyTestDescriptor(newValues, id) {
 
         let x = await testDescriptor.getTestDescriptorById(id);
         let y = await sku.getSKUByID(newValues.newIdSKU);
         if(x === '' || y === '') {
-            return res.status(404).json({error: "no test descriptor associated id or no sku associated to IDSku"});
+            return '';
         }
 
         try {
-            await testDescriptor.modifyTestDescriptor(id, newValues);
-            return res.status(200).json();
+            x = await testDescriptor.modifyTestDescriptor(id, newValues);
+            return x;
         } catch(err) {
-            return res.status(503).json({error: "generic error"});
+            return false;
         }
     }
 
-    async deleteTestDescriptor(res, id) {
+    async deleteTestDescriptor(id) {
 
         try {
-            await testDescriptor.deleteTestDescriptor(id);
-            return res.status(204).json();
+            const x = await testDescriptor.deleteTestDescriptor(id);
+            return x;
         } catch(err) {
-            return res.status(503).json({error: "generic error"});
+            return false;
         }
     }
 

@@ -10,7 +10,11 @@ const testDescriptorServices = new TestDescriptorServices();
 
 testDescriptorRouter.get('/api/testDescriptors', async (req, res) => {
 
-    return testDescriptorServices.getAllTestDescriptors(res);
+    const x = await testDescriptorServices.getAllTestDescriptors();
+    if(x === false){
+        return res.status(500).json({error: "generic error"})
+    }
+    return res.status(200).json(x);
 
 });
   
@@ -21,7 +25,15 @@ testDescriptorRouter.get('/api/testDescriptors/:id', async (req, res) => {
     }
 
     const id = req.params.id;
-    return testDescriptorServices.getTestDescriptorById(res, id);
+    const x = testDescriptorServices.getTestDescriptorById(id);
+
+    if (x === false) {
+        return res.status(500).json({error: "generic error"});
+    }
+    else if(x === '') {
+        return res.status(404).json({error: "no test descriptor associated id"});
+    }
+    return res.status(200).json(x);
   
 });
 
@@ -34,7 +46,14 @@ testDescriptorRouter.post('/api/testDescriptor', async (req, res) => {
     }
 
     const td = req.body;
-    return testDescriptorServices.createNewTestDescriptor(res, td);
+    const x = await testDescriptorServices.createNewTestDescriptor(td);
+    if(x === false ){
+        return res.status(503).json({error: "generic error"});
+    }
+    else if(x === '') {
+        return res.status(404).json({error: "no sku associated idSKU"});
+    }
+    return res.status(201).json();
 
 });
 
@@ -48,8 +67,16 @@ testDescriptorRouter.put('/api/testDescriptor/:id', async (req, res) => {
 
     const newValues = req.body;
     const id = req.params.id;
-    return testDescriptorServices.modifyTestDescriptor(res, newValues, id);
-  
+    const x = await testDescriptorServices.modifyTestDescriptor(newValues, id);
+
+    if(x === false){
+        return res.status(503).json({error: "generic error"})
+    } 
+    else if(x === '') {
+        return res.status(404).json({error: "no test descriptor associated id or no sku associated to IDSku"});
+    }
+    return res.status(200).json();
+    
 });
 
 //delete
@@ -61,8 +88,12 @@ testDescriptorRouter.delete('/api/testDescriptor/:id', async (req, res) => {
     }
 
     const id = req.params.id;
-    testDescriptorServices.deleteTestDescriptor(res, id);
-  
+    const x = await testDescriptorServices.deleteTestDescriptor(id);
+
+    if(x === false){
+        return res.status(503).json({error: "generic error"})
+    } 
+    return res.status(204).json();
 
 });
 
