@@ -2,8 +2,15 @@
 
 const express = require('express');
 const skuItemRouter = express.Router()
+
+const db = require('../Modules/DB')
+
+const SKUItem = require('../Modules/SKUItem');
+const dao = new SKUItem(db.db)
+
 const SKUItemServices = require('../Services/SKUItemServices')
-const siservices = new SKUItemServices()
+const siservices = new SKUItemServices(dao)
+
 //get
 
 skuItemRouter.get('/api/skuitems', async (req,res) =>{
@@ -73,7 +80,7 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
     
     const item = req.body;
     
-    const si = await siservices.createSKUItem(res, item)
+    const si = await siservices.createSKUItem(item)
     if(si === false){
       return res.status(503).json({error: "generic error"})
     }
@@ -99,7 +106,7 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
     const rfid = req.params.rfid;
     const newvalues = req.body;
 
-   const si = await siservices.modifySKUItem(res, rfid, newvalues)
+   const si = await siservices.modifySKUItem(rfid, newvalues)
    if(si === false){
     return res.status(503).json({error: "generic error"})
   }
@@ -119,7 +126,7 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
     }
 
     const rfid = req.params.rfid;
-    const si = await siservices.deleteSKUItem(res, rfid)
+    const si = await siservices.deleteSKUItem(rfid)
     if(si === false){
       return res.status(503).json({error: "generic error"})
     }

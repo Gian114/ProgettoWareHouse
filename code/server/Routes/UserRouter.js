@@ -1,8 +1,10 @@
 const express = require('express');
 const userRouter = express.Router();
+
 const db = require('../Modules/DB')
 const User = require('../Modules/User')
 const dao = new User(db.db)
+
 const UserServices = require('../Services/UserServices');
 const uservices = new UserServices(dao);
 
@@ -94,7 +96,7 @@ userRouter.post('/api/customerSessions', async (req,res) =>{
      return res.status(422).json({err:"invalid body"})}
 
     let data = req.body;
-    const us = await uservices.userLogin(res, data, 'customer');
+    const us = await uservices.userLogin(data, 'customer');
     if(us === false ){
         return res.status(500).json({error: "generic error"})
         } else if (us === 401){
@@ -116,7 +118,7 @@ userRouter.post('/api/supplierSessions', async (req,res) =>{
      return res.status(422).json({err:"invalid body"})}
 
     let data = req.body;
-    const us = await  uservices.userLogin(res, data, 'supplier');
+    const us = await  uservices.userLogin(data, 'supplier');
     if(us === false ){
         return res.status(500).json({error: "generic error"})
         } else if (us === 401){
@@ -138,7 +140,7 @@ userRouter.post('/api/clerkSessions', async (req,res) =>{
      return res.status(422).json({err:"invalid body"})}
 
      let data = req.body;
-     const us = await uservices.userLogin(res, data, 'clerk');
+     const us = await uservices.userLogin(data, 'clerk');
      if(us === false ){
         return res.status(500).json({error: "generic error"})
         } else if (us === 401){
@@ -160,7 +162,7 @@ userRouter.post('/api/qualityEmployeeSessions', async (req,res) =>{
      return res.status(422).json({err:"invalid body"})}
 
      let data = req.body;
-     const us = await uservices.userLogin(res, data, 'qualityEmployee');
+     const us = await uservices.userLogin(data, 'qualityEmployee');
      if(us === false ){
         return res.status(500).json({error: "generic error"})
         } else if (us === 401){
@@ -182,7 +184,7 @@ userRouter.post('/api/deliveryEmployeeSessions', async (req,res) =>{
      return res.status(422).json({err:"invalid body"})}
 
      let data = req.body;
-     const us = await uservices.userLogin(res, data, 'deliveryEmployee');
+     const us = await uservices.userLogin(data, 'deliveryEmployee');
      if(us === false ){
         return res.status(500).json({error: "generic error"})
         } else if (us === 401){

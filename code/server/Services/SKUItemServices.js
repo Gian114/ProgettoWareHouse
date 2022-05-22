@@ -1,15 +1,15 @@
-const SKUItem = require('../Modules/SKUItem');
-const db = require('../Modules/DB');
-const skuItem = new SKUItem(db.db);
-
 class SKUItemServices{
+   
+      constructor(dao){
+          this.skuItem = dao;
+      }
 
     async getSKUItems(){
 
         let x
 
         try{
-          x = await skuItem.getAllSKUItems();
+          x = await this.skuItem.getAllSKUItems();
         }catch(err){
           return false
         }
@@ -23,7 +23,7 @@ class SKUItemServices{
         let x
 
         try{
-        x = await skuItem.getSKUItemsBySKUId(id);
+        x = await this.skuItem.getSKUItemsBySKUId(id);
         }catch(err){
         return false
         }
@@ -36,7 +36,7 @@ class SKUItemServices{
 
         let x;
         try{
-            x = await skuItem.getSKUItemByRFID(rfid);
+            x = await this.skuItem.getSKUItemByRFID(rfid);
           }catch(err){
             return false
           }
@@ -48,7 +48,7 @@ class SKUItemServices{
         
         let x
         try{
-            await skuItem.createNewSKUItem(data);
+            await this.skuItem.createNewSKUItem(data);
           }catch(err){
             return false
           }
@@ -60,7 +60,7 @@ class SKUItemServices{
 
       let x;
         try{
-            x = await skuItem.modifySKUItem(rfid, data);
+            x = await this.skuItem.modifySKUItem(rfid, data);
           }catch(err){
             return false
           }
@@ -74,7 +74,7 @@ class SKUItemServices{
         let x
 
         try{
-        x = await skuItem.deleteSKUItem(rfid);
+        x = await this.skuItem.deleteSKUItem(rfid);
         }catch(err){
           return  false 
         }

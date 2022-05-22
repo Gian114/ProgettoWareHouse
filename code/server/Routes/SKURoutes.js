@@ -1,10 +1,18 @@
 'use strict'
 
-const e = require('express');
 const express = require('express');
 const skuRouter = express.Router();
+
+const db = require('../Modules/DB')
+
+const SKU = require('../Modules/SKU')
+const sku = new SKU(db.db)
+
+const Position = require('../Modules/Position')
+const pos = new Position(db.db)
+
 const SKUServices = require('../Services/SKUServices')
-const sservices = new SKUServices();
+const sservices = new SKUServices(sku,pos);
 
 
 //get
@@ -119,7 +127,21 @@ skuRouter.post('/api/sku', async (req,res)=>{
     const id = req.params.id
     const positionID = req.body.position
 
-    return sservices.modifyPosition(res, id, positionID)
+    let x;
+    x = await sservices.modifyPosition(res, id, positionID)
+    if(x===false){
+        return res.status(503).json({error: "generic error"})
+    } else if(x===404){
+        return res.status(404).json({err: "sku does not exist"})
+    } else if(x===4042){
+        return res.status(404).json({err: "position does not exist"})
+    } else if(x===422){
+        return res.status(422).json({err:"that position is capable of satisfying volume and/or weight constraint BUT some of it is occupied"})
+    } else if(x===4222){
+        return res.status(422).json({err:"that position is not capable of satisfying volume and/or weight constraint"})
+    } else {
+        return res.status(200).json();
+    }
    
   })
 

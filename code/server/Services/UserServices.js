@@ -1,7 +1,7 @@
 class UserServices{
 
     constructor(dao){
-        const user = dao
+        this.user = dao
     }
 
     async getSuppliers(){
@@ -62,8 +62,9 @@ class UserServices{
         }catch(err){
             return false
         }
-
+        
         if ( x === false ){
+            
             return 401;
         } else {
             return x

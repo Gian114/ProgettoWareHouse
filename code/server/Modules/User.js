@@ -1,6 +1,4 @@
 
-
-
 class User{
 
     constructor(db) {
@@ -82,7 +80,7 @@ class User{
     login(data, type){
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM USER WHERE username = ? AND password = ? AND type = ?';
-            this.db.all(sql, [data.username, data.password, type], (err, rows) => {
+            this.db.get(sql, [data.username, data.password, type], (err, rows) => {
                 if (err) {
                     reject(err);
                     return;

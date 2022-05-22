@@ -1,27 +1,29 @@
-'use strict'
-const db = require('../Modules/DB');
-const SKU = require('../Modules/SKU');
-const sku = new SKU(db.db);
-const Position = require('../Modules/Position')
-const pos = new Position(db.db)
-
 class SKUServices{
+
+    constructor(sku, pos){
+        this.sku = sku
+        this.pos = pos
+    }
 
     async getSKUs(){
 
         let x = '';
         try{
-             x = await sku.getListofSKU();
+            console.log("ab")
+             x = await this.sku.getListofSKU();
+             console.log("a")
         } catch(err){
+            console.log(err)
             return false;
         }
+        console.log(x)
         return x
     }
 
     async getSKU(id){
         let x = ''
         try{
-            x = await sku.getSKUByID(id);
+            x = await this.sku.getSKUByID(id);
          
         }catch(err){
            return false
@@ -35,7 +37,7 @@ class SKUServices{
 
         try{
         
-            x = await sku.createSKU(data);
+            x = await this.sku.createSKU(data);
         }catch(err){
             return false
         }
@@ -47,7 +49,7 @@ class SKUServices{
     async modifySKU(id, data){
         let x
         try{
-            let x = await sku.modifySKU(id, data);
+            let x = await this.sku.modifySKU(id, data);
         }catch(err){
             return false
         }
@@ -55,7 +57,7 @@ class SKUServices{
        
     }
 
-    async modifyPosition(res, id, positionID){
+    async modifyPosition(id, positionID){
 
     let s;
     let p;
@@ -63,25 +65,25 @@ class SKUServices{
     let data;
 
     try{
-        s = await sku.getSKUByID(id);
+        s = await this.sku.getSKUByID(id);
     }catch(err){
         console.log(err)
-        return res.status(503).json({err:"generic error"})
+        return false
     }
 
     if(s == ''){
-        return res.status(404).json({err: "sku does not exist"})
+        return 404
     } else {
         
         try {
-            p = await pos.getPosition(positionID)
+            p = await this.pos.getPosition(positionID)
         } catch(err){
             console.log(err)
-            return res.status(503).json({err:"generic error"})
+            return false
         }
 
         if(p == ''){
-            return res.status(404).json({err: "position does not exist"})
+            return 4042
         } else {
 
             if((p.max_weight - p.occupied_weight) >= s.weight*s.quantity && (p.max_volume - p.occupied_volume) >= s.volume*s.quantity){
@@ -92,24 +94,24 @@ class SKUServices{
                 }
 
                 try{
-                    status = await pos.occupyPosition(positionID, data)
+                    status = await this.pos.occupyPosition(positionID, data)
                 }catch(err){
                     console.log(err)
-                    return res.status(503).json({err:"generic error"})
+                    return false
                 }
 
                try{
-                await sku.modifyPosition(id, positionID)
+                await this.sku.modifyPosition(id, positionID)
                }catch(err){
                 console.log(err)
-                return res.status(503).json({err:"generic error"})
+                return false
                }
-               return res.status(200).json()
+               return 200
 
             } else if(p.max_weight >= s.weight*s.quantity &&  p.max_volume >= s.volume*s.quantity) {
-                return res.status(422).json({err:"that position is capable of satisfying volume and/or weight constraint BUT some of it is occupied"})
+                return 422
             } else {
-                return res.status(422).json({err:"that position is not capable of satisfying volume and/or weight constraint"})
+                return 4222
             }
         }
     }
@@ -119,7 +121,7 @@ class SKUServices{
 
         let x
         try{
-            x = await sku.deleteSKU(id);
+            x = await this.sku.deleteSKU(id);
         }catch(err){
             return false
         }
