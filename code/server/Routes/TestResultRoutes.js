@@ -2,9 +2,11 @@
 
 const express = require('express');
 const TestResult = require('../Modules/TestResult');
+const TestResultServices = require('../Services/TestResultServices');
 
 const db = require('../Modules/DB');
-const tr_table = new TestResult(db.db);
+// at the end remove
+const tr_serv = new TestResultServices(new TestResult(db.db));
 
 const testResultRouter = express.Router()
 
@@ -35,8 +37,9 @@ testResultRouter.get('/api/skuitems/:rfid/testResults', async (req, res) => {
     
     let test_results;
     try {
-        test_results = await tr_table.getTestResultByRFID(rfid);
+        test_results = await tr_serv.getTestResultsByRFID(rfid);
     } catch(err) {
+        console.log(err);
         return res.status(500).json({error: "generic error"})
     }
 
@@ -54,8 +57,9 @@ testResultRouter.get('/api/skuitems/:rfid/testResults/:id', async (req, res) => 
 
     let test_results;
     try {
-        test_results = await tr_table.getTestResultByRFIDAndId(rfid, id);
+        test_results = await tr_serv.getTestResultByRFIDAndId(rfid, id);
     } catch(err) {
+        console.log(err);       
         return res.status(500).json({error: "generic error"});
     }
 
@@ -73,17 +77,18 @@ testResultRouter.post('/api/skuitems/testResult', async (req, res) => {
     if (Object.keys(test_res).length !== 4){
         return res.status(422).json('validation of request body failed')
     }
-    if (!rfidIsValid(rfid)) {
+    if (!rfidIsValid(test_res.rfid)) {
         return res.status(422).json('validation of rfid failed');
     }
-    if (!rfidExists(rfid)) {
+    if (!rfidExists(test_res.rfid)) {
         return res.status(404).json('no SKUItem for the given rfid');
     }
     // TODO: validate id TestDescriptor 
     
     try {
-        await tr_table.createTestResult(test_res.rfid, test_res.idTestDescriptor, test_res.Date, test_res.Result);
+        await tr_serv.createTestResult(test_res.rfid, test_res.idTestDescriptor, test_res.Date, test_res.Result);
     } catch(err) {
+        console.log(err);
         return res.status(500).json('generic error');
     }
 
@@ -107,9 +112,10 @@ testResultRouter.put('/api/skuitems/:rfid/testResult/:id', async (req, res) => {
     // TODO: validate id TestDescriptor and id TestResult
 
     try {
-        await tr_table.modifyTestResult(rfid, id, req.body.newDate, req.body.newResult, req.body.newIdTestDesciptor);
+        await tr_serv.modifyTestResult(rfid, id, req.body.newDate, req.body.newResult, req.body.newIdTestDescriptor);
     } catch(err) {
-        return res.status(503).json('generic error');
+        console.log(err);
+        return res.status(503).json({error: 'generic error'});
     }
 
     return res.status(200).json();
@@ -125,8 +131,9 @@ testResultRouter.delete('/api/skuitems/:rfid/testResult/:id', async (req, res) =
     }
 
     try {
-        await tr_table.removeTestResult(rfid, id);
+        await tr_serv.removeTestResult(rfid, id);
     } catch(err) {
+        console.log(err);
         return res.status(503).json('generic error');
     }
 

@@ -7,7 +7,7 @@ class TestResult {
     }
 
 
-    getTestResultByRFID(rfid) {
+    getTestResultsByRFID(rfid) {
         return new Promise((resolve, reject) => {
 
             const sql = `
