@@ -92,7 +92,7 @@ class RestockOrderServices {
 
         try {
             await restockOrder.createNewRestockOrder(ro);
-            let id = await db.getAutoincrementID('RESTOCK_ORDER');
+            let id = await db.getAutoincrementId('RESTOCK_ORDER');
             for (let i = 0; i < ro.products.length; i++) {
                 await product.insertProductRestockOrder(ro.products[i].SKUId, ro.products[i].description, ro.products[i].price, ro.products[i].qty, id);
             }
