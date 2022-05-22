@@ -1,88 +1,89 @@
 class SKUItemServices{
    
-      constructor(dao){
-          this.skuItem = dao;
-      }
+  constructor(dao){
+      this.skuItem = dao;
+  }
 
-    async getSKUItems(){
+async getSKUItems(){
 
-        let x
+    let x
 
-        try{
-          x = await this.skuItem.getAllSKUItems();
-        }catch(err){
-          return false
-        }
-          
-          return x
-
+    try{
+      x = await this.skuItem.getAllSKUItems();
+    }catch(err){
+      return false
     }
+      
+      return x
 
-    async getSKUItemsBySKUID(id){
+}
 
-        let x
+async getSKUItemsBySKUID(id){
 
-        try{
-        x = await this.skuItem.getSKUItemsBySKUId(id);
-        }catch(err){
+    let x
+
+    try{
+    x = await this.skuItem.getSKUItemsBySKUId(id);
+    }catch(err){
+    return false
+    }
+    
+    return x
+
+}
+
+async getSKUItemsByRFID(rfid){
+
+    let x;
+    try{
+        x = await this.skuItem.getSKUItemByRFID(rfid);
+      }catch(err){
         return false
-        }
-        
-        return x
+      }
+     
+      return x;
+}
 
-    }
-
-    async getSKUItemsByRFID(rfid){
-
-        let x;
-        try{
-            x = await this.skuItem.getSKUItemByRFID(rfid);
-          }catch(err){
-            return false
-          }
-         
-          return x;
-    }
-
-    async createSKUItem(data){
-        
-        let x
-        try{
-            await this.skuItem.createNewSKUItem(data);
-          }catch(err){
-            return false
-          }
-          
-          return x
-    }
-
-    async modifySKUItem(rfid, data){
-
-      let x;
-        try{
-            x = await this.skuItem.modifySKUItem(rfid, data);
-          }catch(err){
-            return false
-          }
-          
-          return x
-    }
-
+async createSKUItem(data){
+  
     
-    async deleteSKUItem(rfid){
-    
-        let x
+    let x
+    try{
+        x = await this.skuItem.createNewSKUItem(data);
+      }catch(err){
+        return false
+      }
+      
+      return x
+}
 
-        try{
-        x = await this.skuItem.deleteSKUItem(rfid);
-        }catch(err){
-          return  false 
-        }
-        
-        
-        return x;
+async modifySKUItem(rfid, data){
 
+  let x;
+    try{
+        x = await this.skuItem.modifySKUItem(rfid, data);
+      }catch(err){
+        return false
+      }
+      
+      return x
+}
+
+
+async deleteSKUItem(rfid){
+
+    let x
+
+    try{
+    x = await this.skuItem.deleteSKUItem(rfid);
+    }catch(err){
+      return  false 
     }
+    
+    
+    return x;
+
+}
 
 }
 

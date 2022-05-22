@@ -88,7 +88,13 @@ class User{
 
                 if(rows !== undefined){
                     //only one row if everything works correctly
-                    resolve(rows);    
+                    const user = 
+                    {
+                        id : rows.id,
+                        username: rows.username,
+                        name: rows.name
+                    }
+                    resolve(user);    
                 } else {
                     
                     resolve(false)

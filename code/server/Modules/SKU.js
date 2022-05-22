@@ -42,8 +42,8 @@ class SKU{
                         weight : r.weight,
                         volume : r.volume,
                         notes : r.notes,
-                        position: r.position,
-                        quantity: r.availableQuantity, 
+                        position: r.position_id,
+                        availableQuantity: r.available_quantity, 
                         price: r.price,
                         //descriptors: r.TESTDESCRIPTORS
                     }

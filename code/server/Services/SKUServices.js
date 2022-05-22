@@ -9,14 +9,14 @@ class SKUServices{
 
         let x = '';
         try{
-            console.log("ab")
+          
              x = await this.sku.getListofSKU();
-             console.log("a")
+            
         } catch(err){
             console.log(err)
             return false;
         }
-        console.log(x)
+      
         return x
     }
 
@@ -49,7 +49,7 @@ class SKUServices{
     async modifySKU(id, data){
         let x
         try{
-            let x = await this.sku.modifySKU(id, data);
+             x = await this.sku.modifySKU(id, data);
         }catch(err){
             return false
         }

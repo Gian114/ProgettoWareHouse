@@ -56,7 +56,7 @@ class SKUItem{
                   reject(err);
                   return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -245,6 +245,9 @@ class SKUItem{
 }
 
 module.exports = SKUItem;
+
+
+
 
 
 
