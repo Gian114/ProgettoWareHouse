@@ -1,4 +1,6 @@
-const db = require('../Modules/DB')
+'use strict';
+
+const db = require('../Modules/DB');
 const SKUdao = require('../Modules/SKU');
 const dao = new SKUdao(db.db)
 

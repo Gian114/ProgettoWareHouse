@@ -14,6 +14,7 @@ class ReturnOrder {
                     reject(err);
                     return;
                 }
+
                 resolve(this.lastID);
             });
         });
@@ -70,7 +71,7 @@ class ReturnOrder {
     deleteReturnOrder(id) {
         return new Promise((resolve, reject) => {
             const sql = 'DELETE FROM RETURN_ORDER WHERE id = ?';
-            this.db.run(sql, [id], (err, r) => {
+            this.db.run(sql, [id], (err) => {
                 if (err) {
                     reject(err);
                     return;

@@ -58,7 +58,7 @@ class DB {
         });
     }
 
-    getAutoincrementID(table) {
+    getAutoincrementId(table) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT seq FROM sqlite_sequence WHERE name = ?';
             this.db.get(sql, [table], (err, id) => {

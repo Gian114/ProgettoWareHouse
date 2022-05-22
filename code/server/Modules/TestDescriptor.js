@@ -45,19 +45,19 @@ class TestDescriptor {
     getTestDescriptorById(id) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM TEST_DESCRIPTOR WHERE id = ?';
-            this.db.get(sql, [id], (err, r) => {
+            this.db.get(sql, [id], (err, row) => {
                 if (err) {
                     reject(err);
                     return;
                 }
 
-                if(r!==undefined){
+                if(row !== undefined){
                     const td =  
                     {  
-                        id: r.id,
-                        name : r.name,
-                        procedureDescription : r.procedure_description,
-                        idSKU : r.sku_id
+                        id: row.id,
+                        name : row.name,
+                        procedureDescription : row.procedure_description,
+                        idSKU : row.sku_id
                     };
                     resolve(td);
                 } else {

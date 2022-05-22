@@ -46,26 +46,26 @@ class Item {
     getItemById(id) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM ITEM WHERE id = ?';
-            this.db.get(sql, [id], (err, r) => {
+            this.db.get(sql, [id], (err, row) => {
                 if (err) {
                     reject(err);
                     return;
                 }
 
-                if(r!==undefined){
+                if(row !== undefined){
                     const item =  
                     {  
-                        id: r.id,
-                        description : r.description,
-                        price : r.price,
-                        SKUId : r.sku_id,
-                        suppplierId : r.supplier_id,
+                        id: row.id,
+                        description : row.description,
+                        price : row.price,
+                        SKUId : row.sku_id,
+                        supplierId : row.supplier_id,
                     };
                     resolve(item);
                 } else {
-                        const item = '';
-                        resolve(item);
-                    }
+                    const item = '';
+                    resolve(item);
+                }
             });
         });
     }
@@ -73,26 +73,26 @@ class Item {
     getItemBySKUIdAndSupplierId(SKUId, supplierId) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM ITEM WHERE sku_id = ? AND supplier_id = ?';
-            this.db.get(sql, [SKUId, supplierId], (err, r) => {
+            this.db.get(sql, [SKUId, supplierId], (err, row) => {
                 if (err) {
                     reject(err);
                     return;
                 }
 
-                if(r!==undefined){
+                if(row !== undefined){
                     const item =  
                     {  
-                        id: r.id,
-                        description : r.description,
-                        price : r.price,
-                        SKUId : r.sku_id,
-                        suppplierId : r.supplier_id,
+                        id: row.id,
+                        description : row.description,
+                        price : row.price,
+                        SKUId : row.sku_id,
+                        suppplierId : row.supplier_id,
                     };
                     resolve(item);
                 } else {
-                        const item = '';
-                        resolve(item);
-                    }
+                    const item = '';
+                    resolve(item);
+                }
             });
         });
     }
@@ -100,33 +100,33 @@ class Item {
     getItemByIdAndSupplierId(id, supplierId) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM ITEM WHERE id = ? AND supplier_id = ?';
-            this.db.get(sql, [id, supplierId], (err, r) => {
+            this.db.get(sql, [id, supplierId], (err, row) => {
                 if (err) {
                     reject(err);
                     return;
                 }
 
-                if(r!==undefined){
+                if(row !== undefined){
                     const item =  
                     {  
-                        id: r.id,
-                        description : r.description,
-                        price : r.price,
-                        SKUId : r.sku_id,
-                        suppplierId : r.supplier_id,
+                        id: row.id,
+                        description : row.description,
+                        price : row.price,
+                        SKUId : row.sku_id,
+                        suppplierId : row.supplier_id,
                     };
                     resolve(item);
                 } else {
-                        const item = '';
-                        resolve(item);
-                    }
+                    const item = '';
+                    resolve(item);
+                }
             });
         });
     }
 
     modifyItem(id, data) {
         return new Promise((resolve, reject)=>{
-            const sql = 'UPDATE ITEM SET description = ?, price = ? WHERE ID = ?';
+            const sql = 'UPDATE ITEM SET description = ?, price = ? WHERE id = ?';
             this.db.run(sql, [data.newDescription, data.newPrice, id], (err) => {
                 if (err) {
                     reject(err);
