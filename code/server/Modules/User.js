@@ -31,7 +31,7 @@ class User{
                 const user = 
                     {  
                         id: r.id,
-                        username: r.username,
+                        email: r.username,
                         name: r.name,
                         surname: r.surname,
                         type: r.type
@@ -62,7 +62,7 @@ class User{
                 
                     {  
                         id : r.id,
-                        username: r.username,
+                        email: r.username,
                         name: r.name,
                         surname: r.surname,
                         type: r.type
@@ -120,11 +120,7 @@ class User{
                     reject(err);
                     return;
                 }
-                if(r!==undefined){
-                    resolve(true);
-                } else {
-                    resolve(false)
-                }
+                resolve(true)
                 
             });
         });
@@ -146,7 +142,7 @@ class User{
                 
                     {  
                         id : r.id,
-                        username: r.username,
+                        email: r.username,
                         name: r.name,
                         surname: r.surname,
                         type: r.type

@@ -95,10 +95,10 @@ class SKUItem{
                 if(r !== undefined){
                     const skuitem =  
                     {  
-                        rfid: r.rfid,
-                        available: r.available,
-                        sku: r.sku_id,
-                        date: r.date_of_stock
+                        RFID: r.rfid,
+                        SKUId: r.sku_id,
+                        Available: r.available,
+                        DateOfStock: r.date_of_stock
                     };
                     
                     resolve(skuitem);
@@ -124,10 +124,10 @@ class SKUItem{
                 if(r !== undefined){
                     const skuitem =  
                     {  
-                        rfid: r.rfid,
-                        available: r.available,
-                        sku: r.sku_id,
-                        date: r.date_of_stock
+                        RFID: r.rfid,
+                        SKUId: r.sku_id,
+                        Available: r.available,
+                        DateOfStock: r.date_of_stock
                     };
                     
                     resolve(skuitem);
@@ -155,10 +155,10 @@ class SKUItem{
                 const skuitems = rows.map((r) => (
                 
                     {  
-                        rfid: r.rfid,
-                        available: r.available,
-                        sku: r.sku_id,
-                        date: r.date_of_stock
+                        RFID: r.rfid,
+                        SKUId: r.sku_id,
+                        Available: r.available,
+                        DateOfStock: r.date_of_stock
                     }
                 ));
                 resolve(skuitems);
@@ -221,11 +221,7 @@ class SKUItem{
                     return;
                 }
                
-                if(r!==undefined){
-                resolve(true);
-                } else {
-                    resolve(false)
-                }
+                resolve(true)
             });
         });
     }

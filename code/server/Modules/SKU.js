@@ -76,7 +76,7 @@ class SKU{
                         volume : r.volume,
                         notes : r.notes,
                         position: r.position_id,
-                        quantity: r.available_quantity, 
+                        availableQuantity: r.available_quantity, 
                         price: r.price,
                     }
                     resolve(sku)
