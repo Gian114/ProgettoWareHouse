@@ -6,6 +6,32 @@ class TestResult {
         this.db = db;
     }
 
+    getTestResults() {
+        return new Promise((resolve, reject) => {
+
+            const sql = `
+                SELECT *
+                FROM TEST_RESULT`;
+
+            this.db.all(sql, [], (err, rows) => {
+
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                const test_results = rows.map(row => ({
+                    id: row.id,
+                    date: row.date, // maybe convert to date?
+                    result: row.result == 1,
+                    sku_item_rfid: row.sku_item_rfid,
+                    test_descriptor_id: row.test_descriptor_id
+                }));
+
+                resolve(test_results);
+            });
+        });
+    }
 
     getTestResultsByRFID(rfid) {
         return new Promise((resolve, reject) => {
