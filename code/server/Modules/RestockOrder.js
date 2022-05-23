@@ -244,7 +244,7 @@ class RestockOrder {
                 WHERE RO.id = P.restock_order_id AND RO.id = SI.restock_order_id AND RO.id = ?;
                 `;
 
-            this.db.all(sql, [id], (err, rows) => {
+            this.db.get(sql, [id], (err, rows) => {
 
                 if (err) {
                     console.log(err);
@@ -313,7 +313,7 @@ class RestockOrder {
                 WHERE RO.id = P.restock_order_id AND RO.id = ?;
                 `;
 
-            this.db.all(sql, [id], (err, rows) => {
+            this.db.get(sql, [id], (err, rows) => {
 
                 if (err) {
                     console.log(err);
@@ -379,7 +379,7 @@ class RestockOrder {
                 WHERE RO.id = P.restock_order_id AND RO.id = ?;
                 `;
 
-            this.db.all(sql, [id], (err, rows) => {
+            this.db.get(sql, [id], (err, rows) => {
 
                 if (err) {
                     console.log(err);

@@ -60,9 +60,6 @@ class Position{
                 reject(err);
                 return;
             }
-            if(r === undefined){
-                resolve(false)
-            }
             resolve(true)
         })
 
@@ -76,9 +73,6 @@ class Position{
                 if (err) {
                     reject(err);
                     return;
-                }
-                if(r === undefined){
-                    resolve(false)
                 }
                 resolve(true)
             })
@@ -95,9 +89,6 @@ class Position{
                 if (err) {
                     reject(err);
                     return;
-                }
-                if(r===undefined){
-                    resolve(false)
                 }
                 resolve(true);
             });
