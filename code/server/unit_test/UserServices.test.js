@@ -2,7 +2,8 @@ const UserServices = require('../Services/UserServices')
 
 const User = require('../Modules/User')
 
-const db = require('../Modules/DB')
+const DB = require('../Modules/DB').DB;
+const db = new DB(':memory:');
 const dao = new User(db.db)
 
 const user_services = new UserServices(dao)

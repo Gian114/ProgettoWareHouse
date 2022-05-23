@@ -3,7 +3,8 @@ const SKUServices = require('../Services/SKUServices')
 const SKU = require('../Modules/SKU')
 const Position = require('../Modules/Position')
 
-const db = require('../Modules/DB')
+const DB = require('../Modules/DB').DB;
+const db = new DB(':memory:');
 const sku = new SKU(db.db)
 const pos = new Position(db.db)
 

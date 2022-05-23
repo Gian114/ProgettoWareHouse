@@ -2,7 +2,7 @@
 
 const express = require('express');
 const Position = require('../Modules/Position');
-const db = require('../Modules/DB');
+const db = require('../Modules/DB').db;
 
 const positionRouter = express.Router();
 const position = new Position(db.db);

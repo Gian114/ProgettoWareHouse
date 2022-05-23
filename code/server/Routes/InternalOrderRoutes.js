@@ -2,8 +2,18 @@
 
 const express = require('express');
 
+const InternalOrder = require('../Modules/InternalOrder');
+const SKUItem = require('../Modules/SKUItem');
+const Product = require('../Modules/Product');
+
+const db = require('../Modules/DB').db;
+
+const prod_table = new Product(db.db);
+const item_table = new SKUItem(db.db);
+const io = new InternalOrder(db.db);
+
 const InternalOrderServices = require('../Services/InternalOrderServices');
-const io_serv = new InternalOrderServices();
+const io_serv = new InternalOrderServices(io, prod_table, item_table);
 
 function idIsValid(id) {
     return (Number.isInteger(parseFloat(id)) && id > 0);

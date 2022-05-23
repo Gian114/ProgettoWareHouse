@@ -2,7 +2,7 @@
 
 const express = require('express');
 const RestockOrder = require('../Modules/RestockOrder');
-const db = require('../Modules/DB');
+const db = require('../Modules/DB').db;
 
 const restockOrderRouter = express.Router();
 const restockOrder = new RestockOrder(db.db);

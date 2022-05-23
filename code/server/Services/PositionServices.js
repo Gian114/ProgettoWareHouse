@@ -1,7 +1,4 @@
 'use strict'
-
-const db = require('../Modules/DB');
-
 class PositionServices {
 
     constructor(dao) {
@@ -13,7 +10,7 @@ class PositionServices {
         let x = '';
 
         try {
-            x = await this.getPosition()
+            x = await this.position.getPosition()
         } catch (err) {
             return false;
         }
@@ -25,7 +22,7 @@ class PositionServices {
 
         let x = '';
         try {
-            await this.createNewPosition(item);
+            await this.position.createNewPosition(item);
         } catch (err) {
             return false;
         }
@@ -37,7 +34,7 @@ class PositionServices {
         let x;
 
         try {
-            x = await this.modifyPosition(pos_id, data, newPos_id);
+            x = await this.position.modifyPosition(pos_id, data, newPos_id);
         } catch (err) {
             return false
         }
@@ -53,7 +50,7 @@ class PositionServices {
     async changePositionID(pos_id, newPos_id) {
         let x;
         try {
-            x = await this.modifyPositionID(pos_id, newPos_id);
+            x = await this.position.modifyPositionID(pos_id, newPos_id);
         } catch (err) {
             return false;
         }
@@ -67,7 +64,7 @@ class PositionServices {
     async deletePosition(id) {
         let x
         try {
-            x = await this.deletePosition(id);
+            x = await this.position.deletePosition(id);
         } catch (err) {
             return false;
         }

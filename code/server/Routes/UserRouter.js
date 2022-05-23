@@ -1,7 +1,7 @@
 const express = require('express');
 const userRouter = express.Router();
 
-const db = require('../Modules/DB')
+const db = require('../Modules/DB').db;
 const User = require('../Modules/User')
 const dao = new User(db.db)
 
