@@ -1,11 +1,11 @@
 'use strict';
 
+const sqlite = require('sqlite3');
+
 class DB {
 
-    sqlite = require('sqlite3');
-
     constructor(dbname) {
-        this.db = new this.sqlite.Database(dbname, (err) => {
+        this.db = new sqlite.Database(dbname, (err) => {
             if(err) throw err;
         });
         
