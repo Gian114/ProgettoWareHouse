@@ -1,5 +1,6 @@
 'use strict'
 
+
 const express = require('express');
 const restockOrderRouter = express.Router();
 
@@ -14,10 +15,6 @@ const User = require('../Modules/User');
 const user = new User(db.db);
 const RestockOrderServices = require('../Services/RestockOrderServices');
 const restockServices = new RestockOrderServices(restockOrder, skuItem, product, user, db);
-
-
-
-
 
 //get all tested
 
