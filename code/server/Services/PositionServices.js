@@ -13,7 +13,7 @@ class PositionServices {
         let x = '';
 
         try {
-            x = await this.getPosition()
+            x = await this.position.getPosition()
         } catch (err) {
             return false;
         }
@@ -21,12 +21,12 @@ class PositionServices {
         return x;
     }
 
-    async createPosition(item) {
-
+    async addPosition(item) {
         let x = '';
         try {
-            await this.createNewPosition(item);
+            await this.position.createNewPosition(item);
         } catch (err) {
+            console.log(err);
             return false;
         }
 
@@ -36,45 +36,52 @@ class PositionServices {
     async changePosition(pos_id, data, newPos_id) {
         let x;
 
-        try {
-            x = await this.modifyPosition(pos_id, data, newPos_id);
-        } catch (err) {
-            return false
+        let y = await this.position.getPositionByID(id);
+        if (y === '') {
+            return 404;
         }
 
-        if (x === false) {
-            return 404;
+
+        try {
+            x = await this.position.modifyPosition(pos_id, data, newPos_id);
+        } catch (err) {
+            return false
         }
 
         return x;
 
     }
 
-    async changePositionID(pos_id, newPos_id) {
+    async changePositionID(pos_id, newPos_id, new_aisle, new_row, new_col) {
         let x;
-        try {
-            x = await this.modifyPositionID(pos_id, newPos_id);
-        } catch (err) {
-            return false;
+
+        let y = await this.position.getPositionByID(pos_id);
+        if (y === '') {
+            return 404;
         }
 
-        if (x === false) {
-            return 404;
+        try {
+            x = await this.position.modifyPositionID(pos_id, newPos_id, new_aisle, new_row, new_col);
+        } catch (err) {
+            return false;
         }
 
     }
 
     async deletePosition(id) {
         let x
+
+        let y = await this.position.getPositionByID(pos_id);
+        if (y === '') {
+            return 404;
+        }
+
         try {
-            x = await this.deletePosition(id);
+            x = await this.position.deletePosition(id);
         } catch (err) {
             return false;
         }
 
-        if (x === false) {
-            return 404;
-        }
     }
 
 }

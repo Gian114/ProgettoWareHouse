@@ -1,19 +1,21 @@
 'use strict'
 
+
 const express = require('express');
+const db = require('../Modules/DB').db;
 const RestockOrder = require('../Modules/RestockOrder');
-const db = require('../Modules/DB');
+
 
 const restockOrderRouter = express.Router();
 const restockOrder = new RestockOrder(db.db);
-
-const RestockServices = require('../Services/RestockOrderServices');
-const restockServices = new RestockServices();
 
 const Product = require('../Modules/Product');
 const product = new Product(db.db);
 const SkuItem = require('../Modules/SkuItem');
 const skuItem = new SkuItem(db.db);
+
+const RestockServices = require('../Services/RestockOrderServices');
+const restockServices = new RestockServices(restockOrder, product, skuItem);
 
 
 

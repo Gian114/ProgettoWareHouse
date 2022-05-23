@@ -2,13 +2,13 @@
 
 const express = require('express');
 const Position = require('../Modules/Position');
-const db = require('../Modules/DB');
+const db = require('../Modules/DB').db;
 
 const positionRouter = express.Router();
 const position = new Position(db.db);
 
 const PositionServices = require('../Services/PositionServices');
-const positionServices = new PositionServices();
+const positionServices = new PositionServices(position);
 
 //get
 
@@ -42,7 +42,7 @@ positionRouter.post('/api/position', async (req, res) => {
 
   const item = req.body;
 
-  let x = await positionServices.createPosition(item);
+  let x = await positionServices.addPosition(item);
   if (x === false) {
     return res.status(503).json({ error: "generic error" })
   }
@@ -94,6 +94,11 @@ positionRouter.put('/api/position/:positionID/changeID', async (req, res) => {
     return res.status(422).json({})
   }
 
+  /*
+  if(Object.keys(req.params).length !== 12){
+    return res.status(422).json({})
+  }
+  */
 
   if (req.params.positionID === undefined || req.body.newPositionID === undefined) {
     return res.status(422).json({})
@@ -101,8 +106,15 @@ positionRouter.put('/api/position/:positionID/changeID', async (req, res) => {
 
   const position_id = req.params.positionID;
   const newPositionId = req.body.newPositionID;
+  const aisle_id = newPositionId[0]+newPositionId[1]+newPositionId[2]+newPositionId[3];
+  const row = newPositionId[4]+newPositionId[5]+newPositionId[6]+newPositionId[7];
+  const col = newPositionId[8]+newPositionId[9]+newPositionId[10]+newPositionId[11];
 
-  let x = await positionServices(position_id, newPositionId);
+//  console.log(aisle_id);
+//  console.log(row);
+//  console.log(col);
+
+  let x = await positionServices.changePositionID(position_id, newPositionId, aisle_id, row, col);
   if (x === false) {
     return res.status(503).json({ err: "generic error" });
   }
