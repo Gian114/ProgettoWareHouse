@@ -41,7 +41,7 @@ class ReturnOrderServices {
 
     async createNewReturnOrder(ro) {
 
-        let x = await this.restockOrder.getRestockOrderByID(ro.restockOrderId);
+        let x = await this.restockOrder.getRestockOrderIssuedById(ro.restockOrderId);
         if(x === '') {
             return x;
         }

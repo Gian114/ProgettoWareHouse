@@ -252,41 +252,44 @@ class RestockOrder {
                     return;
                 }
                 
-                console.log(rows);
+                if(rows !== undefined) {
 
-                const restock_orders_dict = rows.map(row => ({
-                        id: row.ro_id,
-                        issueDate: row.issue_date, 
-                        state: row.state,
-                        product: {
-                            SKUid: row.sku_id,
-                            description: row.description,
-                            price: row.price,
-                            quantity: row.quantity
-                        },
-                        supplierId: row.supplier_id,
-                        transportNote: { deliveryDate: row.delivery_date },
-                        skuItem: {
-                            SKUid: row.sku,
-                            rfid: row.rfid
-                        }
-                    })).reduce(function (ro, obj) {
-                        ro = (Object.keys(ro).length !== 0 ? ro : 
-                            {
-                                issueDate: obj.issueDate,
-                                state: obj.state,
-                                products: [],
-                                supplierId: obj.supplierId,
-                                transportNote: obj.transportNote,
-                                skuItems: []
-                            });
-                        ro.products.push(obj.product);
-                        ro.skuItems.push(obj.skuItem);
-                        return ro
-                    }, {}
-                );
+                    const restock_orders_dict = rows.map(row => ({
+                            id: row.ro_id,
+                            issueDate: row.issue_date, 
+                            state: row.state,
+                            product: {
+                                SKUid: row.sku_id,
+                                description: row.description,
+                                price: row.price,
+                                quantity: row.quantity
+                            },
+                            supplierId: row.supplier_id,
+                            transportNote: { deliveryDate: row.delivery_date },
+                            skuItem: {
+                                SKUid: row.sku,
+                                rfid: row.rfid
+                            }
+                        })).reduce(function (ro, obj) {
+                            ro = (Object.keys(ro).length !== 0 ? ro : 
+                                {
+                                    issueDate: obj.issueDate,
+                                    state: obj.state,
+                                    products: [],
+                                    supplierId: obj.supplierId,
+                                    transportNote: obj.transportNote,
+                                    skuItems: []
+                                });
+                            ro.products.push(obj.product);
+                            ro.skuItems.push(obj.skuItem);
+                            return ro
+                        }, {}
+                    );
 
-                resolve(restock_orders_dict);
+                    resolve(restock_orders_dict);
+                } else {
+                    resolve('');
+                }
             });
         });
                         
@@ -321,39 +324,42 @@ class RestockOrder {
                     return;
                 }
                 
-                //console.log(rows);
+                if(rows != undefined) {
 
-                const restock_orders_dict = rows.map(row => ({
-                        id: row.ro_id,
-                        issueDate: row.issue_date, 
-                        state: row.state,
-                        product: {
-                            SKUid: row.sku_id,
-                            description: row.description,
-                            price: row.price,
-                            quantity: row.quantity
-                        },
-                        supplierId: row.supplier_id,
-                        transportNote: { deliveryDate: row.delivery_date },
-                        skuItem: {
-                            SKUid: row.sku,
-                            rfid: row.rfid
-                        }
-                    })).reduce(function (ro, obj) {
-                        ro = (Object.keys(ro).length !== 0 ? ro : 
-                            {
-                                issueDate: obj.issueDate,
-                                state: obj.state,
-                                products: [],
-                                supplierId: obj.supplierId,
-                                skuItems: []
-                            });
-                        ro.products.push(obj.product);
-                        return ro
-                    }, {}
-                );
+                    const restock_orders_dict = rows.map(row => ({
+                            id: row.ro_id,
+                            issueDate: row.issue_date, 
+                            state: row.state,
+                            product: {
+                                SKUid: row.sku_id,
+                                description: row.description,
+                                price: row.price,
+                                quantity: row.quantity
+                            },
+                            supplierId: row.supplier_id,
+                            transportNote: { deliveryDate: row.delivery_date },
+                            skuItem: {
+                                SKUid: row.sku,
+                                rfid: row.rfid
+                            }
+                        })).reduce(function (ro, obj) {
+                            ro = (Object.keys(ro).length !== 0 ? ro : 
+                                {
+                                    issueDate: obj.issueDate,
+                                    state: obj.state,
+                                    products: [],
+                                    supplierId: obj.supplierId,
+                                    skuItems: []
+                                });
+                            ro.products.push(obj.product);
+                            return ro
+                        }, {}
+                    );
 
-                resolve(restock_orders_dict);
+                    resolve(restock_orders_dict);
+                } else {
+                    resolve('');
+                }
             });
         });
     }
@@ -387,40 +393,43 @@ class RestockOrder {
                     return;
                 }
                 
-                console.log(rows);
+                if(rows !== undefined) {
 
-                const restock_orders_dict = rows.map(row => ({
-                        id: row.ro_id,
-                        issueDate: row.issue_date, 
-                        state: row.state,
-                        product: {
-                            SKUid: row.sku_id,
-                            description: row.description,
-                            price: row.price,
-                            quantity: row.quantity
-                        },
-                        supplierId: row.supplier_id,
-                        transportNote: { deliveryDate: row.delivery_date },
-                        skuItem: {
-                            SKUid: row.sku,
-                            rfid: row.rfid
-                        }
-                    })).reduce(function (ro, obj) {
-                        ro = (Object.keys(ro).length !== 0 ? ro : 
-                            {
-                                issueDate: obj.issueDate,
-                                state: obj.state,
-                                products: [],
-                                supplierId: obj.supplierId,
-                                transportNote: obj.transportNote,
-                                skuItems: []
-                            });
-                        ro.products.push(obj.product);
-                        return ro
-                    }, {}
-                );
+                    const restock_orders_dict = rows.map(row => ({
+                            id: row.ro_id,
+                            issueDate: row.issue_date, 
+                            state: row.state,
+                            product: {
+                                SKUid: row.sku_id,
+                                description: row.description,
+                                price: row.price,
+                                quantity: row.quantity
+                            },
+                            supplierId: row.supplier_id,
+                            transportNote: { deliveryDate: row.delivery_date },
+                            skuItem: {
+                                SKUid: row.sku,
+                                rfid: row.rfid
+                            }
+                        })).reduce(function (ro, obj) {
+                            ro = (Object.keys(ro).length !== 0 ? ro : 
+                                {
+                                    issueDate: obj.issueDate,
+                                    state: obj.state,
+                                    products: [],
+                                    supplierId: obj.supplierId,
+                                    transportNote: obj.transportNote,
+                                    skuItems: []
+                                });
+                            ro.products.push(obj.product);
+                            return ro
+                        }, {}
+                    );
 
-                resolve(restock_orders_dict);
+                    resolve(restock_orders_dict);
+                } else {
+                    resolve('');
+                }
             });
         });
     }

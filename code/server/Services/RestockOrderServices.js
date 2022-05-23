@@ -1,5 +1,5 @@
 const RestockOrder = require('../Modules/RestockOrder');
-const db = require('../Modules/DB');
+const db = require('../Modules/DB').db;
 const restockOrder = new RestockOrder(db.db);
 
 const Product = require('../Modules/Product');

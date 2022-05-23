@@ -1,7 +1,9 @@
+'use strict';
+
 class UserServices{
 
     constructor(dao){
-        this.user = dao
+        this.user = dao;
     }
 
     async getSuppliers(){
@@ -99,4 +101,4 @@ class UserServices{
 
 }
 
-module.exports = UserServices
+module.exports = UserServices;

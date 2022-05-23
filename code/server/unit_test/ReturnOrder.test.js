@@ -1,8 +1,8 @@
 'use strict';
 
-const db = require('../Modules/DB')
+const db = require('../Modules/DB').db;
 const ReturnOrder = require('../Modules/ReturnOrder');
-const roDao = new ReturnOrder(db.db)
+const roDao = new ReturnOrder(db.db);
 
 describe('test test descriptor', () => {
     beforeAll(async () => {

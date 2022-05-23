@@ -98,7 +98,7 @@ restockOrderRouter.post('/api/restockOrder', async (req, res) => {
   let restock = await restockServices.addRestockOrder(ro);
 
   if (restock === false) {
-    return res.status(503).json({ error: "generic error" })
+    return res.status(503).json({ error: "generic error" });
   }
   return res.status(201).json();
 
