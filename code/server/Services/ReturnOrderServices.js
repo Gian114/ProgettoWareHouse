@@ -1,14 +1,13 @@
-'use strict'
-
-const db = require('../Modules/DB').db;
+'use strict';
 
 class ReturnOrderServices {
 
-    constructor(reto, reso, skui, prod) {
+    constructor(reto, reso, skui, prod, db) {
         this.returnOrder = reto;
         this.restockOrder = reso;
         this.skuItem = skui;
         this.product = prod;
+        this.db = db;
     }
 
     async getAllReturnOrders() {

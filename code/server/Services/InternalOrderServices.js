@@ -1,4 +1,4 @@
-
+'use strict';
 
 class InternalOrderServices {
         constructor(io, prod, item) {

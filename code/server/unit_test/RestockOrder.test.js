@@ -1,6 +1,6 @@
 'use strict';
 
-const db = require('../Modules/DB');
+const db = require('../Modules/DB').db;
 const RestockOrder = require('../Modules/RestockOrder');
 const roDao = new RestockOrder(db.db)
 
@@ -8,6 +8,8 @@ describe('test Restock Order', () => {
     beforeAll(async () => {
         await db.dropTableRestockOrder();
         await db.createTableRestockOrder();
+        await db.dropTableProduct();
+        await db.createTableProduct();
     });
 
     test('delete db', async () => {

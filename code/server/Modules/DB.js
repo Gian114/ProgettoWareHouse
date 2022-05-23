@@ -8,13 +8,12 @@ class DB {
         this.db = new sqlite.Database(dbname, (err) => {
             if(err) throw err;
         });
-        
     }
 
     async startDB() {
         await this.dropTables();
         await this.createTables();
-        await this.activateForeignKeyControl();
+        //await this.activateForeignKeyControl();
     }
 
     async createTables() { //the order is important, before referenced tables and after referencing tables

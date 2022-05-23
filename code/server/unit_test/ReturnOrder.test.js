@@ -4,7 +4,7 @@ const db = require('../Modules/DB').db;
 const ReturnOrder = require('../Modules/ReturnOrder');
 const roDao = new ReturnOrder(db.db);
 
-describe('test test descriptor', () => {
+describe('test return order', () => {
     beforeAll(async () => {
         await db.dropTableReturnOrder();
         await db.createTableReturnOrder();
@@ -25,8 +25,8 @@ describe('test test descriptor', () => {
     testNewRo(data);
 
     test('delete return order', async () => {
-        const id = await db.getAutoincrementId('RETURN_ORDER');
-        let res = await roDao.deleteReturnOrder(id);
+
+        let res = await roDao.deleteReturnOrder(1);
         res = await roDao.getAllReturnOrders();
         expect(res.length).toStrictEqual(0);
     });
@@ -40,9 +40,7 @@ function testNewRo(data) {
         let res = await roDao.getAllReturnOrders();
         expect(res.length).toStrictEqual(1);
         
-        const id = await db.getAutoincrementId('TEST_DESCRIPTOR');
-        res = await roDao.getReturnOrderById(id);
-
+        res = await roDao.getReturnOrderById(1);
         expect(res.returnDate).toStrictEqual(data.returnDate);
         expect(res.products).toStrictEqual([]);
         expect(res.restockOrderId).toStrictEqual(data.restockOrderId);     

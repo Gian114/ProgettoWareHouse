@@ -1,7 +1,5 @@
 'use strict'
 
-const { skuItem } = require("../Routes/SKUItemRoutes");
-
 class RestockOrder {
 
     constructor(db) {
@@ -244,7 +242,7 @@ class RestockOrder {
                 WHERE RO.id = P.restock_order_id AND RO.id = SI.restock_order_id AND RO.id = ?;
                 `;
 
-            this.db.get(sql, [id], (err, rows) => {
+            this.db.all(sql, [id], (err, rows) => {
 
                 if (err) {
                     console.log(err);
@@ -252,7 +250,7 @@ class RestockOrder {
                     return;
                 }
                 
-                if(rows !== undefined) {
+                if(rows.length !== undefined) {
 
                     const restock_orders_dict = rows.map(row => ({
                             id: row.ro_id,
@@ -316,7 +314,7 @@ class RestockOrder {
                 WHERE RO.id = P.restock_order_id AND RO.id = ?;
                 `;
 
-            this.db.get(sql, [id], (err, rows) => {
+            this.db.all(sql, [id], (err, rows) => {
 
                 if (err) {
                     console.log(err);
@@ -324,7 +322,7 @@ class RestockOrder {
                     return;
                 }
                 
-                if(rows != undefined) {
+                if(rows.length !== 0) {
 
                     const restock_orders_dict = rows.map(row => ({
                             id: row.ro_id,
@@ -385,7 +383,8 @@ class RestockOrder {
                 WHERE RO.id = P.restock_order_id AND RO.id = ?;
                 `;
 
-            this.db.get(sql, [id], (err, rows) => {
+            this.db.all(sql, [id], (err, rows) => {
+
 
                 if (err) {
                     console.log(err);
@@ -393,7 +392,7 @@ class RestockOrder {
                     return;
                 }
                 
-                if(rows !== undefined) {
+                if(rows.length !== 0) {
 
                     const restock_orders_dict = rows.map(row => ({
                             id: row.ro_id,

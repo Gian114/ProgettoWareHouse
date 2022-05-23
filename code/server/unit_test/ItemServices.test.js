@@ -3,14 +3,15 @@
 const ItemServices = require('../Services/ItemServices');
 const Item = require('../Modules/Item');
 const SKU = require('../Modules/SKU');
-
 const DB = require('../Modules/DB').DB;
+
 const db = new DB(':memory:');
 const itDao = new Item(db.db);
 const sku = new SKU(db.db);
 const itServices = new ItemServices(itDao, sku);
 
 describe("Item services", () => {
+    
     const sku1 =
         {
             "description" : "a new sku",
@@ -75,13 +76,10 @@ describe("Item services", () => {
     
 
     beforeEach(async () => {
-        await db.dropTableItem();
-        await db.dropTableSKU();
-        await db.createTableItem();
-        await db.createTableSKU();
+        await db.startDB();
         await sku.createSKU(sku1);
         await sku.createSKU(sku2);
-        await itDao.createNewItem(data1);
+        await itServices.createNewItem(data1);
     });
 
     test('Create items', async () => {
@@ -149,6 +147,5 @@ describe("Item services", () => {
         res = await itServices.getAllItems();
         expect(res.length).toStrictEqual(0);
     });
-
 
 });

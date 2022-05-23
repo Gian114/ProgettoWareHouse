@@ -1,6 +1,7 @@
-const db = require('../Modules/DB')
+'use strict';
+const db = require('../Modules/DB').db;
 const TestResult = require('../Modules/TestResult');
-const tr_dao = new TestResult(db.db)
+const tr_dao = new TestResult(db.db);
 
 // there is no validation of content in the dao so errors are not really meaningful (sql errors)
 describe('TestResult dao tests', () => {

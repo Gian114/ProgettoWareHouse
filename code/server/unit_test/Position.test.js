@@ -1,7 +1,7 @@
 'use strict';
-const db = require('../Modules/DB');
+const db = require('../Modules/DB').db;
 const Position = require('../Modules/Position');
-const dao = new Position(db.db)
+const dao = new Position(db.db);
 
 describe('testDao', () => {
     beforeAll(async () => {

@@ -13,7 +13,7 @@ const skuItem = new SkuItem(db.db);
 const Product = require('../Modules/Product');
 const product = new Product(db.db);
 const ReturnOrderServices = require('../Services/ReturnOrderServices');
-const returnOrderServices = new ReturnOrderServices(returnOrder, restockOrder, skuItem, product);
+const returnOrderServices = new ReturnOrderServices(returnOrder, restockOrder, skuItem, product, db);
 
 
 //get
@@ -64,7 +64,7 @@ returnOrderRouter.post('/api/returnOrder', async (req, res) => {
         return res.status(404).json({error: "no restock order associated to restockOrderId"});
     }
     else if (x === 1) {
-        return res.status(404).json({error: `no sku item associated to RFID or wrong correspondence between RFID and SKUId`});
+        return res.status(404).json({error: 'no sku item associated to RFID or wrong correspondence between RFID and SKUId'});
     }
     return res.status(201).json();
 

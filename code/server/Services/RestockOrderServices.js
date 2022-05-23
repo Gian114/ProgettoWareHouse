@@ -1,14 +1,14 @@
-const RestockOrder = require('../Modules/RestockOrder');
-const db = require('../Modules/DB').db;
-const restockOrder = new RestockOrder(db.db);
-
-const Product = require('../Modules/Product');
-const product = new Product(db.db);
-
-const SkuItem = require('../Modules/SkuItem');
-const skuItem = new SkuItem(db.db);
+'use strict';
 
 class RestockOrderServices {
+
+    constructor(reso, skui, prod, user, db) {
+        this.restockOrder = reso;
+        this.skuItem = skui;
+        this.product = prod;
+        this.user = user;
+        this.db = db;
+    }
 
     //get
 
@@ -186,4 +186,4 @@ class RestockOrderServices {
 
 }
 
-module.exports = RestockOrderServices
+module.exports = RestockOrderServices;

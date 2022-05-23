@@ -60,13 +60,13 @@ class Product {
                   reject(err);
                   return;
                 }
-
+                
                 const products = rows.map((r) => (
                     {  
                         SKUId: r.sku_id,
                         description : r.description,
                         price : r.price,
-                        RFID : r.rfid,
+                        RFID : r.rfid
                     }
                 ));
 

@@ -3,14 +3,15 @@
 const TestDescriptorServices = require('../Services/TestDescriptorServices');
 const TestDescriptor = require('../Modules/TestDescriptor');
 const SKU = require('../Modules/SKU');
-
 const DB = require('../Modules/DB').DB;
+
 const db = new DB(':memory:');
 const tdDao = new TestDescriptor(db.db);
 const sku = new SKU(db.db);
 const tdServices = new TestDescriptorServices(tdDao, sku);
 
 describe("Test descriptor services", () => {
+
     const sku1 =
         {
             "description" : "a new sku",
@@ -58,12 +59,9 @@ describe("Test descriptor services", () => {
 
 
     beforeEach(async () => {
-        await db.dropTableTestDescriptor();
-        await db.dropTableSKU();
-        await db.createTableTestDescriptor();
-        await db.createTableSKU();
+        await db.startDB();
         await sku.createSKU(sku1);
-        await tdDao.createNewTestDescriptor(data1);
+        await tdServices.createNewTestDescriptor(data1);
     });
 
     test('Create test descriptors', async () => {
@@ -89,7 +87,7 @@ describe("Test descriptor services", () => {
             id: 1,
             name: data1.name,
             procedureDescription: data1.procedureDescription,
-            idSKU : data1.idSKU
+            idSKU: data1.idSKU
         });
 
         await tdServices.createNewTestDescriptor(data2);

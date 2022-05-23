@@ -200,7 +200,7 @@ class InternalOrder {
                     return;
                 }
                 
-                if(rows !== undefined) {
+                if(rows,length !== 0) {
 
                     const internal_order = rows.map(row => ({
                             id: row.io_id,
@@ -251,7 +251,7 @@ class InternalOrder {
                     return;
                 }
 
-                if(rows !== undefined) {
+                if(rows.length !== 0) {
 
                     const internal_order = rows.map(row => ({
                             id: row.io_id,
