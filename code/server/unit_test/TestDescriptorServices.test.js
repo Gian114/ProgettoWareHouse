@@ -4,7 +4,8 @@ const TestDescriptorServices = require('../Services/TestDescriptorServices');
 const TestDescriptor = require('../Modules/TestDescriptor');
 const SKU = require('../Modules/SKU');
 
-const db = require('../Modules/DB');
+const DB = require('../Modules/DB').DB;
+const db = new DB(':memory:');
 const tdDao = new TestDescriptor(db.db);
 const sku = new SKU(db.db);
 const tdServices = new TestDescriptorServices(tdDao, sku);

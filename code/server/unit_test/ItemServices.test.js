@@ -4,7 +4,8 @@ const ItemServices = require('../Services/ItemServices');
 const Item = require('../Modules/Item');
 const SKU = require('../Modules/SKU');
 
-const db = require('../Modules/DB');
+const DB = require('../Modules/DB').DB;
+const db = new DB(':memory:');
 const itDao = new Item(db.db);
 const sku = new SKU(db.db);
 const itServices = new ItemServices(itDao, sku);

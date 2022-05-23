@@ -12,7 +12,7 @@ class DB {
     }
 
     async startDB() {
-        //await this.dropTables();
+        await this.dropTables();
         await this.createTables();
         await this.activateForeignKeyControl();
     }
@@ -409,4 +409,5 @@ class DB {
 
 const db = new DB('EZWH.sqlite');
 
-module.exports = db;
+module.exports.db = db;
+module.exports.DB = DB;

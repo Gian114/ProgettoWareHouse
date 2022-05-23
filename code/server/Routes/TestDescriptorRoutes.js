@@ -3,7 +3,7 @@
 const express = require('express');
 const testDescriptorRouter = express.Router();
 
-const db = require('../Modules/DB');
+const db = require('../Modules/DB').db;
 const TestDescriptor = require('../Modules/TestDescriptor');
 const testDescriptor = new TestDescriptor(db.db);
 const SKU = require('../Modules/SKU');

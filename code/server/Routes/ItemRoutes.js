@@ -3,7 +3,7 @@
 const express = require('express');
 const itemRouter = express.Router();
 
-const db = require('../Modules/DB');
+const db = require('../Modules/DB').db;
 const Item = require('../Modules/Item');
 const item = new Item(db.db);
 const SKU = require('../Modules/SKU');
