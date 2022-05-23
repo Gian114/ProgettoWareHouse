@@ -1,6 +1,6 @@
 'use strict';
 
-const db = require('../Modules/DB')
+const db = require('../Modules/DB').db
 const User = require('../Modules/User');
 const dao = new User(db.db)
 
@@ -37,7 +37,7 @@ describe('testDao', () => {
     }
 
     testNewUser(data);
-    testLogin(loginData, data.type);
+    testLogin(loginData, data.type, data.name, 1);
     testdeleteUser(deletingData);
 
    
@@ -70,14 +70,14 @@ function testNewUser(data) {
 
 
 
-function testLogin(loginData, type) {
+function testLogin(loginData, type, name, id) {
     test('login', async () => {
         
         const res = await dao.login(loginData, type)
         
-        
+        expect(res.id).toStrictEqual(id); 
         expect(res.username).toStrictEqual(loginData.username); 
-        expect(res.type).toStrictEqual(type);
+        expect(res.name).toStrictEqual(name); 
          
     });
 }

@@ -4,7 +4,7 @@ const express = require('express');
 const TestResult = require('../Modules/TestResult');
 const TestResultServices = require('../Services/TestResultServices');
 
-const db = require('../Modules/DB');
+const db = require('../Modules/DB').db;
 // at the end remove
 const tr_serv = new TestResultServices(new TestResult(db.db));
 

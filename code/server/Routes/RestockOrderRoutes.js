@@ -2,9 +2,8 @@
 
 
 const express = require('express');
-const db = require('../Modules/DB').db;
 const RestockOrder = require('../Modules/RestockOrder');
-
+const db = require('../Modules/DB').db;
 
 const restockOrderRouter = express.Router();
 const restockOrder = new RestockOrder(db.db);
@@ -100,7 +99,7 @@ restockOrderRouter.post('/api/restockOrder', async (req, res) => {
   let restock = await restockServices.addRestockOrder(ro);
 
   if (restock === false) {
-    return res.status(503).json({ error: "generic error" })
+    return res.status(503).json({ error: "generic error" });
   }
   return res.status(201).json();
 

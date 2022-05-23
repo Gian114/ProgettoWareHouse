@@ -199,21 +199,26 @@ class InternalOrder {
                     reject(err);
                     return;
                 }
-                console.log(rows);
-                const internal_order = rows.map(row => ({
-                        id: row.io_id,
-                        issueDate: row.issue_date, // maybe convert to date?
-                        state: row.state,
-                        customerId: row.customer_id,
-                        product: {
-                            SKUid: row.sku_id,
-                            description: row.description,
-                            price: row.price,
-                            quantity: row.quantity
-                        }
-                    })
-                );
-                resolve(internal_order);
+                
+                if(rows !== undefined) {
+
+                    const internal_order = rows.map(row => ({
+                            id: row.io_id,
+                            issueDate: row.issue_date, // maybe convert to date?
+                            state: row.state,
+                            customerId: row.customer_id,
+                            product: {
+                                SKUid: row.sku_id,
+                                description: row.description,
+                                price: row.price,
+                                quantity: row.quantity
+                            }
+                        })
+                    );
+                    resolve(internal_order);
+                } else {
+                    resolve('');
+                }
             });
         });
     }
@@ -246,21 +251,26 @@ class InternalOrder {
                     return;
                 }
 
-                const internal_order = rows.map(row => ({
-                        id: row.io_id,
-                        issueDate: row.issue_date, // maybe convert to date?
-                        state: row.state,
-                        customerId: row.customer_id,
-                        product: {
-                            SKUid: row.sku_id,
-                            description: row.description,
-                            price: row.price,
-                            rfid: row.rfid
-                        }
-                    })
-                );
+                if(rows !== undefined) {
 
-                resolve(internal_order);
+                    const internal_order = rows.map(row => ({
+                            id: row.io_id,
+                            issueDate: row.issue_date, // maybe convert to date?
+                            state: row.state,
+                            customerId: row.customer_id,
+                            product: {
+                                SKUid: row.sku_id,
+                                description: row.description,
+                                price: row.price,
+                                rfid: row.rfid
+                            }
+                        })
+                    );
+
+                    resolve(internal_order);
+                } else {
+                    resolve('');
+                }
             });
         });
     }

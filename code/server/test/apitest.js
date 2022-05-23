@@ -13,8 +13,8 @@ describe('test user apis', () => {
     })
 
     //deleteAllData(204);
-    newUser(201, '21-05-2022', [], 1);
-    newUser(422);
+    //newUser(201, '21-05-2022', [], 1);
+    //newUser(422);
    
 });
 

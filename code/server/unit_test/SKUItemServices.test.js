@@ -2,7 +2,8 @@ const SKUItemServices = require('../Services/SKUItemServices')
 
 const SKUItem = require('../Modules/SKUItem')
 
-const db = require('../Modules/DB')
+const DB = require('../Modules/DB').DB;
+const db = new DB(':memory:');
 const dao = new SKUItem(db.db)
 
 const si_service = new SKUItemServices(dao)

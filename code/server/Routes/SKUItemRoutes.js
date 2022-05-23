@@ -3,7 +3,7 @@
 const express = require('express');
 const skuItemRouter = express.Router()
 
-const db = require('../Modules/DB')
+const db = require('../Modules/DB').db;
 
 const SKUItem = require('../Modules/SKUItem');
 const dao = new SKUItem(db.db)

@@ -1,6 +1,6 @@
 'use strict';
 
-const db = require('../Modules/DB')
+const db = require('../Modules/DB').db;
 const TestDescriptor = require('../Modules/TestDescriptor');
 const tdDao = new TestDescriptor(db.db)
 

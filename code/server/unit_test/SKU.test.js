@@ -1,6 +1,6 @@
 'use strict';
 
-const db = require('../Modules/DB')
+const db = require('../Modules/DB').db
 const SKU = require('../Modules/SKU');
 const dao = new SKU(db.db)
 

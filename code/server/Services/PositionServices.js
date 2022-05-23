@@ -1,7 +1,4 @@
 'use strict'
-
-const db = require('../Modules/DB');
-
 class PositionServices {
 
     constructor(dao) {
