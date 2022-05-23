@@ -3,7 +3,7 @@
 const express = require('express');
 const returnOrderRouter = express.Router();
 
-const db = require('../Modules/DB');
+const db = require('../Modules/DB').db;
 const ReturnOrder = require('../Modules/ReturnOrder');
 const returnOrder = new ReturnOrder(db.db);
 const RestockOrder = require('../Modules/RestockOrder');

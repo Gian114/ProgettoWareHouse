@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-const db = require('./Modules/DB');
+const db = require('./Modules/DB').db;
 
 const skuRouter = require('./Routes/SKURoutes');
 const skuItemRouter = require('./Routes/SKUItemRoutes');

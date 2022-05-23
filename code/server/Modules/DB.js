@@ -1,18 +1,18 @@
 'use strict';
 
+const sqlite = require('sqlite3');
+
 class DB {
 
-    sqlite = require('sqlite3');
-
     constructor(dbname) {
-        this.db = new this.sqlite.Database(dbname, (err) => {
+        this.db = new sqlite.Database(dbname, (err) => {
             if(err) throw err;
         });
         
     }
 
     async startDB() {
-        //await this.dropTables();
+        await this.dropTables();
         await this.createTables();
         await this.activateForeignKeyControl();
     }
@@ -409,4 +409,5 @@ class DB {
 
 const db = new DB('EZWH.sqlite');
 
-module.exports = db;
+module.exports.db = db;
+module.exports.DB = DB;

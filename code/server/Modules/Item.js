@@ -35,7 +35,7 @@ class Item {
                         description : r.description,
                         price : r.price,
                         SKUId : r.sku_id,
-                        suppplierId : r.supplier_id,
+                        supplierId : r.supplier_id,
                     }
                 ));
                 resolve(items);
@@ -86,7 +86,7 @@ class Item {
                         description : row.description,
                         price : row.price,
                         SKUId : row.sku_id,
-                        suppplierId : row.supplier_id,
+                        supplierId : row.supplier_id,
                     };
                     resolve(item);
                 } else {
@@ -113,7 +113,7 @@ class Item {
                         description : row.description,
                         price : row.price,
                         SKUId : row.sku_id,
-                        suppplierId : row.supplier_id,
+                        supplierId : row.supplier_id,
                     };
                     resolve(item);
                 } else {

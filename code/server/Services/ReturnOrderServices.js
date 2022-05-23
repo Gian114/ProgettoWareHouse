@@ -1,6 +1,6 @@
 'use strict'
 
-const db = require('../Modules/DB');
+const db = require('../Modules/DB').db;
 
 class ReturnOrderServices {
 
@@ -41,14 +41,14 @@ class ReturnOrderServices {
 
     async createNewReturnOrder(ro) {
 
-        let x = await this.restockOrder.getRestockOrderByID(ro.restockOrderId);;
+        let x = await this.restockOrder.getRestockOrderByID(ro.restockOrderId);
         if(x === '') {
             return x;
         }
         for(let i=0; i<ro.products.length; i++) {
             x = await this.skuItem.getSKUItemByRFIDAndSKUId(ro.products[i].RFID, ro.products[i].SKUId);
             if(x === '') {
-                return 1
+                return 1;
             }
         }
     
