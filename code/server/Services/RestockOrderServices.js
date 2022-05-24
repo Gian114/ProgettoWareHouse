@@ -42,6 +42,9 @@ class RestockOrderServices {
         } catch (err) {
             return 404;
         }
+        if(state === ''){
+            return 404;
+        }
 
         let restock_orders;
         try {

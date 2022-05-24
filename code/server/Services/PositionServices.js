@@ -10,7 +10,7 @@ class PositionServices {
         let x = '';
 
         try {
-            x = await this.position.getPosition()
+            x = await this.position.getAllPosition()
         } catch (err) {
             return false;
         }

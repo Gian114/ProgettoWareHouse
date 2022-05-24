@@ -37,7 +37,7 @@ class RestockOrder {
                     return;
                 }
                 
-                console.log(rows);
+                //console.log(rows);
 
                 const restock_orders_dict = rows.map(row => ({
                         id: row.ro_id,
@@ -447,6 +447,7 @@ class RestockOrder {
                     reject(err);
                     return;
                 }
+              
                 let state = '';
                 if (row !== undefined) {
                     state = row.state;
@@ -478,7 +479,6 @@ class RestockOrder {
             const sql = 'INSERT INTO RESTOCK_ORDER(issue_date, state, supplier_id) VALUES(?, "ISSUED", ?)';
             this.db.run(sql, [data.issueDate, data.supplierId], (err) => {
                 if (err) {
-                    console.log(err);
                     reject(err);
                     return;
                 }
