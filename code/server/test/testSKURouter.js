@@ -13,14 +13,12 @@ const db = require('../Modules/DB').db;
 describe('test sku apis', () => {
 
     beforeEach(async () => {
-        await db.dropTableSKU()
-        await db.createTableSKU()
+
+        await db.startDB();
         
     })
 
-    afterEach(async ()=>{
-        await db.dropTableSKU()
-    })
+ 
     //testing create sku
     let data = 
         {
@@ -61,59 +59,42 @@ describe('test sku apis', () => {
 
 
 function newSKU(expectedHTTPStatus, data) {
-    it('create a new sku', function (done) {
+    it('create a new sku', async function () {
         if (data !== undefined) {
-            agent.post('/api/sku')
-                .send(data)
-                .then(function (res) {
-                    res.should.have.status(expectedHTTPStatus);
-                    done();
-                });
+            let res = await agent.post('/api/sku').send(data)
+                    res.should.have.status(expectedHTTPStatus)
              } else {
-            agent.post('/api/sku') //we are not sending any data
-                .then(function (res) {
+            let res = await agent.post('/api/sku') //we are not sending any data
                     res.should.have.status(expectedHTTPStatus);
-                    done();
-                });
         }
-
     });
 }
 
 function getSKU(expectedHTTPStatus, id, expectedData) {
-    it('getting skus', function (done) {
-                agent.post('/api/sku')
-                .send(expectedData)
-                .then(function (res) {
+    it('getting skus', async function () {
+                let res = await agent.post('/api/sku').send(expectedData)
                     if(expectedData === undefined){
                         res.should.have.status(422)
                     } else {res.should.have.status(201);}
-                    agent.get('/api/skus/' + id)
-                    .then(function (r) {
-                        r.should.have.status(expectedHTTPStatus);
+                    res = await agent.get('/api/skus/' + id)
+                        res.should.have.status(expectedHTTPStatus);
                         if(expectedHTTPStatus === 200){
-                        r.body.id.should.equal(id);
-                        r.body.description.should.equal(expectedData.description);
-                        r.body.weight.should.equal(expectedData.weight);
-                        r.body.volume.should.equal(expectedData.volume);
-                        r.body.notes.should.equal(expectedData.notes);
-                        r.body.price.should.equal(expectedData.price);
-                        r.body.availableQuantity.should.equal(expectedData.availableQuantity);}
-                        done();
-                    });
+                            res.body.id.should.equal(id);
+                            res.body.description.should.equal(expectedData.description);
+                            res.body.weight.should.equal(expectedData.weight);
+                            res.body.volume.should.equal(expectedData.volume);
+                            res.body.notes.should.equal(expectedData.notes);
+                            res.body.price.should.equal(expectedData.price);
+                            res.body.availableQuantity.should.equal(expectedData.availableQuantity);}
+                        
                 })
-            
-            });
 }
 
 
 
 function deleteSKU(expectedHTTPStatus, id) {
-    it('Deleting sku', function (done) {
-        agent.delete('/api/skus/' + id)
-            .then(function (res) {
+    it('Deleting sku', async function () {
+        let res = await agent.delete('/api/skus/' + id)
                 res.should.have.status(expectedHTTPStatus);
-                done();
-            });
     });
 }

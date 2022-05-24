@@ -10,24 +10,25 @@ const db = require('../Modules/DB').db;
 
 
 
-
-
-
 describe('test skuitems apis', () => {
 
     beforeEach(async () => {
+            await db.startDB()
 
-        await db.dropTableSKUItem()
-        await db.createTableSKUItem()
-        await db.activateForeignKeyControl()
-        
+            let sku =
+            {
+                    "description" : "another sku",
+                    "weight" : 100,
+                    "volume" : 50,
+                    "notes" : "first SKU",
+                    "price" : 10.99,
+                    "availableQuantity" : 50
+            }
+            await agent.post('/api/sku').send(sku)
     })
 
-    afterEach(async ()=>{
-        await db.dropTableSKUItem()
-    })
+  
 
-    
     let data = 
     {
         "RFID":"12345678901234567890123456789015",
@@ -35,21 +36,21 @@ describe('test skuitems apis', () => {
         "DateOfStock":"2021/11/29 12:30"
     }
 
-    
-    //to insert a skuitem i must call the post api for sku too
-    let sku =
+    let wrongData = 
     {
-            "description" : "another sku",
-            "weight" : 100,
-            "volume" : 50,
-            "notes" : "first SKU",
-            "price" : 10.99,
-            "availableQuantity" : 50
+        "RFID":"12345678901234567890123456789015",
+        "SKUId":2,
+        "DateOfStock":"2021/11/29 12:30"
     }
 
-    newSKUItem(201, sku, data);
-    newSKUItem(422);
 
+    
+    //to insert a skuitem i must have the sku so i called a post inside the beforeEach
+
+    newSKUItem(201, data);
+    newSKUItem(422);
+    newSKUItem(404, wrongData)
+    
 
 
 
@@ -62,61 +63,51 @@ describe('test skuitems apis', () => {
         "newDateOfStock":"2021/11/29 12:30"
     }
 
-    modifyItem(200, "12345678901234567890123456789015", modifiedItem)
-    modifyItem(422)
+    modifyItem(200, data, "12345678901234567890123456789015", modifiedItem)
+    modifyItem(422, data)
 
-    //deleting item
+    //deleting item so i pass the item to be created and after i delete it
 
-    deleteSKUItem(204, "12345678901234567890123456789026")
+    deleteSKUItem(204, data, "12345678901234567890123456789026")
 
     
   
 });
 
 
-function newSKUItem(expectedHTTPStatus, sku, data) {
-    it('create a new skuitem', function (done) {
+function newSKUItem(expectedHTTPStatus, data) {
+    it('create a new skuitem', async function () {
         if (data !== undefined) {
-            agent.post('/api/sku')
-            .send(sku)
-            .then(function(res){
-                res.should.have.status(201)
-            agent.post('/api/skuitem')
-                .send(data)
-                .then(function (res) {
+            let res = await agent.post('/api/skuitem').send(data)
                     res.should.have.status(expectedHTTPStatus);
-                    done();
-                });
-            }).catch(done())
              } else {
-            agent.post('/api/skuitem') //we are not sending any data
-                .then(function (res) {
+                let res = await agent.post('/api/skuitem') //we are not sending any data
                     res.should.have.status(expectedHTTPStatus);
-                    done();
-                });
-        }
-
+             }
     });
 }
 
 
-function modifyItem(expectedHTTPStatus, RFID, newbody) {
-    it('modify skuitem', function (done) {
-            agent.put('/api/skuitems/' + RFID)
-                .send(newbody)
-                .then(function (res) {
-                    res.should.have.status(expectedHTTPStatus);
-                    done();
-                });
+function modifyItem(expectedHTTPStatus, skuitem, RFID, newbody) {
+    it('modify skuitem', async function () {
+            let res = await agent.post('/api/skuitem').send(skuitem)
+                if(skuitem !== undefined){
+                    res.should.have.status(201)}
+                    else{res.should.have.status(422)}
+                res = await agent.put('/api/skuitems/' + RFID).send(newbody)
+                    res.should.have.status(expectedHTTPStatus);    
+          
              })
     }
   
-    function deleteSKUItem(expectedHTTPStatus, rfid) {
-        it('Deleting skuitem', function (done) {
-            agent.delete('/api/skuitems/' + rfid)
-                .then(function (res) {
+    function deleteSKUItem(expectedHTTPStatus, skuitem, rfid) {
+        it('Deleting skuitem', async function () {
+            let res = await agent.post('/api/skuitem').send(skuitem)
+                    if(skuitem !== undefined){
+                        res.should.have.status(201)}
+                        else{res.should.have.status(422)}
+                res = await agent.delete('/api/skuitems/' + rfid)
                     res.should.have.status(expectedHTTPStatus);
-                    done();
-                });
+          
         });
     }

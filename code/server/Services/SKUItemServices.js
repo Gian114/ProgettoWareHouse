@@ -1,7 +1,8 @@
 class SKUItemServices{
    
-  constructor(dao){
+  constructor(dao, sku){
       this.skuItem = dao;
+      this.sku = sku;
   }
 
 async getSKUItems(){
@@ -49,10 +50,17 @@ async createSKUItem(data){
     
     let x
     try{
+      x = await this.sku.getSKUByID(data.SKUId)
+    }catch(err){
+      return false
+    }
+    if(x !== ''){
+    try{
         x = await this.skuItem.createNewSKUItem(data);
       }catch(err){
         return false
       }
+    } else{return 404}
       
       return x
 }

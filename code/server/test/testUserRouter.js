@@ -13,15 +13,20 @@ const db = require('../Modules/DB').db;
 describe('test user apis', () => {
     
     beforeEach(async () => {
-        await db.dropTableUser()
-        await db.createTableUser()
-    })
-    
-    afterEach(async ()=>{
-        await db.dropTableUser()
-    })
 
-    
+        await db.startDB()
+        const user = 
+        {
+        "username":"test2@ezwh.com",
+        "name":"Mario",
+        "surname" : "Test",
+        "password" : "testpassword",
+        "type" : "customer"
+        }
+        //populating with a user so i can login and modify
+        await agent.post("/api/newUser").send(user);
+
+    })
     
     const data = 
     {
@@ -32,42 +37,46 @@ describe('test user apis', () => {
         "type" : "customer"
     }
 
+    const user = 
+        {
+        "username":"test2@ezwh.com",
+        "name":"Mario",
+        "surname" : "Test",
+        "password" : "testpassword",
+        "type" : "customer"
+        }
+
     newUser(201, data);
+    newUser(409, user) //i try adding a user that already exist, must res 409 error
     newUser(422);
+
+
 
     //test login
 
     const loginData =
     {
-        "username":"user1@ezwh.com",
+        "username":"test2@ezwh.com",
         "password" : "testpassword"
     }
 
     const expectedData = 
     {
         "id":1,
-        "username":"user1@ezwh.com",
-        "name":"John"
+        "username":"test2@ezwh.com",
+        "name":"Mario"
     }
 
-    const wrongPassword = 
+    const wrongData = 
     {
         "username":"user1@ezwh.com",
         "password" : "testpassword1"
     }
 
-    const user = 
-    {
-        "username":"test2@ezwh.com",
-        "name":"Mario",
-        "surname" : "Test",
-        "password" : "testpassword",
-        "type" : "customer"
-    }
 
-    loginUser(200, user, loginData, expectedData)
+    loginUser(200, loginData, expectedData)
     loginUser(422)
-    loginUser(401, user, wrongPassword, expectedData)
+    loginUser(401, wrongData, expectedData)
 
     //test modify type
 
@@ -77,76 +86,49 @@ describe('test user apis', () => {
         "newType" : "supplier"
     }
     
-    modifyType(200, modify, data.username)
+    modifyType(200, modify, "test2@ezwh.com")
     modifyType(422, modify)
     modifyType(422)
 });
 
 
 function newUser(expectedHTTPStatus, data) {
-    it('create new user', function (done) {
+    it('create new user', async function () {
         if (data !== undefined) {
-            agent.post('/api/newUser')
-                .send(data)
-                .then(function (res) {
+            let res = await agent.post('/api/newUser').send(data)
                     res.should.have.status(expectedHTTPStatus);
-                    done();
-                });
              } else {
-            agent.post('/api/newUser') //we are not sending any data
-                .then(function (res) {
-                    res.should.have.status(expectedHTTPStatus);
-                    done();
-                });
+            let res = await agent.post('/api/newUser') //we are not sending any data
+               res.should.have.status(expectedHTTPStatus);  
         }
-
-    });
+    })
 }
 
-function loginUser(expectedHTTPStatus, user, data, expectedData) {
-    it('login test', function (done) {
+function loginUser(expectedHTTPStatus, data, expectedData) {
+    it('login test', async function () {
         if (data !== undefined) {
-            agent.post('/api/newUser')
-            .send(user)
-            .then(function(res){
-                res.should.have.status(201)
-            agent.post('/api/customerSessions')
-                .send(data)
-                .then(function (res) {
+            let res = await agent.post('/api/customerSessions').send(data)
                     res.should.have.status(expectedHTTPStatus);
                     if(expectedHTTPStatus === 200){
                     res.body.id.should.equal(expectedData.id);
                     res.body.username.should.equal(expectedData.username);
                     res.body.name.should.equal(expectedData.name);}
-                    done();
-                }).catch(done());
-            })
              } else {
-            agent.post('/api/customerSessions') //we are not sending any data
-                .then(function (res) {
-                    res.should.have.status(expectedHTTPStatus);
-                    done();
-                });
+            let res = await agent.post('/api/customerSessions') //we are not sending any data
+                    res.should.have.status(expectedHTTPStatus);   
         }
 
     });
 }
 
 function modifyType(expectedHTTPStatus, data, username) {
-    it('test modify user type', function (done) {
+    it('test modify user type', async function () {
         if (data !== undefined && username !== undefined) {
-            agent.put('/api/users/' + username)
-                .send(data)
-                .then(function (res) {
+            let res = await agent.put('/api/users/' + username).send(data);
                     res.should.have.status(expectedHTTPStatus);
-                    done();
-                });
              } else {
-            agent.put('/api/users/' + username) //we are not sending the username
-                .then(function (res) {
+            let res = await agent.put('/api/users/' + username) //we are not sending the username
                     res.should.have.status(expectedHTTPStatus);
-                    done();
-                });
         }
 
     });

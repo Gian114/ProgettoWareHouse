@@ -7,9 +7,11 @@ const db = require('../Modules/DB').db;
 
 const SKUItem = require('../Modules/SKUItem');
 const dao = new SKUItem(db.db)
+const SKU = require('../Modules/SKU')
+const sku = new SKU(db.db)
 
 const SKUItemServices = require('../Services/SKUItemServices')
-const siservices = new SKUItemServices(dao)
+const siservices = new SKUItemServices(dao, sku)
 
 //get
 
@@ -83,6 +85,8 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
     const si = await siservices.createSKUItem(item)
     if(si === false){
       return res.status(503).json({error: "generic error"})
+    } else if(si === 404){
+      return res.status(404).json({err:"sku with that skuid not found"});
     }
     return res.status(201).json();
   
