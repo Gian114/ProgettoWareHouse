@@ -1,12 +1,12 @@
 'use strict';
 
 class InternalOrderServices {
-        constructor(io, prod, item) {
-            this.io_table = io;
-            this.prod_table = prod;
-            this.item_table = item;
+    constructor(io, prod, item) {
+        this.io_table = io;
+        this.prod_table = prod;
+        this.item_table = item;
 
-        }
+    }
     async getInternalOrders() {
         let internal_orders;
         internal_orders = this.transformInternalOrdersListNotCompleted(await this.io_table.getInternalOrdersNotCompleted());
@@ -25,7 +25,7 @@ class InternalOrderServices {
     async getInternalOrderById(id) {
         let state, internal_order;
         state = await this.io_table.getInternalOrderStateById(id);
-    
+
         // checks if id exists, request validation
         if (state === '') {
             return undefined;
@@ -45,6 +45,7 @@ class InternalOrderServices {
         for (const prod of products) {
             await this.prod_table.insertProductInternalOrder(prod.SKUId, prod.description, prod.price, prod.qty, internal_order_id)
         }
+        return internal_order_id;
     }
 
     async modifyInternalOrder(id, new_state, sku_items = undefined) {
@@ -66,69 +67,73 @@ class InternalOrderServices {
 
     transformInternalOrdersListNotCompleted(query_res) {
         const prods = query_res.reduce(function (ios, obj) {
-            ios[obj.id] = 
-                ios[obj.id] || 
+            ios[obj.id] =
+                ios[obj.id] ||
                 {
                     id: obj.id,
                     issueDate: obj.issueDate,
                     state: obj.state,
                     products: [],
-                    customerId:obj.customerId
+                    customerId: obj.customerId
                 };
             ios[obj.id].products.push(obj.product);
             return ios
-            }, {}
+        }, {}
         );
         return Object.values(prods);
     }
 
     transformInternalOrdersListCompleted(query_res) {
         const prods = query_res.reduce(function (ios, obj) {
-            ios[obj.id] = 
-                ios[obj.id] || 
+            ios[obj.id] =
+                ios[obj.id] ||
                 {
                     id: obj.id,
                     issueDate: obj.issueDate,
                     state: obj.state,
                     products: [],
-                    customerId:obj.customerId
+                    customerId: obj.customerId
                 };
             ios[obj.id].products.push(obj.product);
             return ios
-            }, {}
+        }, {}
         );
         return Object.values(prods);
     }
 
     transformInternalOrderNotCompleted(query_res) {
         return query_res.reduce(function (io, obj) {
-            io = (Object.keys(io).length !== 0 ? io : 
+            io = (Object.keys(io).length !== 0 ? io :
                 {
                     id: obj.id,
                     issueDate: obj.issueDate,
                     state: obj.state,
                     products: [],
-                    customerId:obj.customerId
+                    customerId: obj.customerId
                 });
-            io.products.push(obj.product);
+            if (obj.product.SKUId !== null) {
+                io.products.push(obj.product);
+            }
             return io
-            }, {}
+        }, {}
         );
     }
 
     transformInternalOrderCompleted(query_res) {
         return query_res.reduce(function (io, obj) {
-            io = (Object.keys(io).length !== 0 ? io : 
+            io = (Object.keys(io).length !== 0 ? io :
                 {
                     id: obj.id,
                     issueDate: obj.issueDate,
                     state: obj.state,
                     products: [],
-                    customerId:obj.customerId
+                    customerId: obj.customerId
                 });
-            io.products.push(obj.product);
+            if (obj.product.SKUId !== null) {
+                io.products.push(obj.product);
+            }
             return io
-            }, {}
+        }, {}
         );
     }
 }

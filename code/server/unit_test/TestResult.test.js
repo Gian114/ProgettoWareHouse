@@ -10,7 +10,7 @@ describe('TestResult dao tests', () => {
         await db.dropTableTestResult();
         await db.createTableTestResult();
     });
-    
+
     test('delete db', async () => {
         let res = await tr_dao.getTestResults();
         expect(res.length).toStrictEqual(0);
@@ -18,23 +18,32 @@ describe('TestResult dao tests', () => {
 
     testCreateTestResult("1111", 1, '11/11/2020', true);
     testGetTestResultsByRFID("1111", 1, '11/11/2020', true);
+    testGetTestResultsByRFIDEmpty();
     testGetTestResultsByRFIDAndId("abc123", false);
     testModifyTestResult("ssss", true);
     testRemoveTestResult("ssss", true);
 });
+describe('TestResult dao with errs', () => {
+    beforeEach(async () => {
+        await db.dropTableTestResult();
+        await db.createTableTestResult();
+    });
+
+    createTestResultMissingArgument();
+});
 
 function testCreateTestResult(rfid, test_descriptor_id, date, result) {
     test('create new test result', async () => {
-        
+
         await createTestResult(rfid, test_descriptor_id, date, result);
-        
+
         let res = await tr_dao.getTestResults();
         expect(res.length).toStrictEqual(1);
 
         expect(res[0].date).toStrictEqual(date);
         expect(res[0].result).toStrictEqual(result);
         expect(res[0].sku_item_rfid).toStrictEqual(rfid);
-        expect(res[0].test_descriptor_id).toStrictEqual(test_descriptor_id);        
+        expect(res[0].test_descriptor_id).toStrictEqual(test_descriptor_id);
     });
 }
 
@@ -55,6 +64,18 @@ function testGetTestResultsByRFID(rfid, test_descriptor_id, date, result) {
         expect(res[1].result).toStrictEqual(!result);
         expect(res[1].sku_item_rfid).toStrictEqual(rfid);
         expect(res[1].test_descriptor_id).toStrictEqual(test_descriptor_id);
+    });
+}
+
+function createTestResultMissingArgument() {
+    test('create test results null rfid', async () => {
+        expect.assertions(1);
+        try {
+            await createTestResult(null, 1, "1/1/1234", true);
+        } catch (error) {
+            expect(error.message).toStrictEqual('SQLITE_CONSTRAINT: NOT NULL constraint failed: TEST_RESULT.sku_item_rfid')
+        }
+
     });
 }
 
@@ -122,6 +143,16 @@ function testRemoveTestResult(rfid, result) {
 
         await tr_dao.removeTestResult(rfid, 2);
         res = await tr_dao.getTestResultByRFIDAndId(rfid, 3);
+        expect(res.length).toStrictEqual(0);
+    });
+}
+
+function testGetTestResultsByRFIDEmpty() {
+    test('get test results by rfid, empty table', async () => {
+
+        await createTestResult("rfid", 1, "1/1/11", false);
+
+        let res = await tr_dao.getTestResultsByRFID("abcd");
         expect(res.length).toStrictEqual(0);
     });
 }

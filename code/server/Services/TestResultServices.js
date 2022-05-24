@@ -17,11 +17,11 @@ class TestResultServices {
     }
 
     async modifyTestResult(rfid, id, new_date, new_res, new_test_descr_id) {
-        await this.dao.modifyTestResult(rfid, id, new_date, new_res, new_test_descr_id);
+        return await this.dao.modifyTestResult(rfid, id, new_date, new_res, new_test_descr_id);
     }
 
     async removeTestResult(rfid, id) {
-        await this.dao.removeTestResult(rfid, id);
+        return await this.dao.removeTestResult(rfid, id);
     }
 
 }

@@ -32,7 +32,7 @@ describe("userlogin", () => {
                 "name":"Maria",
                 "surname" : "Verdi",
                 "password" : "ezwhezwhezeh",
-                "type" : "clerk"
+                "type" : "supplier"
         
             }
 
@@ -46,7 +46,7 @@ describe("userlogin", () => {
     let u2 = {"username":"mverdi@gmail.com", "password":"ezwhezwhezeh"}
 
     testLogin(1, u1, "customer", "Marco");
-    testLogin(2, u2, "clerk", "Maria");
+    testLogin(2, u2, "supplier", "Maria");
     //testLogin(2, u2, "manager", "Maria"); //should fail, wrong role 
     
     
@@ -115,6 +115,39 @@ async function testgetUsers(id, email, name, surname, type) {
     });
 }
 
+describe("get suppliers", () => {
+
+    let user2 = 
+            {
+                "username":"mverdi@gmail.com",
+                "name":"Maria",
+                "surname" : "Verdi",
+                "password" : "ezwhezwhezeh",
+                "type" : "supplier"
+        
+            }
+
+    testGetSuppliers(2, user2.username, user2.name, user2.surname, user2.type)
+
+});
+
+async function testGetSuppliers(id, email, name, surname, type) {
+    test('get all users', async () => {
+        let res = await user_services.getSuppliers()
+        //returns a list of suppliers, so two as one was created a supplier and the other modified
+        expect(res.length).toEqual(2);
+        //in particular the second has the expected data, as the first is the one who got modified
+        expect(res[1]).toEqual({
+            id : id,
+            email: email,
+            name: name,
+            surname: surname,
+            type: type
+        })
+    });
+}
+
+
 
 
 //another testcase
@@ -139,5 +172,3 @@ async function testDelete(data) {
         expect(res).toEqual(true);
     });
 }
-
-

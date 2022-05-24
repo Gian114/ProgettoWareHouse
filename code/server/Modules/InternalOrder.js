@@ -7,7 +7,7 @@ class InternalOrder {
     }
 
     getInternalOrders() {
-        
+
     }
 
     async getInternalOrdersNotCompleted() {
@@ -24,9 +24,10 @@ class InternalOrder {
                     P.price AS price,
                     P.description AS description,
                     P.quantity AS quantity
-                FROM INTERNAL_ORDER IO, PRODUCT P
-                WHERE IO.id = P.internal_order_id
-                AND IO.state != 'COMPLETED';
+                FROM INTERNAL_ORDER IO
+                LEFT JOIN PRODUCT P
+                ON IO.id = P.internal_order_id
+                WHERE IO.state != 'COMPLETED';
                 `;
 
             this.db.all(sql, [], (err, rows) => {
@@ -37,17 +38,17 @@ class InternalOrder {
                 }
 
                 const internal_orders = rows.map(row => ({
-                        id: row.io_id,
-                        issueDate: row.issue_date, // maybe convert to date?
-                        state: row.state,
-                        customerId: row.customer_id,
-                        product: {
-                            SKUid: row.sku_id,
-                            description: row.description,
-                            price: row.price,
-                            quantity: row.quantity
-                        }
-                    })
+                    id: row.io_id,
+                    issueDate: row.issue_date, // maybe convert to date?
+                    state: row.state,
+                    customerId: row.customer_id,
+                    product: {
+                        SKUId: row.sku_id,
+                        description: row.description,
+                        price: row.price,
+                        qty: row.quantity
+                    }
+                })
                 );
 
                 resolve(internal_orders);
@@ -84,17 +85,17 @@ class InternalOrder {
                 }
 
                 const internal_orders = rows.map(row => ({
-                        id: row.io_id,
-                        issueDate: row.issue_date, // maybe convert to date?
-                        state: row.state,
-                        customerId: row.customer_id,
-                        product: {
-                            SKUid: row.sku_id,
-                            description: row.description,
-                            price: row.price,
-                            rfid: row.rfid
-                        }
-                    })
+                    id: row.io_id,
+                    issueDate: row.issue_date, // maybe convert to date?
+                    state: row.state,
+                    customerId: row.customer_id,
+                    product: {
+                        SKUId: row.sku_id,
+                        description: row.description,
+                        price: row.price,
+                        rfid: row.rfid
+                    }
+                })
                 );
 
                 resolve(internal_orders);
@@ -117,9 +118,10 @@ class InternalOrder {
                     P.price AS price,
                     P.description AS description,
                     P.quantity AS quantity
-                FROM INTERNAL_ORDER IO, PRODUCT P
-                WHERE IO.id = P.internal_order_id
-                AND IO.state = ?;
+                FROM INTERNAL_ORDER IO
+                LEFT JOIN PRODUCT P
+                ON IO.id = P.internal_order_id
+                WHERE IO.state != 'COMPLETED';
                 `;
 
             this.db.all(sql, [state], (err, rows) => {
@@ -130,17 +132,17 @@ class InternalOrder {
                 }
 
                 const internal_orders = rows.map(row => ({
-                        id: row.io_id,
-                        issueDate: row.issue_date, // maybe convert to date?
-                        state: row.state,
-                        customerId: row.customer_id,
-                        product: {
-                            SKUid: row.sku_id,
-                            description: row.description,
-                            price: row.price,
-                            quantity: row.quantity
-                        }
-                    })
+                    id: row.io_id,
+                    issueDate: row.issue_date, // maybe convert to date?
+                    state: row.state,
+                    customerId: row.customer_id,
+                    product: {
+                        SKUId: row.sku_id,
+                        description: row.description,
+                        price: row.price,
+                        qty: row.quantity
+                    }
+                })
                 );
 
                 resolve(internal_orders);
@@ -188,9 +190,10 @@ class InternalOrder {
                     P.price AS price,
                     P.description AS description,
                     P.quantity AS quantity
-                FROM INTERNAL_ORDER IO, PRODUCT P
-                WHERE IO.id = P.internal_order_id
-                AND IO.id = ?;
+                FROM INTERNAL_ORDER IO
+                LEFT JOIN PRODUCT P
+                ON IO.id = P.internal_order_id
+                WHERE IO.state != 'COMPLETED';
                 `;
 
             this.db.all(sql, [id], (err, rows) => {
@@ -199,21 +202,21 @@ class InternalOrder {
                     reject(err);
                     return;
                 }
-                
-                if(rows,length !== 0) {
+
+                if (rows, length !== 0) {
 
                     const internal_order = rows.map(row => ({
-                            id: row.io_id,
-                            issueDate: row.issue_date, // maybe convert to date?
-                            state: row.state,
-                            customerId: row.customer_id,
-                            product: {
-                                SKUid: row.sku_id,
-                                description: row.description,
-                                price: row.price,
-                                quantity: row.quantity
-                            }
-                        })
+                        id: row.io_id,
+                        issueDate: row.issue_date, // maybe convert to date?
+                        state: row.state,
+                        customerId: row.customer_id,
+                        product: {
+                            SKUId: row.sku_id,
+                            description: row.description,
+                            price: row.price,
+                            qty: row.quantity
+                        }
+                    })
                     );
                     resolve(internal_order);
                 } else {
@@ -251,20 +254,20 @@ class InternalOrder {
                     return;
                 }
 
-                if(rows.length !== 0) {
+                if (rows.length !== 0) {
 
                     const internal_order = rows.map(row => ({
-                            id: row.io_id,
-                            issueDate: row.issue_date, // maybe convert to date?
-                            state: row.state,
-                            customerId: row.customer_id,
-                            product: {
-                                SKUid: row.sku_id,
-                                description: row.description,
-                                price: row.price,
-                                rfid: row.rfid
-                            }
-                        })
+                        id: row.io_id,
+                        issueDate: row.issue_date, // maybe convert to date?
+                        state: row.state,
+                        customerId: row.customer_id,
+                        product: {
+                            SKUId: row.sku_id,
+                            description: row.description,
+                            price: row.price,
+                            rfid: row.rfid
+                        }
+                    })
                     );
 
                     resolve(internal_order);
