@@ -16,9 +16,9 @@ class RestockOrderServices {
 
         let res;
         try {
-            res = await this.restock.getAllRestockOrderNotIssued();
-            res = res.concat(await this.restock.getAllRestockOrderIssued());
-            res = res.concat(await this.restock.getAllRestockOrderDelivery());
+            res = await this.restockOrder.getAllRestockOrderNotIssued();
+            res = res.concat(await this.restockOrder.getAllRestockOrderIssued());
+            res = res.concat(await this.restockOrder.getAllRestockOrderDelivery());
         } catch (err) {
             return false
         }
@@ -28,7 +28,7 @@ class RestockOrderServices {
     async getIssuedRestockOrder() {
         let x;
         try {
-            x = await this.restock.getAllRestockOrderIssued();
+            x = await this.restockOrder.getAllRestockOrderIssued();
         } catch (err) {
             return false;
         }
@@ -38,7 +38,7 @@ class RestockOrderServices {
     async getRestockOrderByID(id) {
         let state;
         try {
-            state = await this.restock.getRestockOrderStateById(id);
+            state = await this.restockOrder.getRestockOrderStateById(id);
         } catch (err) {
             return 404;
         }
@@ -46,13 +46,13 @@ class RestockOrderServices {
         let restock_orders;
         try {
             if (state === 'ISSUED') {
-                restock_orders = await this.restock.getRestockOrderIssuedById(id);
+                restock_orders = await this.restockOrder.getRestockOrderIssuedById(id);
             }
             else if (state === 'DELIVERY') {
-                restock_orders = await this.restock.getRestockOrderDeliveryById(id);
+                restock_orders = await this.restockOrder.getRestockOrderDeliveryById(id);
             }
             else {
-                restock_orders = await this.restock.getRestockOrderByID(id);
+                restock_orders = await this.restockOrder.getRestockOrderByID(id);
             }
         } catch (err) {
             console.log(err);
@@ -65,7 +65,7 @@ class RestockOrderServices {
     async getItemsByRestockId(id) {
         let state;
         try {
-            state = await restockOrder.getRestockOrderStateById(id);
+            state = await this.restockOrder.getRestockOrderStateById(id);
         } catch (err) {
             return 404;
         }
@@ -89,8 +89,8 @@ class RestockOrderServices {
     async addRestockOrder(ro) {
 
         try {
-            await this.restock.createNewRestockOrder(ro);
-            let id = await db.getAutoincrementId('RESTOCK_ORDER');
+            await this.restockOrder.createNewRestockOrder(ro);
+            let id = await this.db.getAutoincrementId('RESTOCK_ORDER');
             for (let i = 0; i < ro.products.length; i++) {
                 await this.product.insertProductRestockOrder(ro.products[i].SKUId, ro.products[i].description, ro.products[i].price, ro.products[i].qty, id);
             }
@@ -105,13 +105,13 @@ class RestockOrderServices {
     async changeState(roi, newState) {
         let state;
         try {
-            state = await this.restock.getRestockOrderStateById(roi);
+            state = await this.restockOrder.getRestockOrderStateById(roi);
         } catch (err) {
             return 404;
         }
 
         try {
-            await this.restock.modifyState(roi, newState);
+            await this.restockOrder.modifyState(roi, newState);
         } catch (err) {
             return false;
         }
@@ -123,7 +123,7 @@ class RestockOrderServices {
     async addSkuItem(roi, items) {
         let state;
         try {
-            state = await this.restock.getRestockOrderStateById(roi);
+            state = await this.restockOrder.getRestockOrderStateById(roi);
         } catch (err) {
             return 404;
         }
@@ -149,7 +149,7 @@ class RestockOrderServices {
     async addTransportNOte(roi, tn) {
         let state;
         try {
-            state = await this.restock.getRestockOrderStateById(roi);
+            state = await this.restockOrder.getRestockOrderStateById(roi);
         } catch (err) {
             return 404;
         }
@@ -159,7 +159,7 @@ class RestockOrderServices {
         }
 
         try {
-            await this.restock.addTNdate(roi, tn);
+            await this.restockOrder.addTNdate(roi, tn);
         } catch (err) {
             return false;
         }
@@ -171,7 +171,7 @@ class RestockOrderServices {
     async deleteRestockOrder(id) {
         let ok = "ok";
         try {
-            await this.restock.deleteRestockOrder(id);
+            await this.restockOrder.deleteRestockOrder(id);
             await this.product.deleteProductByRestockOrderId(id);
             //await skuItem.deleteSKUItemByRestockOrderId(id);
         } catch (err) {

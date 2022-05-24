@@ -10,7 +10,6 @@ class RestockOrder {
     //OTHER STATES
     getAllRestockOrderNotIssued() {
         return new Promise((resolve, reject) => {
-
             
             const sql = `
                 SELECT 
@@ -34,12 +33,11 @@ class RestockOrder {
             this.db.all(sql, [], (err, rows) => {
 
                 if (err) {
-                    console.log(err);
                     reject(err);
                     return;
                 }
                 
-                //console.log(rows);
+                console.log(rows);
 
                 const restock_orders_dict = rows.map(row => ({
                         id: row.ro_id,
