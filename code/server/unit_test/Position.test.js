@@ -37,8 +37,8 @@ describe('testDao', () => {
     */
 
     testNewPosition(data);
-    //testModifyPosition(, modifiedData);
-    testModifyPositionID("800234543412", "800234543414");
+    //testModifyPosition("800234543412", modifiedData);
+    testModifyPositionID("800234543412", "800234543414","8002","3454","3414");
     testdeletePosition("800234543414");
 
    
@@ -71,9 +71,9 @@ function testModifyPosition(id, data) {
 }
 */
 
-function testModifyPositionID(id, newID) {
+function testModifyPositionID(id, newID, new_aisle, new_row, new_col) {
     test('modify positionID of position', async () => {
-        let res = await dao.modifyPositionID(id, newID); //here you have to change row and col 
+        let res = await dao.modifyPositionID(id, newID, new_aisle, new_col, new_row); 
         expect(res).toStrictEqual(true) 
 
         res = await dao.getPosition(newID)
