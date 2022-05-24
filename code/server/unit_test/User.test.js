@@ -1,6 +1,7 @@
 'use strict';
 
-const db = require('../Modules/DB').db
+const DB = require('../Modules/DB').DB;
+const db = new DB(':memory:');
 const User = require('../Modules/User');
 const dao = new User(db.db)
 

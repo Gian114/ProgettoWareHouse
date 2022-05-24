@@ -13,7 +13,7 @@ class DB {
     async startDB() {
         await this.dropTables();
         await this.createTables();
-        //await this.activateForeignKeyControl();
+        await this.activateForeignKeyControl();
     }
 
     async createTables() { //the order is important, before referenced tables and after referencing tables
@@ -31,17 +31,17 @@ class DB {
     }
 
     async dropTables() {
-        await this.dropTableSKU();
-        await this.dropTableSKUItem();
-        await this.dropTablePosition();
-        await this.dropTableTestDescriptor();
-        await this.dropTableTestResult();
-        await this.dropTableUser();
-        await this.dropTableRestockOrder();
-        await this.dropTableReturnOrder();
-        await this.dropTableInternalOrder();
-        await this.dropTableItem();
         await this.dropTableProduct();
+        await this.dropTableItem();
+        await this.dropTableInternalOrder();
+        await this.dropTableTestResult();
+        await this.dropTableSKUItem();
+        await this.dropTableReturnOrder();
+        await this.dropTableRestockOrder();
+        await this.dropTableUser();
+        await this.dropTableTestDescriptor();
+        await this.dropTableSKU();
+        await this.dropTablePosition();   
     }
 
     activateForeignKeyControl() {

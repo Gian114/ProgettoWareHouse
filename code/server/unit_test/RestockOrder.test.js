@@ -1,6 +1,7 @@
 'use strict';
 
-const db = require('../Modules/DB').db;
+const DB = require('../Modules/DB').DB;
+const db = new DB(':memory:');
 const RestockOrder = require('../Modules/RestockOrder');
 const roDao = new RestockOrder(db.db);
 const User = require('../Modules/User');
@@ -12,8 +13,8 @@ describe('test Restock Order', () => {
         await db.createTableRestockOrder();
         await db.dropTableProduct();
         await db.createTableProduct();
-        await db.dropTableUser();
-        await db.createTableUser();
+        await db.dropTableSKUItem();
+        await db.createTableSKUItem();
     });
 
     test('delete db', async () => {

@@ -59,7 +59,10 @@ describe("Test descriptor services", () => {
 
 
     beforeEach(async () => {
-        await db.startDB();
+        await db.dropTableTestDescriptor();
+        await db.dropTableSKU();
+        await db.createTableTestDescriptor();
+        await db.createTableSKU();
         await sku.createSKU(sku1);
         await tdServices.createNewTestDescriptor(data1);
     });
