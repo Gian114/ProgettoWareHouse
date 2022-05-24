@@ -34,7 +34,14 @@ describe('testDao', () => {
 
     testNewSKUItem(data);
     testModifySKUItem("12345678901234567890123456789015", modifiedData);
+    testGetSKUITEMByRFID("12345678901234567890123456789015", data)
+    testGetSKUITEMBySKUID(1,data)
+    testGetAll();
+    setOrderID("12345678901234567890123456789015", 1, 0)
+    setOrderID("12345678901234567890123456789015", 1, 1)
+    setRestockOrder("12345678901234567890123456789033", data.SKUId, 1)
     testdeleteSKUItem("12345678901234567890123456789015");
+    
    
 });
 
@@ -70,6 +77,71 @@ function testModifySKUItem(rfid, data) {
     });
 }
 
+function testGetSKUITEMByRFID(rfid,data){
+    test('get skuitem', async () => {
+        
+        let res = await dao.getSKUItemByRFID(rfid)
+        
+        expect(res.RFID).toStrictEqual(data.RFID);
+        expect(res.Available).toStrictEqual(1);    
+        expect(res.SKUId).toStrictEqual(data.SKUId)
+        expect(res.DateOfStock).toStrictEqual(data.DateOfStock);  
+
+
+            
+    });
+}
+
+function testGetSKUITEMBySKUID(skuid,data){
+    test('get skuitem by sku', async () => {
+        
+        let res = await dao.getSKUItemsBySKUId(skuid)
+        console.log(res)
+        expect(res[0].RFID).toStrictEqual(data.RFID);
+        expect(res[0].Available).toStrictEqual(1);    
+        expect(res[0].SKUId).toStrictEqual(skuid)
+        expect(res[0].DateOfStock).toStrictEqual(data.DateOfStock);  
+
+
+            
+    });
+}
+
+function testGetAll(){
+    test('get all skuitems', async () => {
+        
+        let res = await dao.getAllSKUItems()
+        console.log(res)
+        expect(res.length).toStrictEqual(1);
+            
+    });
+}
+
+function setOrderID(rfid, id, type) {
+    test('set skuitem order id', async () => {
+        let res;
+        if(type === 0){
+             res = await dao.setInternalOrderId(rfid,id)
+        } else if (type === 1){
+             res = await dao.setReturnOrderId(rfid,id)
+        }
+        
+        expect(res).toStrictEqual(true)
+
+    });
+}
+
+function setRestockOrder(rfid, skuid, roid) {
+    test('set skuitem restock order', async () => {
+
+        let item = {rfid: rfid, SKUId: skuid}
+        let res = await dao.setRestockOrderId(item, roid)
+        
+        expect(res).toStrictEqual(true)
+
+    });
+}
+
 function testdeleteSKUItem(rfid) {
     test('delete skuitem', async () => {
         
@@ -77,7 +149,8 @@ function testdeleteSKUItem(rfid) {
         expect(res).toStrictEqual(true)
 
         res = await dao.getAllSKUItems();
-        expect(res.length).toStrictEqual(0);
+        //the other one is still there
+        expect(res.length).toStrictEqual(1);
             
     });
 }
