@@ -7,7 +7,7 @@ class InternalOrder {
     }
 
     getInternalOrders() {
-        
+
     }
 
     async getInternalOrdersNotCompleted() {
@@ -37,17 +37,17 @@ class InternalOrder {
                 }
 
                 const internal_orders = rows.map(row => ({
-                        id: row.io_id,
-                        issueDate: row.issue_date, // maybe convert to date?
-                        state: row.state,
-                        customerId: row.customer_id,
-                        product: {
-                            SKUid: row.sku_id,
-                            description: row.description,
-                            price: row.price,
-                            quantity: row.quantity
-                        }
-                    })
+                    id: row.io_id,
+                    issueDate: row.issue_date, // maybe convert to date?
+                    state: row.state,
+                    customerId: row.customer_id,
+                    product: {
+                        SKUId: row.sku_id,
+                        description: row.description,
+                        price: row.price,
+                        qty: row.quantity
+                    }
+                })
                 );
 
                 resolve(internal_orders);
@@ -84,17 +84,17 @@ class InternalOrder {
                 }
 
                 const internal_orders = rows.map(row => ({
-                        id: row.io_id,
-                        issueDate: row.issue_date, // maybe convert to date?
-                        state: row.state,
-                        customerId: row.customer_id,
-                        product: {
-                            SKUid: row.sku_id,
-                            description: row.description,
-                            price: row.price,
-                            rfid: row.rfid
-                        }
-                    })
+                    id: row.io_id,
+                    issueDate: row.issue_date, // maybe convert to date?
+                    state: row.state,
+                    customerId: row.customer_id,
+                    product: {
+                        SKUId: row.sku_id,
+                        description: row.description,
+                        price: row.price,
+                        rfid: row.rfid
+                    }
+                })
                 );
 
                 resolve(internal_orders);
@@ -130,17 +130,17 @@ class InternalOrder {
                 }
 
                 const internal_orders = rows.map(row => ({
-                        id: row.io_id,
-                        issueDate: row.issue_date, // maybe convert to date?
-                        state: row.state,
-                        customerId: row.customer_id,
-                        product: {
-                            SKUid: row.sku_id,
-                            description: row.description,
-                            price: row.price,
-                            quantity: row.quantity
-                        }
-                    })
+                    id: row.io_id,
+                    issueDate: row.issue_date, // maybe convert to date?
+                    state: row.state,
+                    customerId: row.customer_id,
+                    product: {
+                        SKUId: row.sku_id,
+                        description: row.description,
+                        price: row.price,
+                        qty: row.quantity
+                    }
+                })
                 );
 
                 resolve(internal_orders);
@@ -199,21 +199,21 @@ class InternalOrder {
                     reject(err);
                     return;
                 }
-                
-                if(rows,length !== 0) {
+
+                if (rows, length !== 0) {
 
                     const internal_order = rows.map(row => ({
-                            id: row.io_id,
-                            issueDate: row.issue_date, // maybe convert to date?
-                            state: row.state,
-                            customerId: row.customer_id,
-                            product: {
-                                SKUid: row.sku_id,
-                                description: row.description,
-                                price: row.price,
-                                quantity: row.quantity
-                            }
-                        })
+                        id: row.io_id,
+                        issueDate: row.issue_date, // maybe convert to date?
+                        state: row.state,
+                        customerId: row.customer_id,
+                        product: {
+                            SKUId: row.sku_id,
+                            description: row.description,
+                            price: row.price,
+                            qty: row.quantity
+                        }
+                    })
                     );
                     resolve(internal_order);
                 } else {
@@ -251,20 +251,20 @@ class InternalOrder {
                     return;
                 }
 
-                if(rows.length !== 0) {
+                if (rows.length !== 0) {
 
                     const internal_order = rows.map(row => ({
-                            id: row.io_id,
-                            issueDate: row.issue_date, // maybe convert to date?
-                            state: row.state,
-                            customerId: row.customer_id,
-                            product: {
-                                SKUid: row.sku_id,
-                                description: row.description,
-                                price: row.price,
-                                rfid: row.rfid
-                            }
-                        })
+                        id: row.io_id,
+                        issueDate: row.issue_date, // maybe convert to date?
+                        state: row.state,
+                        customerId: row.customer_id,
+                        product: {
+                            SKUId: row.sku_id,
+                            description: row.description,
+                            price: row.price,
+                            rfid: row.rfid
+                        }
+                    })
                     );
 
                     resolve(internal_order);
