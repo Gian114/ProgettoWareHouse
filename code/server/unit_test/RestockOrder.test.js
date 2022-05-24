@@ -2,7 +2,9 @@
 
 const db = require('../Modules/DB').db;
 const RestockOrder = require('../Modules/RestockOrder');
-const roDao = new RestockOrder(db.db)
+const roDao = new RestockOrder(db.db);
+const User = require('../Modules/User');
+const userDao = new User(db.db);
 
 describe('test Restock Order', () => {
     beforeAll(async () => {
@@ -10,6 +12,8 @@ describe('test Restock Order', () => {
         await db.createTableRestockOrder();
         await db.dropTableProduct();
         await db.createTableProduct();
+        await db.dropTableUser();
+        await db.createTableUser();
     });
 
     test('delete db', async () => {
@@ -39,16 +43,29 @@ describe('test Restock Order', () => {
 //testare altra roba
 function testNewRo(data) {
     test('create new restock order', async () => {
+
+        /*
+        const user_data =
+        {
+            "username":"user1@ezwh.com",
+            "name":"John",
+            "surname" : "Smith",
+            "password" : "testpassword",
+            "type" : "supplier"
+    
+        };
+        */
+    
         
-        await roDao.createNewRestockOrder(data); //here he don't create because of pragma?
+        //await userDao.createUser(user_data);
+        await roDao.createNewRestockOrder(data); 
         
         let res = await roDao.getAllRestockOrderIssued();
         res = res.concat(await roDao.getAllRestockOrderNotIssued());
         res = res.concat(await roDao.getAllRestockOrderDelivery());
         expect(res.length).toStrictEqual(1);
         
-        const id = await db.getAutoincrementId('RESTOCK_ORDER');
-        res = await roDao.getRestockOrderByID(id);
+        res = await roDao.getRestockOrderByID(1);
 
         expect(res.issueDate).toStrictEqual(data.issueDate);
         expect(res.products).toStrictEqual([]);
