@@ -71,7 +71,14 @@ describe("Return order services", () => {
 
 
     beforeEach(async () => {
-        await db.startDB();
+        await db.dropTableReturnOrder();
+        await db.dropTableRestockOrder();
+        await db.dropTableSKUItem();
+        await db.dropTableProduct();
+        await db.createTableReturnOrder();
+        await db.createTableRestockOrder();
+        await db.createTableSKUItem();
+        await db.createTableProduct();
         await reso.createNewRestockOrder(reso1);
         await skui.createNewSKUItem(skui1);
         await skui.createNewSKUItem(skui2);

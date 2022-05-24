@@ -76,7 +76,10 @@ describe("Item services", () => {
     
 
     beforeEach(async () => {
-        await db.startDB();
+        await db.dropTableItem();
+        await db.dropTableSKU();
+        await db.createTableItem();
+        await db.createTableSKU();
         await sku.createSKU(sku1);
         await sku.createSKU(sku2);
         await itServices.createNewItem(data1);

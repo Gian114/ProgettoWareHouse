@@ -1,5 +1,6 @@
 'use strict';
-const db = require('../Modules/DB').db;
+const DB = require('../Modules/DB').DB;
+const db = new DB(':memory:');
 const TestResult = require('../Modules/TestResult');
 const tr_dao = new TestResult(db.db);
 
