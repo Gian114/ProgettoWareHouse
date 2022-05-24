@@ -11,12 +11,17 @@ const db = require('../Modules/DB').db;
 
 
 describe('test user apis', () => {
-
+    
     beforeEach(async () => {
-        await db.dropTableSKUItem()
-        await db.createTableSKUItem()
+        await db.dropTableUser()
+        await db.createTableUser()
+    })
+    
+    afterEach(async ()=>{
+        await db.dropTableUser()
     })
 
+    
     
     const data = 
     {
@@ -51,9 +56,18 @@ describe('test user apis', () => {
         "password" : "testpassword1"
     }
 
-    loginUser(200, loginData, expectedData)
+    const user = 
+    {
+        "username":"test2@ezwh.com",
+        "name":"Mario",
+        "surname" : "Test",
+        "password" : "testpassword",
+        "type" : "customer"
+    }
+
+    loginUser(200, user, loginData, expectedData)
     loginUser(422)
-    loginUser(401, wrongPassword, expectedData)
+    loginUser(401, user, wrongPassword, expectedData)
 
     //test modify type
 
@@ -89,9 +103,13 @@ function newUser(expectedHTTPStatus, data) {
     });
 }
 
-function loginUser(expectedHTTPStatus, data, expectedData) {
+function loginUser(expectedHTTPStatus, user, data, expectedData) {
     it('login test', function (done) {
         if (data !== undefined) {
+            agent.post('/api/newUser')
+            .send(user)
+            .then(function(res){
+                res.should.have.status(201)
             agent.post('/api/customerSessions')
                 .send(data)
                 .then(function (res) {
@@ -101,7 +119,8 @@ function loginUser(expectedHTTPStatus, data, expectedData) {
                     res.body.username.should.equal(expectedData.username);
                     res.body.name.should.equal(expectedData.name);}
                     done();
-                });
+                }).catch(done());
+            })
              } else {
             agent.post('/api/customerSessions') //we are not sending any data
                 .then(function (res) {

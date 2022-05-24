@@ -15,9 +15,12 @@ describe('test sku apis', () => {
     beforeEach(async () => {
         await db.dropTableSKU()
         await db.createTableSKU()
+        
     })
-    
 
+    afterEach(async ()=>{
+        await db.dropTableSKU()
+    })
     //testing create sku
     let data = 
         {
@@ -42,6 +45,8 @@ describe('test sku apis', () => {
             "price" : 12,
             "availableQuantity" : 55
         }
+
+      
     //testing get sku
     getSKU(200, 1, sku)
     getSKU(422) //no id so 422
@@ -96,7 +101,7 @@ function getSKU(expectedHTTPStatus, id, expectedData) {
                         r.body.availableQuantity.should.equal(expectedData.availableQuantity);}
                         done();
                     });
-                }) 
+                })
             
             });
 }

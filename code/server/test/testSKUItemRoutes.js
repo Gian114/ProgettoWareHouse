@@ -11,12 +11,20 @@ const db = require('../Modules/DB').db;
 
 
 
+
+
 describe('test skuitems apis', () => {
 
     beforeEach(async () => {
+
         await db.dropTableSKUItem()
         await db.createTableSKUItem()
-    
+        await db.activateForeignKeyControl()
+        
+    })
+
+    afterEach(async ()=>{
+        await db.dropTableSKUItem()
     })
 
     
@@ -28,9 +36,20 @@ describe('test skuitems apis', () => {
     }
 
     
+    //to insert a skuitem i must call the post api for sku too
+    let sku =
+    {
+            "description" : "another sku",
+            "weight" : 100,
+            "volume" : 50,
+            "notes" : "first SKU",
+            "price" : 10.99,
+            "availableQuantity" : 50
+    }
 
-    newSKUItem(201, data);
+    newSKUItem(201, sku, data);
     newSKUItem(422);
+
 
 
 
@@ -46,20 +65,29 @@ describe('test skuitems apis', () => {
     modifyItem(200, "12345678901234567890123456789015", modifiedItem)
     modifyItem(422)
 
+    //deleting item
+
+    deleteSKUItem(204, "12345678901234567890123456789026")
+
     
   
 });
 
 
-function newSKUItem(expectedHTTPStatus, data) {
+function newSKUItem(expectedHTTPStatus, sku, data) {
     it('create a new skuitem', function (done) {
         if (data !== undefined) {
+            agent.post('/api/sku')
+            .send(sku)
+            .then(function(res){
+                res.should.have.status(201)
             agent.post('/api/skuitem')
                 .send(data)
                 .then(function (res) {
                     res.should.have.status(expectedHTTPStatus);
                     done();
                 });
+            }).catch(done())
              } else {
             agent.post('/api/skuitem') //we are not sending any data
                 .then(function (res) {
@@ -83,3 +111,12 @@ function modifyItem(expectedHTTPStatus, RFID, newbody) {
              })
     }
   
+    function deleteSKUItem(expectedHTTPStatus, rfid) {
+        it('Deleting skuitem', function (done) {
+            agent.delete('/api/skuitems/' + rfid)
+                .then(function (res) {
+                    res.should.have.status(expectedHTTPStatus);
+                    done();
+                });
+        });
+    }
