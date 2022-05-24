@@ -111,7 +111,9 @@ class InternalOrderServices {
                     products: [],
                     customerId: obj.customerId
                 });
-            io.products.push(obj.product);
+            if (obj.product.SKUId !== null) {
+                io.products.push(obj.product);
+            }
             return io
         }, {}
         );
@@ -127,7 +129,9 @@ class InternalOrderServices {
                     products: [],
                     customerId: obj.customerId
                 });
-            io.products.push(obj.product);
+            if (obj.product.SKUId !== null) {
+                io.products.push(obj.product);
+            }
             return io
         }, {}
         );

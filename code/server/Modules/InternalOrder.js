@@ -24,9 +24,10 @@ class InternalOrder {
                     P.price AS price,
                     P.description AS description,
                     P.quantity AS quantity
-                FROM INTERNAL_ORDER IO, PRODUCT P
-                WHERE IO.id = P.internal_order_id
-                AND IO.state != 'COMPLETED';
+                FROM INTERNAL_ORDER IO
+                LEFT JOIN PRODUCT P
+                ON IO.id = P.internal_order_id
+                WHERE IO.state != 'COMPLETED';
                 `;
 
             this.db.all(sql, [], (err, rows) => {
@@ -117,9 +118,10 @@ class InternalOrder {
                     P.price AS price,
                     P.description AS description,
                     P.quantity AS quantity
-                FROM INTERNAL_ORDER IO, PRODUCT P
-                WHERE IO.id = P.internal_order_id
-                AND IO.state = ?;
+                FROM INTERNAL_ORDER IO
+                LEFT JOIN PRODUCT P
+                ON IO.id = P.internal_order_id
+                WHERE IO.state != 'COMPLETED';
                 `;
 
             this.db.all(sql, [state], (err, rows) => {
@@ -188,9 +190,10 @@ class InternalOrder {
                     P.price AS price,
                     P.description AS description,
                     P.quantity AS quantity
-                FROM INTERNAL_ORDER IO, PRODUCT P
-                WHERE IO.id = P.internal_order_id
-                AND IO.id = ?;
+                FROM INTERNAL_ORDER IO
+                LEFT JOIN PRODUCT P
+                ON IO.id = P.internal_order_id
+                WHERE IO.state != 'COMPLETED';
                 `;
 
             this.db.all(sql, [id], (err, rows) => {
