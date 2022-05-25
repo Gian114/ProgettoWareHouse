@@ -93,13 +93,8 @@ class RestockOrderServices {
         let suppliers;
         let user;
 
-        suppliers = await this.user.getSuppliers();
+        suppliers = await this.user.getSupplierById(ro.supplierId)
         if(suppliers === ''){
-            return 403;
-        }
-        
-        user = suppliers.find(sup => sup.id===ro.supplierId);
-        if(user === undefined){
             return 404;
         }
         

@@ -6,10 +6,6 @@ class InternalOrder {
         this.db = db;
     }
 
-    getInternalOrders() {
-
-    }
-
     async getInternalOrdersNotCompleted() {
         return new Promise((resolve, reject) => {
 
