@@ -159,8 +159,6 @@ class DB {
     }
 
     createTableUser() {
-<<<<<<< HEAD
-<<<<<<< HEAD
         return new Promise((resolve, reject)  => {
             const sql = 'CREATE TABLE IF NOT EXISTS USER (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL, name TEXT NOT NULL, surname TEXT NOT NULL, type TEXT NOT NULL, password TEXT NOT NULL)'; 
             this.db.run(sql, (err) => {
