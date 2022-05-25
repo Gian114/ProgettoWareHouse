@@ -22,14 +22,14 @@ describe("Restock order services", () => {
         "issueDate": "2020/10/28 10:33",
         "products": [{ "SKUId": 10, "description": "prod", "price": 18.99, "qty": 15 },
         { "SKUId": 35, "description": "prod due", "price": 11.99, "qty": 20 }],
-        "supplierId": 2
+        "supplierId": 1
     };
 
     const data2 = 
     {
         "issueDate": "2021/10/28 10:33",
         "products": [{ "SKUId": 10, "description": "prod", "price": 18.99, "qty": 15 }],
-        "supplierId": 1
+        "supplierId": 2
 
     };
 
@@ -48,6 +48,15 @@ describe("Restock order services", () => {
         "DateOfStock":"2021/11/28 12:30"
     };
 
+    const user1 = 
+    { 
+            "username":"user1@ezwh.com",
+            "name":"John",
+            "surname" : "Smith",
+            "password" : "testpassword",
+            "type" : "supplier"
+    }
+
 
     beforeEach(async () => {
         await db.dropTableRestockOrder();
@@ -60,12 +69,13 @@ describe("Restock order services", () => {
         await db.createTableUser();
         await skui.createNewSKUItem(skui1);
         await skui.createNewSKUItem(skui2);
+        await user.createUser(user1);
     });
 
 
 
     ////// ADD SUPPLIER ID CHECK
-    /*
+    
     test('Create restock order', async () => {
         await roServices.addRestockOrder(data1);
 
@@ -73,13 +83,17 @@ describe("Restock order services", () => {
         expect(res).toEqual({
             issueDate: data1.issueDate,
             state: "ISSUED",
-            products: data1.products, //in realtà va bene devo cambiare il modo in cui passo 
+            products: data1.products, 
             supplierId: data1.supplierId,
+            skuItems: []
         });
+
+        let res2 = await roServices.addRestockOrder(data2);
+        expect(res2).toEqual(404);
 
        
     });
-    */
+    
 
     test('Get return orders', async () => {
         await roServices.addRestockOrder(data1);
@@ -87,18 +101,9 @@ describe("Restock order services", () => {
         let res = await roServices.getRestockOrder();
         expect(res.length).toStrictEqual(1);
         
-        /* 
-        fix product name
-        expect(res[0]).toEqual({
-            id: 1,
-            issueDate: data1.issueDate,
-            supplierId: data1.supplierId
-        });
-        */
-
-        await roServices.addRestockOrder(data2);
+        await roServices.addRestockOrder(data2); //questo inserimento non va
         res = await roServices.getRestockOrder();
-        expect(res.length).toStrictEqual(2);
+        expect(res.length).toStrictEqual(1); //qui ci aspettiamo uno
 
         res = await roServices.getRestockOrderByID(3);
         expect(res).toEqual(404); //not found

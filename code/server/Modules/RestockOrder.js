@@ -327,10 +327,10 @@ class RestockOrder {
                             issueDate: row.issue_date, 
                             state: row.state,
                             product: {
-                                SKUid: row.sku_id,
+                                SKUId: row.sku_id,
                                 description: row.description,
                                 price: row.price,
-                                quantity: row.quantity
+                                qty: row.quantity
                             },
                             supplierId: row.supplier_id,
                             transportNote: { deliveryDate: row.delivery_date },

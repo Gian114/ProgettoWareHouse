@@ -96,6 +96,14 @@ restockOrderRouter.post('/api/restockOrder', async (req, res) => {
 
   let restock = await restockServices.addRestockOrder(ro);
 
+  if (restock === 403){
+    return res.status(404).json({ error: "suppliers not defined" });
+  }
+
+  if (restock === 404){
+    return res.status(404).json({ error: "no supplier associated at order" });
+  }
+
   if (restock === false) {
     return res.status(503).json({ error: "generic error" });
   }

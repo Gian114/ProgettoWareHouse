@@ -90,6 +90,17 @@ class RestockOrderServices {
     //post 
 
     async addRestockOrder(ro) {
+        let suppliers;
+        let user;
+        try{
+            suppliers = await this.user.getSuppliers();
+        }catch(err){
+            return 403;
+        }
+        user = suppliers.find(sup => sup.id===ro.supplierId);
+        if(user === undefined){
+            return 404;
+        }
 
         try {
             await this.restockOrder.createNewRestockOrder(ro);
