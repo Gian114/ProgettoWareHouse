@@ -31,7 +31,7 @@ app.use('', returnOrderRouter);
 app.use('', internalOrderRouter);
 app.use('', itemRouter);
 
-startDB()
+startDB();
 
 //GET /api/test
 app.get('/api/hello', (req, res) => {
