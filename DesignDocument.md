@@ -34,9 +34,13 @@ collect and display data from the server using the APIs through the GUI.
 # Low level design
 
 ## Class diagram
+
+### New class diagram
 ![New low level design](Resources/LowLevelDesign.jpg "New low level design")
 
 This is the updated version of the design developed after writing the code and the tests. Above the services we have the routes layer that are not classes so they are not reported but implement the API calls.
+
+### Old class diagram
 
 ![Old low level design](Resources/oldlowleveldesign.jpg "New low level design")
 
