@@ -101,7 +101,7 @@ in this step we use the SKU apis too because for foreign key reference a sku mus
 
 | Scenario |  delete SKU |
 | ------------- |:-------------:| 
-|  Precondition     | SKU exist in the Database |
+|  Precondition     | SKU exist in the Database<br>Manager is authenticated and authorized |
 |  Post condition     |  SKU is deleted from the Database |
 | Step#        | Description  |
 |  1     |  Manager searches with ID  |  
@@ -112,7 +112,7 @@ in this step we use the SKU apis too because for foreign key reference a sku mus
 
 | Scenario |  get SKU |
 | ------------- |:-------------:| 
-|  Precondition     | SKU exist in the Database |
+|  Precondition     | SKU exist in the Database<br>Customer is authenticated and authorized |
 |  Post condition     |  SKU's informations are provided |
 | Step#        | Description  |
 |  1     |  Customer searches SKU by ID  |  
@@ -121,14 +121,31 @@ in this step we use the SKU apis too because for foreign key reference a sku mus
 ## Scenario UC1-6
 | Scenario |  get SKU that does not exist |
 | ------------- |:-------------:| 
-|  Precondition     | SKU does not exist in the Database |
+|  Precondition     | SKU does not exist in the Database<br>Customer is authenticated and authorized |
 |  Post condition     |  error is shown |
 | Step#        | Description  |
 |  1     |  Customer searches SKU by ID  |  
 |  2     |  System shows an error  |
 
-##Scenario 
+##Scenario UC4-6
 
+| Scenario |  modify User type |
+| ------------- |:-------------:| 
+|  Precondition     | User exists<br>Manager is authenticated and authorized |
+|  Post condition     |  User's information are updated |
+| Step#        | Description  |
+|  1     |  Manager searchs the user by username |  
+|  2     |  Manager inserts the new type |
+|  3     | System updates user information |
+
+##Scenario UC2-6
+| Scenario |  get Positions |
+| ------------- |:-------------:| 
+|  Precondition     | Clerk is authenticated and authorized |
+|  Post condition     |   |
+| Step#        | Description  |
+|  1     |  Clerk selects show positions |  
+|  2     |  System shows a list of positions with their information |
 
 # Coverage of Scenarios and FR
 
@@ -141,15 +158,15 @@ Report also for each of the scenarios the (one or more) API Mocha tests that cov
 | --------------- | ------------------------------- | ---------------- |
 | 4-1  |   1.1   | testUserRouter.js -> newUser |
 | 7-1  |   //   | testUserRouter.js -> login |
-| /\  |   1.1   | testUserRouter.js -> modifyType |
 | 1-1  |   2.1   | testSKURouter.js -> newSKU |
 | 1-4(see above)  |   2.2   | testSKURouter.js -> deleteSKU |
 | 1-5(see above)  |   2.4   | testSKURouter.js -> getSKU |
 | 2-1  |   3.1.1   | testPositionRoutes.js -> newPosition |
 | 2-5  |   3.1.2   | testPositionRoutes.js -> deletePosition |
-| /\ |   3.1.3   | testPositionRoutes.js -> getPosition |
+| 2-6(see above) |   3.1.3   | testPositionRoutes.js -> getPosition |
 | 4-1  |   4.1   | testUserRouter.js -> newUser |
 | 4-3  |   4.2   | testUserRouter.js -> deleteUser |
+| 4-6(see above)  |   4  | testUserRouter.js -> modifyType |
 | // |   5  | testRestockOrderRoute.js -> newRestockOrder |
 | // |   5 | testRestockOrderRoutes.js -> getRestockOrder |
 | // |   5  | testRestockOrderRoutes.js -> deleteRestockOrder |
@@ -158,14 +175,8 @@ Report also for each of the scenarios the (one or more) API Mocha tests that cov
 | // |   5.8.3  | testSKUItemRoutes.js -> modifyItem |
 | // |   //  | testSKUItemRoutes.js -> deleteItem |
 | 9-1 |   6.1  | testInternalOrderRoutes.js -> createInternalOrder |
-| /\ |   6.7  | testInternalOrderRoutes.js -> modifyInternalOrder |
+| // |   6.7  | testInternalOrderRoutes.js -> modifyInternalOrder |
 | 9-3 |   6.6  | testInternalOrderRoutes.js -> deleteInternalOrder |
-
-
-
-
-          
-
 
 
 # Coverage of Non Functional Requirements
