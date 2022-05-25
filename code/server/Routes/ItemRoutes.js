@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const express = require('express');
 const itemRouter = express.Router();
@@ -8,8 +8,10 @@ const Item = require('../Modules/Item');
 const item = new Item(db.db);
 const SKU = require('../Modules/SKU');
 const sku = new SKU(db.db);
+const User = require('../Modules/User');
+const user = new User(db.db);
 const ItemServices = require('../Services/ItemServices');
-const itemServices = new ItemServices(item, sku);
+const itemServices = new ItemServices(item, sku, user);
 
 //get
 
@@ -17,7 +19,7 @@ itemRouter.get('/api/items', async (req, res) => {
 
     const x = await itemServices.getAllItems();
     if(x === false){
-        return res.status(500).json({error: "generic error"})
+        return res.status(500).json({error: "generic error"});
     }
     return res.status(200).json(x);
   
@@ -56,7 +58,7 @@ itemRouter.post('/api/item', async (req, res) => {
         return res.status(503).json({error: "generic error"});
     }
     else if(x === '') {
-        return res.status(404).json({error: "Sku not found"});
+        return res.status(404).json({error: "Sku not found or supplier not associated to id"});
     }
     else if(x === 1) {
       return res.status(422).json({error: "this supplier already sells an item with the same SKUId"});
@@ -72,8 +74,8 @@ itemRouter.post('/api/item', async (req, res) => {
   
 itemRouter.put('/api/item/:id', async (req, res) => {
       
-    if(req.body.newDescription === undefined || !Number.isFinite(parseFloat(req.body.newPrice)) || req.body.newPrice<0) {
-          return res.status(422).json({err:"validation of request body failed"});
+    if(!Number.isInteger(parseFloat(req.params.id)) || req.params.id<0 || req.body.newDescription === undefined || !Number.isFinite(parseFloat(req.body.newPrice)) || req.body.newPrice<0) {
+          return res.status(422).json({err:"validation of request body or of id failed"});
       }
   
     const newValues = req.body;

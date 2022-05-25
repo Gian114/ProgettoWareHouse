@@ -3,12 +3,14 @@
 const ItemServices = require('../Services/ItemServices');
 const Item = require('../Modules/Item');
 const SKU = require('../Modules/SKU');
+const User = require('../Modules/User');
 const DB = require('../Modules/DB').DB;
 
 const db = new DB(':memory:');
 const itDao = new Item(db.db);
 const sku = new SKU(db.db);
-const itServices = new ItemServices(itDao, sku);
+const user = new User(db.db);
+const itServices = new ItemServices(itDao, sku, user);
 
 describe("Item services", () => {
     
@@ -32,13 +34,22 @@ describe("Item services", () => {
             "availableQuantity" : 50
         };
 
+    const user1 = 
+        {
+            "username":"user1@ezwh.com",
+            "name":"John",
+            "surname" : "Smith",
+            "password" : "testpassword",
+            "type" : "supplier"
+        };
+
     const data1 = //right
         {
             "id" : 12,
             "description" : "a new item",
             "price" : 10.99,
             "SKUId" : 1,
-            "supplierId" : 2
+            "supplierId" : 1
         };
 
     const data2 = //right
@@ -46,7 +57,7 @@ describe("Item services", () => {
             "id" : 15,
             "description" : "a new item",
             "price" : 10.99,
-            "SKUId" : 1,
+            "SKUId" : 2,
             "supplierId" : 1
         };
 
@@ -56,7 +67,7 @@ describe("Item services", () => {
             "description" : "a new item",
             "price" : 10.99,
             "SKUId" : 1,
-            "supplierId" : 2
+            "supplierId" : 1
         };
 
     const data4 = //wrong: this supplier already sells an Item with the same ID
@@ -65,10 +76,28 @@ describe("Item services", () => {
             "description" : "a new item",
             "price" : 10.99,
             "SKUId" : 2,
+            "supplierId" : 1
+        };
+
+    const data5 = //wrong: Sku not found
+        {
+            "id" : 20,
+            "description" : "a new item",
+            "price" : 10.99,
+            "SKUId" : 3,
+            "supplierId" : 1
+        };
+
+    const data6 = //wrong: supplier not associated to id
+        {
+            "id" : 34,
+            "description" : "a new item",
+            "price" : 10.99,
+            "SKUId" : 1,
             "supplierId" : 2
         };
 
-    const newData = 
+    const newData = //right
         {
             "newDescription" : "a new sku",
             "newPrice" : 10.99
@@ -78,17 +107,23 @@ describe("Item services", () => {
     beforeEach(async () => {
         await db.dropTableItem();
         await db.dropTableSKU();
+        await db.dropTableUser();
         await db.createTableItem();
         await db.createTableSKU();
+        await db.createTableUser();
         await sku.createSKU(sku1);
         await sku.createSKU(sku2);
+        await user.createUser(user1);
         await itServices.createNewItem(data1);
     });
 
     test('Create items', async () => {
-        await itServices.createNewItem(data2);
 
-        let res = await itServices.getItemById(data2.id);
+        let res = await itServices.createNewItem(data4);
+        expect(res).toEqual(2);
+
+        await itServices.createNewItem(data2);
+        res = await itServices.getItemById(data2.id);
         expect(res).toEqual({
             id: data2.id,
             description: data2.description,
@@ -100,8 +135,11 @@ describe("Item services", () => {
         res = await itServices.createNewItem(data3);
         expect(res).toEqual(1);
 
-        res = await itServices.createNewItem(data4);
-        expect(res).toEqual(2);
+        res = await itServices.createNewItem(data5);
+        expect(res).toEqual('');
+
+        res = await itServices.createNewItem(data6);
+        expect(res).toEqual('');
     });
 
     test('Get items', async () => {

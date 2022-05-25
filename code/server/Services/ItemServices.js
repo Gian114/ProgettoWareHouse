@@ -2,9 +2,10 @@
 
 class ItemServices {
 
-    constructor(it, sku) {
+    constructor(it, sku, user) {
         this.item = it;
         this.sku = sku;
+        this.user = user;
     }
     
     async getAllItems() {
@@ -13,6 +14,7 @@ class ItemServices {
             const x = await this.item.getAllItems();
             return x;
         } catch(err) {
+            console.log(err);
             return false;
         }
     }
@@ -23,6 +25,7 @@ class ItemServices {
             const x = await this.item.getItemById(id);
             return x;
         } catch(err) {
+            console.log(err);
             return false;
         }
     }
@@ -30,8 +33,9 @@ class ItemServices {
     async createNewItem(it) {
 
         let x = await this.sku.getSKUByID(it.SKUId);
-        if(x === '') {
-            return x;
+        let y = await this.user.getSupplierById(it.supplierId);
+        if(x === '' || y === '') {
+            return '';
         }
         x = await this.item.getItemBySKUIdAndSupplierId(it.SKUId, it.supplierId);
         if(x !== '') {
@@ -46,6 +50,7 @@ class ItemServices {
             x = await this.item.createNewItem(it);
             return x;
         } catch(err) {
+            console.log(err);
             return false;
         }
     }
@@ -61,6 +66,7 @@ class ItemServices {
             x = await this.item.modifyItem(id, newValues);
             return x;
         } catch(err) {
+            console.log(err);
             return false;
         }
     }
@@ -71,6 +77,7 @@ class ItemServices {
             const x = this.item.deleteItem(id);
             return x;
         } catch(err) {
+            console.log(err);
             return false;
         }
     }

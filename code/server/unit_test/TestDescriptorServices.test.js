@@ -43,7 +43,7 @@ describe("Test descriptor services", () => {
             "idSKU" : 2
         };
     
-    const newData1 = 
+    const newData1 = //right
         {
             "newName": "test descriptor 1",
             "newProcedureDescription": "This test is described by...",

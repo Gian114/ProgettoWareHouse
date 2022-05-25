@@ -30,7 +30,7 @@ testDescriptorRouter.get('/api/testDescriptors/:id', async (req, res) => {
     }
 
     const id = req.params.id;
-    const x = testDescriptorServices.getTestDescriptorById(id);
+    const x = await testDescriptorServices.getTestDescriptorById(id);
 
     if (x === false) {
         return res.status(500).json({error: "generic error"});

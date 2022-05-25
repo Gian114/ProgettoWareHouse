@@ -28,16 +28,16 @@ class User{
                     return;
                 }
                 if(r !== undefined){
-                const user = 
-                    {  
-                        id: r.id,
-                        email: r.username,
-                        name: r.name,
-                        surname: r.surname,
-                        type: r.type
-                    }
-                
-                resolve(user);
+                    const user = 
+                        {  
+                            id: r.id,
+                            email: r.username,
+                            name: r.name,
+                            surname: r.surname,
+                            type: r.type
+                        }
+                    
+                    resolve(user);
                 } else {
                     const user = ''
                     resolve(user)
@@ -58,20 +58,47 @@ class User{
                 if(rows !== undefined){
 
                 
-                const user = rows.map((r) => (
-                
-                    {  
-                        id : r.id,
-                        email: r.username,
-                        name: r.name,
-                        surname: r.surname,
-                        type: r.type
-                    }
-                ));
+                    const user = rows.map((r) => (
+                    
+                        {  
+                            id : r.id,
+                            email: r.username,
+                            name: r.name,
+                            surname: r.surname,
+                            type: r.type
+                        }
+                    ));
                 resolve(user);
                 } else {
                     const user = ''
                     resolve(user)
+                }
+            });
+        });
+    }
+
+    getSupplierById(id) {
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM USER WHERE type = "supplier" AND id = ?';
+            this.db.get(sql, [id], (err, r) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                
+                if(r !== undefined) {
+                    const user =
+                        {  
+                            id : r.id,
+                            email: r.username,
+                            name: r.name,
+                            surname: r.surname,
+                            type: r.type
+                        };
+                    resolve(user);
+                } else {
+                    const user = '';
+                    resolve(user);
                 }
             });
         });

@@ -19,6 +19,7 @@ class ReturnOrderServices {
             }
             return x;
         } catch(err) {
+            console.log(err);
             return false;
         }
     }
@@ -34,6 +35,7 @@ class ReturnOrderServices {
                 return x;
             }
         } catch(err) {
+            console.log(err);
             return false;
         }
     }
@@ -53,13 +55,14 @@ class ReturnOrderServices {
     
         try {
             x = await this.returnOrder.createNewReturnOrder(ro);
-            let id = await db.getAutoincrementId('RETURN_ORDER');
+            let id = await this.db.getAutoincrementId('RETURN_ORDER');
             for(let i=0; i<ro.products.length; i++) {
                 await this.product.insertProductReturnOrder(ro.products[i].SKUId, ro.products[i].description, ro.products[i].price, id);
                 await this.skuItem.setReturnOrderId(ro.products[i].RFID, id);
             }
             return x;
         } catch(err) {
+            console.log(err);
             return false;
         }
     }
@@ -71,6 +74,7 @@ class ReturnOrderServices {
             const x = await this.returnOrder.deleteReturnOrder(id);
             return x;
         } catch(err) {
+            console.log(err);
             return false;
         }
     }

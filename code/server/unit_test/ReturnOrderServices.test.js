@@ -104,7 +104,7 @@ describe("Return order services", () => {
         expect(res).toEqual(1);
     });
 
-    /*test('Get return orders', async () => {
+    test('Get return orders', async () => {
 
         let res = await roServices.getAllReturnOrders();
         expect(res.length).toStrictEqual(1);
@@ -132,8 +132,6 @@ describe("Return order services", () => {
         await roServices.deleteReturnOrder(1);
         res = await roServices.getAllReturnOrders();
         expect(res.length).toStrictEqual(0);
-    });*/
-
-    
+    });
 
 });

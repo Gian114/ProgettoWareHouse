@@ -69,7 +69,6 @@ class Product {
                         RFID : r.rfid
                     }
                 ));
-
                 resolve(products);
             });
         });
