@@ -46,6 +46,8 @@ Version: 1.1
 
 
 integration test following the above example:
+other tests are very similiar and follow the same pattern/approach, some use a lot of services and daos
+
 ## Step 1 : DAO test (SKUItem)(A2)
 | Classes    | mock up used | Jest test cases                          |
 | ---------- | ------------ | ---------------------------------------- |
