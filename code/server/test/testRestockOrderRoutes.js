@@ -20,8 +20,8 @@ describe('test restock Order apis', () => {
         {
             
                 "issueDate":"2021/11/29 09:33",
-                "products": [{"SKUId":12,"description":"a product","price":10.99,"qty":30},
-                            {"SKUId":180,"description":"another product","price":11.99,"qty":20}],
+                "products": [{"SKUId":1,"description":"a product","price":10.99,"qty":30},
+                            {"SKUId":1,"description":"another product","price":11.99,"qty":20}],
                 "supplierId" : 1
             
         }
@@ -30,46 +30,67 @@ describe('test restock Order apis', () => {
         {
             
                 "issueDate":"2021/11/29 09:33",
-                "products": [{"SKUId":12,"description":"a product","price":10.99,"qty":30}],
+                "products": [{"SKUId":1,"description":"a product","price":10.99,"qty":30}],
                 "supplierId" : 2
             
         }
     //create user
     const user1 = 
     { 
-            "username":"user1@ezwh.com",
-            "name":"John",
-            "surname" : "Smith",
-            "password" : "testpassword",
-            "type" : "supplier"
+        "username":"user1@ezwh.com",
+        "name":"John",
+        "surname" : "Smith",
+        "password" : "testpassword",
+        "type" : "supplier"
     }
+    //create sku
+    let sku = 
+    {
+        "description" : "another sku",
+        "weight" : 100,
+        "volume": 50,
+        "notes": "first sku",
+        "price": 10.99,
+        "availableQuantity":50
+    }
+    //create skuItem
+    let skuItems = 
+         [
+          {"SKUId":12,"rfid":"12345678901234567890123456789016"},
+          {"SKUId":12,"rfid":"12345678901234567890123456789017"}
+         ]
+    
 
     
     beforeEach(async () => {
 
         await db.startDB();
         await agent.post('/api/newUser').send(user1);
+        await agent.post('/api/sku').send(sku);
         
     })
 
 
-    //testing createsku api
+    //testing create restock api
     newRestockOrder(201, data);
     newRestockOrder(404, data1);
     newRestockOrder(422);
 
 
-    /*  
+
     //testing get
-    getPosition(200, data1)
-    getPosition(500)
-    */ 
+    getRestockOrder(200, 1, data);
+
+    //testing put
+    //putSkuItems(200,1,skuItems, data);
     
+
     //testing delete
-    //deletePosition(204, "800234543412", data);
+    deleteRestockOrder(204, 1, data);
+    deleteRestockOrder(422, -1, data);
+    deleteRestockOrder(503, 2, data);
     
 });
-
 
 
 
@@ -85,13 +106,37 @@ function newRestockOrder(expectedHTTPStatus, data) {
     });
 }
 
+
+function getRestockOrder(expectedHTTPStatus, id, data) {
+    it('get restock order', async function () {
+        await agent.post('/api/restockOrder').send(data);
+        const res = await agent.get('/api/restockOrders');
+        res.should.have.status(expectedHTTPStatus);
+        
+        const res2 = await agent.get('/api/restockOrders/'+id);
+        res2.should.have.status(expectedHTTPStatus);
+        
+    });
+}
+
 /*
-function deletePosition(expectedHTTPStatus, id, data) {
-    it('Deleting position', async function () {
-        let add = await agent.post('/api/position').send(data)
+function putSkuItems(expectedHTTPStatus, id, items, data){
+    it('put restock order', async function () {
+        await agent.post('/api/restockOrder').send(data);
+        await agent.put('api/restockOrder/'+id).send({"newState":"DELIVERED"});
+        const res = await agent.put('/api/restockOrders'+id+'/skuItems').send(items);
+        res.should.have.status(expectedHTTPStatus);
+        
+    });
+
+}
+*/
+
+function deleteRestockOrder(expectedHTTPStatus,id,data){
+    it('Deleting restock', async function () {
+        let add = await agent.post('/api/restockOrder').send(data)
                     add.should.have.status(201);
-        let res = await agent.delete('/api/position/' + id)
+        let res = await agent.delete('/api/restockOrder/'+id)
                 res.should.have.status(expectedHTTPStatus);
     });
 }
-*/
