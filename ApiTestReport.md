@@ -21,15 +21,9 @@ Version: 1.1
 
 # Dependency graph 
 
-     ![Dependency Graph](Resources/dependency.png "Dependency Graph")
+![Dependency Graph](Resources/dependency.png "Dependency Graph")
      
 # Integration approach
-
-    <Write here the integration sequence you adopted, in general terms (top down, bottom up, mixed) and as sequence
-    (ex: step1: class A, step 2: class A+B, step 3: class A+B+C, etc)> 
-    <Some steps may  correspond to unit testing (ex step1 in ex above), presented in other document UnitTestReport.md>
-    <One step will  correspond to API testing>
-
   
      To test all the classes we used a bottom-up approach, we started by testing the DAOs after that we tested the Services and in the end the APIs
      for each class
@@ -41,7 +35,7 @@ Version: 1.1
       for example, if we consider the SKUItem class the steps are:
       step 1: testing SKUItem(A2)
       step 2: testing SKUItemServices(B2) that use not only SKUItem(A2) DAO but SKU DAO(A1) too 
-      step 3: testing the SKUItem apis(C2) implies using SKUItemServices (C2 + B2 + A2 + A1)
+      step 3: testing the SKUItem apis(C2) implies using SKUItemServices(B2)  and uses the post of SKU(C1) apis too (C2 + C1 + B2 + A2 + A1)
 
 
 
@@ -50,31 +44,55 @@ Version: 1.1
    <define below a table for each integration step. For each integration step report the group of classes under test, and the names of
      Jest test cases applied to them, and the mock ups used, if any> Jest test cases should be here code/server/unit_test
 
-## Step 1
-| Classes  | mock up used |Jest test cases |
 
-| Classes        | mock up used    | Jest test cases                              |
-| -------------- | --------------- | -------------------------------------------- |
-| SKUService.test.js | // | sku_service_dbmock.test.js > get all skus    |
+integration test following the above example:
+## Step 1 : DAO test (SKUItem)(A2)
+| Classes    | mock up used | Jest test cases                          |
+| ---------- | ------------ | ---------------------------------------- |
+| SKUItem.js | < no >       | SKUItem.test.js > testGetAll    |
+| SKUItem.js | < no >       |  SKUItem.test.js > testNewSKUItem |
+| SKUItem.js | < no >       |  SKUItem.test.js > testModifySKUItem          |
+| SKUItem.js | < no >       |  SKUItem.test.js > testGetSKUITEMByRFID       |
+| SKUItem.js | < no >       | SKUItem.test.js > testGetSKUITEMBySKUID    |
+| SKUItem.js | < no >       | SKUItem.test.js > setOrderID      |
+| SKUItem.js | < no >       | SKUItem.test.js > setRestockOrder      |
+| SKUItem.js | < no >       | SKUItem.test.js > testdeleteSKUItem      |
 
-## Step 2
-| Classes  | mock up used |Jest test cases |
-|--|--|--|
-||||
+## Step 2 : test the service (SKUItemService)(B2)
+
+| Classes        | mock up used | Jest test cases                              |
+| -------------- | ------------ | -------------------------------------------- |
+| SKUItemService.js |  < no >   | SKUItemServices.test.js > createSI    |
+| SKUItemService.js |  < no >   | SKUItemServices.test.js > testGet_Modify    |
+| SKUItemService.js |  < no >   | SKUItemServices.test.js > testGetRFID    |
+| SKUItemService.js |  < no >   | SKUItemServices.test.js > testDelete    |
 
 
-## Step n 
+belove the function used by the skuitemservices tests using the SKU dao (A1)
 
-   
-| Classes  | mock up used |Jest test cases |
-|--|--|--|
-||||
+| Classes        | mock up used | Jest test cases                              |
+| -------------- | ------------ | -------------------------------------------- |
+| SKU.js |  < no >   | SKUItemServices.test.js > createSKU    |
 
 
+## Step 3 : testing the api of SKUItem (SKUItemRoutes)(C1)
+
+| Classes    | mock up used | Mocha test cases                    |
+| ---------- | ------------ | ----------------------------------- |
+| SKUItemRoutes.js | < no >       | testSKUItemRoutes > newSKUItem        |
+| SKUItemRoutes.js | < no >       | testSKUItemRoutes > modifyItem        |
+| SKUItemRoutes.js | < no >       | testSKUItemRoutes > deleteSKUItem        |
+
+
+
+in this step we use the SKU apis too because for foreign key reference a sku must exist to create a skuitem with that skuid (C2)
+
+| Classes    | mock up used | Mocha test cases                    |
+| ---------- | ------------ | ----------------------------------- |
+| SKURoutes.js | < no >       | testSKUItemRoutes > create sku api   |
 
 
 # API testing - Scenarios
-
 
 <If needed, define here additional scenarios for the application. Scenarios should be named
  referring the UC in the OfficialRequirements that they detail>
