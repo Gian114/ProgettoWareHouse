@@ -46,6 +46,8 @@ Version: 1.1
 
 
 integration test following the above example:
+other tests are very similiar and follow the same pattern/approach, some use a lot of services and daos
+
 ## Step 1 : DAO test (SKUItem)(A2)
 | Classes    | mock up used | Jest test cases                          |
 | ---------- | ------------ | ---------------------------------------- |
@@ -127,7 +129,7 @@ in this step we use the SKU apis too because for foreign key reference a sku mus
 |  1     |  Customer searches SKU by ID  |  
 |  2     |  System shows an error  |
 
-##Scenario UC4-6
+## Scenario UC4-6
 
 | Scenario |  modify User type |
 | ------------- |:-------------:| 
@@ -138,7 +140,7 @@ in this step we use the SKU apis too because for foreign key reference a sku mus
 |  2     |  Manager inserts the new type |
 |  3     | System updates user information |
 
-##Scenario UC2-6
+## Scenario UC2-6
 | Scenario |  get Positions |
 | ------------- |:-------------:| 
 |  Precondition     | Clerk is authenticated and authorized |
@@ -146,6 +148,18 @@ in this step we use the SKU apis too because for foreign key reference a sku mus
 | Step#        | Description  |
 |  1     |  Clerk selects show positions |  
 |  2     |  System shows a list of positions with their information |
+
+## Scenario UC11-3
+| Scenario |  delete Item |
+| ------------- |:-------------:| 
+|  Precondition     | Supplier is authenticated and authorized |
+|  Post condition     | Item is deleted from db  |
+| Step#        | Description  |
+|  1     |  Supplier search item with id |  
+|  2     |  Supplier clicks the item to delete it |
+|  3     |  System deletes the item from the db |
+
+
 
 # Coverage of Scenarios and FR
 
@@ -173,10 +187,25 @@ Report also for each of the scenarios the (one or more) API Mocha tests that cov
 | 5-2-1 |   5.8.1  | testSKUItemRoutes.js -> newSKUItem |
 | // |   5.8.2  | testTestResultRoutes.js -> createTestResults |
 | // |   5.8.3  | testSKUItemRoutes.js -> modifyItem |
+| 6-1 |   5.9  | testReturnOrderRoutes.js -> newReturnOrder |
+| // |   5.9  | testReturnOrderRoutes.js -> deleteReturnOrder |
+| // |   5.9  | testReturnOrderRoutes.js -> getReturnOrderById |
+| // |   5.9 | testReturnOrderRoutes.js -> getAllReturnOrders |
 | // |   //  | testSKUItemRoutes.js -> deleteItem |
 | 9-1 |   6.1  | testInternalOrderRoutes.js -> createInternalOrder |
 | // |   6.7  | testInternalOrderRoutes.js -> modifyInternalOrder |
 | 9-3 |   6.6  | testInternalOrderRoutes.js -> deleteInternalOrder |
+| 11-1 |   7  | testItemRoutes.js -> newItem |
+| 11-2 |   7  | testItemRoutes.js -> modifyItem |
+| 11-3(see above) |   7  | testItemRoutes.js -> deleteItem |
+| // |   7  | testItemRoutes.js -> getItemById |
+| // |   7  | testItemRoutes.js -> getAllItems |
+| 12 |   //  | testTestDescriptorRoutes.js -> newTestDescriptor |
+| 12 |   //  | testTestDescriptorRoutes.js -> modifyTestDescriptor |
+| 12 |   //  | testTestDescriptorRoutes.js -> deleteTestDescriptor |
+| 12 |   //  | testTestDescriptorRoutes.js -> getTestDescriptorById |
+| 12 |   //  | testTestDescriptorRoutes.js -> getAllTestDescriptors |
+
 
 
 # Coverage of Non Functional Requirements

@@ -252,7 +252,7 @@ Version: 1.1
 
 | Unit name    | Jest test case                 |
 |--------------|--------------------------------|
-| ReturnOrder |  testNewRo   |
+| ReturnOrder |  create new return order  |
 | ReturnOrder |  delete return order   |
 
 
@@ -260,8 +260,9 @@ Version: 1.1
 
 | Unit name   | Jest test case      |
 |-------------|---------------------|
-| testItemDAO | testNewIt |
-| testItemDAO | testModIt       |
+| testItem | testNewIt |
+| testItem | testModIt |
+| testItem | delete item |
 
 
 
@@ -304,8 +305,7 @@ Version: 1.1
 
 ### Code coverage report
 
-    <Add here the screenshot report of the statement and branch coverage obtained using
-    the coverage tool. >
+![Coverage Graph](Resources/Coverage.png "Coverage Graph")
 
 
 ### Loop coverage analysis
