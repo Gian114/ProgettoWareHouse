@@ -88,6 +88,9 @@ describe('test internal order apis', () => {
     }, io_valid);
     modifyInternalOrder(404, 2, { "newState": "ACCEPTED" }, io_valid);
 
+    deleteInternalOrder(204, 1, io_valid)
+    deleteInternalOrder(204, 1, io_valid) // non ex should still return 204
+
 
 });
 
@@ -116,5 +119,15 @@ function modifyInternalOrder(expectedHTTPStatus, id, req_body, io) {
         if (expectedHTTPStatus === 200) {
             res.body[0].state.should.equal(req_body.newState);
         }
+    });
+}
+
+function deleteInternalOrder(expectedHTTPStatus, id, io) {
+    it('delete internal order', async function () {
+        let res = await agent.post('/api/internalOrders').send(io);
+        res = await agent.delete('/api/internalOrders/' + id);
+        res.should.have.status(expectedHTTPStatus);
+        res = await agent.get('/api/internalOrders');
+        res.body.length.should.equal(0);
     });
 }

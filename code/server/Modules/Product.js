@@ -6,6 +6,30 @@ class Product {
         this.db = db;
     }
 
+    getProducts() {
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM PRODUCT';
+            this.db.all(sql, [], (err, rows) => {
+                if (err) {
+                    console.log(err);
+                    reject(err);
+                    return;
+                }
+
+                const products = rows.map((r) => (
+                    {
+                        SKUId: r.sku_id,
+                        description: r.description,
+                        price: r.price,
+                        ret_o_id: r.return_order_id
+                    }
+                ));
+
+                resolve(products)
+            });
+        });
+    }
+
     /*getProductsByRestockOrder(id) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM PRODUCT WHERE restock_order_id = ?';
@@ -57,16 +81,16 @@ class Product {
             const sql = 'SELECT DISTINCT rfid, PRODUCT.sku_id, description, price FROM SKU_ITEM, PRODUCT WHERE PRODUCT.return_order_id = SKU_ITEM.return_order_id AND PRODUCT.sku_id = SKU_ITEM.sku_id AND SKU_ITEM.return_order_id = ?';
             this.db.all(sql, [id], (err, rows) => {
                 if (err) {
-                  reject(err);
-                  return;
+                    reject(err);
+                    return;
                 }
-                
+
                 const products = rows.map((r) => (
-                    {  
+                    {
                         SKUId: r.sku_id,
-                        description : r.description,
-                        price : r.price,
-                        RFID : r.rfid
+                        description: r.description,
+                        price: r.price,
+                        RFID: r.rfid
                     }
                 ));
 
@@ -80,8 +104,8 @@ class Product {
             const sql = 'INSERT INTO PRODUCT(sku_id, description, price, quantity, restock_order_id, internal_order_id, return_order_id) VALUES(?, ?, ?, ?, ?, ?, ?)';
             this.db.run(sql, [sku_id, description, price, quantity, restock_order_id, internal_order_id, return_order_id], (err) => {
                 if (err) {
-                  reject(err);
-                  return;
+                    reject(err);
+                    return;
                 }
                 resolve(this.lastID);
             });
