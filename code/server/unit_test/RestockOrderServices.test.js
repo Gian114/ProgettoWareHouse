@@ -57,6 +57,13 @@ describe("Restock order services", () => {
             "type" : "supplier"
     }
 
+    const items = 
+    [
+      {"SKUId":12,"rfid":"12345678901234567890123456789016"},
+      {"SKUId":12,"rfid":"12345678901234567890123456789017"}
+    ]
+
+
 
     beforeEach(async () => {
         await db.dropTableRestockOrder();
@@ -95,11 +102,14 @@ describe("Restock order services", () => {
     });
     
 
-    test('Get return orders', async () => {
+    test('Get restock orders', async () => {
         await roServices.addRestockOrder(data1);
 
         let res = await roServices.getRestockOrder();
         expect(res.length).toStrictEqual(1);
+
+        let res2 = await roServices.getIssuedRestockOrder();
+        expect(res2.length).toStrictEqual(1); //tutti dovrebbero essere restock
         
         await roServices.addRestockOrder(data2); //questo inserimento non va
         res = await roServices.getRestockOrder();
@@ -107,6 +117,22 @@ describe("Restock order services", () => {
 
         res = await roServices.getRestockOrderByID(3);
         expect(res).toEqual(404); //not found
+
+    });
+
+    test('put restock orders', async () => {
+        await roServices.addRestockOrder(data1);
+        await roServices.changeState(1,"DELIVERY");
+
+        let res = await roServices.getRestockOrderByID(1);
+        expect(res.state).toStrictEqual("DELIVERY");
+
+        let res2 = await roServices.addSkuItem(1,items);
+        expect(res2).toStrictEqual(422);
+
+        let res3 = await roServices.addTransportNOte(1,"2021/12/29");
+        expect(res3).toStrictEqual("DELIVERY");
+
     });
 
     //here you can add check of skuItems and Prod
