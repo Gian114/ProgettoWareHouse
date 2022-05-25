@@ -22,6 +22,88 @@ Version: 1.1
     class and method name that contains the test case>
     <Jest tests  must be in code/server/unit_test  >
 
+### idIsValid
+
+**Criteria for idIsValid
+
+- Check if the id in input is valid
+
+**Predicates for method idIsValid
+
+| Criteria     | Predicate        |
+|--------------|------------------|
+|   Input id |   undefined  |
+|   |   String  |
+|   |   Integer  |
+|   |   null  |
+|   |   Float  |
+
+
+**Combination of predicates**:
+
+| Value        | True / False | Description of the test case      | Jest test case   |
+|--------------|--------------|-----------------------------------|------------------|
+| 1  | true  | idIsValid(1) | |              
+| a  | false | idIsValid(a) | |
+| uwtc4 | false | idIsValid(uwtc4) | |
+| 6.6 | false | idIsValid(6.6) | |
+| null | false | idIsValid(null) | |
+| undefined | false | idIsValid(undefined) | |
+
+###  rfidIsValid
+
+**Criteria for rfidIsValid
+
+- Check if the rfid of skuitem in input is valid
+
+**Predicates for method rfidIsValid
+
+| Criteria     | Predicate        |
+|--------------|------------------|
+|   Input rfid |   undefined  |
+|   |   String  |
+|   |   Integer  |
+|   |   null  |
+|   |   Float  |
+
+
+**Combination of predicates**:
+
+| Value        | True / False | Description of the test case      | Jest test case   |
+|--------------|--------------|-----------------------------------|------------------|
+| 1  | true  | rfidIsValid(1) | |              
+| a  | true | rfidIsValid(a) | |
+| uwtc4 | true | rfidIsValid(uwtc4) | |
+| 6.6 | true | rfidIsValid6.6) | |
+| null | false |rfidIsValid(null) | |
+| undefined | false | rfidIsValid(undefined) | |
+
+
+###  checkBodyKeys
+
+**Criteria for checkBodyKeys
+
+- Check if the value in input exists
+
+**Predicates for method checkBodyKeys
+
+| Criteria     | Predicate        |
+|--------------|------------------|
+|   Input value |   undefined  |
+|    |           String  |
+|    |           Integer  |
+|    |           Float  |
+|    |           null  |
+
+**Combination of predicates**:
+
+| Value        | True / False | Description of the test case      | Jest test case   |
+|--------------|--------------|-----------------------------------|------------------|
+| {x:"1"}  | true  | checkBodyKeys({x:"1"})| |              
+| a  | true | checkBodyKeys(a) | |
+| 1.6  | true | checkBodyKeys(1.6) | |
+| null  | false | checkBodyKeys(a) | |
+| undefined | false | checkBodyKeys(undefined) | |
 
 ###  Number.isInteger
 
@@ -44,28 +126,6 @@ Version: 1.1
 | a  | false | Number.isInteger(a) | |
 | uwtc4 | false | Number.isInteger(hie23) | |
 | 6.6 | false | Number.isInteger(6.6) | |
-
-
-### Object.keys().length
-
-**Criteria for Object.keys().length
-
-- Check if the value in input has a length > 0
-
-**Predicates for method Object.keys().length
-
-| Criteria     | Predicate        |
-|--------------|------------------|
-|   Input value |   undefined  |
-|    |           not undefined  |
-
-**Combination of predicates**:
-
-| Value        | True / False | Description of the test case      | Jest test case   |
-|--------------|--------------|-----------------------------------|------------------|
-| {x:"1"}  | true  | Object.keys({x:"1"}).length>0 | |              
-| a  | true | Object.keys(a).length>0 | |
-| undefined | false | Object.keys(undefined).length>0 | |
 
 
 ### not undefined
@@ -107,7 +167,7 @@ Version: 1.1
 | {"position":"111122223333", "aisle":1119, "row":2222, "col":3333}  | false | validPosition(value) | |
 | {"position":"111122223333", "aisle":1112}  | false | validPosition(value) | |
 | {"position":"111122223333"} | false | validPosition(value) | |
-| undefined | false | Object.keys(undefined).length>0 | |
+| undefined | false | validPosition(undefined) | |
 
 ### User - password.length < 8
 
