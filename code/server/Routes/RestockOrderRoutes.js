@@ -85,7 +85,6 @@ restockOrderRouter.get('/api/restockOrders/:id/returnItems', async (req, res) =>
 });
 
 //post
-//test non ok con Pragma problema foreign key
 restockOrderRouter.post('/api/restockOrder', async (req, res) => {
 
   if (req.body.issueDate === undefined || req.body.products === undefined || req.body.supplierId === undefined) {
@@ -230,10 +229,11 @@ restockOrderRouter.delete('/api/restockOrder/:id', async (req, res) => {
   if (req.params.id < 0) {
     return res.status(422).json({ error: 'validation of id failed' });
   }
-
+  
   const id = req.params.id;
 
-  let rs = restockServices.deleteRestock(id);
+  let rs = await restockServices.deleteRestockOrder(id);
+
 
   if (rs === false) {
     return res.status(503).json({ error: "generic error" });

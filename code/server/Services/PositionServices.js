@@ -19,7 +19,6 @@ class PositionServices {
     }
 
     async addPosition(item) {
-        let x = '';
         try {
             await this.position.createNewPosition(item);
         } catch (err) {
@@ -27,7 +26,7 @@ class PositionServices {
             return false;
         }
 
-        return x
+        return 201;
     }
 
     async changePosition(pos_id, data, newPos_id) {

@@ -42,7 +42,9 @@ describe('InternalOrder services no err tests', () => {
 
     testCreateInternalOrder();
     getInternalOrders();
-    // getInternalOrdersByState();
+    getInternalOrdersByState();
+    testGetInternalOrderById();
+    testModifyInternalOrder();
 
 });
 
@@ -84,6 +86,33 @@ function getInternalOrdersByState() {
     });
 }
 
+function testGetInternalOrderById() {
+    test('get internal orders by id', async () => {
+        let res;
+        await insertInternalOrders([io1, io2])
+
+        res = await io_serv.getInternalOrderById(1);
+        compareInternalOrders(res, io1);
+        res = await io_serv.getInternalOrderById(2);
+        compareInternalOrders(res, io2);
+
+    });
+}
+
+function testModifyInternalOrder() {
+    test('modify internal order', async () => {
+        let res;
+        await insertInternalOrders([io1, io2])
+
+        res = await io_serv.modifyInternalOrder(1, 'ACCEPTED');
+        res = await io_serv.getInternalOrderById(1);
+        io = io1;
+        io.state = 'ACCEPTED'
+        compareInternalOrders(res, io);
+
+    });
+}
+
 async function insertInternalOrders(ios) {
     for (io of ios) {
         await io_serv.createInternalOrder(io.issue_date, io.state, io.customer_id, io.products);
@@ -96,3 +125,4 @@ function compareInternalOrders(io1, io2) {
     expect(io1.customerId).toStrictEqual(io2.customer_id);
     expect(io1.products).toEqual(io2.products);
 }
+

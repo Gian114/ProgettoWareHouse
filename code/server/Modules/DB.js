@@ -6,7 +6,7 @@ class DB {
 
     constructor(dbname) {
         this.db = new sqlite.Database(dbname, (err) => {
-            if(err) throw err;
+            if (err) throw err;
         });
     }
 
@@ -23,9 +23,9 @@ class DB {
         await this.createTableUser();
         await this.createTableRestockOrder();
         await this.createTableReturnOrder();
-        await this.createTableSKUItem();
         await this.createTableTestResult();
         await this.createTableInternalOrder();
+        await this.createTableSKUItem();
         await this.createTableItem();
         await this.createTableProduct();
     }
@@ -41,11 +41,11 @@ class DB {
         await this.dropTableUser();
         await this.dropTableTestDescriptor();
         await this.dropTableSKU();
-        await this.dropTablePosition();   
+        await this.dropTablePosition();
     }
 
     activateForeignKeyControl() {
-        return new Promise((resolve, reject)  => {
+        return new Promise((resolve, reject) => {
             const sql = 'PRAGMA foreign_keys = ON';
             this.db.run(sql, (err) => {
                 if (err) {
@@ -71,7 +71,7 @@ class DB {
     }
 
     createTableSKU() {
-        return new Promise((resolve, reject)  => {
+        return new Promise((resolve, reject) => {
             const sql = 'CREATE TABLE IF NOT EXISTS SKU (id INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT NOT NULL, weight REAL NOT NULL, volume REAL NOT NULL, price REAL NOT NULL, notes TEXT NOT NULL, available_quantity INTEGER NOT NULL, position_id TEXT DEFAULT NULL, FOREIGN KEY(position_id) REFERENCES POSITION(id))';
             this.db.run(sql, (err) => {
                 if (err) {
@@ -84,7 +84,7 @@ class DB {
     }
 
     createTableSKUItem() {
-        return new Promise((resolve, reject)  => {  
+        return new Promise((resolve, reject) => {
             const sql = `
                 CREATE TABLE IF NOT EXISTS SKU_ITEM (
                     rfid TEXT PRIMARY KEY,
@@ -108,7 +108,7 @@ class DB {
                         FOREIGN KEY(return_order_id)
                         REFERENCES RETURN_ORDER(id)
                         ON DELETE SET NULL
-                )`; 
+                )`;
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -120,8 +120,8 @@ class DB {
     }
 
     createTablePosition() {
-        return new Promise((resolve, reject)  => {
-            const sql = 'CREATE TABLE IF NOT EXISTS POSITION (id TEXT PRIMARY KEY, aisle TEXT NOT NULL, row TEXT NOT NULL, col TEXT NOT NULL, max_weight REAL NOT NULL, max_volume REAL NOT NULL, occupied_weight REAL NOT NULL, occupied_volume REAL NOT NULL)';   
+        return new Promise((resolve, reject) => {
+            const sql = 'CREATE TABLE IF NOT EXISTS POSITION (id TEXT PRIMARY KEY, aisle TEXT NOT NULL, row TEXT NOT NULL, col TEXT NOT NULL, max_weight REAL NOT NULL, max_volume REAL NOT NULL, occupied_weight REAL NOT NULL, occupied_volume REAL NOT NULL)';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -133,8 +133,8 @@ class DB {
     }
 
     createTableTestDescriptor() {
-        return new Promise((resolve, reject)  => {
-            const sql = 'CREATE TABLE IF NOT EXISTS TEST_DESCRIPTOR (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, procedure_description TEXT NOT NULL, sku_id INTEGER NOT NULL, FOREIGN KEY(sku_id) REFERENCES SKU(id))';  
+        return new Promise((resolve, reject) => {
+            const sql = 'CREATE TABLE IF NOT EXISTS TEST_DESCRIPTOR (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, procedure_description TEXT NOT NULL, sku_id INTEGER NOT NULL, FOREIGN KEY(sku_id) REFERENCES SKU(id))';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -146,8 +146,8 @@ class DB {
     }
 
     createTableTestResult() {
-        return new Promise((resolve, reject)  => {
-            const sql = 'CREATE TABLE IF NOT EXISTS TEST_RESULT (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT NOT NULL, result INTEGER NOT NULL, sku_item_rfid TEXT NOT NULL, test_descriptor_id INTEGER NOT NULL, FOREIGN KEY(sku_item_rfid) REFERENCES SKU_ITEM(rfid), FOREIGN KEY(test_descriptor_id) REFERENCES TEST_DESCRIPTOR(id))';     
+        return new Promise((resolve, reject) => {
+            const sql = 'CREATE TABLE IF NOT EXISTS TEST_RESULT (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT NOT NULL, result INTEGER NOT NULL, sku_item_rfid TEXT NOT NULL, test_descriptor_id INTEGER NOT NULL, FOREIGN KEY(sku_item_rfid) REFERENCES SKU_ITEM(rfid), FOREIGN KEY(test_descriptor_id) REFERENCES TEST_DESCRIPTOR(id))';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -159,8 +159,13 @@ class DB {
     }
 
     createTableUser() {
+<<<<<<< HEAD
         return new Promise((resolve, reject)  => {
             const sql = 'CREATE TABLE IF NOT EXISTS USER (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL, name TEXT NOT NULL, surname TEXT NOT NULL, type TEXT NOT NULL, password TEXT NOT NULL)'; 
+=======
+        return new Promise((resolve, reject) => {
+            const sql = 'CREATE TABLE IF NOT EXISTS USER (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL, name TEXT NOT NULL, surname TEXT NOT NULL, type TEXT NOT NULL,password TEXT NOT NULL)';
+>>>>>>> fe1fd2f8b69ff07ec21e59985128dc4658b25812
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -172,8 +177,8 @@ class DB {
     }
 
     createTableRestockOrder() {
-        return new Promise((resolve, reject)  => { 
-            const sql = 'CREATE TABLE IF NOT EXISTS RESTOCK_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, issue_date TEXT NOT NULL, state TEXT NOT NULL, supplier_id INTEGER NOT NULL, TNdelivery_date TEXT DEFAULT NULL, FOREIGN KEY(supplier_id) REFERENCES USER(id))'; 
+        return new Promise((resolve, reject) => {
+            const sql = 'CREATE TABLE IF NOT EXISTS RESTOCK_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, issue_date TEXT NOT NULL, state TEXT NOT NULL, supplier_id INTEGER NOT NULL, TNdelivery_date TEXT DEFAULT NULL, FOREIGN KEY(supplier_id) REFERENCES USER(id))';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -185,8 +190,8 @@ class DB {
     }
 
     createTableReturnOrder() {
-        return new Promise((resolve, reject)  => {
-            const sql = 'CREATE TABLE IF NOT EXISTS RETURN_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, return_date TEXT NOT NULL, restock_order_id INTEGER NOT NULL, FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id))';  
+        return new Promise((resolve, reject) => {
+            const sql = 'CREATE TABLE IF NOT EXISTS RETURN_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, return_date TEXT NOT NULL, restock_order_id INTEGER NOT NULL, FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id))';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -198,8 +203,8 @@ class DB {
     }
 
     createTableInternalOrder() {
-        return new Promise((resolve, reject)  => {
-            const sql = 'CREATE TABLE IF NOT EXISTS INTERNAL_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, issue_date TEXT NOT NULL, state TEXT NOT NULL, customer_id INTEGER NOT NULL, FOREIGN KEY(customer_id) REFERENCES USER(id))';    
+        return new Promise((resolve, reject) => {
+            const sql = 'CREATE TABLE IF NOT EXISTS INTERNAL_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, issue_date TEXT NOT NULL, state TEXT NOT NULL, customer_id INTEGER NOT NULL, FOREIGN KEY(customer_id) REFERENCES USER(id))';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -211,8 +216,8 @@ class DB {
     }
 
     createTableItem() {
-        return new Promise((resolve, reject)  => {  
-            const sql = 'CREATE TABLE IF NOT EXISTS ITEM (id INTEGER PRIMARY KEY, sku_id INTEGER NOT NULL, description TEXT NOT NULL, price REAL NOT NULL, supplier_id INTEGER NOT NULL, FOREIGN KEY(sku_id) REFERENCES SKU(id), FOREIGN KEY(supplier_id) REFERENCES USER(id))';  
+        return new Promise((resolve, reject) => {
+            const sql = 'CREATE TABLE IF NOT EXISTS ITEM (id INTEGER PRIMARY KEY, sku_id INTEGER NOT NULL, description TEXT NOT NULL, price REAL NOT NULL, supplier_id INTEGER NOT NULL, FOREIGN KEY(sku_id) REFERENCES SKU(id), FOREIGN KEY(supplier_id) REFERENCES USER(id))';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -224,7 +229,7 @@ class DB {
     }
 
     createTableProduct() {
-        return new Promise((resolve, reject)  => {  
+        return new Promise((resolve, reject) => {
             const sql = `
                 CREATE TABLE IF NOT EXISTS PRODUCT (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -248,7 +253,7 @@ class DB {
                         FOREIGN KEY(return_order_id)
                         REFERENCES RETURN_ORDER(id)
                         ON DELETE SET NULL
-                )`; 
+                )`;
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -261,7 +266,7 @@ class DB {
 
 
     dropTableSKU() {
-        return new Promise((resolve, reject)  => {
+        return new Promise((resolve, reject) => {
             const sql = 'DROP TABLE IF EXISTS SKU';
             this.db.run(sql, (err) => {
                 if (err) {
@@ -274,7 +279,7 @@ class DB {
     }
 
     dropTableSKUItem() {
-        return new Promise((resolve, reject)  => {
+        return new Promise((resolve, reject) => {
             const sql = 'DROP TABLE IF EXISTS SKU_ITEM';
             this.db.run(sql, (err) => {
                 if (err) {
@@ -287,7 +292,7 @@ class DB {
     }
 
     dropTablePosition() {
-        return new Promise((resolve, reject)  => {
+        return new Promise((resolve, reject) => {
             const sql = 'DROP TABLE IF EXISTS POSITION';
             this.db.run(sql, (err) => {
                 if (err) {
@@ -300,7 +305,7 @@ class DB {
     }
 
     dropTableTestDescriptor() {
-        return new Promise((resolve, reject)  => {
+        return new Promise((resolve, reject) => {
             const sql = 'DROP TABLE IF EXISTS TEST_DESCRIPTOR';
             this.db.run(sql, (err) => {
                 if (err) {
@@ -313,7 +318,7 @@ class DB {
     }
 
     dropTableTestResult() {
-        return new Promise((resolve, reject)  => {
+        return new Promise((resolve, reject) => {
             const sql = 'DROP TABLE IF EXISTS TEST_RESULT';
             this.db.run(sql, (err) => {
                 if (err) {
@@ -326,7 +331,7 @@ class DB {
     }
 
     dropTableUser() {
-        return new Promise((resolve, reject)  => {
+        return new Promise((resolve, reject) => {
             const sql = 'DROP TABLE IF EXISTS USER';
             this.db.run(sql, (err) => {
                 if (err) {
@@ -339,7 +344,7 @@ class DB {
     }
 
     dropTableRestockOrder() {
-        return new Promise((resolve, reject)  => {
+        return new Promise((resolve, reject) => {
             const sql = 'DROP TABLE IF EXISTS RESTOCK_ORDER';
             this.db.run(sql, (err) => {
                 if (err) {
@@ -353,7 +358,7 @@ class DB {
     }
 
     dropTableReturnOrder() {
-        return new Promise((resolve, reject)  => {
+        return new Promise((resolve, reject) => {
             const sql = 'DROP TABLE IF EXISTS RETURN_ORDER';
             this.db.run(sql, (err) => {
                 if (err) {
@@ -366,7 +371,7 @@ class DB {
     }
 
     dropTableInternalOrder() {
-        return new Promise((resolve, reject)  => {
+        return new Promise((resolve, reject) => {
             const sql = 'DROP TABLE IF EXISTS INTERNAL_ORDER';
             this.db.run(sql, (err) => {
                 if (err) {
@@ -379,7 +384,7 @@ class DB {
     }
 
     dropTableItem() {
-        return new Promise((resolve, reject)  => {
+        return new Promise((resolve, reject) => {
             const sql = 'DROP TABLE IF EXISTS ITEM';
             this.db.run(sql, (err) => {
                 if (err) {
@@ -392,7 +397,7 @@ class DB {
     }
 
     dropTableProduct() {
-        return new Promise((resolve, reject)  => {
+        return new Promise((resolve, reject) => {
             const sql = 'DROP TABLE IF EXISTS PRODUCT';
             this.db.run(sql, (err) => {
                 if (err) {

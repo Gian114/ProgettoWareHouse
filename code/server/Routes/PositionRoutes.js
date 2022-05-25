@@ -36,10 +36,14 @@ positionRouter.post('/api/position', async (req, res) => {
 
 
   if (req.body.aisleID.length != 4 || req.body.row.length != 4 ||
-    req.body.col.length != 4) {
+    req.body.col.length != 4 ) {
     return res.status(422).json({ err: "invalid lenght of aisle and/or row and/or col" })
   }
 
+  const string = req.body.aisleID+req.body.row+req.body.col
+  if (req.body.positionID !== string){
+    return res.status(422).json({ err: "invalid positionID" })
+  }
   const item = req.body;
 
   let x = await positionServices.addPosition(item);

@@ -19,8 +19,8 @@ describe('testDao', () => {
         {
             "positionID" : "800234543412",
             "aisleID" : "8002",
-            "row" : "100",
-            "col" : "50",
+            "row" : "3454",
+            "col" : "3412",
             "maxWeight" : 1000,
             "maxVolume" : 1000
         }

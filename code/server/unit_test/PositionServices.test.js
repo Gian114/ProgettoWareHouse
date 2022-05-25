@@ -11,6 +11,7 @@ const pos = new Position(db.db)
 const pos_service = new PositionServices(pos)
 
 describe("Position Services", () => {
+    
     beforeEach(async () => {
 
         //deleting data 
@@ -42,6 +43,16 @@ describe("Position Services", () => {
         "maxVolume": 100
     }
 
+    let data1 =
+    {
+        "positionID": "800234543413",
+        "aisleID": "8002",
+        "row": "3454",
+        "col": "3413",
+        "maxWeight": 100,
+        "maxVolume": 100
+    }
+
     let data2 =
     {
         "positionID": "803234543545",
@@ -55,8 +66,10 @@ describe("Position Services", () => {
     }
 
 
+
+
     testPosition("800234543412", data);
-    //testModify("800234543412",data2,"803234543545")
+    testModify("800234543413",data1,data2,"803234543545")
 
 });
 
@@ -79,33 +92,23 @@ async function testPosition(id, data) {
     });
 }
 
-//se lo faccio assieme non vanno
 
-/*
-async function testModify(id, data2, newID) {
+async function testModify(id, data1, data2, newID) {
     test('modify Position', async () => {
+        let a = await pos_service.addPosition(data1);
+        expect(a).toStrictEqual(201);
+
         let res = await pos_service.changePosition(id, data2, newID)
         expect(res).toEqual(true);
+
+         //test 404
+         let res2 = await pos_service.changePositionID("900234543412","803234543546","8032","3454","3546");
+         expect(res2).toEqual(404);
         
-        res = await pos_service.getPosition();
-        expect(res[0]).toEqual({
-            id: newID,
-            aisle_id : data2.newAisleID,
-            row : data2.newRow,
-            col : data2.newCol,
-            max_weight : data2.newMaxWeight,
-            max_volume: data2.newMaxVolume,
-            occupied_weight: data2.newOccupiedWeight, 
-            occupied_volume: data2.newOccupiedVolume
-        });
     });
 
-     //test 404
-     let res2 = await pos_service.changePositionID("900234543412","803234543546","8032","3454","3546");
-     expect(res2).toEqual(404);
-
 }
-*/
+
 
 describe("delete Position", () => {
   

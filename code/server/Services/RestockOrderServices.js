@@ -92,16 +92,17 @@ class RestockOrderServices {
     async addRestockOrder(ro) {
         let suppliers;
         let user;
-        try{
-            suppliers = await this.user.getSuppliers();
-        }catch(err){
+
+        suppliers = await this.user.getSuppliers();
+        if(suppliers === ''){
             return 403;
         }
+        
         user = suppliers.find(sup => sup.id===ro.supplierId);
         if(user === undefined){
             return 404;
         }
-
+        
         try {
             await this.restockOrder.createNewRestockOrder(ro);
             let id = await this.db.getAutoincrementId('RESTOCK_ORDER');
@@ -109,7 +110,6 @@ class RestockOrderServices {
                 await this.product.insertProductRestockOrder(ro.products[i].SKUId, ro.products[i].description, ro.products[i].price, ro.products[i].qty, id);
             }
         } catch (err) {
-            console.log(err);
             return false;
         }
     }
@@ -183,7 +183,10 @@ class RestockOrderServices {
     }
 
     async deleteRestockOrder(id) {
-        let ok = "ok";
+        let ok = await this.restockOrder.getRestockOrderStateById(id);
+        if(ok === ''){
+            return false;
+        }
         try {
             await this.restockOrder.deleteRestockOrder(id);
             await this.product.deleteProductByRestockOrderId(id);

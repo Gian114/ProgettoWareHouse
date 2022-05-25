@@ -65,7 +65,26 @@ describe('test test results apis', () => {
         "Result": true
     }
 
+    tr_wrong_key = {
+        "rfid": "1234",
+        "idTestDescriptor": 1,
+        "Date": "2021/11/28",
+        "res": true
+    }
+
+    tr_ne_rfid = {
+        "rfid": "2345",
+        "idTestDescriptor": 1,
+        "Date": "2021/11/28",
+        "Result": true
+    }
+
     createTestResult(201, tr_valid);
+    createTestResult(422, tr_wrong_key);
+    createTestResult(404, tr_ne_rfid);
+    getTestResults(404, "2345", 'no sku item associated to rfid', tr_valid);
+    getTestResults(200, "1234", tr_valid, tr_valid);
+
 });
 
 function createTestResult(expectedHTTPStatus, data) {
@@ -78,11 +97,28 @@ function createTestResult(expectedHTTPStatus, data) {
                     done();
                 });
         } else {
-            agent.post('/api/sku') //we are not sending any data
+            agent.post('/api/skuitems/testResult') //we are not sending any data
                 .then(function (res) {
                     res.should.have.status(expectedHTTPStatus);
                     done();
                 });
+        }
+
+    });
+}
+
+function getTestResults(expectedHTTPStatus, rfid, body, tr) {
+    it('get test results', async function () {
+        await agent.post('/api/skuitems/testResult').send(tr);
+        const res = await agent.get('/api/skuitems/' + rfid + '/testResults');
+        res.should.have.status(expectedHTTPStatus);
+        if (res.status == 200) {
+            res.body[0].Date.should.equal(body.Date);
+            res.body[0].idTestDescriptor.should.equal(body.idTestDescriptor);
+            res.body[0].Result.should.equal(body.Result);
+        }
+        else {
+            res.body.should.equal(body);
         }
 
     });
