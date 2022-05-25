@@ -33,7 +33,7 @@ class PositionServices {
     async changePosition(pos_id, data, newPos_id) {
         let x;
 
-        let y = await this.position.getPositionByID(id);
+        let y = await this.position.getPositionByID(pos_id);
         if (y === '') {
             return 404;
         }
@@ -68,7 +68,7 @@ class PositionServices {
     async deletePosition(id) {
         let x
 
-        let y = await this.position.getPositionByID(pos_id);
+        let y = await this.position.getPositionByID(id);
         if (y === '') {
             return 404;
         }
@@ -78,6 +78,7 @@ class PositionServices {
         } catch (err) {
             return false;
         }
+        return true;
 
     }
 
