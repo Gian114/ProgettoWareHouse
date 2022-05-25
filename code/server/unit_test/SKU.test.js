@@ -37,7 +37,15 @@ describe('testDao', () => {
     }
 
     testNewSKU(data);
+    testWrongNewSKU( {"description" : "a new sku","weight" : 100}) //not enough data
     testModifySKU(1, modifiedData);
+    testWrongModifySKU(1, {
+        "newDescription" : "a modifed sku",
+        "newWeight" : 120,
+        "newNotes" : "modified SKU",
+        "newPrice" : 10.99,
+        "newAvailableQuantity" : 60}); //no volume(must not be null)
+
     testModifyPosition(1, '8024111111112222');
     testdeleteSKU(1);
 
@@ -65,6 +73,25 @@ function testNewSKU(data) {
     });
 }
 
+function testWrongNewSKU(data) {
+    test('create new sku but wrong input data', async () => {
+        
+        try{
+         await dao.createSKU(data);
+        }catch(err){
+            expect(err.message).toStrictEqual('SQLITE_CONSTRAINT: NOT NULL constraint failed: SKU.volume')
+        }
+
+        //should return an error so it does not insert on the database
+       
+        let res = await dao.getListofSKU();
+         //still 1, not 2
+        expect(res.length).toStrictEqual(1);
+      
+    });
+}
+
+
 function testModifySKU(id, data) {
     test('modify sku', async () => {
         
@@ -78,6 +105,18 @@ function testModifySKU(id, data) {
         expect(res.notes).toStrictEqual(data.newNotes);    
         expect(res.price).toStrictEqual(data.newPrice);
         expect(res.availableQuantity).toStrictEqual(data.newAvailableQuantity);      
+    });
+}
+
+function testWrongModifySKU(id, data) {
+    test('modify sku but wrong data in input, no volume', async () => {
+        
+        try{
+            await dao.modifySKU(id, data);
+        }catch(err){
+            expect(err.message).toStrictEqual('SQLITE_CONSTRAINT: NOT NULL constraint failed: SKU.volume')
+        }
+      
     });
 }
 
