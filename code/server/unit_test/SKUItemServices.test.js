@@ -6,7 +6,10 @@ const DB = require('../Modules/DB').DB;
 const db = new DB(':memory:');
 const dao = new SKUItem(db.db)
 
-const si_service = new SKUItemServices(dao)
+const SKU = require('../Modules/SKU')
+const sku = new SKU(db.db)
+
+const si_service = new SKUItemServices(dao, sku)
 
 
 describe("create and get SKUItem(s)", () => {
@@ -15,6 +18,26 @@ describe("create and get SKUItem(s)", () => {
         //deleting data 
         await db.dropTableSKUItem();
         await db.createTableSKUItem()
+        await db.dropTableSKU()
+        await db.createTableSKU();
+        
+        await sku.createSKU({
+            "description" : "a new sku",
+            "weight" : 100,
+            "volume" : 50,
+            "notes" : "first SKU",
+            "price" : 10.99,
+            "availableQuantity" : 50
+        })
+        await sku.createSKU({
+            "description" : "another sku",
+            "weight" : 100,
+            "volume" : 50,
+            "notes" : "second SKU",
+            "price" : 10.99,
+            "availableQuantity" : 50
+        })
+
 
     });
 
@@ -97,6 +120,34 @@ async function testGet_Modify(skuid, data) {
             SKUId: skuid,
             Available: data.newAvailable,
             DateOfStock: data.newDateOfStock
+        })
+        
+    });
+}
+
+describe("get skuitems by rfid", () => {
+
+    let data = 
+    {
+        "RFID":"12345678901234567890123456789015",
+        "SKUId":1,
+        "DateOfStock":"2021/11/29 12:30"
+    }
+
+    //testGetRFID(data)
+    
+});
+
+async function testGetRFID(data) {
+    test('get skuitems by rfid', async () => {
+
+        let res = await si_service.getSKUItemsByRFID(data.RFID)
+        //we expect one item
+        expect(res).toEqual({
+            RFID: data.RFID,
+            SKUId: data.SKUId,
+            Available: 0,
+            DateOfStock: data.DateOfStock
         })
         
     });

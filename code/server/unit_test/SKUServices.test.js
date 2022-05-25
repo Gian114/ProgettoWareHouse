@@ -14,8 +14,11 @@ describe("get sku(s)", () => {
     beforeEach(async () => {
 
         //deleting data 
+        await db.dropTablePosition();
+        await db.createTablePosition()
         await db.dropTableSKU();
         await db.createTableSKU();
+        
 
         //creating sku
         let data = 
@@ -40,6 +43,14 @@ describe("get sku(s)", () => {
 
         await sku.createSKU(data);
         await sku.createSKU(data2);
+        await pos.createNewPosition({
+            "positionID":"800234543412",
+            "aisleID": "8002",
+            "row": "3454",
+            "col": "3412",
+            "maxWeight": 1000,
+            "maxVolume": 1000
+        })
         
     });
 
@@ -153,6 +164,25 @@ async function testModify(id, data) {
     });
 }
 
+//another testcase
+describe("modify position", () => {
+   
+
+
+    testModifyPosition(1, "800234543412");
+    //testModify(3, modifiedData);  //this failes because there is no sku with id 3
+    //testModify(2, wrongData) //this failes because the data passed is wrong
+
+});
+
+
+async function testModifyPosition(id, positionid) {
+    test('modify position SKU', async () => {
+        let res = await sku_service.modifyPosition(id, positionid)
+        //it returns 4222 because the position max volume and max weight are not enough
+        expect(res).toEqual(4222);
+    });
+}
 
 //another testcase
 describe("delete SKU", () => {

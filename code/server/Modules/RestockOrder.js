@@ -37,7 +37,7 @@ class RestockOrder {
                     return;
                 }
                 
-                console.log(rows);
+                //console.log(rows);
 
                 const restock_orders_dict = rows.map(row => ({
                         id: row.ro_id,
@@ -327,10 +327,10 @@ class RestockOrder {
                             issueDate: row.issue_date, 
                             state: row.state,
                             product: {
-                                SKUid: row.sku_id,
+                                SKUId: row.sku_id,
                                 description: row.description,
                                 price: row.price,
-                                quantity: row.quantity
+                                qty: row.quantity
                             },
                             supplierId: row.supplier_id,
                             transportNote: { deliveryDate: row.delivery_date },
@@ -447,6 +447,7 @@ class RestockOrder {
                     reject(err);
                     return;
                 }
+              
                 let state = '';
                 if (row !== undefined) {
                     state = row.state;
@@ -478,7 +479,6 @@ class RestockOrder {
             const sql = 'INSERT INTO RESTOCK_ORDER(issue_date, state, supplier_id) VALUES(?, "ISSUED", ?)';
             this.db.run(sql, [data.issueDate, data.supplierId], (err) => {
                 if (err) {
-                    console.log(err);
                     reject(err);
                     return;
                 }

@@ -4,8 +4,7 @@ const DB = require('../Modules/DB').DB;
 const db = new DB(':memory:');
 const RestockOrder = require('../Modules/RestockOrder');
 const roDao = new RestockOrder(db.db);
-const User = require('../Modules/User');
-const userDao = new User(db.db);
+
 
 describe('test Restock Order', () => {
     beforeAll(async () => {
@@ -45,31 +44,11 @@ describe('test Restock Order', () => {
 function testNewRo(data) {
     test('create new restock order', async () => {
 
-        /*
-        const user_data =
-        {
-            "username":"user1@ezwh.com",
-            "name":"John",
-            "surname" : "Smith",
-            "password" : "testpassword",
-            "type" : "supplier"
-    
-        };
-        */
-    
-        
-        //await userDao.createUser(user_data);
         await roDao.createNewRestockOrder(data); 
-        
-        let res = await roDao.getAllRestockOrderIssued();
-        res = res.concat(await roDao.getAllRestockOrderNotIssued());
-        res = res.concat(await roDao.getAllRestockOrderDelivery());
-        expect(res.length).toStrictEqual(1);
-        
-        res = await roDao.getRestockOrderByID(1);
 
-        expect(res.issueDate).toStrictEqual(data.issueDate);
-        expect(res.products).toStrictEqual([]);
-        expect(res.supplierId).toStrictEqual(data.supplierId);     
+        let ro = await roDao.getRestockOrderStateById(1);
+        console.log(ro);
+        expect(ro).toStrictEqual("ISSUED");
+            
     });
 }
