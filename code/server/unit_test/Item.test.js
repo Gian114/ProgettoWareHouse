@@ -33,7 +33,7 @@ describe('test item', () => {
         };
     testModIt(data, newData);
 
-    test('delete test descriptor', async () => {
+    test('delete item', async () => {
         let res = await itDao.deleteItem(data.id);
         res = await itDao.getAllItems();
         expect(res.length).toStrictEqual(0);
