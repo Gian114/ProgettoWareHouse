@@ -42,7 +42,7 @@ describe('InternalOrder services no err tests', () => {
 
     testCreateInternalOrder();
     getInternalOrders();
-    // getInternalOrdersByState();
+    getInternalOrdersByState();
 
 });
 
