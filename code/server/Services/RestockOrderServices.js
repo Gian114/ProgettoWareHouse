@@ -101,6 +101,7 @@ class RestockOrderServices {
         if(user === undefined){
             return 404;
         }
+        console.log(user);
 
         try {
             await this.restockOrder.createNewRestockOrder(ro);
@@ -109,7 +110,6 @@ class RestockOrderServices {
                 await this.product.insertProductRestockOrder(ro.products[i].SKUId, ro.products[i].description, ro.products[i].price, ro.products[i].qty, id);
             }
         } catch (err) {
-            console.log(err);
             return false;
         }
     }
