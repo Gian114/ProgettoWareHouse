@@ -35,8 +35,7 @@ describe('TestResult services no err tests', () => {
     testCreateTestResult();
     testGetTestResultsByRFID();
     testGetTestResultByRFIDAndId();
-    // don't know why it doesn't work. TODO: fix
-    //testModifyTestResult();
+    testModifyTestResult();
     testRemoveTestResult();
 
 });
@@ -96,9 +95,9 @@ function testModifyTestResult() {
         expect(res).toStrictEqual('')
 
         res = await tr_serv.getTestResultByRFIDAndId(tr2.rfid, 2);
-        expect(tr1.date).toStrictEqual("1/1/2022");
-        expect(tr1.result).toStrictEqual(false);
-        expect(tr1.test_descriptor_id).toStrictEqual(6);
+        expect(res.Date).toStrictEqual("1/1/2022");
+        expect(res.Result).toStrictEqual(false);
+        expect(res.idTestDescriptor).toStrictEqual(6);
     });
 }
 
@@ -124,8 +123,8 @@ async function insertTestResults(trs) {
 }
 
 function compareTestResults(tr1, tr2) {
-    expect(tr1.date).toStrictEqual(tr2.date);
-    expect(tr1.result).toStrictEqual(tr2.result);
-    expect(tr1.sku_item_rfid).toStrictEqual(tr2.rfid);
-    expect(tr1.test_descriptor_id).toStrictEqual(tr2.test_descriptor_id);
+    expect(tr1.Date).toStrictEqual(tr2.date);
+    expect(tr1.Result).toStrictEqual(tr2.result);
+    //expect(tr1.sku_item_rfid).toStrictEqual(tr2.rfid);
+    expect(tr1.idTestDescriptor).toStrictEqual(tr2.test_descriptor_id);
 }

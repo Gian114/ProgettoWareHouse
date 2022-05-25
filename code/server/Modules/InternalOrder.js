@@ -121,7 +121,7 @@ class InternalOrder {
                 FROM INTERNAL_ORDER IO
                 LEFT JOIN PRODUCT P
                 ON IO.id = P.internal_order_id
-                WHERE IO.state != 'COMPLETED';
+                WHERE IO.state = ?;
                 `;
 
             this.db.all(sql, [state], (err, rows) => {
