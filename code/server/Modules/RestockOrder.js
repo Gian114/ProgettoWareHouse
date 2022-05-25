@@ -480,7 +480,6 @@ class RestockOrder {
             this.db.run(sql, [data.issueDate, data.supplierId], (err) => {
                 if (err) {
                     reject(err);
-                    console.log(err);
                     return;
                 }
                 resolve(this.lastID);
