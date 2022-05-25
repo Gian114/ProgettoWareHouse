@@ -11,7 +11,7 @@ class InternalOrderServices {
         let internal_orders;
         internal_orders = this.transformInternalOrdersListNotCompleted(await this.io_table.getInternalOrdersNotCompleted());
         const io_comp = this.transformInternalOrdersListCompleted(await this.io_table.getInternalOrdersCompleted());
-        internal_orders.concat(io_comp);
+        internal_orders = internal_orders.concat(io_comp);
         return internal_orders;
     }
 
