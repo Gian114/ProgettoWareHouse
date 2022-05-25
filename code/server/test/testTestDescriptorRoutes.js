@@ -8,7 +8,7 @@ var agent = chai.request.agent(app);
 
 const db = require('../Modules/DB').db;
 
-describe('test testDesciptor apis', () => {
+describe('test test desciptor apis', () => {
 
     const sku =
         {
@@ -59,7 +59,7 @@ describe('test testDesciptor apis', () => {
     beforeEach(async () => {
             await db.startDB();
             await agent.post('/api/sku/').send(sku);
-    })
+    });
 
     newTestDescriptor(201, data1);
     newTestDescriptor(404, data2);
@@ -73,7 +73,7 @@ describe('test testDesciptor apis', () => {
     modifyTestDescriptor(422, data1, 'wrong id', newData1);
 
     deleteTestDescriptor(204, data1, 1);
-    deleteTestDescriptor(204, data1, -1);
+    deleteTestDescriptor(422, data1, -1);
 
     getTestDescriptorById(200, data1, 1);
     getTestDescriptorById(404, data1, 2);

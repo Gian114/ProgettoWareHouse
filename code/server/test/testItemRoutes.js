@@ -112,7 +112,7 @@ describe('test item apis', () => {
     newItem(201, data2);
     newItem(422, data3);
     newItem(422, data4);
-    newItem(422) //we are not sending any data
+    newItem(422); //we are not sending any data
     newItem(404, data5);
     newItem(404, data6);
 

@@ -17,7 +17,7 @@ testDescriptorRouter.get('/api/testDescriptors', async (req, res) => {
 
     const x = await testDescriptorServices.getAllTestDescriptors();
     if(x === false){
-        return res.status(500).json({error: "generic error"})
+        return res.status(500).json({error: "generic error"});
     }
     return res.status(200).json(x);
 
@@ -75,7 +75,7 @@ testDescriptorRouter.put('/api/testDescriptor/:id', async (req, res) => {
     const x = await testDescriptorServices.modifyTestDescriptor(newValues, id);
 
     if(x === false){
-        return res.status(503).json({error: "generic error"})
+        return res.status(503).json({error: "generic error"});
     } 
     else if(x === '') {
         return res.status(404).json({error: "no test descriptor associated id or no sku associated to IDSku"});
@@ -88,7 +88,7 @@ testDescriptorRouter.put('/api/testDescriptor/:id', async (req, res) => {
 
 testDescriptorRouter.delete('/api/testDescriptor/:id', async (req, res) => {
 
-    if(!Number.isInteger(parseFloat(req.params.id)) || req.params.is<0){
+    if(!Number.isInteger(parseFloat(req.params.id)) || req.params.id<0){
         return res.status(422).json({error: 'validation of id failed'});
     }
 
@@ -96,7 +96,7 @@ testDescriptorRouter.delete('/api/testDescriptor/:id', async (req, res) => {
     const x = await testDescriptorServices.deleteTestDescriptor(id);
 
     if(x === false){
-        return res.status(503).json({error: "generic error"})
+        return res.status(503).json({error: "generic error"});
     } 
     return res.status(204).json();
 

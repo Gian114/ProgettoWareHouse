@@ -22,7 +22,7 @@ returnOrderRouter.get('/api/returnOrders', async (req, res) => {
 
     const x = await returnOrderServices.getAllReturnOrders();
     if(x === false){
-        return res.status(500).json({error: "generic error"})
+        return res.status(500).json({error: "generic error"});
     }
     return res.status(200).json(x);
 
@@ -82,7 +82,7 @@ returnOrderRouter.delete('/api/returnOrder/:id', async (req, res) => {
     const x = await returnOrderServices.deleteReturnOrder(id);
 
     if(x === false){
-        return res.status(503).json({error: "generic error"})
+        return res.status(503).json({error: "generic error"});
     } 
     return res.status(204).json();
 
