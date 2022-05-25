@@ -60,7 +60,6 @@ class Position {
                     reject(err);
                     return;
                 }
-                console.log(row);
 
                 if (row !== undefined) {
                     const position = "esiste"; //just use this to check

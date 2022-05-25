@@ -89,6 +89,9 @@ describe('test user apis', () => {
     modifyType(200, modify, "test2@ezwh.com")
     modifyType(422, modify)
     modifyType(422)
+
+
+    deleteUser(204, "test2@ezwh.com", "supplier")
 });
 
 
@@ -132,4 +135,11 @@ function modifyType(expectedHTTPStatus, data, username) {
         }
 
     });
+}
+
+function deleteUser(expectedHTTPStatus, username, type) {
+    it('delete user', async function () {
+            let res = await agent.delete('/api/users/' + username+"/"+type)
+                    res.should.have.status(expectedHTTPStatus);
+             })
 }

@@ -127,7 +127,7 @@ in this step we use the SKU apis too because for foreign key reference a sku mus
 |  1     |  Customer searches SKU by ID  |  
 |  2     |  System shows an error  |
 
-
+##Scenario 
 
 
 # Coverage of Scenarios and FR
@@ -139,10 +139,31 @@ Report also for each of the scenarios the (one or more) API Mocha tests that cov
 
 | Scenario ID     | Functional Requirements covered | Mocha Test(s)    |
 | --------------- | ------------------------------- | ---------------- |
-| 1-1  |   2.1   | testSKURouter.js |
-| 1-4(defined above) |  2.2  | testSKURouter.js |
-| 1-3  |  2.1  | testSKURouter.js |
-| 1-5(defined above) |  2.4   | testSKURouter.js |
+| 4-1  |   1.1   | testUserRouter.js -> newUser |
+| 7-1  |   //   | testUserRouter.js -> login |
+| /\  |   1.1   | testUserRouter.js -> modifyType |
+| 1-1  |   2.1   | testSKURouter.js -> newSKU |
+| 1-4(see above)  |   2.2   | testSKURouter.js -> deleteSKU |
+| 1-5(see above)  |   2.4   | testSKURouter.js -> getSKU |
+| 2-1  |   3.1.1   | testPositionRoutes.js -> newPosition |
+| 2-5  |   3.1.2   | testPositionRoutes.js -> deletePosition |
+| /\ |   3.1.3   | testPositionRoutes.js -> getPosition |
+| 4-1  |   4.1   | testUserRouter.js -> newUser |
+| 4-3  |   4.2   | testUserRouter.js -> deleteUser |
+| // |   5  | testRestockOrderRoute.js -> newRestockOrder |
+| // |   5 | testRestockOrderRoutes.js -> getRestockOrder |
+| // |   5  | testRestockOrderRoutes.js -> deleteRestockOrder |
+| 5-2-1 |   5.8.1  | testSKUItemRoutes.js -> newSKUItem |
+| // |   5.8.2  | testTestResultRoutes.js -> createTestResults |
+| // |   5.8.3  | testSKUItemRoutes.js -> modifyItem |
+| // |   //  | testSKUItemRoutes.js -> deleteItem |
+| 9-1 |   6.1  | testInternalOrderRoutes.js -> createInternalOrder |
+| /\ |   6.7  | testInternalOrderRoutes.js -> modifyInternalOrder |
+| 9-3 |   6.6  | testInternalOrderRoutes.js -> deleteInternalOrder |
+
+
+
+
           
 
 
