@@ -193,7 +193,7 @@ class InternalOrder {
                 FROM INTERNAL_ORDER IO
                 LEFT JOIN PRODUCT P
                 ON IO.id = P.internal_order_id
-                WHERE IO.state != 'COMPLETED';
+                WHERE IO.id = ?;
                 `;
 
             this.db.all(sql, [id], (err, rows) => {
@@ -203,7 +203,7 @@ class InternalOrder {
                     return;
                 }
 
-                if (rows, length !== 0) {
+                if (rows.length !== 0) {
 
                     const internal_order = rows.map(row => ({
                         id: row.io_id,
