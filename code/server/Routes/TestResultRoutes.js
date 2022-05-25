@@ -122,7 +122,6 @@ testResultRouter.put('/api/skuitems/:rfid/testResult/:id', async (req, res) => {
     if (!rfidExists(rfid)) {
         return res.status(404).json('no SKUItem for the given rfid');
     }
-    // TODO: validate id TestDescriptor and id TestResult
 
     try {
         await tr_serv.modifyTestResult(rfid, id, req.body.newDate, req.body.newResult, req.body.newIdTestDescriptor);
