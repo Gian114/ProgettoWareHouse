@@ -3,9 +3,9 @@
 
 Authors: Pietro Gancitano, Davide Porello, Gianmarco De Paolis, Alberto Perugini
 
-Date: 27/04/2022
+Date: 25/05/2022
 
-Version: 1.1
+Version: 1.2
 
 
 # Contents
