@@ -31,7 +31,7 @@ app.use('', returnOrderRouter);
 app.use('', internalOrderRouter);
 app.use('', itemRouter);
 
-startDB();
+db.startDB();
 
 //GET /api/test
 app.get('/api/hello', (req, res) => {
@@ -47,8 +47,3 @@ app.listen(port, () => {
 });
 
 module.exports = app;
-
-async function startDB() {
-    await db.createTables();
-    await db.activateForeignKeyControl();
-}

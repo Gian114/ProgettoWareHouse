@@ -16,11 +16,8 @@ INSERT INTO SKU (id, description, weight, volume, price, notes, available_quanti
 VALUES (2, 'pencil', 0.1, 1.4, 1.29, 'notes', 250, 800011111111);
 
 
-
-
 INSERT INTO SKU_ITEM (rfid, available, sku_id, date_of_stock)
 VALUES ('1111', 1, 1,'19/04/2022');
-
 
 INSERT INTO SKU_ITEM (rfid, available, sku_id, date_of_stock)
 VALUES ('1112', 0, 1, '20/04/2022');
@@ -37,15 +34,6 @@ VALUES (2, 'proc 2', 'test proc', 1);
 
 INSERT INTO TEST_DESCRIPTOR (id, name, procedure_description, sku_id)
 VALUES (3, 'proc 3', 'test proc', 2);
-
-INSERT INTO USER(id, username, name, surname, type, password)
-VALUES(1, "mariorossi@gmail.com", "Mario", "Rossi", "manager", "qTeqqew82aS2");
-
-INSERT INTO USER(id, username, name, surname, type, password)
-VALUES(2, "lucaverdi@gmail.com", "Luca", "Verdi", "supplier", "qTeqqew822");
-
-INSERT INTO USER(id, username, name, surname, type, password)
-VALUES(3, "annamaria@gmail.com", "Anna", "Maria", "supplier", "dasWQ8dsa");
 
 
 INSERT INTO ITEM(id, sku_id, description, price, supplier_id)

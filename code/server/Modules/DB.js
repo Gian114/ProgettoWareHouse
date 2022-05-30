@@ -14,6 +14,7 @@ class DB {
         await this.dropTables();
         await this.createTables();
         await this.activateForeignKeyControl();
+        await this.insertUsers();
     }
 
     async createTables() { //the order is important, before referenced tables and after referencing tables
@@ -66,6 +67,24 @@ class DB {
                     return;
                 }
                 resolve(id.seq);
+            });
+        });
+    }
+
+   insertUsers() {
+        return new Promise((resolve, reject) => {
+            const sql = `INSERT INTO USER(id, username, name, surname, type, password) VALUES
+            (1, "user1@ezwh.com", "Mario", "Rossi", "customer", "testpassword"),
+            (2, "qualityEmployee@ezwh.com", "Marco", "Rossi", "quality employee", "testpassword"),
+            (3, "clerk1@ezwh.com", "Paolo", "Rossi", "clerk", "testpassword"),
+            (4, "deliveryEmployee@ezwh.com", "Pietro", "Rossi", "supplier", "testpassword"),
+            (5, "manager1@ezwh.com", "Giovanni", "Rossi", "manager", "testpassword");`;
+            this.db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(this.lastID);
             });
         });
     }
@@ -406,7 +425,7 @@ class DB {
 
 }
 
-const db = new DB('EZWH.sqlite');
+const db = new DB('EZWH.db');
 
 module.exports.db = db;
 module.exports.DB = DB;
