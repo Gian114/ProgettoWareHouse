@@ -14,7 +14,7 @@ describe('test user apis', () => {
     
     beforeEach(async () => {
 
-        await db.startDB()
+        await db.startTest();
         const user = 
         {
         "username":"test2@ezwh.com",

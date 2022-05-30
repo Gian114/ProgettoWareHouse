@@ -14,7 +14,7 @@ describe('test sku apis', () => {
 
     beforeEach(async () => {
 
-        await db.startDB();
+        await db.startTest();
         
     })
 

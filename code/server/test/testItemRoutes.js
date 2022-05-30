@@ -102,7 +102,7 @@ describe('test item apis', () => {
     
 
     beforeEach(async () => {
-        await db.startDB();
+        await db.startTest();
         await agent.post('/api/sku/').send(sku1);
         await agent.post('/api/sku/').send(sku2);
         await agent.post('/api/newUser/').send(user);

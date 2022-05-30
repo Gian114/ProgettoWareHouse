@@ -57,8 +57,8 @@ describe('test test desciptor apis', () => {
 
 
     beforeEach(async () => {
-            await db.startDB();
-            await agent.post('/api/sku/').send(sku);
+        await db.startTest();
+        await agent.post('/api/sku/').send(sku);
     });
 
     newTestDescriptor(201, data1);
