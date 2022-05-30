@@ -46,7 +46,7 @@ describe('test internal order apis', () => {
 
 
     beforeEach(async () => {
-        await db.startDB();
+        await db.startTest();
         await agent.post('/api/position').send(pos1);
         await agent.post('/api/sku').send(sku1);
         await agent.post('/api/skuitem').send(skuit1);

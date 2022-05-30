@@ -13,18 +13,18 @@ const db = require('../Modules/DB').db;
 describe('test skuitems apis', () => {
 
     beforeEach(async () => {
-            await db.startDB()
+        await db.startTest();
 
-            let sku =
-            {
-                    "description" : "another sku",
-                    "weight" : 100,
-                    "volume" : 50,
-                    "notes" : "first SKU",
-                    "price" : 10.99,
-                    "availableQuantity" : 50
-            }
-            await agent.post('/api/sku').send(sku)
+        let sku =
+        {
+                "description" : "another sku",
+                "weight" : 100,
+                "volume" : 50,
+                "notes" : "first SKU",
+                "price" : 10.99,
+                "availableQuantity" : 50
+        }
+        await agent.post('/api/sku').send(sku);
     })
 
   

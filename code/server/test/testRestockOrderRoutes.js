@@ -64,7 +64,7 @@ describe('test restock Order apis', () => {
     
     beforeEach(async () => {
 
-        await db.startDB();
+        await db.startTest();
         await agent.post('/api/newUser').send(user1);
         await agent.post('/api/sku').send(sku);
         

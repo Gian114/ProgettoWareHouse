@@ -17,6 +17,12 @@ class DB {
         await this.insertUsers();
     }
 
+    async startTest() {
+        await this.dropTables();
+        await this.createTables();
+        await this.activateForeignKeyControl();
+    }
+
     async createTables() { //the order is important, before referenced tables and after referencing tables
         await this.createTablePosition();
         await this.createTableSKU();

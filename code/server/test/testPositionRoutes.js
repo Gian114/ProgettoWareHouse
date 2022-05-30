@@ -16,7 +16,7 @@ describe('test position apis', () => {
 
     beforeEach(async () => {
 
-        await db.startDB();
+        await db.startTest();
         
     })
 
