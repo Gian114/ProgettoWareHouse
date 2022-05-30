@@ -1,0 +1,291 @@
+{
+	"info": {
+		"_postman_id": "0c05b700-aa37-42fd-96cb-f4fe6a62f74a",
+		"name": "EZWH",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "SKU",
+			"item": [
+				{
+					"name": "get /api/skus",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "get /api/skus/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/skus/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"skus",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post /api/sku",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\" : \"a new sku\",\r\n    \"weight\" : 100,\r\n    \"volume\" : 50,\r\n    \"notes\" : \"first SKU\",\r\n    \"price\" : 10.99,\r\n    \"availableQuantity\" : 50\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/sku",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"sku"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "put /api/sku/:id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"newDescription\" : \"a new sku\",\r\n    \"newWeight\" : 100,\r\n    \"newVolume\" : 50,\r\n    \"newNotes\" : \"first SKU\",\r\n    \"newPrice\" : 10.99,\r\n    \"newAvailableQuantity\" : 50\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/sku/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"sku",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "put /api/sku/:id/position",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"position\": \"800234523412\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/sku/:id/position",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"sku",
+								":id",
+								"position"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete /api/skus/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/skus/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"skus",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SKU ITEM",
+			"item": []
+		},
+		{
+			"name": "POSITION",
+			"item": []
+		},
+		{
+			"name": "TEST DESCRIPTOR",
+			"item": []
+		},
+		{
+			"name": "TEST RESULT",
+			"item": [
+				{
+					"name": "get api/skuitems/:rfid/testResults",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/skuitems/:rfid/testResults",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"skuitems",
+								":rfid",
+								"testResults"
+							],
+							"variable": [
+								{
+									"key": "rfid",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get /api/skuitems/:rfid/testResults/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/skuitems/:rfid/testResults/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"skuitems",
+								":rfid",
+								"testResults",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "rfid",
+									"value": "1"
+								},
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post /api/skuitems/testResult",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rfid\":\"12345678901234567890123456789016\",\r\n    \"idTestDescriptor\":12,\r\n    \"Date\":\"2021/11/28\",\r\n    \"Result\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/skuitems/testResult",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"skuitems",
+								"testResult"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "USER",
+			"item": []
+		},
+		{
+			"name": "RESTOCK ORDER",
+			"item": []
+		},
+		{
+			"name": "RETURN ORDER",
+			"item": []
+		},
+		{
+			"name": "INTERNAL ORDER",
+			"item": []
+		},
+		{
+			"name": "ITEM",
+			"item": []
+		}
+	]
+}

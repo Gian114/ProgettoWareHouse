@@ -3,9 +3,9 @@
 
 Authors: Pietro Gancitano, Davide Porello, Gianmarco De Paolis, Alberto Perugini
 
-Date: 27/04/2022
+Date: 25/05/2022
 
-Version: 1.1
+Version: 1.2
 
 
 # Contents
@@ -33,10 +33,18 @@ collect and display data from the server using the APIs through the GUI.
 
 # Low level design
 
-One single class diagram is used to implement the database and the application logic. The structural facade pattern is used to make the user's experience simple and not affected from eventual future changes in the lower level. The user interacts only with the system through the GUI that interacts with the WarehouseImplementation class, this class provides several methods that are internal implementations of the APIs and manages the interaction between the other classes.
-
 ## Class diagram
-![Low level design](Resources/LowLevelDesign.jpg "Low level design")
+
+### New class diagram
+![New low level design](Resources/LowLevelDesign.jpg "New low level design")
+
+This is the updated version of the design developed after writing the code and the tests. Above the services we have the routes layer that are not classes so they are not reported but implement the API calls.
+
+### Old class diagram
+
+![Old low level design](Resources/oldlowleveldesign.jpg "New low level design")
+
+One single class diagram is used to implement the database and the application logic. The structural facade pattern is used to make the user's experience simple and not affected from eventual future changes in the lower level. The user interacts only with the system through the GUI that interacts with the WarehouseImplementation class, this class provides several methods that are internal implementations of the APIs and manages the interaction between the other classes.
 
 
 # Verification traceability matrix
@@ -55,6 +63,8 @@ One single class diagram is used to implement the database and the application l
 
 
 # Verification sequence diagrams 
+
+These sequence diagrams are referred to the old class diagram.
 
 ## Sequence diagram of Use Case 1 - Scenario 1
 ![Manage SKUs](Resources/ManageSKUs.png "Manage SKUs")
