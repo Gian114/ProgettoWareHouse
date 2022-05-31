@@ -21,8 +21,18 @@ async function rfidExists(rfid) {
     return (res.RFID !== undefined)
 }
 
+async function idExists(rfid, id) {
+    let res
+    try {
+        res = (await tr_serv.getTestResultByRFIDAndId(rfid, id));
+    } catch {
+        return false
+    }
+    return (res.id !== undefined)
+}
+
 function rfidIsValid(rfid) {
-    return rfid.match(/^[0-9a-z]+$/)
+    return (rfid.match(/^[0-9a-z]+$/) && rfid.length === 32);
 }
 
 function idIsValid(id) {
@@ -119,8 +129,8 @@ testResultRouter.put('/api/skuitems/:rfid/testResult/:id', async (req, res) => {
     if (!rfidIsValid(rfid) || !idIsValid(id)) {
         return res.status(422).json('validation of id or rfid failed');
     }
-    if (!rfidExists(rfid)) {
-        return res.status(404).json('no SKUItem for the given rfid');
+    if (!(await rfidExists(rfid)) || !(await idExists(rfid, id))) {
+        return res.status(404).json('rfid or id not found');
     }
 
     try {
