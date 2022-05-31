@@ -34,7 +34,7 @@ skuRouter.get('/api/skus/:id', async (req, res) => {
         return res.status(422).json({ error: 'validation of id failed' })
     }
 
-    if (!Number.isInteger(parseFloat(req.params.id)) || req.params.id < 0) {
+    if (!Number.isInteger(Number(req.params.id)) || req.params.id < 0) {
         return res.status(422).json({ error: 'validation of id failed' });
     }
 
@@ -61,16 +61,16 @@ skuRouter.post('/api/sku', async (req, res) => {
         return res.status(422).json({ err: "invalid body" })
     }
 
-    if (req.body.description === undefined || req.body.weight === undefined ||
-        req.body.volume === undefined || req.body.notes === undefined ||
-        req.body.price === undefined || req.body.availableQuantity === undefined) {
+    if (req.body.description == undefined || req.body.weight == undefined ||
+        req.body.volume == undefined || req.body.notes == undefined ||
+        req.body.price == undefined || req.body.availableQuantity == undefined) {
         return res.status(422).json({ err: "invalid body" })
     }
 
     if (req.body.weight < 0 || req.body.volume < 0 || req.body.price < 0 || req.body.availableQuantity < 0 ||
-        !Number.isInteger(Number(req.body.weight)) ||
-        !Number.isInteger(Number(req.body.volume)) ||
-        !Number.isInteger(Number(req.body.price)) ||
+        !Number.isFinite(Number(req.body.weight)) ||
+        !Number.isFinite(Number(req.body.volume)) ||
+        !Number.isFinite(Number(req.body.price)) ||
         !Number.isInteger(Number(req.body.availableQuantity)) ||
         req.body.description.length === 0 ||
         req.body.notes.length === 0) {
@@ -96,15 +96,15 @@ skuRouter.put('/api/sku/:id', async (req, res) => {
         return res.status(422).json({})
     }
 
-    if (!Number.isInteger(parseFloat(req.params.id)) || req.params.id < 0) {
+    if (!Number.isInteger(Number(req.params.id)) || req.params.id < 0) {
         return res.status(422).json({ error: 'validation of id failed' });
     }
 
     const id = req.params.id;
 
-    if (req.body.newDescription === undefined || req.body.newWeight === undefined ||
-        req.body.newVolume === undefined || req.body.newNotes === undefined ||
-        req.body.newPrice === undefined || req.body.newAvailableQuantity === undefined) {
+    if (req.body.newDescription == undefined || req.body.newWeight == undefined ||
+        req.body.newVolume == undefined || req.body.newNotes == undefined ||
+        req.body.newPrice == undefined || req.body.newAvailableQuantity == undefined) {
         return res.status(422).json({ err: "invalid body" })
     }
 
@@ -126,11 +126,11 @@ skuRouter.put('/api/sku/:id/position', async (req, res) => {
         return res.status(422).json({})
     }
 
-    if (!Number.isInteger(parseFloat(req.params.id)) || req.params.id < 0) {
+    if (!Number.isInteger(Number(req.params.id)) || req.params.id < 0) {
         return res.status(422).json({ error: 'validation of id failed' });
     }
 
-    if (req.body.position === undefined) {
+    if (req.body.position == undefined) {
         return res.status(422).json({ error: "invalid body" })
     }
 
@@ -138,7 +138,7 @@ skuRouter.put('/api/sku/:id/position', async (req, res) => {
     const positionID = req.body.position
 
     let x;
-    x = await sservices.modifyPosition(res, id, positionID)
+    x = await sservices.modifyPosition(id, positionID)
     if (x === false) {
         return res.status(503).json({ error: "generic error" })
     } else if (x === 404) {
@@ -164,7 +164,7 @@ skuRouter.delete('/api/skus/:id', async (req, res) => {
         return res.status(422).json({})
     }
 
-    if (!Number.isInteger(parseFloat(req.params.id)) || req.params.id < 0) {
+    if (!Number.isInteger(Number(req.params.id)) || req.params.id < 0) {
         return res.status(422).json({ error: 'validation of id failed' });
     }
 

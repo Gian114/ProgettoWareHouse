@@ -15,7 +15,7 @@ class Item {
                   return;
                 }
 
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }

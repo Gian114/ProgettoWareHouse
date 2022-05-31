@@ -16,7 +16,7 @@ class Position {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -29,7 +29,7 @@ class Position {
                     reject(err);
                     return;
                 }
-                if (rows !== undefined) {
+
                     const position = rows.map((r) => (
 
                         {
@@ -44,10 +44,7 @@ class Position {
                         }
                     ));
                     resolve(position);
-                } else {
-                    const position = ''
-                    resolve(position)
-                }
+            
             });
         });
     }
@@ -62,7 +59,17 @@ class Position {
                 }
 
                 if (row !== undefined) {
-                    const position = "esiste"; //just use this to check
+                    const position =
+                    {
+                        id: row.id,
+                        aisle_id: row.aisle,
+                        row: row.row,
+                        col: row.col,
+                        max_weight: row.max_weight,
+                        max_volume: row.max_volume,
+                        occupied_weight: row.occupied_weight,
+                        occupied_volume: row.occupied_volume,
+                    }
                     resolve(position);
                 } else {
                     const position = '';
@@ -130,37 +137,6 @@ class Position {
         })
     }
 
-    getPosition(positionID) {
-        return new Promise((resolve, reject) => {
-            const sql = 'SELECT * FROM POSITION WHERE id = ?';
-            this.db.get(sql, [positionID], (err, r) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-
-                if (r !== undefined) {
-                    const position =
-                    {
-                        id: r.id,
-                        aisle_id: r.aisle,
-                        row: r.row,
-                        col: r.col,
-                        max_weight: r.max_weight,
-                        max_volume: r.max_volume,
-                        occupied_weight: r.occupied_weight,
-                        occupied_volume: r.occupied_volume,
-                    }
-
-                    resolve(position);
-                }
-                else {
-                    const position = ''
-                    resolve(position)
-                }
-            });
-        });
-    }
 }
 
 module.exports = Position;

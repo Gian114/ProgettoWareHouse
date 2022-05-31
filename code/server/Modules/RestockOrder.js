@@ -248,7 +248,7 @@ class RestockOrder {
                     return;
                 }
                 
-                if(rows.length !== undefined) {
+                if(rows.length !== 0) {
 
                     const restock_orders_dict = rows.map(row => ({
                             id: row.ro_id,
@@ -482,7 +482,7 @@ class RestockOrder {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }

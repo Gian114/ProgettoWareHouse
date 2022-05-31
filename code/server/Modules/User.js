@@ -55,8 +55,6 @@ class User{
                     reject(err);
                     return;
                 }
-                if(rows !== undefined){
-
                 
                     const user = rows.map((r) => (
                     
@@ -69,10 +67,7 @@ class User{
                         }
                     ));
                 resolve(user);
-                } else {
-                    const user = ''
-                    resolve(user)
-                }
+
             });
         });
     }
@@ -107,19 +102,19 @@ class User{
     login(data, type){
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM USER WHERE username = ? AND password = ? AND type = ?';
-            this.db.get(sql, [data.username, data.password, type], (err, rows) => {
+            this.db.get(sql, [data.username, data.password, type], (err, row) => {
                 if (err) {
                     reject(err);
                     return;
                 }
 
-                if(rows !== undefined){
+                if(row !== undefined){
                     //only one row if everything works correctly
                     const user = 
                     {
-                        id : rows.id,
-                        username: rows.username,
-                        name: rows.name
+                        id : row.id,
+                        username: row.username,
+                        name: row.name
                     }
                     resolve(user);    
                 } else {
@@ -134,7 +129,7 @@ class User{
         return new Promise((resolve, reject)=>{
             //gestire old values e position
         const sql = 'UPDATE USER SET type = ? WHERE username = ? and type = ?'
-        this.db.run(sql, [data.newType, username, data.oldType], (err, r)=>{
+        this.db.run(sql, [data.newType, username, data.oldType], (err)=>{
             if (err) {
                 reject(err);
                 return;
@@ -148,7 +143,7 @@ class User{
     deleteUser(data) {
         return new Promise((resolve, reject) => {
             const sql = 'DELETE FROM USER WHERE username = ? AND type = ?';
-            this.db.run(sql, [data.username, data.type], (err, r) => {
+            this.db.run(sql, [data.username, data.type], (err) => {
                 if (err) {
                     reject(err);
                     return;
@@ -168,8 +163,6 @@ class User{
                     reject(err);
                     return;
                 }
-                if(rows !== undefined){
-
                 
                 const user = rows.map((r) => (
                 
@@ -182,10 +175,7 @@ class User{
                     }
                 ));
                 resolve(user);
-                } else {
-                    const user = ''
-                    resolve(user)
-                }
+                
             });
         });
     }

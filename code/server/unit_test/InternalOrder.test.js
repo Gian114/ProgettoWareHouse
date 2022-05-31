@@ -73,7 +73,7 @@ function testModifyInternalOrderState() {
         await insertInternalOrder([io1, io2, io3]);
 
         res = await io_dao.modifyInternalOrderState(1, 'DELIVERY')
-        expect(res).toStrictEqual('');
+        expect(res).toStrictEqual(true);
 
         res = await io_dao.getInternalOrderStateById(1);
         expect(res).toStrictEqual('DELIVERY');

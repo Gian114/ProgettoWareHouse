@@ -293,7 +293,7 @@ class InternalOrder {
                     reject(err);
                     return;
                 }
-                resolve('');
+                resolve(true);
             });
         });
     }
@@ -312,7 +312,7 @@ class InternalOrder {
                     reject(err);
                     return;
                 }
-                resolve('');
+                resolve(true);
             });
         });
     }

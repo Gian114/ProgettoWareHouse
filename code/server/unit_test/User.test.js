@@ -106,7 +106,7 @@ function testGetSuppliers(username, name, surname) {
     test('get suppliers', async () => {
         
         const res = await dao.getSuppliers()
-        console.log(res)
+        //console.log(res)
         expect(res[0].email).toStrictEqual(username); 
         expect(res[0].name).toStrictEqual(name); 
         expect(res[0].surname).toStrictEqual(surname); 

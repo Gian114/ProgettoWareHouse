@@ -30,7 +30,7 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
     if(Object.keys(req.params).length === 0){
       return res.status(422).json({})}
 
-    if(!Number.isInteger(parseFloat(req.params.id)) || req.params.id<0) {
+    if(!Number.isInteger(parseInt(req.params.id)) || req.params.id<0) {
         return res.status(422).json({error: 'validation of id failed'});
     }
 
@@ -54,7 +54,7 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
       return res.status(422).json({})}
 
 
-    if(!Number.isInteger(parseFloat(req.params.rfid)) || req.params.rfid<0) {
+    if(!Number.isInteger(parseInt(req.params.rfid)) || req.params.rfid<0) {
         return res.status(422).json({error: 'validation of id failed'});
     }
     
@@ -76,8 +76,8 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
       return res.status(422).json({})}
   
 
-    if(req.body.RFID === undefined || req.body.SKUId === undefined ||
-      req.body.DateOfStock === undefined){
+    if(req.body.RFID == undefined || req.body.SKUId == undefined ||
+      req.body.DateOfStock == undefined){
         return res.status(422).json({})}  
     
     const item = req.body;
@@ -99,12 +99,12 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
     Object.keys(req.params).length === 0){
       return res.status(422).json({})}
 
-    if(!Number.isInteger(parseFloat(req.params.rfid)) || req.params.rfid<0) {
+    if(!Number.isInteger(parseInt(req.params.rfid)) || req.params.rfid<0) {
       return res.status(422).json({error: 'validation of id failed'});
     }
   
 
-    if(req.body.newRFID === undefined || req.body.newAvailable === undefined || req.body.newDateOfStock === undefined){
+    if(req.body.newRFID == undefined || req.body.newAvailable == undefined || req.body.newDateOfStock == undefined){
         return res.status(422).json({})}  
   
     const rfid = req.params.rfid;
@@ -125,7 +125,7 @@ skuItemRouter.get('/api/skuitems', async (req,res) =>{
     if (Object.keys(req.params).length === 0){
       return res.status(422).json({})}
 
-    if(!Number.isInteger(parseFloat(req.params.rfid)) || req.params.rfid<0) {
+    if(!Number.isInteger(parseInt(req.params.rfid)) || req.params.rfid<0) {
         return res.status(422).json({error: 'validation of id failed'});
     }
 

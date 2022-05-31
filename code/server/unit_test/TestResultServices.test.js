@@ -45,7 +45,7 @@ function testCreateTestResult() {
 
         let res;
         res = await tr_serv.createTestResult(tr1.rfid, tr1.test_descriptor_id, tr1.date, tr1.result);
-        expect(res).toStrictEqual('');
+        expect(res).toStrictEqual(true);
     });
 }
 
@@ -92,7 +92,7 @@ function testModifyTestResult() {
         await insertTestResults([tr1, tr2, tr3]);
 
         res = await tr_serv.modifyTestResult(tr2.rfid, 2, "1/1/2022", false, 6);
-        expect(res).toStrictEqual('')
+        expect(res).toStrictEqual(true)
 
         res = await tr_serv.getTestResultByRFIDAndId(tr2.rfid, 2);
         expect(res.Date).toStrictEqual("1/1/2022");
@@ -108,7 +108,7 @@ function testRemoveTestResult() {
         await insertTestResults([tr1, tr2, tr3]);
 
         res = await tr_serv.removeTestResult(tr2.rfid, 2);
-        expect(res).toStrictEqual('')
+        expect(res).toStrictEqual(true)
 
         res = await tr_serv.getTestResultsByRFID(tr2.rfid);
         expect(res.length).toStrictEqual(1);

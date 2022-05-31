@@ -32,16 +32,16 @@ async function idExists(rfid, id) {
 }
 
 function rfidIsValid(rfid) {
-    return (rfid.match(/^[0-9a-z]+$/) && rfid.length === 32);
+    return (rfid.match(/^[0-9a-z]+$/)); //&& rfid.length === 32);
 }
 
 function idIsValid(id) {
-    return (Number.isInteger(parseFloat(id)) && id > 0);
+    return (Number.isInteger(Number(id)) && id > 0);
 }
 
 function checkBodyKeys(body, keys) {
     for (const key of keys) {
-        if (body[key] === undefined) {
+        if (body[key] == undefined) {
             return false;
         }
     }

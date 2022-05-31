@@ -28,9 +28,9 @@ positionRouter.get('/api/position', async (req, res) => {
 //test ok 
 positionRouter.post('/api/position', async (req, res) => {
 
-  if (req.body.positionID === undefined || req.body.aisleID === undefined || req.body.row === undefined ||
-    req.body.col === undefined || req.body.maxWeight === undefined
-    || req.body.maxVolume === undefined) {
+  if (req.body.positionID == undefined || req.body.aisleID == undefined || req.body.row == undefined ||
+    req.body.col == undefined || req.body.maxWeight == undefined
+    || req.body.maxVolume == undefined) {
     return res.status(422).json({ err: "invalid body" })
   }
 
@@ -66,9 +66,9 @@ positionRouter.put('/api/position/:positionID', async (req, res) => {
   }
 
 
-  if (req.body.newAisleID === undefined || req.body.newRow === undefined ||
-    req.body.newCol === undefined || req.body.newMaxWeight === undefined ||
-    req.body.newOccupiedWeight === undefined || req.body.newOccupiedVolume === undefined) {
+  if (req.body.newAisleID == undefined || req.body.newRow == undefined ||
+    req.body.newCol == undefined || req.body.newMaxWeight == undefined ||
+    req.body.newOccupiedWeight == undefined || req.body.newOccupiedVolume == undefined) {
     return res.status(422).json({})
   }
 
@@ -104,7 +104,7 @@ positionRouter.put('/api/position/:positionID/changeID', async (req, res) => {
   }
   */
 
-  if (req.params.positionID === undefined || req.body.newPositionID === undefined) {
+  if (req.params.positionID == undefined || req.body.newPositionID == undefined) {
     return res.status(422).json({})
   }
 

@@ -25,7 +25,7 @@ testDescriptorRouter.get('/api/testDescriptors', async (req, res) => {
 
 testDescriptorRouter.get('/api/testDescriptors/:id', async (req, res) => {
 
-    if (!Number.isInteger(parseFloat(req.params.id)) || req.params.id < 0) {
+    if (!Number.isInteger(Number(req.params.id)) || req.params.id < 0) {
         return res.status(422).json({ error: 'validation of id failed' });
     }
 
@@ -46,10 +46,10 @@ testDescriptorRouter.get('/api/testDescriptors/:id', async (req, res) => {
 
 testDescriptorRouter.post('/api/testDescriptor', async (req, res) => {
 
-    if (req.body.name == undefined || req.body.procedureDescription == undefined || !Number.isInteger(parseFloat(req.body.idSKU)) || req.body.idSKU < 0) {
+    if (req.body.name == undefined || req.body.procedureDescription == undefined || !Number.isInteger(Number(req.body.idSKU)) || req.body.idSKU < 0) {
         return res.status(422).json({ err: "validation of request body failed" });
     }
-
+    
     const td = req.body;
     const x = await testDescriptorServices.createNewTestDescriptor(td);
     if (x === false) {
@@ -66,7 +66,7 @@ testDescriptorRouter.post('/api/testDescriptor', async (req, res) => {
 
 testDescriptorRouter.put('/api/testDescriptor/:id', async (req, res) => {
 
-    if (req.body.newName === undefined || req.body.newProcedureDescription === undefined || !Number.isInteger(parseFloat(req.body.newIdSKU)) || !Number.isInteger(parseFloat(req.params.id)) || req.params.id < 0 || req.body.newIdSKU < 0) {
+    if (req.body.newName == undefined || req.body.newProcedureDescription == undefined || !Number.isInteger(Number(req.body.newIdSKU)) || !Number.isInteger(Number(req.params.id)) || req.params.id < 0 || req.body.newIdSKU < 0) {
         return res.status(422).json({ err: "validation of request body or of id failed" });
     }
 
@@ -88,7 +88,7 @@ testDescriptorRouter.put('/api/testDescriptor/:id', async (req, res) => {
 
 testDescriptorRouter.delete('/api/testDescriptor/:id', async (req, res) => {
 
-    if (!Number.isInteger(parseFloat(req.params.id)) || req.params.id < 0) {
+    if (!Number.isInteger(Number(req.params.id)) || req.params.id < 0) {
         return res.status(422).json({ error: 'validation of id failed' });
     }
 

@@ -88,12 +88,12 @@ describe('test return order apis', () => {
 
     beforeEach(async () => {
         await db.startTest();
-        await agent.post('/api/newUser/').send(user);
-        await agent.post('/api/sku/').send(sku1);
-        await agent.post('/api/sku/').send(sku2);
-        await agent.post('/api/skuitem/').send(skui1);
-        await agent.post('/api/skuitem/').send(skui2);
-        await agent.post('/api/restockOrder/').send(reso);
+        await agent.post('/api/newUser').send(user);
+        await agent.post('/api/sku').send(sku1);
+        await agent.post('/api/sku').send(sku2);
+        await agent.post('/api/skuitem').send(skui1);
+        await agent.post('/api/skuitem').send(skui2);
+        await agent.post('/api/restockOrder').send(reso);
     })
 
     newReturnOrder(201, data1);
@@ -114,7 +114,7 @@ describe('test return order apis', () => {
 
 function newReturnOrder(expectedHTTPStatus, data) {
     it('create a new return order', function (done) {
-        agent.post('/api/returnOrder/')
+        agent.post('/api/returnOrder')
             .send(data)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
@@ -125,7 +125,7 @@ function newReturnOrder(expectedHTTPStatus, data) {
 
 function deleteReturnOrder(expectedHTTPStatus, data, id) {
     it('delete a return order', function (done) {
-        agent.post('/api/returnOrder/')
+        agent.post('/api/returnOrder')
             .send(data)
             .then(function (res1) {
                 res1.should.have.status(201);
@@ -140,7 +140,7 @@ function deleteReturnOrder(expectedHTTPStatus, data, id) {
 
 function getReturnOrderById(expectedHTTPStatus, data, id) {
     it('get a return order by id', function (done) {
-        agent.post('/api/returnOrder/')
+        agent.post('/api/returnOrder')
             .send(data)
             .then(function (res1) {
                 res1.should.have.status(201);
@@ -165,15 +165,15 @@ function getReturnOrderById(expectedHTTPStatus, data, id) {
 
 function getAllReturnOrders(expectedHTTPStatus, data) {
     it('get all return orders', function (done) {
-        agent.post('/api/returnOrder/')
+        agent.post('/api/returnOrder')
             .send(data)
             .then(function (res1) {
                 res1.should.have.status(201);
-                agent.post('/api/returnOrder/')
+                agent.post('/api/returnOrder')
                     .send(data)
                     .then(function (res2) {
                         res2.should.have.status(201);
-                        agent.get('/api/returnOrders/')
+                        agent.get('/api/returnOrders')
                             .then(function (res3) {
                                 res3.should.have.status(expectedHTTPStatus);
                                 if(res3.status === 200) {

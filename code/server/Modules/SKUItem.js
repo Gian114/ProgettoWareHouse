@@ -149,7 +149,7 @@ class SKUItem{
                     reject(err);
                     return;
                 }
-                if(rows !== undefined){
+                
 
                 
                 const skuitems = rows.map((r) => (
@@ -162,10 +162,7 @@ class SKUItem{
                     }
                 ));
                 resolve(skuitems);
-            } else {
-                const skuitem = [];
-                resolve(skuitem);
-            }
+            
             });
         });
     }
@@ -178,7 +175,6 @@ class SKUItem{
                     reject(err);
                     return;
                 }
-                if(rows !== undefined){
 
                 
                     const skuitem = rows.map((r) => (
@@ -194,7 +190,7 @@ class SKUItem{
 
         
               resolve(skuitem);
-            }});
+            });
         });
 
     }

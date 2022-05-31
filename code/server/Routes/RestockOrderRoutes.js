@@ -43,7 +43,7 @@ restockOrderRouter.get('/api/restockOrdersIssued', async (req, res) => {
 //test ok  
 restockOrderRouter.get('/api/restockOrders/:id', async (req, res) => {
 
-  if (req.params.id === undefined) {
+  if (!Number.isInteger(Number(req.params.id)) || req.params.id<0) {
     return res.status(422).json({ error: 'validation of id failed' });
   }
 
@@ -63,7 +63,7 @@ restockOrderRouter.get('/api/restockOrders/:id', async (req, res) => {
 //test ok 
 restockOrderRouter.get('/api/restockOrders/:id/returnItems', async (req, res) => {
 
-  if (req.params.id === undefined) {
+  if (!Number.isInteger(Number(req.params.id)) || req.params.id<0) {
     return res.status(422).json({ error: 'validation of id failed' });
   }
 
@@ -87,7 +87,7 @@ restockOrderRouter.get('/api/restockOrders/:id/returnItems', async (req, res) =>
 //post
 restockOrderRouter.post('/api/restockOrder', async (req, res) => {
 
-  if (req.body.issueDate === undefined || req.body.products === undefined || req.body.supplierId === undefined) {
+  if (req.body.issueDate == undefined || req.body.products == undefined || req.body.supplierId == undefined) {
     return res.status(422).json({ err: "unprocessable entity" });
   }
 
@@ -110,7 +110,7 @@ restockOrderRouter.post('/api/restockOrder', async (req, res) => {
 //test ok 
 restockOrderRouter.put('/api/restockOrder/:id', async (req, res) => {
 
-  if (Object.keys(req.params).length === 0 || req.params.id < 0
+  if (Object.keys(req.params).length === 0 || !Number.isInteger(Number(req.params.id)) || req.params.id<0
     || Object.keys(req.body) === 0) {
     return res.status(422).json({})
   }
@@ -138,7 +138,7 @@ restockOrderRouter.put('/api/restockOrder/:id', async (req, res) => {
 //test ok 
 restockOrderRouter.put('/api/restockOrder/:id/skuItems', async (req, res) => {
 
-  if (Object.keys(req.params).length === 0 || req.params.id < 0
+  if (Object.keys(req.params).length === 0 || !Number.isInteger(Number(req.params.id)) || req.params.id<0
     || Object.keys(req.body) === 0) {
     return res.status(422).json({})
   }
@@ -176,7 +176,7 @@ restockOrderRouter.put('/api/restockOrder/:id/skuItems', async (req, res) => {
 //test ok
 restockOrderRouter.put('/api/restockOrder/:id/transportNote', async (req, res) => {
 
-  if (Object.keys(req.params).length === 0 || req.params.id < 0
+  if (Object.keys(req.params).length === 0 || !Number.isInteger(Number(req.params.id)) || req.params.id<0
     || Object.keys(req.body) === 0) {
     return res.status(422).json({})
   }
@@ -222,7 +222,8 @@ restockOrderRouter.put('/api/restockOrder/:id/transportNote', async (req, res) =
 
 //not tested 
 restockOrderRouter.delete('/api/restockOrder/:id', async (req, res) => {
-  if (req.params.id < 0) {
+  
+  if (!Number.isInteger(Number(req.params.id)) || req.params.id<0) {
     return res.status(422).json({ error: 'validation of id failed' });
   }
   

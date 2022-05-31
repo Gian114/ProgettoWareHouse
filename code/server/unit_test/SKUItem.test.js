@@ -96,7 +96,7 @@ function testGetSKUITEMBySKUID(skuid,data){
     test('get skuitem by sku', async () => {
         
         let res = await dao.getSKUItemsBySKUId(skuid)
-        console.log(res)
+        //console.log(res)
         expect(res[0].RFID).toStrictEqual(data.RFID);
         expect(res[0].Available).toStrictEqual(1);    
         expect(res[0].SKUId).toStrictEqual(skuid)
@@ -111,7 +111,7 @@ function testGetAll(){
     test('get all skuitems', async () => {
         
         let res = await dao.getAllSKUItems()
-        console.log(res)
+        //console.log(res)
         expect(res.length).toStrictEqual(1);
             
     });
