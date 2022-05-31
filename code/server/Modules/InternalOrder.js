@@ -66,11 +66,10 @@ class InternalOrder {
                     P.price AS price,
                     P.description AS description,
                     S.rfid AS rfid
-                FROM INTERNAL_ORDER IO, PRODUCT P, SKU_ITEM S
-                WHERE IO.id = P.internal_order_id
-                AND S.internal_order_id = IO.id
-                AND S.sku_id = P.sku_id
-                AND IO.state = 'COMPLETED';
+                FROM INTERNAL_ORDER IO
+                LEFT JOIN PRODUCT P ON IO.id = P.internal_order_id
+                LEFT JOIN SKU_ITEM S ON S.internal_order_id = IO.id AND S.sku_id = P.sku_id
+                WHERE IO.state = 'COMPLETED';
                 `;
 
             this.db.all(sql, [], (err, rows) => {
