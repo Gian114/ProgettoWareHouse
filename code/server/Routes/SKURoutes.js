@@ -68,9 +68,9 @@ skuRouter.post('/api/sku', async (req, res) => {
     }
 
     if (req.body.weight < 0 || req.body.volume < 0 || req.body.price < 0 || req.body.availableQuantity < 0 ||
-        !Number.isFinite(Number(req.body.weight)) ||
-        !Number.isFinite(Number(req.body.volume)) ||
-        !Number.isFinite(Number(req.body.price)) ||
+        !Number.isInteger(Number(req.body.weight)) ||
+        !Number.isInteger(Number(req.body.volume)) ||
+        !Number.isInteger(Number(req.body.price)) ||
         !Number.isInteger(Number(req.body.availableQuantity)) ||
         req.body.description.length === 0 ||
         req.body.notes.length === 0) {
@@ -96,7 +96,7 @@ skuRouter.put('/api/sku/:id', async (req, res) => {
         return res.status(422).json({})
     }
 
-    if (!Number.isInteger(Number(req.params.id)) || req.params.id < 0) {
+    if (req.params.id == undefined || !Number.isInteger(Number(req.params.id)) || req.params.id < 0) {
         return res.status(422).json({ error: 'validation of id failed' });
     }
 
@@ -126,7 +126,8 @@ skuRouter.put('/api/sku/:id/position', async (req, res) => {
         return res.status(422).json({})
     }
 
-    if (!Number.isInteger(Number(req.params.id)) || req.params.id < 0) {
+    if (req.params.id == undefined || !Number.isInteger(Number(req.params.id)) || req.params.id < 0 ||
+        req.body.position.length !== 12) {
         return res.status(422).json({ error: 'validation of id failed' });
     }
 
