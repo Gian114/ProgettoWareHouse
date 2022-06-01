@@ -18,7 +18,7 @@ class SKU{
                   reject(err);
                   return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -33,7 +33,6 @@ class SKU{
                     return;
                 }
                 
-                if(rows !== undefined){
                 const sku = rows.map((r) => (
                 
                     {  
@@ -49,10 +48,7 @@ class SKU{
                     }
                 ));
                 resolve(sku);
-            } else {
-                const sku = ""
-                resolve(sku)
-            }
+            
             });
         });
     }
@@ -60,30 +56,30 @@ class SKU{
 
     getSKUByID(id) {
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT * FROM SKU WHERE ID = ?';
-            this.db.get(sql, id, (err, r) => {
+            const sql = 'SELECT * FROM SKU WHERE id = ?';
+            this.db.get(sql, [id], (err, row) => {
                 
                 if (err) {
                     reject(err);
                     return;
                 }
-                if(r!==undefined){
+                if(row !== undefined){
                     const sku =  
                     {  
-                        id: r.id,
-                        description : r.description,
-                        weight : r.weight,
-                        volume : r.volume,
-                        notes : r.notes,
-                        position: r.position_id,
-                        availableQuantity: r.available_quantity, 
-                        price: r.price,
-                    }
-                    resolve(sku)
+                        id: row.id,
+                        description : row.description,
+                        weight : row.weight,
+                        volume : row.volume,
+                        notes : row.notes,
+                        position: row.position_id,
+                        availableQuantity: row.available_quantity, 
+                        price: row.price,
+                    };
+                    resolve(sku);
                 } else {
-                        const sku = ''
-                        resolve(sku)
-                    }
+                    const sku = '';
+                    resolve(sku);
+                }
                     
             });
         });
@@ -93,7 +89,7 @@ class SKU{
         return new Promise((resolve, reject)=>{
             //gestire old values e position
         const sql = 'UPDATE SKU SET DESCRIPTION = ?, WEIGHT = ?, VOLUME = ?, NOTES = ?, AVAILABLE_QUANTITY = ?, PRICE = ? WHERE ID = ?'
-        this.db.run(sql, [data.newDescription, data.newWeight, data.newVolume, data.newNotes,data.newAvailableQuantity, data.newPrice, id], (err, r)=>{
+        this.db.run(sql, [data.newDescription, data.newWeight, data.newVolume, data.newNotes,data.newAvailableQuantity, data.newPrice, id], (err)=>{
             if (err) {
                 reject(err);
                 return;
@@ -106,8 +102,8 @@ class SKU{
 
     deleteSKU(id) {
         return new Promise((resolve, reject) => {
-            const sql = 'DELETE FROM SKU WHERE ID = ?';
-            this.db.run(sql, [id], (err, r) => {
+            const sql = 'DELETE FROM SKU WHERE id = ?';
+            this.db.run(sql, [id], (err) => {
                 if (err) {
                     reject(err);
                     return;
@@ -122,8 +118,8 @@ class SKU{
 
         return new Promise((resolve, reject)=>{
             
-        const sql = 'UPDATE SKU SET position_id = ? WHERE ID = ?'
-        this.db.run(sql, [position, id], (err, r)=>{
+        const sql = 'UPDATE SKU SET position_id = ? WHERE id = ?'
+        this.db.run(sql, [position, id], (err)=>{
             if (err) {
                 reject(err);
                 return;

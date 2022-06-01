@@ -76,7 +76,7 @@ class SKUServices{
     } else {
         
         try {
-            p = await this.pos.getPosition(positionID)
+            p = await this.pos.getPositionByID(positionID)
         } catch(err){
             console.log(err)
             return false

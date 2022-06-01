@@ -69,16 +69,20 @@ class SKUItem{
                     reject(err);
                     return;
                 }
-                
+                if(rows.length !==0){
                 const skuitems = rows.map((r) => (
                     {  
-                        rfid: r.rfid,
-                        available: r.available,
-                        sku: r.sku_id,
-                        dateOfStock: r.date_of_stock
+                        RFID: r.rfid,
+                        Available: r.available,
+                        SKUId: r.sku_id,
+                        DateOfStock: r.date_of_stock
                     }
                 ));
                 resolve(skuitems);
+            } else {
+                const skuitems = ''
+                resolve(skuitems)
+            }
             });
         });
     }
@@ -149,9 +153,8 @@ class SKUItem{
                     reject(err);
                     return;
                 }
-                if(rows !== undefined){
-
                 
+                if(rows.length !==0){
                 const skuitems = rows.map((r) => (
                 
                     {  
@@ -163,9 +166,10 @@ class SKUItem{
                 ));
                 resolve(skuitems);
             } else {
-                const skuitem = [];
-                resolve(skuitem);
+                const skuitems = ''
+                resolve(skuitems)
             }
+            
             });
         });
     }
@@ -178,7 +182,6 @@ class SKUItem{
                     reject(err);
                     return;
                 }
-                if(rows !== undefined){
 
                 
                     const skuitem = rows.map((r) => (
@@ -194,7 +197,7 @@ class SKUItem{
 
         
               resolve(skuitem);
-            }});
+            });
         });
 
     }

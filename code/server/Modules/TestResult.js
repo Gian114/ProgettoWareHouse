@@ -107,7 +107,7 @@ class TestResult {
                     return;
                 }
 
-                resolve('');
+                resolve(true);
             });
         });
     }
@@ -130,7 +130,7 @@ class TestResult {
                     return;
                 }
 
-                resolve('');
+                resolve(true);
             });
         });
     }
@@ -149,7 +149,7 @@ class TestResult {
                     return;
                 }
 
-                resolve('');
+                resolve(true);
             });
         });
     }

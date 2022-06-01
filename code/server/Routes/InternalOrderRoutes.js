@@ -16,7 +16,7 @@ const InternalOrderServices = require('../Services/InternalOrderServices');
 const io_serv = new InternalOrderServices(io, prod_table, item_table);
 
 function idIsValid(id) {
-    return (Number.isInteger(parseFloat(id)) && id > 0);
+    return (Number.isInteger(Number(id)) && id > 0);
 }
 
 async function ioIdExists(id) {
@@ -143,7 +143,7 @@ internalOrderRouter.put('/api/internalOrders/:id', async (req, res) => {
         return res.status(404).json('no internal order with specified id');
     }
 
-    if (state === undefined || (state === 'COMPLETED' && req.body.products === undefined) || Object.keys(req.body).length > 2) {
+    if (state == undefined || (state === 'COMPLETED' && req.body.products == undefined) || Object.keys(req.body).length > 2) {
         return res.status(422).json('validation of request body failed');
     }
 

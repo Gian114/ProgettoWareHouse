@@ -11,6 +11,16 @@ class DB {
     }
 
     async startDB() {
+        //await this.dropTables();
+        await this.createTables();
+        await this.activateForeignKeyControl();
+        const users = await this.getUsers();
+        if (!users) {
+            await this.insertUsers();
+        }
+    }
+
+    async startDBAcceptanceTests() {
         await this.dropTables();
         await this.createTables();
         await this.activateForeignKeyControl();
@@ -59,7 +69,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -77,20 +87,37 @@ class DB {
         });
     }
 
-   insertUsers() {
+    insertUsers() {
         return new Promise((resolve, reject) => {
             const sql = `INSERT INTO USER(id, username, name, surname, type, password) VALUES
             (1, "user1@ezwh.com", "Mario", "Rossi", "customer", "testpassword"),
             (2, "qualityEmployee@ezwh.com", "Marco", "Rossi", "quality employee", "testpassword"),
             (3, "clerk1@ezwh.com", "Paolo", "Rossi", "clerk", "testpassword"),
             (4, "deliveryEmployee@ezwh.com", "Pietro", "Rossi", "supplier", "testpassword"),
-            (5, "manager1@ezwh.com", "Giovanni", "Rossi", "manager", "testpassword");`;
+            (5, "manager1@ezwh.com", "Giovanni", "Rossi", "manager", "testpassword")`;
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
+            });
+        });
+    }
+
+    getUsers() {
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM USER';
+            this.db.all(sql, [], (err, rows) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                if (rows.length !== 0) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
             });
         });
     }
@@ -103,7 +130,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -139,7 +166,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -152,7 +179,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -165,7 +192,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -178,7 +205,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -191,7 +218,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -204,7 +231,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -217,7 +244,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -230,7 +257,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -243,7 +270,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -279,7 +306,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -293,7 +320,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -306,7 +333,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -319,7 +346,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -332,7 +359,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -345,7 +372,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -358,7 +385,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -371,7 +398,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
 
@@ -385,7 +412,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -398,7 +425,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -411,7 +438,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -424,7 +451,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }

@@ -39,9 +39,9 @@ userRouter.post('/api/newUser', async (req,res) =>{
         return res.status(422).json({err:"invalid body"})
         }
         
-    if(req.body.username === undefined || req.body.name === undefined ||
-        req.body.surname === undefined || req.body.password === undefined || 
-        req.body.type === undefined){
+    if(req.body.username == undefined || req.body.name == undefined ||
+        req.body.surname == undefined || req.body.password == undefined || 
+        req.body.type == undefined){
             return res.status(422).json({err:"invalid body"})
         }
 
@@ -68,7 +68,7 @@ userRouter.post('/api/managerSessions', async (req,res) =>{
         //i work with the premise that in the frontend the password is send
         //using a crypting algorithm, the same used to store the passwords in the db
 
-    if(req.body.username === undefined || req.body.password === undefined){
+    if(req.body.username == undefined || req.body.password == undefined){
      return res.status(422).json({err:"invalid body"})}
 
     let data = req.body;
@@ -92,7 +92,7 @@ userRouter.post('/api/customerSessions', async (req,res) =>{
         //i work with the premise that in the frontend the password is send
         //using a crypting algorithm, the same used to store the passwords in the db
 
-    if(req.body.username === undefined || req.body.password === undefined){
+    if(req.body.username == undefined || req.body.password == undefined){
      return res.status(422).json({err:"invalid body"})}
 
     let data = req.body;
@@ -114,7 +114,7 @@ userRouter.post('/api/supplierSessions', async (req,res) =>{
         //i work with the premise that in the frontend the password is send
         //using a crypting algorithm, the same used to store the passwords in the db
 
-    if(req.body.username === undefined || req.body.password === undefined){
+    if(req.body.username == undefined || req.body.password == undefined){
      return res.status(422).json({err:"invalid body"})}
 
     let data = req.body;
@@ -136,7 +136,7 @@ userRouter.post('/api/clerkSessions', async (req,res) =>{
         //i work with the premise that in the frontend the password is send
         //using a crypting algorithm, the same used to store the passwords in the db
 
-    if(req.body.username === undefined || req.body.password === undefined){
+    if(req.body.username == undefined || req.body.password == undefined){
      return res.status(422).json({err:"invalid body"})}
 
      let data = req.body;
@@ -158,7 +158,7 @@ userRouter.post('/api/qualityEmployeeSessions', async (req,res) =>{
         //i work with the premise that in the frontend the password is send
         //using a crypting algorithm, the same used to store the passwords in the db
 
-    if(req.body.username === undefined || req.body.password === undefined){
+    if(req.body.username == undefined || req.body.password == undefined){
      return res.status(422).json({err:"invalid body"})}
 
      let data = req.body;
@@ -180,7 +180,7 @@ userRouter.post('/api/deliveryEmployeeSessions', async (req,res) =>{
         //i work with the premise that in the frontend the password is send
         //using a crypting algorithm, the same used to store the passwords in the db
 
-    if(req.body.username === undefined || req.body.password === undefined){
+    if(req.body.username == undefined || req.body.password == undefined){
      return res.status(422).json({err:"invalid body"})}
 
      let data = req.body;
@@ -202,8 +202,8 @@ userRouter.put('/api/users/:username', async (req,res) =>{
         return res.status(422).json({err:"invalid body and/or params"})
     }
 
-    if(req.body.oldType === undefined || req.body.newType === undefined 
-        || req.params.username === undefined){
+    if(req.body.oldType == undefined || req.body.newType == undefined 
+        || req.params.username == undefined){
         return res.status(422).json({err:"invalid body and/or username"})}
     
     if(req.body.newType === "manager" || req.body.newType === "administrator"){
@@ -229,7 +229,7 @@ userRouter.delete('/api/users/:username/:type', async (req,res) =>{
         return res.status(422).json({err:"invalid params"})
     }
 
-    if(req.params.username === undefined || req.params.type === undefined){
+    if(req.params.username == undefined || req.params.type == undefined){
         return res.status(422).json({err:"validation of username or of type failed"})}
     
     if(req.params.type === "manager" || req.params.type === "administrator"){

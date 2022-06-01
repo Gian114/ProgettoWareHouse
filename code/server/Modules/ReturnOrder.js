@@ -15,14 +15,14 @@ class ReturnOrder {
                     return;
                 }
 
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
 
     getAllReturnOrders() {
         return new Promise((resolve, reject) => {
-            let sql = 'SELECT * FROM RETURN_ORDER';
+            const sql = 'SELECT * FROM RETURN_ORDER';
             this.db.all(sql, [], (err, rows) => {
                 if (err) {
                     reject(err);
@@ -45,7 +45,7 @@ class ReturnOrder {
 
     getReturnOrderById(id) {
         return new Promise((resolve, reject) => {
-            let sql = 'SELECT * FROM RETURN_ORDER WHERE id = ?';
+            const sql = 'SELECT * FROM RETURN_ORDER WHERE id = ?';
             this.db.get(sql, [id], (err, row) => {
                 if (err) {
                     reject(err);

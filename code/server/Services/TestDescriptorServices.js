@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 class TestDescriptorServices {
 
@@ -30,12 +30,12 @@ class TestDescriptorServices {
     }
 
     async createNewTestDescriptor(td) {
-
+        
         let x = await this.sku.getSKUByID(td.idSKU);
         if(x === '') {
             return x;
         }
-    
+        
         try {
             x = await this.testDescriptor.createNewTestDescriptor(td);
             return x;
