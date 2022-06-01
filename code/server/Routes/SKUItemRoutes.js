@@ -24,9 +24,10 @@ skuItemRouter.get('/api/skuitems', async (req, res) => {
     const si = await siservices.getSKUItems();
     if (si === false) {
         res.status(500).json({ error: "generic error" })
-    } else if (si === 404){
-        return res.status(404).json({ error: "no skuitems" });
     }
+    // } else if (si === 404){
+    //     return res.status(404).json({ error: "no skuitems" });
+    // }
     return res.status(200).json(si);
 
 });
@@ -71,7 +72,7 @@ skuItemRouter.get('/api/skuitems/:rfid', async (req, res) => {
     const si = await siservices.getSKUItemsByRFID(rfid)
     if (si === false) {
         return res.status(500).json({ error: "generic error" })
-    } else if (si === 404){
+    } else if (si === 404) {
         return res.status(404).json({ error: "no skuitem associated to rfid" });
     }
     return res.status(200).json(si);
@@ -128,7 +129,7 @@ skuItemRouter.put('/api/skuitems/:rfid', async (req, res) => {
     const si = await siservices.modifySKUItem(rfid, newvalues)
     if (si === false) {
         return res.status(503).json({ error: "generic error" })
-    } else if(si === 404){
+    } else if (si === 404) {
         return res.status(404).json({ error: "no skuitem associated to rfid" });
     }
     return res.status(200).json();
