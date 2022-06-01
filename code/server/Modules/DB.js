@@ -15,9 +15,16 @@ class DB {
         await this.createTables();
         await this.activateForeignKeyControl();
         const users = await this.getUsers();
-        if(!users){
+        if (!users) {
             await this.insertUsers();
         }
+    }
+
+    async startDBAcceptanceTests() {
+        await this.dropTables();
+        await this.createTables();
+        await this.activateForeignKeyControl();
+        await this.insertUsers();
     }
 
     async startTest() {
@@ -80,7 +87,7 @@ class DB {
         });
     }
 
-   insertUsers() {
+    insertUsers() {
         return new Promise((resolve, reject) => {
             const sql = `INSERT INTO USER(id, username, name, surname, type, password) VALUES
             (1, "user1@ezwh.com", "Mario", "Rossi", "customer", "testpassword"),
@@ -98,7 +105,7 @@ class DB {
         });
     }
 
-    getUsers(){
+    getUsers() {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM USER';
             this.db.all(sql, [], (err, rows) => {
@@ -106,7 +113,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                if(rows.length !== 0){
+                if (rows.length !== 0) {
                     resolve(true);
                 } else {
                     resolve(false);
