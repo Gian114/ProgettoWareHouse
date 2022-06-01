@@ -14,6 +14,10 @@ async getSKUItems(){
     }catch(err){
       return false
     }
+    
+      if(x === ''){
+        return 404
+      }
       
       return x
 
@@ -28,6 +32,10 @@ async getSKUItemsBySKUID(id){
     }catch(err){
     return false
     }
+
+    if(x === ''){
+      return 404
+    }
     
     return x
 
@@ -40,6 +48,10 @@ async getSKUItemsByRFID(rfid){
         x = await this.skuItem.getSKUItemByRFID(rfid);
       }catch(err){
         return false
+      }
+
+      if(x === ''){
+        return 404
       }
      
       return x;
@@ -69,12 +81,23 @@ async modifySKUItem(rfid, data){
 
   let x;
     try{
+      x = await this.skuItem.getSKUItemByRFID(rfid)
+    }catch(err){
+      return false
+    }
+
+    if(x !== ''){
+    try{
+        
         x = await this.skuItem.modifySKUItem(rfid, data);
       }catch(err){
         return false
       }
       
       return x
+    } else {
+      return 404
+    }
 }
 
 
