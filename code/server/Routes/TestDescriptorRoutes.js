@@ -46,10 +46,10 @@ testDescriptorRouter.get('/api/testDescriptors/:id', async (req, res) => {
 
 testDescriptorRouter.post('/api/testDescriptor', async (req, res) => {
 
-    if (req.body.name == undefined || req.body.procedureDescription == undefined || !Number.isInteger(Number(req.body.idSKU)) || req.body.idSKU < 0) {
+    if (req.body.name == undefined || req.body.procedureDescription == undefined || !Number.isInteger(Number(req.body.idSKU)) || req.body.idSKU <= 0) {
         return res.status(422).json({ err: "validation of request body failed" });
     }
-    
+
     const td = req.body;
     const x = await testDescriptorServices.createNewTestDescriptor(td);
     if (x === false) {

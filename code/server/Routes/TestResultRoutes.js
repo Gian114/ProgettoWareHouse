@@ -32,7 +32,7 @@ async function idExists(rfid, id) {
 }
 
 function rfidIsValid(rfid) {
-    return (rfid.match(/^[0-9a-z]+$/)); //&& rfid.length === 32);
+    return (rfid.match(/^[0-9a-z]+$/) && rfid.length === 32);
 }
 
 function idIsValid(id) {
