@@ -38,5 +38,8 @@ describe.only('Test TestResult CRUD', () => {
     // testdescriptorcrud.testTestDescriptorCRUD();
     // testresultcrud.testTestResultCRUD();
     // usercrud.testUserCRUD();
+    //restockordercrud.testRestockOrderCRUD()
+    //itemcrud.testItemCRUD()
+
 
 })

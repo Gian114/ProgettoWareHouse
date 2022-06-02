@@ -115,6 +115,11 @@ restockOrderRouter.put('/api/restockOrder/:id', async (req, res) => {
     return res.status(422).json({})
   }
 
+  let possibleStates = ["ISSUED", "DELIVERY", "DELIVERED"];
+  if(!possibleStates.includes(req.body.newState)){
+    return res.status(422).json({err:"no such state for restock order"})
+  }
+
   const roi = req.params.id;
   const state = req.body;
 
@@ -139,7 +144,7 @@ restockOrderRouter.put('/api/restockOrder/:id', async (req, res) => {
 restockOrderRouter.put('/api/restockOrder/:id/skuItems', async (req, res) => {
 
   if (Object.keys(req.params).length === 0 || !Number.isInteger(Number(req.params.id)) || req.params.id<0
-    || Object.keys(req.body) === 0) {
+    || Object.keys(req.body) === 0 || Object.keys(req.body).length === 0) {
     return res.status(422).json({})
   }
 
@@ -181,10 +186,18 @@ restockOrderRouter.put('/api/restockOrder/:id/transportNote', async (req, res) =
     return res.status(422).json({})
   }
 
+  if(req.body === null || req.body === undefined){
+    return res.status(422).json({err:"body validation failed"})
+  }
+
+
   const id = req.params.id;
   const TNdate = req.body.transportNote.deliveryDate;
 
   var d2 = await restockOrder.getRestockOrderIssueDateByID(id);
+  if(d2===''){
+    return res.status(404).json({})
+  }
 
 
   var d1 = Date.parse(TNdate); //d1 = delivery_date

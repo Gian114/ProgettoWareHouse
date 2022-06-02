@@ -452,7 +452,7 @@ class RestockOrder {
                 if (row !== undefined) {
                     state = row.state;
                 }
-
+            
                 resolve(state);
             });
         });

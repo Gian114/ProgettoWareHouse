@@ -112,12 +112,14 @@ class RestockOrderServices {
     //put
 
     async changeState(roi, newState) {
+        let ro
         let state;
         try {
-            state = await this.restockOrder.getRestockOrderStateById(roi);
+            ro = await this.restockOrder.getRestockOrderByID(roi)
         } catch (err) {
-            return 404;
+            return false;
         }
+        if(ro !==''){
 
         try {
             await this.restockOrder.modifyState(roi, newState);
@@ -126,6 +128,7 @@ class RestockOrderServices {
         }
 
         return newState;
+    } else {return 404}
 
     }
 

@@ -8,7 +8,15 @@ const dao = new User(db.db)
 const UserServices = require('../Services/UserServices');
 const uservices = new UserServices(dao);
 
-
+//helper function mail validation
+function validateEmail(mail) 
+{
+ if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
+  {
+    return (true)
+  }
+    return (false)
+}
 
 //get
 userRouter.get('/api/suppliers', async (req,res) =>{
@@ -217,7 +225,9 @@ userRouter.put('/api/users/:username', async (req,res) =>{
 
     if(us === false ){
         return res.status(500).json({error: "generic error"})
-    } 
+    } if(us===404){
+        return res.status(404).json({err:"user not found"});
+    }
     return res.status(200).json();
 
 })
@@ -234,6 +244,13 @@ userRouter.delete('/api/users/:username/:type', async (req,res) =>{
     
     if(req.params.type === "manager" || req.params.type === "administrator"){
         return res.status(422).json({err:"attempt to delete a manager/administrator"})}
+
+    if(validateEmail(req.params.username)===false){
+        return res.status(422).json({err:"wrong mail format"})}
+    
+    let dbtypes = ["clerk", "deliveryEmployee", "customer", "qualityEmployee", "supplier"]
+    if(!dbtypes.includes(req.params.type)){
+        return res.status(422).json({err:"wrong type"})}
 
    let data = req.params
    const us = uservices.deleteUser(data)

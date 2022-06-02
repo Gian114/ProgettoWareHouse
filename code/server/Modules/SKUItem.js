@@ -182,8 +182,7 @@ class SKUItem{
                     reject(err);
                     return;
                 }
-
-                
+                    if(rows.length !== 0){
                     const skuitem = rows.map((r) => (
                     
                         {  
@@ -193,10 +192,7 @@ class SKUItem{
                         }
                     ));
 
-                    //console.log(skuitem);
-
-        
-              resolve(skuitem);
+              resolve(skuitem);} else {resolve('')}
             });
         });
 
