@@ -13,7 +13,7 @@ const positionServices = new PositionServices(position);
 //get
 
 //test ok
-positionRouter.get('/api/position', async (req, res) => {
+positionRouter.get('/api/positions', async (req, res) => {
 
   let x = await positionServices.getPosition();
   if (x === false) {
@@ -68,7 +68,12 @@ positionRouter.put('/api/position/:positionID', async (req, res) => {
 
   if (req.body.newAisleID == undefined || req.body.newRow == undefined ||
     req.body.newCol == undefined || req.body.newMaxWeight == undefined ||
-    req.body.newOccupiedWeight == undefined || req.body.newOccupiedVolume == undefined) {
+    req.body.newOccupiedWeight == undefined || req.body.newOccupiedVolume == undefined || req.body.newMaxVolume == undefined) {
+    return res.status(422).json({})
+  }
+
+  if ( req.body.newMaxWeight < 0 || req.body.newOccupiedWeight < 0 
+     || req.body.newOccupiedVolume < 0 || req.body.newMaxVolume < 0) {
     return res.status(422).json({})
   }
 
@@ -147,9 +152,10 @@ positionRouter.delete('/api/position/:positionID', async (req, res) => {
   if (x === false) {
     return res.status(503).json({ error: "generic error" })
   }
-
+  
+  //nei test chiede solo 422
   if (x === 404) {
-    return res.status(404).json({ err: "position not found" });
+    return res.status(422).json({ err: "position not found" });
   }
   return res.status(204).json();
 });
