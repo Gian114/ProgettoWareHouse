@@ -126,8 +126,8 @@ restockOrderRouter.put('/api/restockOrder/:id', async (req, res) => {
   //console.log(roi);
   //console.log(state.newState);
 
-  let ns = restockServices.changeState(roi, state.newState);
-
+  let ns = await restockServices.changeState(roi, state.newState);
+  console.log(ns)
   if (ns === 404) {
     return res.status(404).json({ error: "no order associated to id" })
   }
@@ -181,12 +181,15 @@ restockOrderRouter.put('/api/restockOrder/:id/skuItems', async (req, res) => {
 //test ok
 restockOrderRouter.put('/api/restockOrder/:id/transportNote', async (req, res) => {
 
+  
   if (Object.keys(req.params).length === 0 || !Number.isInteger(Number(req.params.id)) || req.params.id<0
     || Object.keys(req.body) === 0) {
+
     return res.status(422).json({})
   }
 
   if(req.body === null || req.body === undefined){
+
     return res.status(422).json({err:"body validation failed"})
   }
 
@@ -211,6 +214,7 @@ restockOrderRouter.put('/api/restockOrder/:id/transportNote', async (req, res) =
   //console.log(d1); 
 
   if (d1 < d2) {
+
     return res.status(422).json({ error: "delivery_date < issue_date check date" });
   }
 
@@ -221,6 +225,7 @@ restockOrderRouter.put('/api/restockOrder/:id/transportNote', async (req, res) =
   }
 
   if (rs === 422) {
+  
     return res.status(422).json({ error: "order state is not DELIVERED" });
   }
 

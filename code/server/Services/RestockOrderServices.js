@@ -119,28 +119,34 @@ class RestockOrderServices {
         } catch (err) {
             return false;
         }
-        if(ro !==''){
+        console.log(ro)
 
+        if(ro === false){
+            return 404
+        }
+      
         try {
             await this.restockOrder.modifyState(roi, newState);
         } catch (err) {
             return false;
         }
-
         return newState;
-    } else {return 404}
-
-    }
+    } 
 
     async addSkuItem(roi, items) {
+
         let state;
         try {
             state = await this.restockOrder.getRestockOrderStateById(roi);
         } catch (err) {
-            return 404;
+            return false;
         }
 
         // checks if id exists, request validation
+
+        if(state === ''){
+            return 404
+        }
 
         if (state !== "DELIVERED") {
             return 422;

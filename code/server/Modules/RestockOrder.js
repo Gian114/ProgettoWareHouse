@@ -284,7 +284,7 @@ class RestockOrder {
 
                     resolve(restock_orders_dict);
                 } else {
-                    resolve('');
+                    resolve(false);
                 }
             });
         });
@@ -452,7 +452,7 @@ class RestockOrder {
                 if (row !== undefined) {
                     state = row.state;
                 }
-            
+                console.log(state)
                 resolve(state);
             });
         });
