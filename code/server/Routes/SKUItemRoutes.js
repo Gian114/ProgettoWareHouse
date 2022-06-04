@@ -25,9 +25,6 @@ skuItemRouter.get('/api/skuitems', async (req, res) => {
     if (si === false) {
         res.status(500).json({ error: "generic error" })
     }
-    // } else if (si === 404){
-    //     return res.status(404).json({ error: "no skuitems" });
-    // }
     return res.status(200).json(si);
 
 });

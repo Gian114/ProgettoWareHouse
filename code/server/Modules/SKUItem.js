@@ -20,12 +20,11 @@ class SKUItem{
     }
 
     //available 1 or 0?
-    setRestockOrderId(item, restockid) {
+    setRestockOrderId(rfid, restockid) {
         return new Promise((resolve, reject)=>{
-            const sql = 'INSERT INTO SKU_ITEM(rfid, available, sku_id, date_of_stock, restock_order_id) VALUES(?, 0 , ?," ", ?)'
-            this.db.run(sql, [item.rfid, item.SKUId, restockid], (err, r)=>{
+            const sql = 'UPDATE SKU_ITEM SET restock_order_id = ? WHERE rfid = ?'
+            this.db.run(sql, [restockid, rfid], (err, r)=>{
                 if (err) {
-                    console.log(err);
                     reject(err);
                     return;
                 }
@@ -69,7 +68,6 @@ class SKUItem{
                     reject(err);
                     return;
                 }
-                if(rows.length !==0){
                 const skuitems = rows.map((r) => (
                     {  
                         RFID: r.rfid,
@@ -79,10 +77,6 @@ class SKUItem{
                     }
                 ));
                 resolve(skuitems);
-            } else {
-                const skuitems = ''
-                resolve(skuitems)
-            }
             });
         });
     }
@@ -182,17 +176,16 @@ class SKUItem{
                     reject(err);
                     return;
                 }
-                    if(rows.length !== 0){
+
                     const skuitem = rows.map((r) => (
                     
                         {  
-                            rfid: r.rfid,
-                            sku: r.sku_id,
-                            
+                            SKUid: r.sku_id,
+                            rfid: r.rfid
                         }
                     ));
 
-              resolve(skuitem);} else {resolve('')}
+              resolve(skuitem);
             });
         });
 

@@ -137,7 +137,7 @@ class Product {
         });
     }*/
 
-    deleteProductByInternalOrderId(internal_order_id) {
+    deleteProductsByInternalOrderId(internal_order_id) {
         return new Promise((resolve, reject) => {
 
             const sql = 'DELETE FROM PRODUCT WHERE internal_order_id = ?';
@@ -153,7 +153,7 @@ class Product {
         });
     }
 
-    deleteProductByRestockOrderId(restock_order_id) {
+    deleteProductsByRestockOrderId(restock_order_id) {
         return new Promise((resolve, reject) => {
 
             const sql = 'DELETE FROM PRODUCT WHERE restock_order_id = ?';
@@ -169,7 +169,7 @@ class Product {
         });
     }
 
-    deleteProductByReturnOrderId(return_order_id) {
+    deleteProductsByReturnOrderId(return_order_id) {
         return new Promise((resolve, reject) => {
 
             const sql = 'DELETE FROM PRODUCT WHERE return_order_id = ?';
@@ -185,6 +185,21 @@ class Product {
         });
     }
 
+    deleteProductsBySKUId(SKUId) {
+        return new Promise((resolve, reject) => {
+
+            const sql = 'DELETE FROM PRODUCT WHERE sku_id = ?';
+
+            this.db.run(sql, [SKUId], (err) => {
+
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(true);
+            });
+        });
+    }
 
 }
 

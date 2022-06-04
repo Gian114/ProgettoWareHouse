@@ -70,7 +70,7 @@ class ReturnOrderServices {
     async deleteReturnOrder(id) {
 
         try {
-            await this.product.deleteProductByReturnOrderId(id);
+            await this.product.deleteProductsByReturnOrderId(id);
             const x = await this.returnOrder.deleteReturnOrder(id);
             return x;
         } catch(err) {

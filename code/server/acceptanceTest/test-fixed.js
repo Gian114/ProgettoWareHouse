@@ -31,15 +31,17 @@ before('start db', (done) => {
     db.startDBAcceptanceTests().then(() => done());
 })
 
-describe.only('Test TestResult CRUD', () => {
-    // skucrud.testSkuCRUD();
-    // skuitemcrud.testSkuItemsCRUD();
-    // intordcrud.testInternalOrderCRUD();
-    // testdescriptorcrud.testTestDescriptorCRUD();
-    // testresultcrud.testTestResultCRUD();
-    // usercrud.testUserCRUD();
-    //restockordercrud.testRestockOrderCRUD()
-    //itemcrud.testItemCRUD()
-
+describe.only('Test CRUD', () => {
+    skucrud.testSkuCRUD();
+    skuitemcrud.testSkuItemsCRUD();
+    positioncrud.testPositionCRUD();
+    testdescriptorcrud.testTestDescriptorCRUD();
+    testresultcrud.testTestResultCRUD();
+    usercrud.testUserCRUD();
+    restockordercrud.testRestockOrderCRUD()
+    //retordcrud.testReturnOrderCRUD();
+    intordcrud.testInternalOrderCRUD();
+    itemcrud.testItemCRUD();
+    
 
 })

@@ -127,7 +127,6 @@ restockOrderRouter.put('/api/restockOrder/:id', async (req, res) => {
     //console.log(state.newState);
 
     let ns = await restockServices.changeState(roi, state.newState);
-    console.log(ns)
     if (ns === 404) {
         return res.status(404).json({ error: "no order associated to id" })
     }
@@ -152,7 +151,7 @@ restockOrderRouter.put('/api/restockOrder/:id/skuItems', async (req, res) => {
     let items = req.body.skuItems;
 
     let x = await skuItem.getSKUItemByRestockID(id);
-    console.log(x)
+    
     //elimante items present in database
     items = items.filter(function (objFromItem) {
         return !x.find(function (objFromx) {

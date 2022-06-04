@@ -95,6 +95,6 @@ function getSKU(expectedHTTPStatus, id, expectedData) {
 function deleteSKU(expectedHTTPStatus, id) {
     it('Deleting sku', async function () {
         let res = await agent.delete('/api/skus/' + id)
-                res.should.have.status(expectedHTTPStatus);
+        res.should.have.status(expectedHTTPStatus);
     });
 }

@@ -113,13 +113,11 @@ class RestockOrderServices {
 
     async changeState(roi, newState) {
         let ro
-        let state;
         try {
             ro = await this.restockOrder.getRestockOrderByID(roi)
         } catch (err) {
             return false;
         }
-        console.log(ro)
 
         if (ro === false) {
             return 404
@@ -154,7 +152,7 @@ class RestockOrderServices {
 
         try {
             for (let i = 0; i < items.length; i++) {
-                await this.skuItem.setRestockOrderId(items[i], roi);
+                await this.skuItem.setRestockOrderId(items[i].rfid, roi);
             }
         } catch (err) {
             return false;
@@ -192,9 +190,8 @@ class RestockOrderServices {
             return false;
         }
         try {
+            await this.product.deleteProductsByRestockOrderId(id);
             await this.restockOrder.deleteRestockOrder(id);
-            await this.product.deleteProductByRestockOrderId(id);
-            //await skuItem.deleteSKUItemByRestockOrderId(id);
         } catch (err) {
             return false;
         }

@@ -11,6 +11,9 @@ const sku = new SKU(db.db)
 const Position = require('../Modules/Position')
 const pos = new Position(db.db)
 
+const Product = require('../Modules/Product');
+const prod = new Product(db.db);
+
 const SKUServices = require('../Services/SKUServices')
 const sservices = new SKUServices(sku, pos);
 
@@ -170,8 +173,9 @@ skuRouter.delete('/api/skus/:id', async (req, res) => {
     }
 
     const id = req.params.id;
-    let x
-    x = await sservices.deleteSKU(id)
+    
+    await prod.deleteProductsBySKUId(id);
+    let x = await sservices.deleteSKU(id)
 
     if (x === false) {
         return res.status(503).json({ error: "generic error" })

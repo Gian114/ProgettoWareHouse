@@ -29,8 +29,8 @@ positionRouter.get('/api/positions', async (req, res) => {
 positionRouter.post('/api/position', async (req, res) => {
 
   if (req.body.positionID == undefined || req.body.aisleID == undefined || req.body.row == undefined ||
-    req.body.col == undefined || req.body.maxWeight == undefined
-    || req.body.maxVolume == undefined) {
+    req.body.col == undefined || !Number.isInteger(Number(req.body.maxWeight))
+    || !Number.isInteger(Number(req.body.maxVolume)) || req.body.maxWeight<0 || req.body.maxVolume<0) {
     return res.status(422).json({ err: "invalid body" })
   }
 
@@ -79,7 +79,7 @@ positionRouter.put('/api/position/:positionID', async (req, res) => {
 
   const position_id = req.params.positionID;
 
-  const newPositionId = '' + + req.body.newAisleID + req.body.newRow + req.body.newCol;
+  const newPositionId = '' + req.body.newAisleID + req.body.newRow + req.body.newCol;
 
   let x = await positionServices.changePosition(position_id, req.body, newPositionId);
 

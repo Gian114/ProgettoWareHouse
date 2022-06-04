@@ -7,10 +7,10 @@ class SKUServices{
 
     async getSKUs(){
 
-        let x = '';
+        let x;
         try{
           
-             x = await this.sku.getListofSKU();
+            x = await this.sku.getListofSKU();
             
         } catch(err){
             console.log(err)

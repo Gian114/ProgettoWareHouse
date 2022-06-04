@@ -14,12 +14,8 @@ async getSKUItems(){
     }catch(err){
       return false
     }
-    
-      if(x === ''){
-        return 404
-      }
       
-      return x
+    return x
 
 }
 

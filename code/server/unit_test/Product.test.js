@@ -32,7 +32,7 @@ function testInsertAndGetProductRO() {
         expect(res[0].description).toStrictEqual(prod1.description);
         expect(res[0].price).toStrictEqual(prod1.price);
 
-        res = await pr_dao.deleteProductByReturnOrderId(1);
+        res = await pr_dao.deleteProductsByReturnOrderId(1);
 
         res = await pr_dao.getProducts();
         expect(res.length).toStrictEqual(0);
