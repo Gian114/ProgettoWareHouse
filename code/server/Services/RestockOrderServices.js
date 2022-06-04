@@ -17,8 +17,8 @@ class RestockOrderServices {
         let res;
         try {
             res = await this.restockOrder.getAllRestockOrderNotIssued();
-            res = res.concat(await this.restockOrder.getAllRestockOrderIssued());
-            res = res.concat(await this.restockOrder.getAllRestockOrderDelivery());
+            // res = res.concat(await this.restockOrder.getAllRestockOrderIssued());
+            // res = res.concat(await this.restockOrder.getAllRestockOrderDelivery());
         } catch (err) {
             return false
         }
@@ -42,7 +42,7 @@ class RestockOrderServices {
         } catch (err) {
             return 404;
         }
-        if(state === ''){
+        if (state === '') {
             return 404;
         }
 
@@ -94,10 +94,10 @@ class RestockOrderServices {
         let user;
 
         suppliers = await this.user.getSupplierById(ro.supplierId)
-        if(suppliers === ''){
+        if (suppliers === '') {
             return 404;
         }
-        
+
         try {
             await this.restockOrder.createNewRestockOrder(ro);
             let id = await this.db.getAutoincrementId('RESTOCK_ORDER');
@@ -121,17 +121,17 @@ class RestockOrderServices {
         }
         console.log(ro)
 
-        if(ro === false){
+        if (ro === false) {
             return 404
         }
-      
+
         try {
             await this.restockOrder.modifyState(roi, newState);
         } catch (err) {
             return false;
         }
         return newState;
-    } 
+    }
 
     async addSkuItem(roi, items) {
 
@@ -144,7 +144,7 @@ class RestockOrderServices {
 
         // checks if id exists, request validation
 
-        if(state === ''){
+        if (state === '') {
             return 404
         }
 
@@ -188,7 +188,7 @@ class RestockOrderServices {
 
     async deleteRestockOrder(id) {
         let ok = await this.restockOrder.getRestockOrderStateById(id);
-        if(ok === ''){
+        if (ok === '') {
             return false;
         }
         try {

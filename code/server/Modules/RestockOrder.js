@@ -10,7 +10,7 @@ class RestockOrder {
     //OTHER STATES
     getAllRestockOrderNotIssued() {
         return new Promise((resolve, reject) => {
-            
+
             const sql = `
                 SELECT 
                     RO.id AS ro_id,
@@ -26,8 +26,10 @@ class RestockOrder {
                     SI.rfid AS rfid,
                     SI.sku_id AS sku 
                     
-                FROM RESTOCK_ORDER RO, PRODUCT P, SKU_ITEM SI
-                WHERE RO.id = P.restock_order_id AND RO.id = SI.restock_order_id
+                FROM RESTOCK_ORDER RO
+                LEFT JOIN PRODUCT P ON RO.id = P.restock_order_id
+                LEFT JOIN SKU_ITEM SI ON RO.id = SI.restock_order_id
+                
                 `;
 
             this.db.all(sql, [], (err, rows) => {
@@ -36,41 +38,41 @@ class RestockOrder {
                     reject(err);
                     return;
                 }
-                
+
                 //console.log(rows);
 
                 const restock_orders_dict = rows.map(row => ({
-                        id: row.ro_id,
-                        issueDate: row.issue_date, 
-                        state: row.state,
-                        product: {
-                            SKUid: row.sku_id,
-                            description: row.description,
-                            price: row.price,
-                            quantity: row.quantity
-                        },
-                        supplierId: row.supplier_id,
-                        transportNote: { deliveryDate: row.delivery_date },
-                        skuItem: {
-                            SKUid: row.sku_id,
-                            rfid:  row.rfid
-                        }
-                    })).reduce(function (ros, obj) {
-                        ros[obj.id] = 
-                            ros[obj.id] || 
-                            {
-                                id: obj.id,
-                                issueDate: obj.issueDate,
-                                state: obj.state,
-                                products: [],
-                                supplierId:obj.supplierId,
-                                transportNote: obj.transportNote,
-                                skuItems: []
-                            };
-                        ros[obj.id].products.push(obj.product);
-                        ros[obj.id].skuItems.push(obj.skuItem);
-                        return ros
-                    }, {}
+                    id: row.ro_id,
+                    issueDate: row.issue_date,
+                    state: row.state,
+                    product: {
+                        SKUid: row.sku_id,
+                        description: row.description,
+                        price: row.price,
+                        quantity: row.quantity
+                    },
+                    supplierId: row.supplier_id,
+                    transportNote: { deliveryDate: row.delivery_date },
+                    skuItem: {
+                        SKUid: row.sku_id,
+                        rfid: row.rfid
+                    }
+                })).reduce(function (ros, obj) {
+                    ros[obj.id] =
+                        ros[obj.id] ||
+                        {
+                            id: obj.id,
+                            issueDate: obj.issueDate,
+                            state: obj.state,
+                            products: [],
+                            supplierId: obj.supplierId,
+                            transportNote: obj.transportNote,
+                            skuItems: []
+                        };
+                    ros[obj.id].products.push(obj.product);
+                    ros[obj.id].skuItems.push(obj.skuItem);
+                    return ros
+                }, {}
                 );
 
                 //console.log(restock_orders_dict);
@@ -78,7 +80,7 @@ class RestockOrder {
                 resolve(Object.values(restock_orders_dict));
             });
         });
-        
+
     }
 
     //test ok ISSUED AND DELIVERY
@@ -110,41 +112,41 @@ class RestockOrder {
                     reject(err);
                     return;
                 }
-                
+
                 //console.log(rows);
 
                 const restock_orders_dict = rows.map(row => ({
-                        id: row.ro_id,
-                        issueDate: row.issue_date, 
-                        state: row.state,
-                        product: {
-                            SKUid: row.sku_id,
-                            description: row.description,
-                            price: row.price,
-                            quantity: row.quantity
-                        },
-                        supplierId: row.supplier_id,
-                        transportNote: { deliveryDate: row.delivery_date },  
-                    })).reduce(function (ros, obj) {
-                        ros[obj.id] = 
-                            ros[obj.id] || 
-                            {
-                                id: obj.id,
-                                issueDate: obj.issueDate,
-                                state: obj.state,
-                                products: [],
-                                supplierId:obj.supplierId,
-                                skuItems: []
-                            };
-                        ros[obj.id].products.push(obj.product);
-                        return ros
-                    }, {}
+                    id: row.ro_id,
+                    issueDate: row.issue_date,
+                    state: row.state,
+                    product: {
+                        SKUid: row.sku_id,
+                        description: row.description,
+                        price: row.price,
+                        quantity: row.quantity
+                    },
+                    supplierId: row.supplier_id,
+                    transportNote: { deliveryDate: row.delivery_date },
+                })).reduce(function (ros, obj) {
+                    ros[obj.id] =
+                        ros[obj.id] ||
+                        {
+                            id: obj.id,
+                            issueDate: obj.issueDate,
+                            state: obj.state,
+                            products: [],
+                            supplierId: obj.supplierId,
+                            skuItems: []
+                        };
+                    ros[obj.id].products.push(obj.product);
+                    return ros
+                }, {}
                 );
 
                 resolve(Object.values(restock_orders_dict));
             });
         });
-        
+
 
     }
 
@@ -165,8 +167,9 @@ class RestockOrder {
                     P.quantity AS quantity
                     
                          
-                FROM RESTOCK_ORDER RO, PRODUCT P
-                WHERE RO.id = P.restock_order_id AND RO.state = ?;
+                FROM RESTOCK_ORDER RO
+                LEFT JOIN PRODUCT P ON RO.id = P.restock_order_id
+                WHERE RO.state = ?;
                 `;
 
             this.db.all(sql, ["DELIVERY"], (err, rows) => {
@@ -176,42 +179,42 @@ class RestockOrder {
                     reject(err);
                     return;
                 }
-                
+
                 //console.log(rows);
 
                 const restock_orders_dict = rows.map(row => ({
-                        id: row.ro_id,
-                        issueDate: row.issue_date, 
-                        state: row.state,
-                        product: {
-                            SKUid: row.sku_id,
-                            description: row.description,
-                            price: row.price,
-                            quantity: row.quantity
-                        },
-                        supplierId: row.supplier_id,
-                        transportNote: { deliveryDate: row.delivery_date },
-                    })).reduce(function (ros, obj) {
-                        ros[obj.id] = 
-                            ros[obj.id] || 
-                            {
-                                id: obj.id,
-                                issueDate: obj.issueDate,
-                                state: obj.state,
-                                products: [],
-                                supplierId:obj.supplierId,
-                                transportNote: obj.transportNote,
-                                skuItems: []
-                            };
-                        ros[obj.id].products.push(obj.product);
-                        return ros
-                    }, {}
+                    id: row.ro_id,
+                    issueDate: row.issue_date,
+                    state: row.state,
+                    product: {
+                        SKUid: row.sku_id,
+                        description: row.description,
+                        price: row.price,
+                        quantity: row.quantity
+                    },
+                    supplierId: row.supplier_id,
+                    transportNote: { deliveryDate: row.delivery_date },
+                })).reduce(function (ros, obj) {
+                    ros[obj.id] =
+                        ros[obj.id] ||
+                        {
+                            id: obj.id,
+                            issueDate: obj.issueDate,
+                            state: obj.state,
+                            products: [],
+                            supplierId: obj.supplierId,
+                            transportNote: obj.transportNote,
+                            skuItems: []
+                        };
+                    ros[obj.id].products.push(obj.product);
+                    return ros
+                }, {}
                 );
 
                 resolve(Object.values(restock_orders_dict));
             });
         });
-        
+
 
     }
 
@@ -236,8 +239,10 @@ class RestockOrder {
                     SI.sku_id AS sku 
 
                     
-                FROM RESTOCK_ORDER RO, PRODUCT P, SKU_ITEM SI
-                WHERE RO.id = P.restock_order_id AND RO.id = SI.restock_order_id AND RO.id = ?;
+                FROM RESTOCK_ORDER RO
+                LEFT JOIN PRODUCT P ON RO.id = P.restock_order_id
+                LEFT JOIN SKU_ITEM SI ON RO.id = SI.restock_order_id
+                WHERE RO.id = ?;
                 `;
 
             this.db.all(sql, [id], (err, rows) => {
@@ -247,39 +252,39 @@ class RestockOrder {
                     reject(err);
                     return;
                 }
-                
-                if(rows.length !== 0) {
+
+                if (rows.length !== 0) {
 
                     const restock_orders_dict = rows.map(row => ({
-                            id: row.ro_id,
-                            issueDate: row.issue_date, 
-                            state: row.state,
-                            product: {
-                                SKUid: row.sku_id,
-                                description: row.description,
-                                price: row.price,
-                                quantity: row.quantity
-                            },
-                            supplierId: row.supplier_id,
-                            transportNote: { deliveryDate: row.delivery_date },
-                            skuItem: {
-                                SKUid: row.sku,
-                                rfid: row.rfid
-                            }
-                        })).reduce(function (ro, obj) {
-                            ro = (Object.keys(ro).length !== 0 ? ro : 
-                                {
-                                    issueDate: obj.issueDate,
-                                    state: obj.state,
-                                    products: [],
-                                    supplierId: obj.supplierId,
-                                    transportNote: obj.transportNote,
-                                    skuItems: []
-                                });
-                            ro.products.push(obj.product);
-                            ro.skuItems.push(obj.skuItem);
-                            return ro
-                        }, {}
+                        id: row.ro_id,
+                        issueDate: row.issue_date,
+                        state: row.state,
+                        product: {
+                            SKUid: row.sku_id,
+                            description: row.description,
+                            price: row.price,
+                            quantity: row.quantity
+                        },
+                        supplierId: row.supplier_id,
+                        transportNote: { deliveryDate: row.delivery_date },
+                        skuItem: {
+                            SKUid: row.sku,
+                            rfid: row.rfid
+                        }
+                    })).reduce(function (ro, obj) {
+                        ro = (Object.keys(ro).length !== 0 ? ro :
+                            {
+                                issueDate: obj.issueDate,
+                                state: obj.state,
+                                products: [],
+                                supplierId: obj.supplierId,
+                                transportNote: obj.transportNote,
+                                skuItems: []
+                            });
+                        ro.products.push(obj.product);
+                        ro.skuItems.push(obj.skuItem);
+                        return ro
+                    }, {}
                     );
 
                     resolve(restock_orders_dict);
@@ -288,10 +293,10 @@ class RestockOrder {
                 }
             });
         });
-                        
+
     }
 
-    getRestockOrderIssuedById(id){
+    getRestockOrderIssuedById(id) {
         return new Promise((resolve, reject) => {
 
             const sql = `
@@ -319,37 +324,37 @@ class RestockOrder {
                     reject(err);
                     return;
                 }
-                
-                if(rows.length !== 0) {
+
+                if (rows.length !== 0) {
 
                     const restock_orders_dict = rows.map(row => ({
-                            id: row.ro_id,
-                            issueDate: row.issue_date, 
-                            state: row.state,
-                            product: {
-                                SKUId: row.sku_id,
-                                description: row.description,
-                                price: row.price,
-                                qty: row.quantity
-                            },
-                            supplierId: row.supplier_id,
-                            transportNote: { deliveryDate: row.delivery_date },
-                            skuItem: {
-                                SKUid: row.sku,
-                                rfid: row.rfid
-                            }
-                        })).reduce(function (ro, obj) {
-                            ro = (Object.keys(ro).length !== 0 ? ro : 
-                                {
-                                    issueDate: obj.issueDate,
-                                    state: obj.state,
-                                    products: [],
-                                    supplierId: obj.supplierId,
-                                    skuItems: []
-                                });
-                            ro.products.push(obj.product);
-                            return ro
-                        }, {}
+                        id: row.ro_id,
+                        issueDate: row.issue_date,
+                        state: row.state,
+                        product: {
+                            SKUId: row.sku_id,
+                            description: row.description,
+                            price: row.price,
+                            qty: row.quantity
+                        },
+                        supplierId: row.supplier_id,
+                        transportNote: { deliveryDate: row.delivery_date },
+                        skuItem: {
+                            SKUid: row.sku,
+                            rfid: row.rfid
+                        }
+                    })).reduce(function (ro, obj) {
+                        ro = (Object.keys(ro).length !== 0 ? ro :
+                            {
+                                issueDate: obj.issueDate,
+                                state: obj.state,
+                                products: [],
+                                supplierId: obj.supplierId,
+                                skuItems: []
+                            });
+                        ro.products.push(obj.product);
+                        return ro
+                    }, {}
                     );
 
                     resolve(restock_orders_dict);
@@ -360,7 +365,7 @@ class RestockOrder {
         });
     }
 
-    getRestockOrderDeliveryById(id){
+    getRestockOrderDeliveryById(id) {
         return new Promise((resolve, reject) => {
 
             const sql = `
@@ -389,38 +394,38 @@ class RestockOrder {
                     reject(err);
                     return;
                 }
-                
-                if(rows.length !== 0) {
+
+                if (rows.length !== 0) {
 
                     const restock_orders_dict = rows.map(row => ({
-                            id: row.ro_id,
-                            issueDate: row.issue_date, 
-                            state: row.state,
-                            product: {
-                                SKUid: row.sku_id,
-                                description: row.description,
-                                price: row.price,
-                                quantity: row.quantity
-                            },
-                            supplierId: row.supplier_id,
-                            transportNote: { deliveryDate: row.delivery_date },
-                            skuItem: {
-                                SKUid: row.sku,
-                                rfid: row.rfid
-                            }
-                        })).reduce(function (ro, obj) {
-                            ro = (Object.keys(ro).length !== 0 ? ro : 
-                                {
-                                    issueDate: obj.issueDate,
-                                    state: obj.state,
-                                    products: [],
-                                    supplierId: obj.supplierId,
-                                    transportNote: obj.transportNote,
-                                    skuItems: []
-                                });
-                            ro.products.push(obj.product);
-                            return ro
-                        }, {}
+                        id: row.ro_id,
+                        issueDate: row.issue_date,
+                        state: row.state,
+                        product: {
+                            SKUid: row.sku_id,
+                            description: row.description,
+                            price: row.price,
+                            quantity: row.quantity
+                        },
+                        supplierId: row.supplier_id,
+                        transportNote: { deliveryDate: row.delivery_date },
+                        skuItem: {
+                            SKUid: row.sku,
+                            rfid: row.rfid
+                        }
+                    })).reduce(function (ro, obj) {
+                        ro = (Object.keys(ro).length !== 0 ? ro :
+                            {
+                                issueDate: obj.issueDate,
+                                state: obj.state,
+                                products: [],
+                                supplierId: obj.supplierId,
+                                transportNote: obj.transportNote,
+                                skuItems: []
+                            });
+                        ro.products.push(obj.product);
+                        return ro
+                    }, {}
                     );
 
                     resolve(restock_orders_dict);
@@ -447,7 +452,7 @@ class RestockOrder {
                     reject(err);
                     return;
                 }
-              
+
                 let state = '';
                 if (row !== undefined) {
                     state = row.state;
@@ -489,38 +494,38 @@ class RestockOrder {
 
 
     //test ok 
-    modifyState(id,newState){
-        return new Promise((resolve, reject)=>{
+    modifyState(id, newState) {
+        return new Promise((resolve, reject) => {
             const sql = 'UPDATE RESTOCK_ORDER SET state = ? WHERE id = ?'
-            this.db.run(sql, [newState, id], (err, r)=>{
+            this.db.run(sql, [newState, id], (err, r) => {
                 if (err) {
                     reject(err);
                     return;
                 }
                 resolve(true);
             });
-    
+
         });
 
     }
 
     //test ok 
-    addTNdate(id,TN){
-        return new Promise((resolve, reject)=>{
+    addTNdate(id, TN) {
+        return new Promise((resolve, reject) => {
             const sql = 'UPDATE RESTOCK_ORDER SET TNdelivery_date = ? WHERE id = ?'
-            this.db.run(sql, [TN, id], (err, r)=>{
+            this.db.run(sql, [TN, id], (err, r) => {
                 if (err) {
                     reject(err);
                     return;
                 }
                 resolve(true);
             });
-    
+
         });
 
     }
 
-    getRestockOrderIssueDateByID(id){
+    getRestockOrderIssueDateByID(id) {
         return new Promise((resolve, reject) => {
 
             const sql = `
@@ -550,7 +555,7 @@ class RestockOrder {
 
 
     //ricorda di fare la delete di tutto 
-    deleteRestockOrder(id){
+    deleteRestockOrder(id) {
         return new Promise((resolve, reject) => {
             const sql = 'DELETE FROM RESTOCK_ORDER WHERE id = ?';
             this.db.run(sql, [id], (err, r) => {
@@ -558,14 +563,14 @@ class RestockOrder {
                     reject(err);
                     return;
                 }
-               
+
                 resolve(true);
             });
         });
     }
 
 
-   
+
 }
 
 module.exports = RestockOrder;
