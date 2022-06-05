@@ -79,8 +79,8 @@ async function testPosition(id, data) {
         let res = await pos_service.getPosition();
         expect(res.length).toStrictEqual(1);
         expect(res[0]).toEqual({
-            id: id,
-            aisle_id: data.aisleID,
+            positionID: id,
+            aisleID: data.aisleID,
             row: data.row,
             col: data.col,
             max_weight: data.maxWeight,

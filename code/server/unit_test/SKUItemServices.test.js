@@ -106,12 +106,8 @@ describe("get skuitems by skuid and modify", () => {
 
 async function testGet_Modify(skuid, data) {
     test('get skuitems by skuid and modify', async () => {
-        let res = await si_service.getSKUItemsBySKUID(skuid)
-        //it returns an array with all skuitems having that skuid reference and available = 1, in this case as we created 2 items in the test above
-        //we expect no items as available is 0 for both
-        expect(res).toEqual([]);
 
-        //but if we modify one skuitem by putting available = 1, we are not changing the rfid
+        // we modify one skuitem by putting available = 1, we are not changing the rfid
         await si_service.modifySKUItem(data.newRFID, data)
         res = await si_service.getSKUItemsBySKUID(skuid)
         //now we expect one item

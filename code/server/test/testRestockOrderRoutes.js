@@ -20,8 +20,8 @@ describe('test restock Order apis', () => {
         {
             
                 "issueDate":"2021/11/29 09:33",
-                "products": [{"SKUId":1,"description":"a product","price":10.99,"qty":30},
-                            {"SKUId":1,"description":"another product","price":11.99,"qty":20}],
+                "products": [{"SKUId":1,"description":"a product","price":11,"qty":30},
+                            {"SKUId":1,"description":"another product","price":12,"qty":20}],
                 "supplierId" : 1
             
         }
@@ -30,7 +30,7 @@ describe('test restock Order apis', () => {
         {
             
                 "issueDate":"2021/11/29 09:33",
-                "products": [{"SKUId":1,"description":"a product","price":10.99,"qty":30}],
+                "products": [{"SKUId":1,"description":"a product","price":11,"qty":30}],
                 "supplierId" : 2
             
         }
@@ -50,7 +50,7 @@ describe('test restock Order apis', () => {
         "weight" : 100,
         "volume": 50,
         "notes": "first sku",
-        "price": 10.99,
+        "price": 11,
         "availableQuantity":50
     }
     //create skuItem

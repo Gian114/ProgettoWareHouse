@@ -16,7 +16,7 @@ describe('test item apis', () => {
             "weight" : 100,
             "volume" : 50,
             "notes" : "first SKU",
-            "price" : 10.99,
+            "price" : 11,
             "availableQuantity" : 50
         };
 
@@ -26,7 +26,7 @@ describe('test item apis', () => {
             "weight" : 100,
             "volume" : 50,
             "notes" : "first SKU",
-            "price" : 10.99,
+            "price" : 11,
             "availableQuantity" : 50
         };
 
@@ -43,7 +43,7 @@ describe('test item apis', () => {
         {
             "id" : 12,
             "description" : "a new item",
-            "price" : 10.99,
+            "price" : 11,
             "SKUId" : 1,
             "supplierId" : 1
         };
@@ -52,7 +52,7 @@ describe('test item apis', () => {
         {
             "id" : 15,
             "description" : "a new item",
-            "price" : 10.99,
+            "price" : 11,
             "SKUId" : 2,
             "supplierId" : 1
         };
@@ -61,7 +61,7 @@ describe('test item apis', () => {
         {
             "id" : 10,
             "description" : "a new item",
-            "price" : 10.99,
+            "price" : 11,
             "SKUId" : 1,
             "supplierId" : 1
         };
@@ -70,7 +70,7 @@ describe('test item apis', () => {
         {
             "id" : 12,
             "description" : "a new item",
-            "price" : 10.99,
+            "price" : 11,
             "SKUId" : 2,
             "supplierId" : 1
         };
@@ -79,7 +79,7 @@ describe('test item apis', () => {
         {
             "id" : 20,
             "description" : "a new item",
-            "price" : 10.99,
+            "price" : 11,
             "SKUId" : 3,
             "supplierId" : 1
         };
@@ -88,7 +88,7 @@ describe('test item apis', () => {
         {
             "id" : 34,
             "description" : "a new item",
-            "price" : 10.99,
+            "price" : 11,
             "SKUId" : 1,
             "supplierId" : 2
         };
@@ -96,7 +96,7 @@ describe('test item apis', () => {
     const newData = //right
         {
             "newDescription" : "a new sku",
-            "newPrice" : 10.99
+            "newPrice" : 11
         };
     
 

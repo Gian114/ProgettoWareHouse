@@ -147,8 +147,8 @@ function testdeleteSKUItem(rfid) {
         expect(res).toStrictEqual(true)
 
         res = await dao.getAllSKUItems();
-        //the other one is still there
-        expect(res.length).toStrictEqual(1);
+     
+        expect(res.length).toStrictEqual(0);
             
     });
 }

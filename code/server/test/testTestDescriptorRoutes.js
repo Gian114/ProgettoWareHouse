@@ -16,7 +16,7 @@ describe('test test desciptor apis', () => {
                 "weight" : 100,
                 "volume" : 50,
                 "notes" : "first SKU",
-                "price" : 10.99,
+                "price" : 11,
                 "availableQuantity" : 50
         };
     

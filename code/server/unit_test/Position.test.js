@@ -56,8 +56,8 @@ function testNewPosition(data) {
         
         res = await dao.getPositionByID("800234543412")
 
-        expect(res.id).toStrictEqual("800234543412");
-        expect(res.aisle_id).toStrictEqual(data.aisleID);
+        expect(res.positionID).toStrictEqual("800234543412");
+        expect(res.aisleID).toStrictEqual(data.aisleID);
         expect(res.row).toStrictEqual(data.row);
         expect(res.col).toStrictEqual(data.col);    
         expect(res.max_weight).toStrictEqual(data.maxWeight);
@@ -78,7 +78,7 @@ function testModifyPositionID(id, newID, new_aisle, new_row, new_col) {
 
         res = await dao.getPositionByID(newID)
 
-        expect(res.id).toStrictEqual(newID);
+        expect(res.positionID).toStrictEqual(newID);
             
     });
 }

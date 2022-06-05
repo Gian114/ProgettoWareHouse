@@ -13,8 +13,8 @@ describe('test return order apis', () => {
     const reso =
         {
             "issueDate":"2021/11/29 09:33",
-            "products": [{"SKUId":1,"description":"a product","price":10.99,"qty":30},
-                        {"SKUId":2,"description":"another product","price":11.99,"qty":20}],
+            "products": [{"SKUId":1,"description":"a product","price":11,"qty":30},
+                        {"SKUId":2,"description":"another product","price":12,"qty":20}],
             "supplierId" : 1  
         };
 
@@ -33,7 +33,7 @@ describe('test return order apis', () => {
             "weight" : 100,
             "volume" : 50,
             "notes" : "first SKU",
-            "price" : 10.99,
+            "price" : 11,
             "availableQuantity" : 50
         };
 
@@ -43,7 +43,7 @@ describe('test return order apis', () => {
             "weight" : 100,
             "volume" : 50,
             "notes" : "first SKU",
-            "price" : 10.99,
+            "price" : 11,
             "availableQuantity" : 50
         };
 
@@ -64,24 +64,24 @@ describe('test return order apis', () => {
     const data1 = //right
         {
             "returnDate":"2021/11/29 09:33",
-            "products": [{"SKUId":1,"description":"a product","price":10.99,"RFID":"1111"},
-                        {"SKUId":2,"description":"another product","price":11.99,"RFID":"1112"}],
+            "products": [{"SKUId":1,"description":"a product","price":11,"RFID":"1111"},
+                        {"SKUId":2,"description":"another product","price":12,"RFID":"1112"}],
             "restockOrderId" : 1
         };
 
     const data2 = //wrong: no restock order associated to restockOrderId
         {
             "returnDate":"2021/11/29 09:33",
-            "products": [{"SKUId":1,"description":"a product","price":10.99,"RFID":"1111"},
-                        {"SKUId":2,"description":"another product","price":11.99,"RFID":"1112"}],
+            "products": [{"SKUId":1,"description":"a product","price":11,"RFID":"1111"},
+                        {"SKUId":2,"description":"another product","price":12,"RFID":"1112"}],
             "restockOrderId" : 2
         };
 
     const data3 = //wrong: no sku item associated to RFID or wrong correspondence between RFID and SKUId
         {
             "returnDate":"2021/11/29 09:33",
-            "products": [{"SKUId":2,"description":"a product","price":10.99,"RFID":"1111"},
-                        {"SKUId":2,"description":"another product","price":11.99,"RFID":"1113"}],
+            "products": [{"SKUId":2,"description":"a product","price":11,"RFID":"1111"},
+                        {"SKUId":2,"description":"another product","price":12,"RFID":"1113"}],
             "restockOrderId" : 1
         };
 
