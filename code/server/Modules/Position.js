@@ -30,21 +30,21 @@ class Position {
                     return;
                 }
 
-                    const position = rows.map((r) => (
+                const position = rows.map((r) => (
 
-                        {
-                            id: r.id,
-                            aisle_id: r.aisle,
-                            row: r.row,
-                            col: r.col,
-                            max_weight: r.max_weight,
-                            max_volume: r.max_volume,
-                            occupied_weight: r.occupied_weight,
-                            occupied_volume: r.occupied_volume,
-                        }
-                    ));
-                    resolve(position);
-            
+                    {
+                        positionID: r.id,
+                        aisleID: r.aisle,
+                        row: r.row,
+                        col: r.col,
+                        max_weight: r.max_weight,
+                        max_volume: r.max_volume,
+                        occupied_weight: r.occupied_weight,
+                        occupied_volume: r.occupied_volume,
+                    }
+                ));
+                resolve(position);
+
             });
         });
     }
@@ -61,8 +61,8 @@ class Position {
                 if (row !== undefined) {
                     const position =
                     {
-                        id: row.id,
-                        aisle_id: row.aisle,
+                        positionID: row.id,
+                        aisleID: row.aisle,
                         row: row.row,
                         col: row.col,
                         max_weight: row.max_weight,
