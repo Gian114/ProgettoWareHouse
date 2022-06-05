@@ -39,8 +39,6 @@ class RestockOrder {
                     return;
                 }
 
-                //console.log(rows);
-
                 const restock_orders_dict = rows.map(row => ({
                     id: row.ro_id,
                     issueDate: row.issue_date,
@@ -75,8 +73,6 @@ class RestockOrder {
                 }, {}
                 );
 
-                //console.log(restock_orders_dict);
-
                 resolve(Object.values(restock_orders_dict));
             });
         });
@@ -108,12 +104,9 @@ class RestockOrder {
             this.db.all(sql, ["ISSUED"], (err, rows) => {
 
                 if (err) {
-                    console.log(err);
                     reject(err);
                     return;
                 }
-
-                //console.log(rows);
 
                 const restock_orders_dict = rows.map(row => ({
                     id: row.ro_id,
@@ -175,12 +168,9 @@ class RestockOrder {
             this.db.all(sql, ["DELIVERY"], (err, rows) => {
 
                 if (err) {
-                    console.log(err);
                     reject(err);
                     return;
                 }
-
-                //console.log(rows);
 
                 const restock_orders_dict = rows.map(row => ({
                     id: row.ro_id,
@@ -248,7 +238,6 @@ class RestockOrder {
             this.db.all(sql, [id], (err, rows) => {
 
                 if (err) {
-                    console.log(err);
                     reject(err);
                     return;
                 }
@@ -320,7 +309,6 @@ class RestockOrder {
             this.db.all(sql, [id], (err, rows) => {
 
                 if (err) {
-                    console.log(err);
                     reject(err);
                     return;
                 }
@@ -390,7 +378,6 @@ class RestockOrder {
 
 
                 if (err) {
-                    console.log(err);
                     reject(err);
                     return;
                 }

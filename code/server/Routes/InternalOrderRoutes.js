@@ -38,7 +38,7 @@ internalOrderRouter.get('/api/internalOrders', async (_, res) => {
     try {
         internal_orders = await io_serv.getInternalOrders();
     } catch (err) {
-        console.log(err);
+        
         return res.status(500).json({ error: "generic error" });
     }
 
@@ -54,7 +54,7 @@ internalOrderRouter.get('/api/internalOrdersIssued', async (_, res) => {
     try {
         internal_orders = await io_serv.getInternalOrdersByState(state);
     } catch (err) {
-        console.log(err);
+        
         return res.status(500).json({ error: "generic error" });
     }
 
@@ -70,7 +70,7 @@ internalOrderRouter.get('/api/internalOrdersAccepted', async (_, res) => {
     try {
         internal_orders = await io_serv.getInternalOrdersByState(state);
     } catch (err) {
-        console.log(err);
+        
         return res.status(500).json({ error: "generic error" });
     }
 
@@ -124,7 +124,7 @@ internalOrderRouter.post('/api/internalOrders', async (req, res) => {
         if (err.errno === 19) {
             return res.status(404).json('customerId or SKUId do not exist')
         }
-        console.log(err);
+        
         return res.status(503).json({ error: "generic error" });
     }
 
@@ -154,7 +154,7 @@ internalOrderRouter.put('/api/internalOrders/:id', async (req, res) => {
         if (err.errno === 19) {
             return res.status(404).json('no internal order for the given id');
         }
-        console.log(err);
+        
         return res.status(500).json({ error: "generic error" });
     }
 
@@ -173,7 +173,7 @@ internalOrderRouter.delete('/api/internalOrders/:id', async (req, res) => {
     try {
         await io_serv.deleteInternalOrder(id);
     } catch (err) {
-        console.log(err);
+        
         return res.status(500).json({ error: "generic error" });
     }
 

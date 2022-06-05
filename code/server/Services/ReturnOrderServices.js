@@ -19,7 +19,7 @@ class ReturnOrderServices {
             }
             return x;
         } catch (err) {
-            console.log(err);
+            
             return false;
         }
     }
@@ -35,7 +35,7 @@ class ReturnOrderServices {
                 return x;
             }
         } catch (err) {
-            console.log(err);
+            
             return false;
         }
     }
@@ -48,7 +48,6 @@ class ReturnOrderServices {
         }
         // for (let i = 0; i < ro.products.length; i++) {
         //     x = await this.skuItem.getSKUItemByRFIDAndSKUId(ro.products[i].RFID, ro.products[i].SKUId);
-        //     console.log(ro.products[i].RFID + '  ' + ro.products[i].SKUId + x)
         //     if (x === '') {
         //         return 1;
         //     }
@@ -63,7 +62,7 @@ class ReturnOrderServices {
             }
             return x;
         } catch (err) {
-            console.log(err);
+            
             return false;
         }
     }
@@ -75,7 +74,7 @@ class ReturnOrderServices {
             const x = await this.returnOrder.deleteReturnOrder(id);
             return x;
         } catch (err) {
-            console.log(err);
+            
             return false;
         }
     }

@@ -58,7 +58,7 @@ class RestockOrderServices {
                 restock_orders = await this.restockOrder.getRestockOrderByID(id);
             }
         } catch (err) {
-            console.log(err);
+            
             return false;
         }
 

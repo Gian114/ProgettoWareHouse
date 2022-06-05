@@ -20,13 +20,6 @@ class DB {
         }
     }
 
-    async startDBAcceptanceTests() {
-        await this.dropTables();
-        await this.createTables();
-        await this.activateForeignKeyControl();
-        await this.insertUsers();
-    }
-
     async startTest() {
         await this.dropTables();
         await this.createTables();
@@ -159,7 +152,10 @@ class DB {
                     restock_order_id INTEGER DEFAULT NULL,
                     return_order_id INTEGER DEFAULT NULL,
                     internal_order_id INTEGER DEFAULT NULL,
-                    FOREIGN KEY(sku_id) REFERENCES SKU(id),
+                    CONSTRAINT fk_sku
+                        FOREIGN KEY(sku_id) 
+                        REFERENCES SKU(id)
+                        ON DELETE CASCADE,
                     CONSTRAINT fk_restock
                         FOREIGN KEY(restock_order_id) 
                         REFERENCES RESTOCK_ORDER(id)
@@ -199,7 +195,7 @@ class DB {
     createTableTestDescriptor() {
         return new Promise((resolve, reject) => {
             const sql = `CREATE TABLE IF NOT EXISTS TEST_DESCRIPTOR (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, procedure_description TEXT NOT NULL, sku_id INTEGER NOT NULL, 
-            CONSTRAINT fk_SKU
+            CONSTRAINT fk_sku
                 FOREIGN KEY(sku_id) 
                 REFERENCES SKU(id)
                 ON DELETE CASCADE )`;
@@ -324,7 +320,10 @@ class DB {
                     restock_order_id INTEGER DEFAULT NULL,
                     internal_order_id INTEGER DEFAULT NULL,
                     return_order_id INTEGER DEFAULT NULL,
-                    FOREIGN KEY(sku_id) REFERENCES SKU(id),
+                    CONSTRAINT fk_sku
+                        FOREIGN KEY(sku_id) 
+                        REFERENCES SKU(id)
+                        ON DELETE CASCADE,
                     CONSTRAINT fk_restock
                         FOREIGN KEY(restock_order_id) 
                         REFERENCES RESTOCK_ORDER(id)

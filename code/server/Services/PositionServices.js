@@ -22,7 +22,7 @@ class PositionServices {
         try {
             await this.position.createNewPosition(item);
         } catch (err) {
-            console.log(err);
+            
             return false;
         }
 
@@ -67,17 +67,12 @@ class PositionServices {
     async deletePosition(id) {
         let x
 
-        let y = await this.position.getPositionByID(id);
-        if (y === '') {
-            return 404;
-        }
-
         try {
             x = await this.position.deletePosition(id);
         } catch (err) {
             return false;
         }
-        return true;
+        return x;
 
     }
 

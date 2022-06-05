@@ -13,7 +13,7 @@ class TestDescriptorServices {
             const x = await this.testDescriptor.getAllTestDescriptors();
             return x;
         } catch(err) {
-            console.log(err);
+            
             return false;
         }
     }
@@ -24,7 +24,7 @@ class TestDescriptorServices {
             const x = await this.testDescriptor.getTestDescriptorById(id);
             return x;
         } catch(err) {
-            console.log(err);
+            
             return false;
         }
     }
@@ -40,7 +40,7 @@ class TestDescriptorServices {
             x = await this.testDescriptor.createNewTestDescriptor(td);
             return x;
         } catch(err) {
-            console.log(err);
+            
             return false;
         }
     }
@@ -57,7 +57,7 @@ class TestDescriptorServices {
             x = await this.testDescriptor.modifyTestDescriptor(id, newValues);
             return x;
         } catch(err) {
-            console.log(err);
+            
             return false;
         }
     }
@@ -68,7 +68,7 @@ class TestDescriptorServices {
             const x = await this.testDescriptor.deleteTestDescriptor(id);
             return x;
         } catch(err) {
-            console.log(err);
+            
             return false;
         }
     }

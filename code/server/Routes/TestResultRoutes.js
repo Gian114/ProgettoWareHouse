@@ -55,7 +55,6 @@ testResultRouter.get('/api/skuitems/:rfid/testResults', async (req, res) => {
     if (!rfidIsValid(rfid)) {
         return res.status(422).json('validation of rfid failed');
     }
-    //console.log(rfidExists(rfid));
     if (!await rfidExists(rfid)) {
         return res.status(404).json('no sku item associated to rfid');
     }
@@ -64,7 +63,7 @@ testResultRouter.get('/api/skuitems/:rfid/testResults', async (req, res) => {
     try {
         test_results = await tr_serv.getTestResultsByRFID(rfid);
     } catch (err) {
-        console.log(err);
+        
         return res.status(500).json({ error: "generic error" })
     }
 
@@ -84,7 +83,7 @@ testResultRouter.get('/api/skuitems/:rfid/testResults/:id', async (req, res) => 
     try {
         test_results = await tr_serv.getTestResultByRFIDAndId(rfid, id);
     } catch (err) {
-        console.log(err);
+        
         return res.status(500).json({ error: "generic error" });
     }
 
@@ -136,7 +135,7 @@ testResultRouter.put('/api/skuitems/:rfid/testResult/:id', async (req, res) => {
     try {
         await tr_serv.modifyTestResult(rfid, id, req.body.newDate, req.body.newResult, req.body.newIdTestDescriptor);
     } catch (err) {
-        console.log(err);
+        
         return res.status(503).json({ error: 'generic error' });
     }
 
@@ -155,7 +154,7 @@ testResultRouter.delete('/api/skuitems/:rfid/testResult/:id', async (req, res) =
     try {
         await tr_serv.removeTestResult(rfid, id);
     } catch (err) {
-        console.log(err);
+        
         return res.status(503).json('generic error');
     }
 

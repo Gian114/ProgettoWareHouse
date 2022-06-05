@@ -123,9 +123,6 @@ restockOrderRouter.put('/api/restockOrder/:id', async (req, res) => {
     const roi = req.params.id;
     const state = req.body;
 
-    //console.log(roi);
-    //console.log(state.newState);
-
     let ns = await restockServices.changeState(roi, state.newState);
     if (ns === 404) {
         return res.status(404).json({ error: "no order associated to id" })
@@ -203,13 +200,6 @@ restockOrderRouter.put('/api/restockOrder/:id/transportNote', async (req, res) =
 
     var d1 = Date.parse(TNdate); //d1 = delivery_date
     d2 = Date.parse(d2); //d2 = issue_date
-
-    //console.log("stampo d2");
-    //console.log(d2); 
-
-
-    //console.log("stampo d1");
-    //console.log(d1); 
 
     if (d1 < d2) {
 

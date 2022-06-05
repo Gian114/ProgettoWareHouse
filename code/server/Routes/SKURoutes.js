@@ -174,7 +174,6 @@ skuRouter.delete('/api/skus/:id', async (req, res) => {
 
     const id = req.params.id;
     
-    await prod.deleteProductsBySKUId(id);
     let x = await sservices.deleteSKU(id)
 
     if (x === false) {

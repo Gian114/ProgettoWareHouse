@@ -119,10 +119,6 @@ positionRouter.put('/api/position/:positionID/changeID', async (req, res) => {
     const row = newPositionId[4] + newPositionId[5] + newPositionId[6] + newPositionId[7];
     const col = newPositionId[8] + newPositionId[9] + newPositionId[10] + newPositionId[11];
 
-    //  console.log(aisle_id);
-    //  console.log(row);
-    //  console.log(col);
-
     let x = await positionServices.changePositionID(position_id, newPositionId, aisle_id, row, col);
     if (x === false) {
         return res.status(503).json({ err: "generic error" });
@@ -141,7 +137,7 @@ positionRouter.put('/api/position/:positionID/changeID', async (req, res) => {
 //test ok anche qui aggiungi altri if
 positionRouter.delete('/api/position/:positionID', async (req, res) => {
 
-    if (Object.keys(req.params).length === 0) {
+    if (Object.keys(req.params).length === 0 || !Number(req.params.positionID)) {
         return res.status(422).json({})
     }
 
@@ -153,10 +149,6 @@ positionRouter.delete('/api/position/:positionID', async (req, res) => {
         return res.status(503).json({ error: "generic error" })
     }
 
-    //nei test chiede solo 422
-    //   if (x === 404) {
-    //     return res.status(422).json({ err: "position not found" });
-    //   }
     return res.status(204).json();
 });
 

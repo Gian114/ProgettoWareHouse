@@ -37,7 +37,6 @@ class UserServices{
             x = await this.user.getUser(data)
     
         }catch(err){
-            console.log(err)
             return false
         }
         
@@ -105,7 +104,6 @@ class UserServices{
         try{
             x = await this.user.deleteUser(data);
         }catch(err){
-            console.log(err)
             return false
         }
         return x

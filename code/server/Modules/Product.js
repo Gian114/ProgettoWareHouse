@@ -11,7 +11,6 @@ class Product {
             const sql = 'SELECT * FROM PRODUCT';
             this.db.all(sql, [], (err, rows) => {
                 if (err) {
-                    console.log(err);
                     reject(err);
                     return;
                 }

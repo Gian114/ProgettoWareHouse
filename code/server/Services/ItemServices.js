@@ -14,7 +14,7 @@ class ItemServices {
             const x = await this.item.getAllItems();
             return x;
         } catch(err) {
-            console.log(err);
+            
             return false;
         }
     }
@@ -25,7 +25,7 @@ class ItemServices {
             const x = await this.item.getItemById(id);
             return x;
         } catch(err) {
-            console.log(err);
+            
             return false;
         }
     }
@@ -50,7 +50,7 @@ class ItemServices {
             x = await this.item.createNewItem(it);
             return x;
         } catch(err) {
-            console.log(err);
+            
             return false;
         }
     }
@@ -66,7 +66,7 @@ class ItemServices {
             x = await this.item.modifyItem(id, newValues);
             return x;
         } catch(err) {
-            console.log(err);
+            
             return false;
         }
     }
@@ -77,7 +77,7 @@ class ItemServices {
             const x = this.item.deleteItem(id);
             return x;
         } catch(err) {
-            console.log(err);
+            
             return false;
         }
     }
