@@ -124,7 +124,19 @@ class DB {
 
     createTableSKU() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS SKU (id INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT NOT NULL, weight INTEGER NOT NULL, volume INTEGER NOT NULL, price INTEGER NOT NULL, notes TEXT NOT NULL, available_quantity INTEGER NOT NULL, position_id TEXT DEFAULT NULL, FOREIGN KEY(position_id) REFERENCES POSITION(id))';
+            const sql = `
+                CREATE TABLE IF NOT EXISTS SKU (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                    description TEXT NOT NULL, 
+                    weight INTEGER NOT NULL, 
+                    volume INTEGER NOT NULL, 
+                    price INTEGER NOT NULL, notes TEXT NOT NULL, 
+                    available_quantity INTEGER NOT NULL, 
+                    position_id TEXT DEFAULT NULL, 
+                    CONSTRAINT fk_position
+                        FOREIGN KEY(position_id) 
+                        REFERENCES POSITION(id)
+                        ON DELETE CASCADE )`;
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -186,7 +198,11 @@ class DB {
 
     createTableTestDescriptor() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS TEST_DESCRIPTOR (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, procedure_description TEXT NOT NULL, sku_id INTEGER NOT NULL, FOREIGN KEY(sku_id) REFERENCES SKU(id))';
+            const sql = `CREATE TABLE IF NOT EXISTS TEST_DESCRIPTOR (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, procedure_description TEXT NOT NULL, sku_id INTEGER NOT NULL, 
+            CONSTRAINT fk_SKU
+                FOREIGN KEY(sku_id) 
+                REFERENCES SKU(id)
+                ON DELETE CASCADE )`;
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -199,7 +215,13 @@ class DB {
 
     createTableTestResult() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS TEST_RESULT (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT NOT NULL, result INTEGER NOT NULL, sku_item_rfid TEXT NOT NULL, test_descriptor_id INTEGER NOT NULL, FOREIGN KEY(sku_item_rfid) REFERENCES SKU_ITEM(rfid), FOREIGN KEY(test_descriptor_id) REFERENCES TEST_DESCRIPTOR(id))';
+            const sql = `CREATE TABLE IF NOT EXISTS TEST_RESULT (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT NOT NULL, result INTEGER NOT NULL, sku_item_rfid TEXT NOT NULL, test_descriptor_id INTEGER NOT NULL,
+            CONSTRAINT fk_sku_item
+                FOREIGN KEY(sku_item_rfid) REFERENCES SKU_ITEM(rfid)
+                ON DELETE CASCADE,
+            CONSTRAINT fk_td
+                FOREIGN KEY(test_descriptor_id) REFERENCES TEST_DESCRIPTOR(id)
+                ON DELETE CASCADE)`;
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -225,7 +247,10 @@ class DB {
 
     createTableRestockOrder() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS RESTOCK_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, issue_date TEXT NOT NULL, state TEXT NOT NULL, supplier_id INTEGER NOT NULL, TNdelivery_date TEXT DEFAULT NULL, FOREIGN KEY(supplier_id) REFERENCES USER(id))';
+            const sql = `CREATE TABLE IF NOT EXISTS RESTOCK_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, issue_date TEXT NOT NULL, state TEXT NOT NULL, supplier_id INTEGER NOT NULL, TNdelivery_date TEXT DEFAULT NULL,
+            CONSTRAINT fk_user
+                FOREIGN KEY(supplier_id) REFERENCES USER(id)
+                ON DELETE CASCADE)`;
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -238,7 +263,10 @@ class DB {
 
     createTableReturnOrder() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS RETURN_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, return_date TEXT NOT NULL, restock_order_id INTEGER NOT NULL, FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id))';
+            const sql = `CREATE TABLE IF NOT EXISTS RETURN_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, return_date TEXT NOT NULL, restock_order_id INTEGER NOT NULL,
+            CONSTRAINT fk_ro
+                FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id)
+                ON DELETE CASCADE)`;
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -251,7 +279,10 @@ class DB {
 
     createTableInternalOrder() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS INTERNAL_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, issue_date TEXT NOT NULL, state TEXT NOT NULL, customer_id INTEGER NOT NULL, FOREIGN KEY(customer_id) REFERENCES USER(id))';
+            const sql = `CREATE TABLE IF NOT EXISTS INTERNAL_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, issue_date TEXT NOT NULL, state TEXT NOT NULL, customer_id INTEGER NOT NULL,
+            CONSTRAINT fk_user
+                FOREIGN KEY(customer_id) REFERENCES USER(id)
+                ON DELETE CASCADE)`;
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -264,7 +295,13 @@ class DB {
 
     createTableItem() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS ITEM (id INTEGER PRIMARY KEY, sku_id INTEGER NOT NULL, description TEXT NOT NULL, price REAL NOT NULL, supplier_id INTEGER NOT NULL, FOREIGN KEY(sku_id) REFERENCES SKU(id), FOREIGN KEY(supplier_id) REFERENCES USER(id))';
+            const sql = `CREATE TABLE IF NOT EXISTS ITEM (id INTEGER PRIMARY KEY, sku_id INTEGER NOT NULL, description TEXT NOT NULL, price REAL NOT NULL, supplier_id INTEGER NOT NULL,
+            CONSTRAINT fk_sku
+                FOREIGN KEY(sku_id) REFERENCES SKU(id)
+                ON DELETE CASCADE,
+            CONSTRAINT fk_user
+                FOREIGN KEY(supplier_id) REFERENCES USER(id)
+                ON DELETE CASCADE)`;
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);

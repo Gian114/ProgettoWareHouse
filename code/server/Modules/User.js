@@ -1,5 +1,5 @@
 
-class User{
+class User {
 
     constructor(db) {
         this.db = db;
@@ -11,15 +11,15 @@ class User{
             const sql = 'INSERT INTO USER(username, name, surname, type, password) VALUES(?, ?, ?, ?, ?)';
             this.db.run(sql, [data.username, data.name, data.surname, data.type, data.password], (err) => {
                 if (err) {
-                  reject(err);
-                  return;
+                    reject(err);
+                    return;
                 }
                 resolve(true);
             });
         });
     }
 
-    getUser(data){
+    getUser(data) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM USER WHERE username = ? AND type = ?';
             this.db.get(sql, [data.username, data.type], (err, r) => {
@@ -27,16 +27,16 @@ class User{
                     reject(err);
                     return;
                 }
-                if(r !== undefined){
-                    const user = 
-                        {  
-                            id: r.id,
-                            email: r.username,
-                            name: r.name,
-                            surname: r.surname,
-                            type: r.type
-                        }
-                    
+                if (r !== undefined) {
+                    const user =
+                    {
+                        id: r.id,
+                        email: r.username,
+                        name: r.name,
+                        surname: r.surname,
+                        type: r.type
+                    }
+
                     resolve(user);
                 } else {
                     const user = ''
@@ -47,7 +47,7 @@ class User{
     }
 
 
-    getSuppliers(){
+    getSuppliers() {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM USER WHERE type = "supplier"';
             this.db.all(sql, [], (err, rows) => {
@@ -55,17 +55,17 @@ class User{
                     reject(err);
                     return;
                 }
-                
-                    const user = rows.map((r) => (
-                    
-                        {  
-                            id : r.id,
-                            email: r.username,
-                            name: r.name,
-                            surname: r.surname,
-                            type: r.type
-                        }
-                    ));
+
+                const user = rows.map((r) => (
+
+                    {
+                        id: r.id,
+                        email: r.username,
+                        name: r.name,
+                        surname: r.surname,
+                        type: r.type
+                    }
+                ));
                 resolve(user);
 
             });
@@ -80,16 +80,16 @@ class User{
                     reject(err);
                     return;
                 }
-                
-                if(r !== undefined) {
+
+                if (r !== undefined) {
                     const user =
-                        {  
-                            id : r.id,
-                            email: r.username,
-                            name: r.name,
-                            surname: r.surname,
-                            type: r.type
-                        };
+                    {
+                        id: r.id,
+                        email: r.username,
+                        name: r.name,
+                        surname: r.surname,
+                        type: r.type
+                    };
                     resolve(user);
                 } else {
                     const user = '';
@@ -99,7 +99,7 @@ class User{
         });
     }
 
-    login(data, type){
+    login(data, type) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM USER WHERE username = ? AND password = ? AND type = ?';
             this.db.get(sql, [data.username, data.password, type], (err, row) => {
@@ -108,34 +108,34 @@ class User{
                     return;
                 }
 
-                if(row !== undefined){
+                if (row !== undefined) {
                     //only one row if everything works correctly
-                    const user = 
+                    const user =
                     {
-                        id : row.id,
+                        id: row.id,
                         username: row.username,
                         name: row.name
                     }
-                    resolve(user);    
+                    resolve(user);
                 } else {
-                    
+
                     resolve(false)
                 }
             });
         });
     }
 
-    modifyUserType(data, username){
-        return new Promise((resolve, reject)=>{
+    modifyUserType(data, username) {
+        return new Promise((resolve, reject) => {
             //gestire old values e position
-        const sql = 'UPDATE USER SET type = ? WHERE username = ? and type = ?'
-        this.db.run(sql, [data.newType, username, data.oldType], (err)=>{
-            if (err) {
-                reject(err);
-                return;
-            }
-            resolve(true)
-        })
+            const sql = 'UPDATE USER SET type = ? WHERE username = ? and type = ?'
+            this.db.run(sql, [data.newType, username, data.oldType], (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(true)
+            })
 
         })
     }
@@ -149,25 +149,25 @@ class User{
                     return;
                 }
                 resolve(true)
-                
+
             });
         });
     }
 
-  
-    getUsers(){
+
+    getUsers() {
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT * FROM USER';
-            this.db.all(sql, [], (err, rows) => {
+            const sql = 'SELECT * FROM USER WHERE type != ?';
+            this.db.all(sql, ['manager'], (err, rows) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-                
+
                 const user = rows.map((r) => (
-                
-                    {  
-                        id : r.id,
+
+                    {
+                        id: r.id,
                         email: r.username,
                         name: r.name,
                         surname: r.surname,
@@ -175,11 +175,11 @@ class User{
                     }
                 ));
                 resolve(user);
-                
+
             });
         });
     }
-    
+
 
 
 }
