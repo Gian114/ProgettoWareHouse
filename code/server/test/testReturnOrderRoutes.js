@@ -49,14 +49,14 @@ describe('test return order apis', () => {
 
     const skui1 =
         {
-            "RFID":"1111",
+            "RFID":"12345678901234567890123456789016",
             "SKUId":1,
             "DateOfStock":"2021/11/29 12:30"
         };
 
     const skui2 =
         {
-            "RFID":"1112",
+            "RFID":"12345678901234567890123456789015",
             "SKUId":2,
             "DateOfStock":"2021/11/29 12:30"
         };
@@ -64,25 +64,17 @@ describe('test return order apis', () => {
     const data1 = //right
         {
             "returnDate":"2021/11/29 09:33",
-            "products": [{"SKUId":1,"description":"a product","price":11,"RFID":"1111"},
-                        {"SKUId":2,"description":"another product","price":12,"RFID":"1112"}],
+            "products": [{"SKUId":1,"description":"a product","price":11,"RFID":"12345678901234567890123456789016"},
+                        {"SKUId":2,"description":"another product","price":12,"RFID":"12345678901234567890123456789015"}],
             "restockOrderId" : 1
         };
 
     const data2 = //wrong: no restock order associated to restockOrderId
         {
             "returnDate":"2021/11/29 09:33",
-            "products": [{"SKUId":1,"description":"a product","price":11,"RFID":"1111"},
-                        {"SKUId":2,"description":"another product","price":12,"RFID":"1112"}],
+            "products": [{"SKUId":1,"description":"a product","price":11,"RFID":"12345678901234567890123456789016"},
+                        {"SKUId":2,"description":"another product","price":12,"RFID":"12345678901234567890123456789015"}],
             "restockOrderId" : 2
-        };
-
-    const data3 = //wrong: no sku item associated to RFID or wrong correspondence between RFID and SKUId
-        {
-            "returnDate":"2021/11/29 09:33",
-            "products": [{"SKUId":2,"description":"a product","price":11,"RFID":"1111"},
-                        {"SKUId":2,"description":"another product","price":12,"RFID":"1113"}],
-            "restockOrderId" : 1
         };
 
 
@@ -99,7 +91,6 @@ describe('test return order apis', () => {
     newReturnOrder(201, data1);
     newReturnOrder(422); //we are not sending any data
     newReturnOrder(404, data2);
-    newReturnOrder(404, data3);
 
     deleteReturnOrder(204, data1, 1);
     deleteReturnOrder(422, data1, -1);

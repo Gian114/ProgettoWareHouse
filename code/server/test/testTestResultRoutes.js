@@ -44,7 +44,7 @@ describe('test test results apis', () => {
     }
 
     const skuit1 = {
-        "RFID": "1234",
+        "RFID": "12345678901234567890123456789016",
         "SKUId": 1,
         "DateOfStock": "2021/11/29 12:30"
     }
@@ -59,21 +59,21 @@ describe('test test results apis', () => {
     })
 
     tr_valid = {
-        "rfid": "1234",
+        "rfid": "12345678901234567890123456789016",
         "idTestDescriptor": 1,
         "Date": "2021/11/28",
         "Result": true
     }
 
     tr_wrong_key = {
-        "rfid": "1234",
+        "rfid": "12345678901234567890123456789016",
         "idTestDescriptor": 1,
         "Date": "2021/11/28",
         "res": true
     }
 
     tr_ne_rfid = {
-        "rfid": "2345",
+        "rfid": "23451234567890123456789012345678",
         "idTestDescriptor": 1,
         "Date": "2021/11/28",
         "Result": true
@@ -82,8 +82,8 @@ describe('test test results apis', () => {
     createTestResult(201, tr_valid);
     createTestResult(422, tr_wrong_key);
     createTestResult(404, tr_ne_rfid);
-    getTestResults(404, "2345", 'no sku item associated to rfid', tr_valid);
-    getTestResults(200, "1234", tr_valid, tr_valid);
+    getTestResults(404, "23451234567890123456789012345678", 'no sku item associated to rfid', tr_valid);
+    getTestResults(200, "12345678901234567890123456789016", tr_valid, tr_valid);
 
 });
 

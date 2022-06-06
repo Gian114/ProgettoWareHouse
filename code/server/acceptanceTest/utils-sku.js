@@ -63,7 +63,6 @@ function deleteAllSkus(agent) {
                     for (let i = 0; i < res.body.length; i++) {
                         agent.delete('/api/skus/'+res.body[i].id)
                         .then(function (res2) {
-                            console.log(req.body[i]);
                             res2.should.have.status(204);
                         });
                     }

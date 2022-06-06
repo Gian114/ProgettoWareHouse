@@ -73,7 +73,8 @@ class SKUItem{
                         RFID: r.rfid,
                         Available: r.available,
                         SKUId: r.sku_id,
-                        DateOfStock: r.date_of_stock
+                        DateOfStock: r.date_of_stock,
+                        ret_o: r.return_order_id
                     }
                 ));
                 resolve(skuitems);
@@ -85,35 +86,6 @@ class SKUItem{
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM SKU_ITEM WHERE rfid = ?';
             this.db.get(sql, [rfid], (err, r) => {
-                
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                if(r !== undefined){
-                    const skuitem =  
-                    {  
-                        RFID: r.rfid,
-                        SKUId: r.sku_id,
-                        Available: r.available,
-                        DateOfStock: r.date_of_stock
-                    };
-                    
-                    resolve(skuitem);
-
-                } else {
-                    const none = '';
-                    resolve(none);
-                }
-                
-            });
-        });
-    }
-
-    getSKUItemByRFIDAndSKUId(rfid, sku_id) {
-        return new Promise((resolve, reject) => {
-            const sql = 'SELECT * FROM SKU_ITEM WHERE rfid = ? and sku_id = ?';
-            this.db.get(sql, [rfid, sku_id], (err, r) => {
                 
                 if (err) {
                     reject(err);

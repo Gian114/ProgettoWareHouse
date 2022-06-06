@@ -77,7 +77,7 @@ class Product {
 
     getProductsByReturnOrder(id) {
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT DISTINCT rfid, PRODUCT.sku_id, description, price FROM SKU_ITEM, PRODUCT WHERE PRODUCT.return_order_id = SKU_ITEM.return_order_id AND PRODUCT.sku_id = SKU_ITEM.sku_id AND SKU_ITEM.return_order_id = ?';
+            const sql = 'SELECT DISTINCT PRODUCT.sku_id, description, price, rfid FROM PRODUCT, SKU_ITEM WHERE PRODUCT.return_order_id = SKU_ITEM.return_order_id AND PRODUCT.sku_id = SKU_ITEM.sku_id AND SKU_ITEM.return_order_id = ?';
             this.db.all(sql, [id], (err, rows) => {
                 if (err) {
                     reject(err);

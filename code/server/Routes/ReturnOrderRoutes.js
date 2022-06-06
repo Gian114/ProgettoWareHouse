@@ -63,9 +63,6 @@ returnOrderRouter.post('/api/returnOrder', async (req, res) => {
     else if(x === '') {
         return res.status(404).json({error: "no restock order associated to restockOrderId"});
     }
-    else if (x === 1) {
-        return res.status(404).json({error: 'no sku item associated to RFID or wrong correspondence between RFID and SKUId'});
-    }
     return res.status(201).json();
 
 });

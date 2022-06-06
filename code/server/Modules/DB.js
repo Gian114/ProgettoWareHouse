@@ -16,6 +16,8 @@ class DB {
         await this.activateForeignKeyControl();
         const users = await this.getUsers();
         if (!users) {
+            await this.dropTableUser();
+            await this.createTableUser();
             await this.insertUsers();
         }
     }
@@ -106,7 +108,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                if (rows.length !== 0) {
+                if (rows.length === 5) {
                     resolve(true);
                 } else {
                     resolve(false);
