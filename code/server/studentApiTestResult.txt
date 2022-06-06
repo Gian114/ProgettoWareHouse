@@ -2,15 +2,15 @@ Server listening at http://localhost:3001
 
 
   test internal order apis
-    ✔ create internal order (85ms)
+    ✔ create internal order (81ms)
     ✔ create internal order
     ✔ create internal order
-    ✔ modify internal order (151ms)
-    ✔ modify internal order (59ms)
-    ✔ modify internal order (178ms)
-    ✔ modify internal order (81ms)
+    ✔ modify internal order (82ms)
+    ✔ modify internal order (82ms)
+    ✔ modify internal order (92ms)
+    ✔ modify internal order (117ms)
     ✔ delete internal order (134ms)
-    ✔ delete internal order (124ms)
+    ✔ delete internal order (69ms)
 
   test item apis
     ✔ create a new item
@@ -26,73 +26,73 @@ Server listening at http://localhost:3001
     ✔ delete an item
     ✔ delete an item
     ✔ get an item by id
-    ✔ get an item by id (38ms)
+    ✔ get an item by id
     ✔ get an item by id
     ✔ get all items
 
   test position apis
     ✔ create a new position
     ✔ create a new position
-    ✔ Deleting position (48ms)
+    ✔ Deleting position (50ms)
 
   test restock Order apis
-    ✔ create a new restock order (54ms)
+    ✔ create a new restock order (100ms)
     ✔ create a new restock order
     ✔ create a new restock order
-    ✔ get restock order (74ms)
-    ✔ Deleting restock (86ms)
-    ✔ Deleting restock (66ms)
-    ✔ Deleting restock (83ms)
+    ✔ get restock order (101ms)
+    ✔ Deleting restock (94ms)
+    ✔ Deleting restock (69ms)
+    ✔ Deleting restock (77ms)
 
   test return order apis
-    ✔ create a new return order (93ms)
+    ✔ create a new return order (105ms)
     ✔ create a new return order
     ✔ create a new return order
-    ✔ delete a return order (122ms)
-    ✔ delete a return order (88ms)
-    ✔ get a return order by id (114ms)
-    ✔ get a return order by id (103ms)
-    ✔ get a return order by id (82ms)
-    ✔ get all return orders (207ms)
+    ✔ delete a return order (171ms)
+    ✔ delete a return order (121ms)
+    ✔ get a return order by id (155ms)
+    ✔ get a return order by id (125ms)
+    ✔ get a return order by id (74ms)
+    ✔ get all return orders (230ms)
 
   test skuitems apis
     ✔ create a new skuitem
     ✔ create a new skuitem
     ✔ create a new skuitem
-    ✔ modify skuitem (54ms)
+    ✔ modify skuitem (40ms)
     ✔ modify skuitem
     ✔ Deleting skuitem
 
   test sku apis
     ✔ create a new sku
     ✔ create a new sku
-    ✔ getting skus (42ms)
+    ✔ getting skus
     ✔ getting skus
     ✔ getting skus
     ✔ Deleting sku
 
   test test desciptor apis
+    ✔ create a new test descriptor (40ms)
     ✔ create a new test descriptor
     ✔ create a new test descriptor
     ✔ create a new test descriptor
-    ✔ create a new test descriptor
+    ✔ modify a test descriptor (69ms)
     ✔ modify a test descriptor
     ✔ modify a test descriptor
     ✔ modify a test descriptor
-    ✔ modify a test descriptor (39ms)
     ✔ modify a test descriptor
-    ✔ delete a test descriptor (62ms)
     ✔ delete a test descriptor (40ms)
-    ✔ get a test descriptor by id (88ms)
+    ✔ delete a test descriptor
     ✔ get a test descriptor by id
-    ✔ get a test descriptor by id (58ms)
-    ✔ get all test descriptors (63ms)
+    ✔ get a test descriptor by id
+    ✔ get a test descriptor by id
+    ✔ get all test descriptors (48ms)
 
   test test results apis
     ✔ create test result
     ✔ create test result
     ✔ create test result
-    ✔ get test results (44ms)
+    ✔ get test results
     ✔ get test results
 
   test user apis
@@ -108,5 +108,5 @@ Server listening at http://localhost:3001
     ✔ delete user
 
 
-  86 passing (51s)
+  86 passing (46s)
 

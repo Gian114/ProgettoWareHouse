@@ -17,10 +17,10 @@ class Product {
 
                 const products = rows.map((r) => (
                     {
+                        id: r.id,
                         SKUId: r.sku_id,
                         description: r.description,
-                        price: r.price,
-                        ret_o_id: r.return_order_id
+                        price: r.price
                     }
                 ));
 

@@ -19,7 +19,6 @@ class SKUItem{
         });
     }
 
-    //available 1 or 0?
     setRestockOrderId(rfid, restockid) {
         return new Promise((resolve, reject)=>{
             const sql = 'UPDATE SKU_ITEM SET restock_order_id = ? WHERE rfid = ?'
@@ -186,22 +185,6 @@ class SKUItem{
                 }
                
                 resolve(true)
-            });
-        });
-    }
-
-    deleteSKUItemByRestockOrderId(restock_order_id) {
-        return new Promise((resolve, reject) => {
-
-            const sql = 'DELETE FROM SKU_ITEM WHERE restock_order_id = ?';
-
-            this.db.run(sql, [restock_order_id], (err) => {
-
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                resolve(true);
             });
         });
     }
