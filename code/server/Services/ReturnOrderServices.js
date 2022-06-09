@@ -51,7 +51,7 @@ class ReturnOrderServices {
             x = await this.returnOrder.createNewReturnOrder(ro);
             let id = await this.db.getAutoincrementId('RETURN_ORDER');
             for (let i = 0; i < ro.products.length; i++) {
-                await this.product.insertProductReturnOrder(ro.products[i].SKUId, ro.products[i].itemId, ro.products[i].description, ro.products[i].price, id);
+                await this.product.insertProductReturnOrder(ro.products[i].SKUId, ro.products[i].description, ro.products[i].price, id);
                 await this.skuItem.setReturnOrderId(ro.products[i].RFID, id);
             }
             return x;

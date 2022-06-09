@@ -23,7 +23,6 @@ class RestockOrder {
                     P.price AS price,
                     P.description AS description,
                     P.quantity AS quantity,
-                    P.itemId AS itemId,
                     SI.rfid AS rfid,
                     SI.sku_id AS sku 
                     
@@ -46,7 +45,6 @@ class RestockOrder {
                     state: row.state,
                     product: {
                         SKUid: row.sku_id,
-                        itemId: row.itemId,
                         description: row.description,
                         price: row.price,
                         quantity: row.quantity
@@ -55,7 +53,6 @@ class RestockOrder {
                     transportNote: { deliveryDate: row.delivery_date },
                     skuItem: {
                         SKUid: row.sku_id,
-                        itemId: row.itemId,
                         rfid: row.rfid
                     }
                 })).reduce(function (ros, obj) {
@@ -99,7 +96,6 @@ class RestockOrder {
                     P.price AS price,
                     P.description AS description,
                     P.quantity AS quantity
-                    P.itemId AS itemId
                          
                 FROM RESTOCK_ORDER RO, PRODUCT P
                 WHERE RO.id = P.restock_order_id AND RO.state = ?;
@@ -118,7 +114,6 @@ class RestockOrder {
                     state: row.state,
                     product: {
                         SKUid: row.sku_id,
-                        itemId: row.itemId,
                         description: row.description,
                         price: row.price,
                         quantity: row.quantity
@@ -163,7 +158,7 @@ class RestockOrder {
                     P.price AS price,
                     P.description AS description,
                     P.quantity AS quantity
-                    P.itemId as itemId
+               
                          
                 FROM RESTOCK_ORDER RO
                 LEFT JOIN PRODUCT P ON RO.id = P.restock_order_id
@@ -183,7 +178,6 @@ class RestockOrder {
                     state: row.state,
                     product: {
                         SKUid: row.sku_id,
-                        itemId: row.itemId,
                         description: row.description,
                         price: row.price,
                         quantity: row.quantity
@@ -231,7 +225,6 @@ class RestockOrder {
                     P.price AS price,
                     P.description AS description,
                     P.quantity AS quantity,
-                    P.itemId as itemId,
                     SI.rfid AS rfid,
                     SI.sku_id AS sku 
 
@@ -257,7 +250,6 @@ class RestockOrder {
                         state: row.state,
                         product: {
                             SKUid: row.sku_id,
-                            itemId: row.itemId,
                             description: row.description,
                             price: row.price,
                             quantity: row.quantity
@@ -266,7 +258,6 @@ class RestockOrder {
                         transportNote: { deliveryDate: row.delivery_date },
                         skuItem: {
                             SKUid: row.sku,
-                            itemId: row.itemId,
                             rfid: row.rfid
                         }
                     })).reduce(function (ro, obj) {
@@ -308,8 +299,7 @@ class RestockOrder {
                     P.sku_id AS sku_id,
                     P.price AS price,
                     P.description AS description,
-                    P.quantity AS quantity,
-                    P.itemId as itemId
+                    P.quantity AS quantity
                     
                 FROM RESTOCK_ORDER RO, PRODUCT P
                 WHERE RO.id = P.restock_order_id AND RO.id = ?;
@@ -330,7 +320,6 @@ class RestockOrder {
                         state: row.state,
                         product: {
                             SKUId: row.sku_id,
-                            itemId: row.itemId,
                             description: row.description,
                             price: row.price,
                             qty: row.quantity
@@ -339,7 +328,6 @@ class RestockOrder {
                         transportNote: { deliveryDate: row.delivery_date },
                         skuItem: {
                             SKUid: row.sku,
-                            itemId: row.itemId,
                             rfid: row.rfid
                         }
                     })).reduce(function (ro, obj) {
@@ -379,7 +367,6 @@ class RestockOrder {
                     P.price AS price,
                     P.description AS description,
                     P.quantity AS quantity
-                    P.itemId as itemId
 
                     
                 FROM RESTOCK_ORDER RO, PRODUCT P
@@ -402,7 +389,6 @@ class RestockOrder {
                         state: row.state,
                         product: {
                             SKUid: row.sku_id,
-                            itemId: row.itemId,
                             description: row.description,
                             price: row.price,
                             quantity: row.quantity
@@ -411,7 +397,6 @@ class RestockOrder {
                         transportNote: { deliveryDate: row.delivery_date },
                         skuItem: {
                             SKUid: row.sku,
-                            itemId: row.itemId,
                             rfid: row.rfid
                         }
                     })).reduce(function (ro, obj) {
