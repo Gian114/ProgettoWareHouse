@@ -316,6 +316,7 @@ class DB {
                 CREATE TABLE IF NOT EXISTS PRODUCT (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     sku_id INTEGER NOT NULL,
+                    itemId INTEGER DEFAULT NULL,
                     description TEXT NOT NULL,
                     price REAL NOT NULL,
                     quantity INTEGER NOT NULL,
@@ -326,6 +327,10 @@ class DB {
                         FOREIGN KEY(sku_id) 
                         REFERENCES SKU(id)
                         ON DELETE CASCADE,
+                    CONSTRAINT fk_item
+                        FOREIGN KEY(itemId)
+                        REFERENCES ITEM(id)
+                        ON DELETE SET NULL,
                     CONSTRAINT fk_restock
                         FOREIGN KEY(restock_order_id) 
                         REFERENCES RESTOCK_ORDER(id)

@@ -19,6 +19,7 @@ class Product {
                     {
                         id: r.id,
                         SKUId: r.sku_id,
+                        itemId: r.itemId,
                         description: r.description,
                         price: r.price
                     }
@@ -87,6 +88,7 @@ class Product {
                 const products = rows.map((r) => (
                     {
                         SKUId: r.sku_id,
+                        itemId: r.itemId,
                         description: r.description,
                         price: r.price,
                         RFID: r.rfid
@@ -97,10 +99,10 @@ class Product {
         });
     }
 
-    insertProduct(sku_id, description, price, quantity, restock_order_id, internal_order_id, return_order_id) {
+    insertProduct(sku_id, itemId, description, price, quantity, restock_order_id, internal_order_id, return_order_id) {
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO PRODUCT(sku_id, description, price, quantity, restock_order_id, internal_order_id, return_order_id) VALUES(?, ?, ?, ?, ?, ?, ?)';
-            this.db.run(sql, [sku_id, description, price, quantity, restock_order_id, internal_order_id, return_order_id], (err) => {
+            const sql = 'INSERT INTO PRODUCT(sku_id, itemId, description, price, quantity, restock_order_id, internal_order_id, return_order_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
+            this.db.run(sql, [sku_id, itemId, description, price, quantity, restock_order_id, internal_order_id, return_order_id], (err) => {
                 if (err) {
                     reject(err);
                     return;
@@ -114,12 +116,12 @@ class Product {
         await this.insertProduct(sku_id, description, price, quantity, null, internal_order_id, null);
     }
 
-    async insertProductReturnOrder(sku_id, description, price, return_order_id) {
-        await this.insertProduct(sku_id, description, price, 1, null, null, return_order_id);
+    async insertProductReturnOrder(sku_id, itemId, description, price, return_order_id) {
+        await this.insertProduct(sku_id, itemId, description, price, 1, null, null, return_order_id);
     }
 
-    async insertProductRestockOrder(sku_id, description, price, quantity, restock_order_id) {
-        await this.insertProduct(sku_id, description, price, quantity, restock_order_id, null, null);
+    async insertProductRestockOrder(sku_id, itemId, description, price, quantity, restock_order_id) {
+        await this.insertProduct(sku_id, itemId, description, price, quantity, restock_order_id, null, null);
     }
 
     /*deleteProduct(id) {
