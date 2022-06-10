@@ -11,10 +11,15 @@ class DB {
     }
 
     async startDB() {
-        await this.dropTables();
+        //await this.dropTables();
         await this.createTables();
         await this.activateForeignKeyControl();
-        await this.insertUsers();
+        const users = await this.getUsers();
+        if (!users) {
+            await this.dropTableUser();
+            await this.createTableUser();
+            await this.insertUsers();
+        }
     }
 
     async startTest() {
@@ -59,7 +64,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -77,33 +82,62 @@ class DB {
         });
     }
 
-   insertUsers() {
+    insertUsers() {
         return new Promise((resolve, reject) => {
             const sql = `INSERT INTO USER(id, username, name, surname, type, password) VALUES
             (1, "user1@ezwh.com", "Mario", "Rossi", "customer", "testpassword"),
             (2, "qualityEmployee@ezwh.com", "Marco", "Rossi", "quality employee", "testpassword"),
             (3, "clerk1@ezwh.com", "Paolo", "Rossi", "clerk", "testpassword"),
             (4, "deliveryEmployee@ezwh.com", "Pietro", "Rossi", "supplier", "testpassword"),
-            (5, "manager1@ezwh.com", "Giovanni", "Rossi", "manager", "testpassword");`;
+            (5, "manager1@ezwh.com", "Giovanni", "Rossi", "manager", "testpassword")`;
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
+            });
+        });
+    }
+
+    getUsers() {
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM USER';
+            this.db.all(sql, [], (err, rows) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                if (rows.length === 5) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
             });
         });
     }
 
     createTableSKU() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS SKU (id INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT NOT NULL, weight REAL NOT NULL, volume REAL NOT NULL, price REAL NOT NULL, notes TEXT NOT NULL, available_quantity INTEGER NOT NULL, position_id TEXT DEFAULT NULL, FOREIGN KEY(position_id) REFERENCES POSITION(id))';
+            const sql = `
+                CREATE TABLE IF NOT EXISTS SKU (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                    description TEXT NOT NULL, 
+                    weight INTEGER NOT NULL, 
+                    volume INTEGER NOT NULL, 
+                    price INTEGER NOT NULL, notes TEXT NOT NULL, 
+                    available_quantity INTEGER NOT NULL, 
+                    position_id TEXT DEFAULT NULL, 
+                    CONSTRAINT fk_position
+                        FOREIGN KEY(position_id) 
+                        REFERENCES POSITION(id)
+                        ON DELETE CASCADE )`;
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -120,7 +154,10 @@ class DB {
                     restock_order_id INTEGER DEFAULT NULL,
                     return_order_id INTEGER DEFAULT NULL,
                     internal_order_id INTEGER DEFAULT NULL,
-                    FOREIGN KEY(sku_id) REFERENCES SKU(id),
+                    CONSTRAINT fk_sku
+                        FOREIGN KEY(sku_id) 
+                        REFERENCES SKU(id)
+                        ON DELETE CASCADE,
                     CONSTRAINT fk_restock
                         FOREIGN KEY(restock_order_id) 
                         REFERENCES RESTOCK_ORDER(id)
@@ -139,46 +176,56 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
 
     createTablePosition() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS POSITION (id TEXT PRIMARY KEY, aisle TEXT NOT NULL, row TEXT NOT NULL, col TEXT NOT NULL, max_weight REAL NOT NULL, max_volume REAL NOT NULL, occupied_weight REAL NOT NULL, occupied_volume REAL NOT NULL)';
+            const sql = 'CREATE TABLE IF NOT EXISTS POSITION (id TEXT PRIMARY KEY, aisle TEXT NOT NULL, row TEXT NOT NULL, col TEXT NOT NULL, max_weight INTEGER NOT NULL, max_volume INTEGER NOT NULL, occupied_weight INTEGER NOT NULL, occupied_volume INTEGER NOT NULL)';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
 
     createTableTestDescriptor() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS TEST_DESCRIPTOR (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, procedure_description TEXT NOT NULL, sku_id INTEGER NOT NULL, FOREIGN KEY(sku_id) REFERENCES SKU(id))';
+            const sql = `CREATE TABLE IF NOT EXISTS TEST_DESCRIPTOR (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, procedure_description TEXT NOT NULL, sku_id INTEGER NOT NULL, 
+            CONSTRAINT fk_sku
+                FOREIGN KEY(sku_id) 
+                REFERENCES SKU(id)
+                ON DELETE CASCADE )`;
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
 
     createTableTestResult() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS TEST_RESULT (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT NOT NULL, result INTEGER NOT NULL, sku_item_rfid TEXT NOT NULL, test_descriptor_id INTEGER NOT NULL, FOREIGN KEY(sku_item_rfid) REFERENCES SKU_ITEM(rfid), FOREIGN KEY(test_descriptor_id) REFERENCES TEST_DESCRIPTOR(id))';
+            const sql = `CREATE TABLE IF NOT EXISTS TEST_RESULT (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT NOT NULL, result INTEGER NOT NULL, sku_item_rfid TEXT NOT NULL, test_descriptor_id INTEGER NOT NULL,
+            CONSTRAINT fk_sku_item
+                FOREIGN KEY(sku_item_rfid) REFERENCES SKU_ITEM(rfid)
+                ON DELETE CASCADE,
+            CONSTRAINT fk_td
+                FOREIGN KEY(test_descriptor_id) REFERENCES TEST_DESCRIPTOR(id)
+                ON DELETE CASCADE)`;
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -191,59 +238,74 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
 
     createTableRestockOrder() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS RESTOCK_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, issue_date TEXT NOT NULL, state TEXT NOT NULL, supplier_id INTEGER NOT NULL, TNdelivery_date TEXT DEFAULT NULL, FOREIGN KEY(supplier_id) REFERENCES USER(id))';
+            const sql = `CREATE TABLE IF NOT EXISTS RESTOCK_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, issue_date TEXT NOT NULL, state TEXT NOT NULL, supplier_id INTEGER NOT NULL, TNdelivery_date TEXT DEFAULT NULL,
+            CONSTRAINT fk_user
+                FOREIGN KEY(supplier_id) REFERENCES USER(id)
+                ON DELETE CASCADE)`;
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
 
     createTableReturnOrder() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS RETURN_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, return_date TEXT NOT NULL, restock_order_id INTEGER NOT NULL, FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id))';
+            const sql = `CREATE TABLE IF NOT EXISTS RETURN_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, return_date TEXT NOT NULL, restock_order_id INTEGER NOT NULL,
+            CONSTRAINT fk_ro
+                FOREIGN KEY(restock_order_id) REFERENCES RESTOCK_ORDER(id)
+                ON DELETE CASCADE)`;
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
 
     createTableInternalOrder() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS INTERNAL_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, issue_date TEXT NOT NULL, state TEXT NOT NULL, customer_id INTEGER NOT NULL, FOREIGN KEY(customer_id) REFERENCES USER(id))';
+            const sql = `CREATE TABLE IF NOT EXISTS INTERNAL_ORDER (id INTEGER PRIMARY KEY AUTOINCREMENT, issue_date TEXT NOT NULL, state TEXT NOT NULL, customer_id INTEGER NOT NULL,
+            CONSTRAINT fk_user
+                FOREIGN KEY(customer_id) REFERENCES USER(id)
+                ON DELETE CASCADE)`;
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
 
     createTableItem() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS ITEM (id INTEGER PRIMARY KEY, sku_id INTEGER NOT NULL, description TEXT NOT NULL, price REAL NOT NULL, supplier_id INTEGER NOT NULL, FOREIGN KEY(sku_id) REFERENCES SKU(id), FOREIGN KEY(supplier_id) REFERENCES USER(id))';
+            const sql = `CREATE TABLE IF NOT EXISTS ITEM (id INTEGER PRIMARY KEY, sku_id INTEGER NOT NULL, description TEXT NOT NULL, price REAL NOT NULL, supplier_id INTEGER NOT NULL,
+            CONSTRAINT fk_sku
+                FOREIGN KEY(sku_id) REFERENCES SKU(id)
+                ON DELETE CASCADE,
+            CONSTRAINT fk_user
+                FOREIGN KEY(supplier_id) REFERENCES USER(id)
+                ON DELETE CASCADE)`;
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -260,7 +322,10 @@ class DB {
                     restock_order_id INTEGER DEFAULT NULL,
                     internal_order_id INTEGER DEFAULT NULL,
                     return_order_id INTEGER DEFAULT NULL,
-                    FOREIGN KEY(sku_id) REFERENCES SKU(id),
+                    CONSTRAINT fk_sku
+                        FOREIGN KEY(sku_id) 
+                        REFERENCES SKU(id)
+                        ON DELETE CASCADE,
                     CONSTRAINT fk_restock
                         FOREIGN KEY(restock_order_id) 
                         REFERENCES RESTOCK_ORDER(id)
@@ -279,7 +344,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -293,7 +358,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -306,7 +371,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -319,7 +384,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -332,7 +397,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -345,7 +410,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -358,7 +423,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -371,7 +436,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
 
@@ -385,7 +450,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -398,7 +463,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -411,7 +476,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -424,7 +489,7 @@ class DB {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }

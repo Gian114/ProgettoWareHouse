@@ -26,7 +26,7 @@ describe('test internal order apis', () => {
         weight: 100,
         volume: 50,
         notes: "first SKU",
-        price: 10.99,
+        price: 11,
         availableQuantity: 50
     }
 
@@ -56,7 +56,7 @@ describe('test internal order apis', () => {
     io_valid = {
         "issueDate": "2021/11/29 09:33",
         "products": [
-            { "SKUId": 1, "description": "a product", "price": 10.99, "qty": 1 }
+            { "SKUId": 1, "description": "a product", "price": 11, "qty": 1 }
         ],
         "customerId": 1
     }
@@ -64,7 +64,7 @@ describe('test internal order apis', () => {
     io_invalid = {
         "issueDate": "2021/11/29 09:33",
         "products": [
-            { "SKUId": 1, "description": "a product", "price": 10.99, "qty": 1 }
+            { "SKUId": 1, "description": "a product", "price": 11, "qty": 1 }
         ],
         "customerId": 1,
         "hello": 3
@@ -72,7 +72,7 @@ describe('test internal order apis', () => {
     io_ne_cust = {
         "issueDate": "2021/11/29 09:33",
         "products": [
-            { "SKUId": 1, "description": "a product", "price": 10.99, "qty": 1 }
+            { "SKUId": 1, "description": "a product", "price": 11, "qty": 1 }
         ],
         "customerId": 2
     }

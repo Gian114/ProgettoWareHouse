@@ -101,7 +101,7 @@ describe("Return order services", () => {
         expect(res).toEqual('');
 
         res = await roServices.createNewReturnOrder(data4);
-        expect(res).toEqual(1);
+        expect(res).toEqual(true);
     });
 
     test('Get return orders', async () => {

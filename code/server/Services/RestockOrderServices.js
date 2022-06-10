@@ -17,8 +17,8 @@ class RestockOrderServices {
         let res;
         try {
             res = await this.restockOrder.getAllRestockOrderNotIssued();
-            res = res.concat(await this.restockOrder.getAllRestockOrderIssued());
-            res = res.concat(await this.restockOrder.getAllRestockOrderDelivery());
+            // res = res.concat(await this.restockOrder.getAllRestockOrderIssued());
+            // res = res.concat(await this.restockOrder.getAllRestockOrderDelivery());
         } catch (err) {
             return false
         }
@@ -42,7 +42,7 @@ class RestockOrderServices {
         } catch (err) {
             return 404;
         }
-        if(state === ''){
+        if (state === '') {
             return 404;
         }
 
@@ -58,7 +58,7 @@ class RestockOrderServices {
                 restock_orders = await this.restockOrder.getRestockOrderByID(id);
             }
         } catch (err) {
-            console.log(err);
+            
             return false;
         }
 
@@ -94,10 +94,10 @@ class RestockOrderServices {
         let user;
 
         suppliers = await this.user.getSupplierById(ro.supplierId)
-        if(suppliers === ''){
+        if (suppliers === '') {
             return 404;
         }
-        
+
         try {
             await this.restockOrder.createNewRestockOrder(ro);
             let id = await this.db.getAutoincrementId('RESTOCK_ORDER');
@@ -112,11 +112,15 @@ class RestockOrderServices {
     //put
 
     async changeState(roi, newState) {
-        let state;
+        let ro
         try {
-            state = await this.restockOrder.getRestockOrderStateById(roi);
+            ro = await this.restockOrder.getRestockOrderByID(roi)
         } catch (err) {
-            return 404;
+            return false;
+        }
+
+        if (ro === false) {
+            return 404
         }
 
         try {
@@ -124,20 +128,23 @@ class RestockOrderServices {
         } catch (err) {
             return false;
         }
-
         return newState;
-
     }
 
     async addSkuItem(roi, items) {
+
         let state;
         try {
             state = await this.restockOrder.getRestockOrderStateById(roi);
         } catch (err) {
-            return 404;
+            return false;
         }
 
         // checks if id exists, request validation
+
+        if (state === '') {
+            return 404
+        }
 
         if (state !== "DELIVERED") {
             return 422;
@@ -145,7 +152,7 @@ class RestockOrderServices {
 
         try {
             for (let i = 0; i < items.length; i++) {
-                await this.skuItem.setRestockOrderId(items[i], roi);
+                await this.skuItem.setRestockOrderId(items[i].rfid, roi);
             }
         } catch (err) {
             return false;
@@ -179,13 +186,12 @@ class RestockOrderServices {
 
     async deleteRestockOrder(id) {
         let ok = await this.restockOrder.getRestockOrderStateById(id);
-        if(ok === ''){
+        if (ok === '') {
             return false;
         }
         try {
+            await this.product.deleteProductsByRestockOrderId(id);
             await this.restockOrder.deleteRestockOrder(id);
-            await this.product.deleteProductByRestockOrderId(id);
-            //await skuItem.deleteSKUItemByRestockOrderId(id);
         } catch (err) {
             return false;
         }

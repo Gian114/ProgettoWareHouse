@@ -26,7 +26,7 @@ describe('test sku apis', () => {
             "weight" : 100,
             "volume" : 50,
             "notes" : "first SKU",
-            "price" : 10.99,
+            "price" : 11,
             "availableQuantity" : 50
         }
 
@@ -95,6 +95,6 @@ function getSKU(expectedHTTPStatus, id, expectedData) {
 function deleteSKU(expectedHTTPStatus, id) {
     it('Deleting sku', async function () {
         let res = await agent.delete('/api/skus/' + id)
-                res.should.have.status(expectedHTTPStatus);
+        res.should.have.status(expectedHTTPStatus);
     });
 }

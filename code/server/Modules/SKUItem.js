@@ -19,13 +19,11 @@ class SKUItem{
         });
     }
 
-    //available 1 or 0?
-    setRestockOrderId(item, restockid) {
+    setRestockOrderId(rfid, restockid) {
         return new Promise((resolve, reject)=>{
-            const sql = 'INSERT INTO SKU_ITEM(rfid, available, sku_id, date_of_stock, restock_order_id) VALUES(?, 0 , ?," ", ?)'
-            this.db.run(sql, [item.rfid, item.SKUId, restockid], (err, r)=>{
+            const sql = 'UPDATE SKU_ITEM SET restock_order_id = ? WHERE rfid = ?'
+            this.db.run(sql, [restockid, rfid], (err, r)=>{
                 if (err) {
-                    console.log(err);
                     reject(err);
                     return;
                 }
@@ -69,13 +67,13 @@ class SKUItem{
                     reject(err);
                     return;
                 }
-                
                 const skuitems = rows.map((r) => (
                     {  
-                        rfid: r.rfid,
-                        available: r.available,
-                        sku: r.sku_id,
-                        dateOfStock: r.date_of_stock
+                        RFID: r.rfid,
+                        Available: r.available,
+                        SKUId: r.sku_id,
+                        DateOfStock: r.date_of_stock,
+                        ret_o: r.return_order_id
                     }
                 ));
                 resolve(skuitems);
@@ -112,35 +110,6 @@ class SKUItem{
         });
     }
 
-    getSKUItemByRFIDAndSKUId(rfid, sku_id) {
-        return new Promise((resolve, reject) => {
-            const sql = 'SELECT * FROM SKU_ITEM WHERE rfid = ? and sku_id = ?';
-            this.db.get(sql, [rfid, sku_id], (err, r) => {
-                
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                if(r !== undefined){
-                    const skuitem =  
-                    {  
-                        RFID: r.rfid,
-                        SKUId: r.sku_id,
-                        Available: r.available,
-                        DateOfStock: r.date_of_stock
-                    };
-                    
-                    resolve(skuitem);
-
-                } else {
-                    const none = '';
-                    resolve(none);
-                }
-                
-            });
-        });
-    }
-
     getSKUItemsBySKUId(id) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM SKU_ITEM WHERE sku_id = ? AND available = 1';
@@ -149,9 +118,8 @@ class SKUItem{
                     reject(err);
                     return;
                 }
-                if(rows !== undefined){
-
                 
+                if(rows.length !==0){
                 const skuitems = rows.map((r) => (
                 
                     {  
@@ -163,9 +131,10 @@ class SKUItem{
                 ));
                 resolve(skuitems);
             } else {
-                const skuitem = [];
-                resolve(skuitem);
+                const skuitems = ''
+                resolve(skuitems)
             }
+            
             });
         });
     }
@@ -178,23 +147,17 @@ class SKUItem{
                     reject(err);
                     return;
                 }
-                if(rows !== undefined){
 
-                
                     const skuitem = rows.map((r) => (
                     
                         {  
-                            rfid: r.rfid,
-                            sku: r.sku_id,
-                            
+                            SKUid: r.sku_id,
+                            rfid: r.rfid
                         }
                     ));
 
-                    //console.log(skuitem);
-
-        
               resolve(skuitem);
-            }});
+            });
         });
 
     }
@@ -222,22 +185,6 @@ class SKUItem{
                 }
                
                 resolve(true)
-            });
-        });
-    }
-
-    deleteSKUItemByRestockOrderId(restock_order_id) {
-        return new Promise((resolve, reject) => {
-
-            const sql = 'DELETE FROM SKU_ITEM WHERE restock_order_id = ?';
-
-            this.db.run(sql, [restock_order_id], (err) => {
-
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                resolve(true);
             });
         });
     }

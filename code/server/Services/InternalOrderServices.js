@@ -61,7 +61,7 @@ class InternalOrderServices {
     }
 
     async deleteInternalOrder(id) {
-        await this.prod_table.deleteProductByInternalOrderId(id);
+        await this.prod_table.deleteProductsByInternalOrderId(id);
         await this.io_table.deleteInternalOrderById(id);
     }
 

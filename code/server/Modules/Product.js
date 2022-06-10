@@ -11,17 +11,16 @@ class Product {
             const sql = 'SELECT * FROM PRODUCT';
             this.db.all(sql, [], (err, rows) => {
                 if (err) {
-                    console.log(err);
                     reject(err);
                     return;
                 }
 
                 const products = rows.map((r) => (
                     {
+                        id: r.id,
                         SKUId: r.sku_id,
                         description: r.description,
-                        price: r.price,
-                        ret_o_id: r.return_order_id
+                        price: r.price
                     }
                 ));
 
@@ -78,7 +77,7 @@ class Product {
 
     getProductsByReturnOrder(id) {
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT DISTINCT rfid, PRODUCT.sku_id, description, price FROM SKU_ITEM, PRODUCT WHERE PRODUCT.return_order_id = SKU_ITEM.return_order_id AND PRODUCT.sku_id = SKU_ITEM.sku_id AND SKU_ITEM.return_order_id = ?';
+            const sql = 'SELECT DISTINCT PRODUCT.sku_id, description, price, rfid FROM PRODUCT, SKU_ITEM WHERE PRODUCT.return_order_id = SKU_ITEM.return_order_id AND PRODUCT.sku_id = SKU_ITEM.sku_id AND SKU_ITEM.return_order_id = ?';
             this.db.all(sql, [id], (err, rows) => {
                 if (err) {
                     reject(err);
@@ -106,7 +105,7 @@ class Product {
                     reject(err);
                     return;
                 }
-                resolve(this.lastID);
+                resolve(true);
             });
         });
     }
@@ -137,7 +136,7 @@ class Product {
         });
     }*/
 
-    deleteProductByInternalOrderId(internal_order_id) {
+    deleteProductsByInternalOrderId(internal_order_id) {
         return new Promise((resolve, reject) => {
 
             const sql = 'DELETE FROM PRODUCT WHERE internal_order_id = ?';
@@ -153,7 +152,7 @@ class Product {
         });
     }
 
-    deleteProductByRestockOrderId(restock_order_id) {
+    deleteProductsByRestockOrderId(restock_order_id) {
         return new Promise((resolve, reject) => {
 
             const sql = 'DELETE FROM PRODUCT WHERE restock_order_id = ?';
@@ -169,7 +168,7 @@ class Product {
         });
     }
 
-    deleteProductByReturnOrderId(return_order_id) {
+    deleteProductsByReturnOrderId(return_order_id) {
         return new Promise((resolve, reject) => {
 
             const sql = 'DELETE FROM PRODUCT WHERE return_order_id = ?';
@@ -185,6 +184,21 @@ class Product {
         });
     }
 
+    deleteProductsBySKUId(SKUId) {
+        return new Promise((resolve, reject) => {
+
+            const sql = 'DELETE FROM PRODUCT WHERE sku_id = ?';
+
+            this.db.run(sql, [SKUId], (err) => {
+
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(true);
+            });
+        });
+    }
 
 }
 

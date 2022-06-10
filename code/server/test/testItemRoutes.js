@@ -1,6 +1,5 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const { get } = require('../Routes/SKURoutes');
 chai.use(chaiHttp);
 chai.should();
 
@@ -17,7 +16,7 @@ describe('test item apis', () => {
             "weight" : 100,
             "volume" : 50,
             "notes" : "first SKU",
-            "price" : 10.99,
+            "price" : 11,
             "availableQuantity" : 50
         };
 
@@ -27,7 +26,7 @@ describe('test item apis', () => {
             "weight" : 100,
             "volume" : 50,
             "notes" : "first SKU",
-            "price" : 10.99,
+            "price" : 11,
             "availableQuantity" : 50
         };
 
@@ -44,7 +43,7 @@ describe('test item apis', () => {
         {
             "id" : 12,
             "description" : "a new item",
-            "price" : 10.99,
+            "price" : 11,
             "SKUId" : 1,
             "supplierId" : 1
         };
@@ -53,7 +52,7 @@ describe('test item apis', () => {
         {
             "id" : 15,
             "description" : "a new item",
-            "price" : 10.99,
+            "price" : 11,
             "SKUId" : 2,
             "supplierId" : 1
         };
@@ -62,7 +61,7 @@ describe('test item apis', () => {
         {
             "id" : 10,
             "description" : "a new item",
-            "price" : 10.99,
+            "price" : 11,
             "SKUId" : 1,
             "supplierId" : 1
         };
@@ -71,7 +70,7 @@ describe('test item apis', () => {
         {
             "id" : 12,
             "description" : "a new item",
-            "price" : 10.99,
+            "price" : 11,
             "SKUId" : 2,
             "supplierId" : 1
         };
@@ -80,7 +79,7 @@ describe('test item apis', () => {
         {
             "id" : 20,
             "description" : "a new item",
-            "price" : 10.99,
+            "price" : 11,
             "SKUId" : 3,
             "supplierId" : 1
         };
@@ -89,7 +88,7 @@ describe('test item apis', () => {
         {
             "id" : 34,
             "description" : "a new item",
-            "price" : 10.99,
+            "price" : 11,
             "SKUId" : 1,
             "supplierId" : 2
         };
@@ -97,16 +96,16 @@ describe('test item apis', () => {
     const newData = //right
         {
             "newDescription" : "a new sku",
-            "newPrice" : 10.99
+            "newPrice" : 11
         };
     
 
     beforeEach(async () => {
         await db.startTest();
-        await agent.post('/api/sku/').send(sku1);
-        await agent.post('/api/sku/').send(sku2);
-        await agent.post('/api/newUser/').send(user);
-        await agent.post('/api/item/').send(data1);
+        await agent.post('/api/sku').send(sku1);
+        await agent.post('/api/sku').send(sku2);
+        await agent.post('/api/newUser').send(user);
+        await agent.post('/api/item').send(data1);
     });
 
     newItem(201, data2);
@@ -134,7 +133,7 @@ describe('test item apis', () => {
 
 function newItem(expectedHTTPStatus, data) {
     it('create a new item', function (done) {
-        agent.post('/api/item/')
+        agent.post('/api/item')
             .send(data)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
@@ -166,7 +165,7 @@ function deleteItem(expectedHTTPStatus, id) {
 
 function getItemById(expectedHTTPStatus, data, id) {
     it('get an item by id', function (done) {
-        agent.post('/api/item/')
+        agent.post('/api/item')
             .send(data)
             .then(function (res1) {
                 res1.should.have.status(201);
@@ -188,11 +187,11 @@ function getItemById(expectedHTTPStatus, data, id) {
 
 function getAllItems(expectedHTTPStatus, data) {
     it('get all items', function (done) {
-        agent.post('/api/item/')
+        agent.post('/api/item')
             .send(data)
             .then(function (res1) {
                 res1.should.have.status(201);
-                agent.get('/api/items/')
+                agent.get('/api/items')
                     .then(function (res2) {
                         res2.should.have.status(expectedHTTPStatus);
                         if(res2.status === 200) {

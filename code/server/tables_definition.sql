@@ -17,9 +17,9 @@ For DATE there is no specific container but we use DATE and let sqlite use the t
 CREATE TABLE IF NOT EXISTS SKU (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     description TEXT NOT NULL,
-    weight REAL NOT NULL,
-    volume REAL NOT NULL,
-    price REAL NOT NULL,
+    weight INTEGER NOT NULL,
+    volume INTEGER NOT NULL,
+    price INTEGER NOT NULL,
     notes TEXT NOT NULL,
     available_quantity INTEGER NOT NULL,
     position_id TEXT DEFAULT NULL,
@@ -55,10 +55,10 @@ CREATE TABLE IF NOT EXISTS POSITION (
    	aisle TEXT NOT NULL,
 	row TEXT NOT NULL,
     col TEXT NOT NULL,
-    max_weight REAL NOT NULL,
-	max_volume REAL NOT NULL,
-	occupied_weight REAL NOT NULL,
-	occupied_volume REAL NOT NULL
+    max_weight INTEGER NOT NULL,
+	max_volume INTEGER NOT NULL,
+	occupied_weight INTEGER NOT NULL,
+	occupied_volume INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS TEST_DESCRIPTOR (

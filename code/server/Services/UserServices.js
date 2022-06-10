@@ -37,7 +37,6 @@ class UserServices{
             x = await this.user.getUser(data)
     
         }catch(err){
-            console.log(err)
             return false
         }
         
@@ -77,25 +76,36 @@ class UserServices{
     async modifyType(data, username){
         let x
         try{
+            const us = {
+                username: username,
+                type: data.oldType
+            }
+            x = await this.user.getUser(us)
+        }catch(err){
+            return false
+        }
+
+        if(x!==''){
+        try{
             x = await this.user.modifyUserType(data, username);
         }catch(err){
             return false
         }
     
         return x
+        } else {return 404}
 
     }
 
     async deleteUser(data){
 
         let x
+
         try{
             x = await this.user.deleteUser(data);
         }catch(err){
-            console.log(err)
             return false
         }
-    
         return x
     }
 

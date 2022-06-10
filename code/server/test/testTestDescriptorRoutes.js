@@ -16,7 +16,7 @@ describe('test test desciptor apis', () => {
                 "weight" : 100,
                 "volume" : 50,
                 "notes" : "first SKU",
-                "price" : 10.99,
+                "price" : 11,
                 "availableQuantity" : 50
         };
     
@@ -58,7 +58,7 @@ describe('test test desciptor apis', () => {
 
     beforeEach(async () => {
         await db.startTest();
-        await agent.post('/api/sku/').send(sku);
+        await agent.post('/api/sku').send(sku);
     });
 
     newTestDescriptor(201, data1);
@@ -85,7 +85,7 @@ describe('test test desciptor apis', () => {
 
 function newTestDescriptor(expectedHTTPStatus, data) {
     it('create a new test descriptor', function (done) {
-        agent.post('/api/testDescriptor/')
+        agent.post('/api/testDescriptor')
             .send(data)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
@@ -96,7 +96,7 @@ function newTestDescriptor(expectedHTTPStatus, data) {
 
 function modifyTestDescriptor(expectedHTTPStatus, data, id, newData) {
     it('modify a test descriptor', function (done) {
-        agent.post('/api/testDescriptor/')
+        agent.post('/api/testDescriptor')
             .send(data)
             .then(function (res1) {
                 res1.should.have.status(201);
@@ -112,7 +112,7 @@ function modifyTestDescriptor(expectedHTTPStatus, data, id, newData) {
 
 function deleteTestDescriptor(expectedHTTPStatus, data, id) {
     it('delete a test descriptor', function (done) {
-        agent.post('/api/testDescriptor/')
+        agent.post('/api/testDescriptor')
             .send(data)
             .then(function (res1) {
                 res1.should.have.status(201);
@@ -127,7 +127,7 @@ function deleteTestDescriptor(expectedHTTPStatus, data, id) {
 
 function getTestDescriptorById(expectedHTTPStatus, data, id) {
     it('get a test descriptor by id', function (done) {
-        agent.post('/api/testDescriptor/')
+        agent.post('/api/testDescriptor')
             .send(data)
             .then(function (res1) {
                 res1.should.have.status(201);
@@ -148,11 +148,11 @@ function getTestDescriptorById(expectedHTTPStatus, data, id) {
 
 function getAllTestDescriptors(expectedHTTPStatus, data) {
     it('get all test descriptors', function (done) {
-        agent.post('/api/testDescriptor/')
+        agent.post('/api/testDescriptor')
             .send(data)
             .then(function (res1) {
                 res1.should.have.status(201);
-                agent.post('/api/testDescriptor/')
+                agent.post('/api/testDescriptor')
                     .send(data)
                     .then(function (res2) {
                         res2.should.have.status(201);

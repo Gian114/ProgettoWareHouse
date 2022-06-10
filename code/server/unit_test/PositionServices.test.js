@@ -77,11 +77,10 @@ describe("Position Services", () => {
 async function testPosition(id, data) {
     test('get Position', async () => {
         let res = await pos_service.getPosition();
-        console.log(res);
         expect(res.length).toStrictEqual(1);
         expect(res[0]).toEqual({
-            id: id,
-            aisle_id: data.aisleID,
+            positionID: id,
+            aisleID: data.aisleID,
             row: data.row,
             col: data.col,
             max_weight: data.maxWeight,

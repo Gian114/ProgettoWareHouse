@@ -7,13 +7,12 @@ class SKUServices{
 
     async getSKUs(){
 
-        let x = '';
+        let x;
         try{
           
-             x = await this.sku.getListofSKU();
+            x = await this.sku.getListofSKU();
             
         } catch(err){
-            console.log(err)
             return false;
         }
       
@@ -67,7 +66,6 @@ class SKUServices{
     try{
         s = await this.sku.getSKUByID(id);
     }catch(err){
-        console.log(err)
         return false
     }
 
@@ -76,9 +74,8 @@ class SKUServices{
     } else {
         
         try {
-            p = await this.pos.getPosition(positionID)
+            p = await this.pos.getPositionByID(positionID)
         } catch(err){
-            console.log(err)
             return false
         }
 
@@ -96,14 +93,12 @@ class SKUServices{
                 try{
                     status = await this.pos.occupyPosition(positionID, data)
                 }catch(err){
-                    console.log(err)
                     return false
                 }
 
                try{
                 await this.sku.modifyPosition(id, positionID)
                }catch(err){
-                console.log(err)
                 return false
                }
                return 200

@@ -47,7 +47,6 @@ function testNewRo(data) {
         await roDao.createNewRestockOrder(data); 
 
         let ro = await roDao.getRestockOrderStateById(1);
-        console.log(ro);
         expect(ro).toStrictEqual("ISSUED");
             
     });

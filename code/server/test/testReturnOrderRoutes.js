@@ -13,8 +13,8 @@ describe('test return order apis', () => {
     const reso =
         {
             "issueDate":"2021/11/29 09:33",
-            "products": [{"SKUId":1,"description":"a product","price":10.99,"qty":30},
-                        {"SKUId":2,"description":"another product","price":11.99,"qty":20}],
+            "products": [{"SKUId":1,"description":"a product","price":11,"qty":30},
+                        {"SKUId":2,"description":"another product","price":12,"qty":20}],
             "supplierId" : 1  
         };
 
@@ -33,7 +33,7 @@ describe('test return order apis', () => {
             "weight" : 100,
             "volume" : 50,
             "notes" : "first SKU",
-            "price" : 10.99,
+            "price" : 11,
             "availableQuantity" : 50
         };
 
@@ -43,20 +43,20 @@ describe('test return order apis', () => {
             "weight" : 100,
             "volume" : 50,
             "notes" : "first SKU",
-            "price" : 10.99,
+            "price" : 11,
             "availableQuantity" : 50
         };
 
     const skui1 =
         {
-            "RFID":"1111",
+            "RFID":"12345678901234567890123456789016",
             "SKUId":1,
             "DateOfStock":"2021/11/29 12:30"
         };
 
     const skui2 =
         {
-            "RFID":"1112",
+            "RFID":"12345678901234567890123456789015",
             "SKUId":2,
             "DateOfStock":"2021/11/29 12:30"
         };
@@ -64,42 +64,33 @@ describe('test return order apis', () => {
     const data1 = //right
         {
             "returnDate":"2021/11/29 09:33",
-            "products": [{"SKUId":1,"description":"a product","price":10.99,"RFID":"1111"},
-                        {"SKUId":2,"description":"another product","price":11.99,"RFID":"1112"}],
+            "products": [{"SKUId":1,"description":"a product","price":11,"RFID":"12345678901234567890123456789016"},
+                        {"SKUId":2,"description":"another product","price":12,"RFID":"12345678901234567890123456789015"}],
             "restockOrderId" : 1
         };
 
     const data2 = //wrong: no restock order associated to restockOrderId
         {
             "returnDate":"2021/11/29 09:33",
-            "products": [{"SKUId":1,"description":"a product","price":10.99,"RFID":"1111"},
-                        {"SKUId":2,"description":"another product","price":11.99,"RFID":"1112"}],
+            "products": [{"SKUId":1,"description":"a product","price":11,"RFID":"12345678901234567890123456789016"},
+                        {"SKUId":2,"description":"another product","price":12,"RFID":"12345678901234567890123456789015"}],
             "restockOrderId" : 2
-        };
-
-    const data3 = //wrong: no sku item associated to RFID or wrong correspondence between RFID and SKUId
-        {
-            "returnDate":"2021/11/29 09:33",
-            "products": [{"SKUId":2,"description":"a product","price":10.99,"RFID":"1111"},
-                        {"SKUId":2,"description":"another product","price":11.99,"RFID":"1113"}],
-            "restockOrderId" : 1
         };
 
 
     beforeEach(async () => {
         await db.startTest();
-        await agent.post('/api/newUser/').send(user);
-        await agent.post('/api/sku/').send(sku1);
-        await agent.post('/api/sku/').send(sku2);
-        await agent.post('/api/skuitem/').send(skui1);
-        await agent.post('/api/skuitem/').send(skui2);
-        await agent.post('/api/restockOrder/').send(reso);
+        await agent.post('/api/newUser').send(user);
+        await agent.post('/api/sku').send(sku1);
+        await agent.post('/api/sku').send(sku2);
+        await agent.post('/api/skuitem').send(skui1);
+        await agent.post('/api/skuitem').send(skui2);
+        await agent.post('/api/restockOrder').send(reso);
     })
 
     newReturnOrder(201, data1);
     newReturnOrder(422); //we are not sending any data
     newReturnOrder(404, data2);
-    newReturnOrder(404, data3);
 
     deleteReturnOrder(204, data1, 1);
     deleteReturnOrder(422, data1, -1);
@@ -114,7 +105,7 @@ describe('test return order apis', () => {
 
 function newReturnOrder(expectedHTTPStatus, data) {
     it('create a new return order', function (done) {
-        agent.post('/api/returnOrder/')
+        agent.post('/api/returnOrder')
             .send(data)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
@@ -125,7 +116,7 @@ function newReturnOrder(expectedHTTPStatus, data) {
 
 function deleteReturnOrder(expectedHTTPStatus, data, id) {
     it('delete a return order', function (done) {
-        agent.post('/api/returnOrder/')
+        agent.post('/api/returnOrder')
             .send(data)
             .then(function (res1) {
                 res1.should.have.status(201);
@@ -140,7 +131,7 @@ function deleteReturnOrder(expectedHTTPStatus, data, id) {
 
 function getReturnOrderById(expectedHTTPStatus, data, id) {
     it('get a return order by id', function (done) {
-        agent.post('/api/returnOrder/')
+        agent.post('/api/returnOrder')
             .send(data)
             .then(function (res1) {
                 res1.should.have.status(201);
@@ -165,15 +156,15 @@ function getReturnOrderById(expectedHTTPStatus, data, id) {
 
 function getAllReturnOrders(expectedHTTPStatus, data) {
     it('get all return orders', function (done) {
-        agent.post('/api/returnOrder/')
+        agent.post('/api/returnOrder')
             .send(data)
             .then(function (res1) {
                 res1.should.have.status(201);
-                agent.post('/api/returnOrder/')
+                agent.post('/api/returnOrder')
                     .send(data)
                     .then(function (res2) {
                         res2.should.have.status(201);
-                        agent.get('/api/returnOrders/')
+                        agent.get('/api/returnOrders')
                             .then(function (res3) {
                                 res3.should.have.status(expectedHTTPStatus);
                                 if(res3.status === 200) {
